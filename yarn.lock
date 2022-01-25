@@ -2,12 +2,17 @@
 # yarn lockfile v1
 
 
-"prettier@^2.5.1":
-  "integrity" "sha512-vBZcPRUR5MZJwoyi3ZoyQlc1rXeEck8KgeC9AwwOn+exuxLxq5toTRDTSaVrXHxelDMHy9zlicw8u66yxoSUFg=="
-  "resolved" "https://registry.npmjs.org/prettier/-/prettier-2.5.1.tgz"
-  "version" "2.5.1"
+diograph-js-6fde73f@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/diograph-js-6fde73f/-/diograph-js-6fde73f-0.0.2.tgz#1aeca3157c6f9406bef8cc9fd8f3b4680c0a1080"
+  integrity sha512-PlcKDZ/oUSrd/QQzOXQ57kccjOAyHLxjCalzXc9V1KUShwZJy7Pla/R1kLARn6kUqZhXsDaBbfuLW4YGFBJmpg==
 
-"typescript@^4.5.5":
-  "integrity" "sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA=="
-  "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.5.5.tgz"
-  "version" "4.5.5"
+prettier@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.npmjs.org/prettier/-/prettier-2.5.1.tgz"
+  integrity sha512-vBZcPRUR5MZJwoyi3ZoyQlc1rXeEck8KgeC9AwwOn+exuxLxq5toTRDTSaVrXHxelDMHy9zlicw8u66yxoSUFg==
+
+typescript@^4.5.5:
+  version "4.5.5"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-4.5.5.tgz"
+  integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==

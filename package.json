@@ -19,5 +19,8 @@
     "singleQuote": true,
     "printWidth": 100,
     "trailingComma": "all"
+  },
+  "dependencies": {
+    "diograph-js-6fde73f": "^0.0.2"
   }
 }

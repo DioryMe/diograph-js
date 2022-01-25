@@ -1,7 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.hello = void 0;
-const hello = (str) => {
-    console.log(`hello ${str}`);
-};
-exports.hello = hello;
+const diograph_js_6fde73f_1 = require("diograph-js-6fde73f");
+(0, diograph_js_6fde73f_1.hello)('123');
