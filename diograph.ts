@@ -1,19 +1,34 @@
+import * as fs from 'fs'
+
 interface DiographParams {
   path: string
 }
 
+interface Diograph {
+  rootId: string
+  diograph: object
+}
+
 class Diograph {
   path: string
+  rootId: string = ''
+  diograph: object = {}
 
   constructor({ path }: DiographParams) {
     this.path = path
   }
 
   load = () => {
-    console.log(this.path)
-    // parsed_diograph = JSON.parse(File.read(path))
-    // diograph = parsed_diograph['diograph']
-    // root_id = parsed_diograph['rootId']
+    fs.readFile(this.path, 'utf8', (err, diographJsonContents) => {
+      if (err) {
+        throw err
+      }
+      const parsedJson = JSON.parse(diographJsonContents)
+      this.rootId = parsedJson.rootId
+      this.diograph = parsedJson.diograph
+      console.log(this.rootId)
+      console.log(Object.keys(this.diograph)[0])
+    })
   }
 }
 

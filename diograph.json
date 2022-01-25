@@ -1,0 +1,650 @@
+{
+  "rootId": "diory-demo-content",
+  "diograph": {
+    "diory-demo-content": {
+      "id": "diory-demo-content",
+      "text": "Diory demo content",
+      "image": "diory-demo-content/demo-content.png",
+      "links": {
+        "Adamstown Middle School": {
+          "id": "ef79b80c-e319-4bfb-8faa-ebbc1150f27f"
+        },
+        "Generic content": {
+          "id": "generic-content"
+        },
+        "Jane": {
+          "id": "3e2ddc49-b3b6-4212-8a0a-80b9150a57ae"
+        },
+        "Mary": {
+          "id": "e07c2f1d-5f5a-488a-a505-34f7b9f55105"
+        },
+        "Potomac Kayaking Center": {
+          "id": "506cd9dd-97f4-4b98-9172-87f5c8966ade"
+        },
+        "Riverfest 2014": {
+          "id": "d031d5a8-0a37-49cb-b800-54e437a7c78e"
+        },
+        "Scouts BSA International": {
+          "id": "f1470597-1a3c-4a76-8546-2c29591a6846"
+        },
+        "map-content": {
+          "id": "map-content"
+        }
+      },
+      "modified": "2020-01-03T14:03:04.751Z"
+    },
+    "generic-content": {
+      "id": "generic-content",
+      "text": "Generic content",
+      "links": {
+        "diory1": {
+          "id": "diory1"
+        },
+        "some-video.mov": {
+          "id": "5456c2c3-4a69-4d80-bd2f-caa9945cff71"
+        },
+        "some-audio.m4a": {
+          "id": "32df7219-a33c-4bc9-bdc0-f24470292871"
+        },
+        "some-website": {
+          "id": "some-website"
+        },
+        "some-document.odt": {
+          "id": "some-document-odt"
+        },
+        "some-document.pdf": {
+          "id": "some-document-pdf"
+        }
+      },
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8GmnyHwAGEAJzBJT/2AAAAABJRU5ErkJggg=="
+    },
+    "diory1": {
+      "id": "diory1",
+      "text": "Diory 1",
+      "links": {
+        "link11": {
+          "id": "diory11"
+        },
+        "link12": {
+          "id": "diory12"
+        },
+        "link13": {
+          "id": "diory13"
+        },
+        "link14": {
+          "id": "diory14"
+        }
+      },
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOcfdT2PwAGPgKeWQwJuAAAAABJRU5ErkJggg=="
+    },
+    "diory11": {
+      "id": "diory11",
+      "text": "Diory 11",
+      "links": {
+        "link11-to-self": {
+          "id": "diory11"
+        }
+      },
+      "image": ""
+    },
+    "diory12": {
+      "id": "diory12",
+      "text": "Diory 12",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8c43hPwAHewLTbrmJlAAAAABJRU5ErkJggg=="
+    },
+    "diory13": {
+      "id": "diory13",
+      "text": "Diory 13",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOMPvD6PwAGiwMHcHyXEAAAAABJRU5ErkJggg=="
+    },
+    "diory14": {
+      "id": "diory14",
+      "text": "Diory 14",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8GmnyHwAGEAJzBJT/2AAAAABJRU5ErkJggg=="
+    },
+    "5456c2c3-4a69-4d80-bd2f-caa9945cff71": {
+      "id": "5456c2c3-4a69-4d80-bd2f-caa9945cff71",
+      "text": "some-video.mov",
+      "created": "2020-07-05T09:39:40.000Z",
+      "modified": "2020-07-05T09:39:40.000Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          "contentUrl": "diory-demo-content/Generic content/some-video.mov",
+          "encodingFormat": "video/mp4"
+        }
+      ],
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8c43hPwAHewLTbrmJlAAAAABJRU5ErkJggg=="
+    },
+    "32df7219-a33c-4bc9-bdc0-f24470292871": {
+      "id": "32df7219-a33c-4bc9-bdc0-f24470292871",
+      "text": "A beautiful sonate",
+      "created": "2021-04-15T12:14:40.319Z",
+      "modified": "2021-04-15T12:14:40.383Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "AudioObject",
+          "contentUrl": "diory-demo-content/Generic content/some-audio.m4a",
+          "encodingFormat": "audio/x-m4a"
+        }
+      ],
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8GmnyHwAGEAJzBJT/2AAAAABJRU5ErkJggg=="
+    },
+    "some-website": {
+      "id": "some-website",
+      "text": "A good website",
+      "data": [
+        {
+          "url": "https://hs.fi"
+        }
+      ],
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8GmnyHwAGEAJzBJT/2AAAAABJRU5ErkJggg=="
+    },
+    "some-document-odt": {
+      "id": "some-document-odt",
+      "text": "some-document.odt",
+      "created": "2021-04-15T10:32:20.565Z",
+      "modified": "2021-04-15T10:32:20.565Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "DigitalDocument",
+          "contentUrl": "diory-demo-content/Generic content/some-document.odt",
+          "encodingFormat": "application/vnd.oasis.opendocument.text"
+        }
+      ],
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOMPvD6PwAGiwMHcHyXEAAAAABJRU5ErkJggg=="
+    },
+    "some-document-pdf": {
+      "id": "some-document-pdf",
+      "text": "some-document.pdf",
+      "created": "2021-04-15T10:32:20.565Z",
+      "modified": "2021-04-15T10:32:20.565Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "DigitalDocument",
+          "contentUrl": "diory-demo-content/Generic content/some-document.pdf",
+          "encodingFormat": "application/pdf"
+        }
+      ],
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8c43hPwAHewLTbrmJlAAAAABJRU5ErkJggg=="
+    },
+    "map-content": {
+      "id": "map-content",
+      "image": "https://www.publicdomainpictures.net/pictures/190000/velka/travel-background-1469438300Bbk.jpg",
+      "text": "Map content",
+      "links": {
+        "helvetinjärvi": {
+          "id": "helvetinjärvi"
+        },
+        "tampere": {
+          "id": "tampere"
+        }
+      }
+    },
+    "helvetinjärvi": {
+      "id": "helvetinjärvi",
+      "image": "https://lh3.ggpht.com/p/AF1QipPeoo0jUW9dEDIbO_xjN1Knn8ZNbE8x84ea9f-1=s1536",
+      "text": "Helvetinjärven kansallispuisto",
+      "latlng": "62, 24"
+    },
+    "tampere": {
+      "id": "tampere",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/2/21/Downtown_Tampere4.jpg",
+      "links": {
+        "link1": {
+          "id": "keskustori"
+        },
+        "link2": {
+          "id": "frenkell"
+        },
+        "link3": {
+          "id": "hameenkatu"
+        }
+      },
+      "modified": "2020-01-03T21:44:25.345Z",
+      "text": "Tampere",
+      "latlng": "61.49960404266185, 23.762183189392093"
+    },
+    "keskustori": {
+      "id": "keskustori",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Tampere_-_Keskustori.jpg/800px-Tampere_-_Keskustori.jpg",
+      "modified": "2020-01-03T21:45:00.791Z",
+      "text": "Keskustori",
+      "latlng": "61.49768995940461, 23.760348558425907"
+    },
+    "frenkell": {
+      "id": "frenkell",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Frenckell_factory1.jpg",
+      "modified": "2020-01-03T21:44:56.115Z",
+      "text": "Frenkell",
+      "latlng": "61.50011150135485, 23.763899803161625"
+    },
+    "hameenkatu": {
+      "id": "hameenkatu",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Tampere_Hameenkatu.png",
+      "modified": "2020-01-03T21:44:58.285Z",
+      "text": "Hämeenkatu",
+      "latlng": "61.49785379059735, 23.762902021408085"
+    },
+    "3e2ddc49-b3b6-4212-8a0a-80b9150a57ae": {
+      "id": "3e2ddc49-b3b6-4212-8a0a-80b9150a57ae",
+      "text": "Jane (person)",
+      "image": "diory-demo-content/Jane/PIXNIO-12656-2816x2112.jpeg",
+      "created": "2020-05-17T16:03:52.473Z",
+      "modified": "2020-05-17T16:04:03.620Z",
+      "links": {
+        "PIXNIO-12656-2816x2112.jpeg": {
+          "id": "6abcc50e-422e-4802-9b14-84fcdd08f591"
+        },
+        "PIXNIO-12662-2816x2112.jpeg": {
+          "id": "e488d7e0-773f-4218-b893-2d0d164cce18"
+        },
+        "PIXNIO-12700-2816x2112.jpeg": {
+          "id": "dd1a14b9-f564-4c2c-8330-df29cd78ac45"
+        },
+        "bea0b059-413d-42a8-a7ad-62d0f252b596": {
+          "id": "bea0b059-413d-42a8-a7ad-62d0f252b596"
+        }
+      }
+    },
+    "e07c2f1d-5f5a-488a-a505-34f7b9f55105": {
+      "id": "e07c2f1d-5f5a-488a-a505-34f7b9f55105",
+      "text": "Mary (person)",
+      "image": "diory-demo-content/Mary/PIXNIO-53747-4118x3088.jpeg",
+      "created": "2020-05-17T16:03:44.704Z",
+      "modified": "2020-05-17T16:03:58.614Z",
+      "links": {
+        "PIXNIO-53747-4118x3088.jpeg": {
+          "id": "5c63b738-2bc0-449c-80a8-be04dfe1e8b4"
+        },
+        "PIXNIO-53789-4118x6177.jpeg": {
+          "id": "b49d6daf-687f-4c1d-ad0a-fb74c33ce323"
+        },
+        "PIXNIO-53799-6177x4118.jpeg": {
+          "id": "78661050-900d-4e87-84e2-a5262fca6770"
+        },
+        "PIXNIO-53543-1782x1188.jpeg": {
+          "id": "bea0b059-413d-42a8-a7ad-62d0f252b596"
+        },
+        "f1470597-1a3c-4a76-8546-2c29591a6846": {
+          "id": "f1470597-1a3c-4a76-8546-2c29591a6846"
+        }
+      }
+    },
+    "ef79b80c-e319-4bfb-8faa-ebbc1150f27f": {
+      "id": "ef79b80c-e319-4bfb-8faa-ebbc1150f27f",
+      "text": "Adamstown Middle School (event)",
+      "image": "diory-demo-content/Adamstown Middle School/PIXNIO-54298-5970x3980.jpeg",
+      "date": "2012-06-25T08:23:35.000Z",
+      "created": "2021-07-19T16:44:13.940Z",
+      "modified": "2021-07-19T16:51:40.024Z",
+      "links": {
+        "PIXNIO-54298-5970x3980.jpeg": {
+          "id": "b6c38977-1ed5-4ecb-928f-5bd1ab7e8a77"
+        },
+        "PIXNIO-54360-6177x4118.jpeg": {
+          "id": "c54bb7c6-a01d-422b-bfa7-e6a6c05acc5f"
+        }
+      }
+    },
+    "506cd9dd-97f4-4b98-9172-87f5c8966ade": {
+      "id": "506cd9dd-97f4-4b98-9172-87f5c8966ade",
+      "text": "Potomac Kayaking Center (place)",
+      "image": "diory-demo-content/Potomac Kayaking Center/PIXNIO-54348-6177x4118.jpeg",
+      "date": "2012-09-25T10:59:28.000Z",
+      "latlng": "39.14977588053471, -77.52475284039974",
+      "created": "2021-07-19T16:47:33.841Z",
+      "modified": "2021-07-19T16:51:50.125Z",
+      "links": {
+        "ef79b80c-e319-4bfb-8faa-ebbc1150f27f": {
+          "id": "ef79b80c-e319-4bfb-8faa-ebbc1150f27f"
+        },
+        "d031d5a8-0a37-49cb-b800-54e437a7c78e": {
+          "id": "d031d5a8-0a37-49cb-b800-54e437a7c78e"
+        },
+        "f1470597-1a3c-4a76-8546-2c29591a6846": {
+          "id": "f1470597-1a3c-4a76-8546-2c29591a6846"
+        },
+        "PIXNIO-54348-6177x4118.jpeg": {
+          "id": "cb850aa9-9fa2-433e-bce2-387ed5732901"
+        }
+      }
+    },
+    "d031d5a8-0a37-49cb-b800-54e437a7c78e": {
+      "id": "d031d5a8-0a37-49cb-b800-54e437a7c78e",
+      "text": "Riverfest 2014 (event)",
+      "image": "diory-demo-content/Riverfest 2014/PIXNIO-53350-6177x4118.jpeg",
+      "date": "2014-09-20T17:44:52.000Z",
+      "created": "2021-07-19T16:43:54.533Z",
+      "modified": "2021-07-19T16:49:35.126Z",
+      "links": {
+        "PIXNIO-53350-6177x4118.jpeg": {
+          "id": "c60c4384-6cb1-4569-b6f8-d6ece4dd75e0"
+        }
+      }
+    },
+    "f1470597-1a3c-4a76-8546-2c29591a6846": {
+      "id": "f1470597-1a3c-4a76-8546-2c29591a6846",
+      "text": "Scouts BSA International (event)",
+      "date": "2013-06-25T09:21:43.000Z",
+      "image": "diory-demo-content/Scouts BSA International/PIXNIO-54454-6138x4092.jpeg",
+      "created": "2020-04-19T18:47:25.152Z",
+      "modified": "2020-05-17T16:43:15.089Z",
+      "links": {
+        "PIXNIO-53541-1782x1188.jpeg": {
+          "id": "103f852d-4a2a-44de-8f4f-08ccddc3d280"
+        },
+        "PIXNIO-53543-1782x1188.jpeg": {
+          "id": "bea0b059-413d-42a8-a7ad-62d0f252b596"
+        },
+        "PIXNIO-53549-1782x1188.jpeg": {
+          "id": "640518ab-fd17-4b22-9fae-ed4a0384d12f"
+        },
+        "PIXNIO-53551-1782x1188.jpeg": {
+          "id": "5c58666b-a7ad-4011-aa9d-d0c2be9a26c7"
+        },
+        "PIXNIO-53553-1782x1188.jpeg": {
+          "id": "e32df400-8d33-41bd-b3b3-8113564a43f2"
+        },
+        "PIXNIO-53555-1782x1188.jpeg": {
+          "id": "7f2ca0f2-ff5d-40c2-90bf-c3d1ff5818bf"
+        },
+        "PIXNIO-54454-6138x4092.jpeg": {
+          "id": "3cc529e5-7d52-4519-83fb-9d0c1aff76e4"
+        }
+      }
+    },
+    "c60c4384-6cb1-4569-b6f8-d6ece4dd75e0": {
+      "id": "c60c4384-6cb1-4569-b6f8-d6ece4dd75e0",
+      "image": "diory-demo-content/Riverfest 2014/PIXNIO-53350-6177x4118.jpeg",
+      "date": "2014-09-20T17:44:52.000Z",
+      "latlng": "39.15576694462126, -77.51852173358203",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.626Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Riverfest 2014/PIXNIO-53350-6177x4118.jpeg",
+          "height": 4118,
+          "width": 6177,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "103f852d-4a2a-44de-8f4f-08ccddc3d280": {
+      "id": "103f852d-4a2a-44de-8f4f-08ccddc3d280",
+      "image": "diory-demo-content/Scouts BSA International/PIXNIO-53541-1782x1188.jpeg",
+      "date": "2013-06-25T23:11:49.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.706Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Scouts BSA International/PIXNIO-53541-1782x1188.jpeg",
+          "height": 1188,
+          "width": 1782,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "bea0b059-413d-42a8-a7ad-62d0f252b596": {
+      "id": "bea0b059-413d-42a8-a7ad-62d0f252b596",
+      "image": "diory-demo-content/Scouts BSA International/PIXNIO-53543-1782x1188.jpeg",
+      "date": "2013-06-25T23:11:09.000Z",
+      "latlng": "39.16727289119642, -77.51675583422184",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.716Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Scouts BSA International/PIXNIO-53543-1782x1188.jpeg",
+          "height": 1188,
+          "width": 1782,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "640518ab-fd17-4b22-9fae-ed4a0384d12f": {
+      "id": "640518ab-fd17-4b22-9fae-ed4a0384d12f",
+      "image": "diory-demo-content/Scouts BSA International/PIXNIO-53549-1782x1188.jpeg",
+      "date": "2013-06-26T01:26:12.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.724Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Scouts BSA International/PIXNIO-53549-1782x1188.jpeg",
+          "height": 1188,
+          "width": 1782,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "5c58666b-a7ad-4011-aa9d-d0c2be9a26c7": {
+      "id": "5c58666b-a7ad-4011-aa9d-d0c2be9a26c7",
+      "image": "diory-demo-content/Scouts BSA International/PIXNIO-53551-1782x1188.jpeg",
+      "date": "2013-06-26T01:31:59.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.739Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Scouts BSA International/PIXNIO-53551-1782x1188.jpeg",
+          "height": 1188,
+          "width": 1782,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "e32df400-8d33-41bd-b3b3-8113564a43f2": {
+      "id": "e32df400-8d33-41bd-b3b3-8113564a43f2",
+      "image": "diory-demo-content/Scouts BSA International/PIXNIO-53553-1782x1188.jpeg",
+      "date": "2013-06-26T13:40:22.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.752Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Scouts BSA International/PIXNIO-53553-1782x1188.jpeg",
+          "height": 1188,
+          "width": 1782,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "7f2ca0f2-ff5d-40c2-90bf-c3d1ff5818bf": {
+      "id": "7f2ca0f2-ff5d-40c2-90bf-c3d1ff5818bf",
+      "image": "diory-demo-content/Scouts BSA International/PIXNIO-53555-1782x1188.jpeg",
+      "date": "2013-06-26T13:02:31.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.769Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Scouts BSA International/PIXNIO-53555-1782x1188.jpeg",
+          "height": 1188,
+          "width": 1782,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "b6c38977-1ed5-4ecb-928f-5bd1ab7e8a77": {
+      "id": "b6c38977-1ed5-4ecb-928f-5bd1ab7e8a77",
+      "image": "diory-demo-content/Adamstown Middle School/PIXNIO-54298-5970x3980.jpeg",
+      "date": "2012-06-25T14:27:29.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.829Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Adamstown Middle School/PIXNIO-54298-5970x3980.jpeg",
+          "height": 3980,
+          "width": 5970,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "cb850aa9-9fa2-433e-bce2-387ed5732901": {
+      "id": "cb850aa9-9fa2-433e-bce2-387ed5732901",
+      "image": "diory-demo-content/Potomac Kayaking Center/PIXNIO-54348-6177x4118.jpeg",
+      "date": "2012-09-25T10:59:28.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.899Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Potomac Kayaking Center/PIXNIO-54348-6177x4118.jpeg",
+          "height": 4118,
+          "width": 6177,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "c54bb7c6-a01d-422b-bfa7-e6a6c05acc5f": {
+      "id": "c54bb7c6-a01d-422b-bfa7-e6a6c05acc5f",
+      "image": "diory-demo-content/Adamstown Middle School/PIXNIO-54360-6177x4118.jpeg",
+      "date": "2012-06-25T02:19:41.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.987Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Adamstown Middle School/PIXNIO-54360-6177x4118.jpeg",
+          "height": 4118,
+          "width": 6177,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "3cc529e5-7d52-4519-83fb-9d0c1aff76e4": {
+      "id": "3cc529e5-7d52-4519-83fb-9d0c1aff76e4",
+      "image": "diory-demo-content/Scouts BSA International/PIXNIO-54454-6138x4092.jpeg",
+      "date": "2013-06-25T14:19:12.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:28.085Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Scouts BSA International/PIXNIO-54454-6138x4092.jpeg",
+          "height": 4092,
+          "width": 6138,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "6abcc50e-422e-4802-9b14-84fcdd08f591": {
+      "id": "6abcc50e-422e-4802-9b14-84fcdd08f591",
+      "image": "diory-demo-content/Jane/PIXNIO-12656-2816x2112.jpeg",
+      "created": "2021-02-25T12:27:27.226Z",
+      "modified": "2021-02-25T12:27:27.436Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Jane/PIXNIO-12656-2816x2112.jpeg",
+          "height": 2112,
+          "width": 2816,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "e488d7e0-773f-4218-b893-2d0d164cce18": {
+      "id": "e488d7e0-773f-4218-b893-2d0d164cce18",
+      "image": "diory-demo-content/Jane/PIXNIO-12662-2816x2112.jpeg",
+      "created": "2021-02-25T12:27:27.441Z",
+      "modified": "2021-02-25T12:27:27.467Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Jane/PIXNIO-12662-2816x2112.jpeg",
+          "height": 2112,
+          "width": 2816,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "dd1a14b9-f564-4c2c-8330-df29cd78ac45": {
+      "id": "dd1a14b9-f564-4c2c-8330-df29cd78ac45",
+      "image": "diory-demo-content/Jane/PIXNIO-12700-2816x2112.jpeg",
+      "created": "2021-02-25T12:27:27.474Z",
+      "modified": "2021-02-25T12:27:27.483Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Jane/PIXNIO-12700-2816x2112.jpeg",
+          "height": 2112,
+          "width": 2816,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "5c63b738-2bc0-449c-80a8-be04dfe1e8b4": {
+      "id": "5c63b738-2bc0-449c-80a8-be04dfe1e8b4",
+      "image": "diory-demo-content/Mary/PIXNIO-53747-4118x3088.jpeg",
+      "date": "2016-06-11T09:21:43.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.500Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Mary/PIXNIO-53747-4118x3088.jpeg",
+          "height": 3088,
+          "width": 4118,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "b49d6daf-687f-4c1d-ad0a-fb74c33ce323": {
+      "id": "b49d6daf-687f-4c1d-ad0a-fb74c33ce323",
+      "image": "diory-demo-content/Mary/PIXNIO-53789-4118x6177.jpeg",
+      "date": "2014-06-03T12:07:11.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.531Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Mary/PIXNIO-53789-4118x6177.jpeg",
+          "height": 6177,
+          "width": 4118,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    },
+    "78661050-900d-4e87-84e2-a5262fca6770": {
+      "id": "78661050-900d-4e87-84e2-a5262fca6770",
+      "image": "diory-demo-content/Mary/PIXNIO-53799-6177x4118.jpeg",
+      "date": "2014-06-03T11:54:35.000Z",
+      "created": "2016-06-04T10:32:12Z",
+      "modified": "2021-02-25T12:27:27.561Z",
+      "data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "contentUrl": "diory-demo-content/Mary/PIXNIO-53799-6177x4118.jpeg",
+          "height": 4118,
+          "width": 6177,
+          "encodingFormat": "image/jpeg"
+        }
+      ]
+    }
+  }
+}

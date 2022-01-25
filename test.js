@@ -1,5 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const _1 = require(".");
-const diograph = new _1.default({ path: 'diograph.json' });
-diograph.load();
+const Diograph = require('.').default
+
+const diograph = new Diograph({ path: 'diograph.json' })
+diograph.load()
