@@ -1,3 +1,3 @@
-import { hello } from 'diograph-js-6fde73f'
+import Diograph from './diograph'
 
-hello('123')
+export default Diograph

@@ -1,6 +1,6 @@
 {
-  "name": "diograph-js-6fde73f",
-  "version": "0.0.2",
+  "name": "diograph-js",
+  "version": "0.0.1",
   "main": "index.js",
   "types": "index.d.ts",
   "author": "Jouni Alanen <jouni@diory.me>",
@@ -11,6 +11,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "watch": "tsc --watch",
     "prettier": "prettier --write ."
   },
   "prettier": {
@@ -19,8 +20,5 @@
     "singleQuote": true,
     "printWidth": 100,
     "trailingComma": "all"
-  },
-  "dependencies": {
-    "diograph-js-6fde73f": "^0.0.2"
   }
 }
