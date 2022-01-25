@@ -19,15 +19,16 @@ class Diograph {
   }
 
   load = () => {
-    fs.readFile(this.path, 'utf8', (err, diographJsonContents) => {
-      if (err) {
-        throw err
-      }
-      const parsedJson = JSON.parse(diographJsonContents)
-      this.rootId = parsedJson.rootId
-      this.diograph = parsedJson.diograph
-      console.log(this.rootId)
-      console.log(Object.keys(this.diograph)[0])
+    return new Promise((resolve, reject) => {
+      fs.readFile(this.path, 'utf8', (err, diographJsonContents) => {
+        if (err) {
+          reject(err)
+        }
+        const parsedJson = JSON.parse(diographJsonContents)
+        this.rootId = parsedJson.rootId
+        this.diograph = parsedJson.diograph
+        resolve(true)
+      })
     })
   }
 }

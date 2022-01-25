@@ -10,6 +10,6 @@ declare class Diograph {
     rootId: string;
     diograph: object;
     constructor({ path }: DiographParams);
-    load: () => void;
+    load: () => Promise<unknown>;
 }
 export default Diograph;
