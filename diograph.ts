@@ -31,6 +31,10 @@ class Diograph {
       })
     })
   }
+
+  get = (id: string) => {
+    return this.diograph[id]
+  }
 }
 
 export default Diograph

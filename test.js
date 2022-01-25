@@ -6,6 +6,9 @@ const test = async () => {
 
   console.log(bool)
   console.log(diograph.rootId)
+
+  const rootDiory = diograph.get(diograph.rootId)
+  console.log(rootDiory)
 }
 
 test()

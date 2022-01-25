@@ -18,6 +18,9 @@ class Diograph {
                 });
             });
         };
+        this.get = (id) => {
+            return this.diograph[id];
+        };
         this.path = path;
     }
 }
