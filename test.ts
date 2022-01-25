@@ -1,3 +1,4 @@
 import Diograph from '.'
 
-Diograph.hello('124')
+const diograph = new Diograph({ path: 'diograph.json' })
+diograph.load()
