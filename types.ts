@@ -20,5 +20,5 @@ export interface Diory {
   date?: string
   data?: Array<object>
   style?: object
-  links: object
+  links?: object
 }

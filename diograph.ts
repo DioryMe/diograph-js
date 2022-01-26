@@ -1,10 +1,13 @@
 import { DiographJsonParams, Diograph, Diory } from './types'
 import { readFile, writeFile } from 'fs/promises'
+import { getDiory } from './api/get'
 
 class DiographJson {
   path: string
   rootId: string = ''
   diograph: Diograph = {}
+
+  get = getDiory
 
   constructor({ path }: DiographJsonParams) {
     this.path = path
@@ -17,10 +20,6 @@ class DiographJson {
       this.rootId = parsedJson.rootId
       this.diograph = parsedJson.diograph
     })
-  }
-
-  get = (id: string): Diory => {
-    return this.diograph[id]
   }
 
   save = () => {
