@@ -1,4 +1,5 @@
-import { DiographJson, Diory } from '../types'
+import DiographJson from '../diograph'
+import { Diory } from '../types'
 
 function search(this: DiographJson, query: string): Diory[] {
   const diories: Diory[] = Object.values(this.diograph)

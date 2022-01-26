@@ -2,12 +2,6 @@ export interface DiographJsonParams {
   path: string
 }
 
-export interface DiographJson {
-  path: string
-  rootId: string
-  diograph: Diograph
-}
-
 export interface Diograph {
   [key: string]: Diory
 }
