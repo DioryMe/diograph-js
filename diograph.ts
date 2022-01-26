@@ -1,6 +1,4 @@
-import * as fs from 'fs'
-const fsPromise = require('fs').promises
-const path = require('path').posix
+import { readFile, writeFile } from 'fs/promises'
 
 interface DiographParams {
   path: string
@@ -8,47 +6,54 @@ interface DiographParams {
 
 interface Diograph {
   rootId: string
-  diograph: object
+  diograph: Diograph2
+}
+
+interface Diograph2 {
+  [key: string]: Diory
+}
+
+interface Diory {
+  id: string
+  text: string
+  image?: string
+  latlng?: string
+  date?: string
+  data?: Array<object>
+  style?: object
+  links: object
 }
 
 class Diograph {
   path: string
   rootId: string = ''
-  diograph: object = {}
+  diograph: Diograph2 = {}
 
   constructor({ path }: DiographParams) {
     this.path = path
   }
 
   load = () => {
-    return new Promise((resolve, reject) => {
-      fs.readFile(this.path, 'utf8', (err, diographJsonContents) => {
-        if (err) reject(err)
-        const parsedJson = JSON.parse(diographJsonContents)
-        this.rootId = parsedJson.rootId
-        this.diograph = parsedJson.diograph
-        resolve(true)
-      })
+    return readFile(this.path, { encoding: 'utf8' }).then((diographJsonContents) => {
+      const parsedJson = JSON.parse(diographJsonContents)
+      this.rootId = parsedJson.rootId
+      this.diograph = parsedJson.diograph
     })
   }
 
-  get = (id: string) => {
+  get = (id: string): Diory => {
     return this.diograph[id]
   }
 
   save = () => {
-    return new Promise((resolve, reject) => {
-      const diographJson = {
-        rootId: this.rootId,
-        diograph: this.diograph,
-      }
+    const diographJson = {
+      rootId: this.rootId,
+      diograph: this.diograph,
+    }
 
-      const fileContent = JSON.stringify(diographJson, null, 2)
-      return fsPromise.writeFile('diograph2.json', fileContent).then((err) => {
-        if (err) reject(err)
-        console.log(`diograph.save(): Saved diograph.json to ${this.path}`)
-        resolve(true)
-      })
+    const fileContent = JSON.stringify(diographJson, null, 2)
+    return writeFile('diograph.json', fileContent).then(() => {
+      console.log(`diograph.save(): Saved diograph.json to ${this.path}`)
     })
   }
 }
