@@ -15,9 +15,13 @@ const test = async () => {
   const rootDiory = diographJson.get(rootId)
   console.log(rootDiory)
 
-  // Search
-  const maries = diographJson.search('Ma')
+  // Search text
+  const maries = diographJson.search('Ma', 'text')
   console.log(maries.map((diory) => diory.text))
+
+  // Search data
+  const dataMaries = diographJson.search('Audio', 'data')
+  console.log(dataMaries.map((diory) => diory.text))
 
   // Update
   try {
