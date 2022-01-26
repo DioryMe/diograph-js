@@ -12,5 +12,6 @@ declare class Diograph {
     constructor({ path }: DiographParams);
     load: () => Promise<unknown>;
     get: (id: string) => any;
+    save: () => Promise<unknown>;
 }
 export default Diograph;

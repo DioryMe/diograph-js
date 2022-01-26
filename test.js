@@ -9,6 +9,8 @@ const test = async () => {
 
   const rootDiory = diograph.get(diograph.rootId)
   console.log(rootDiory)
+
+  diograph.save()
 }
 
 test()
