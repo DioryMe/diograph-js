@@ -1,16 +1,17 @@
-interface DiographParams {
+interface DiographJsonParams {
     path: string;
 }
-interface Diograph {
+interface DiographJson {
+    path: string;
     rootId: string;
-    diograph: Diograph2;
+    diograph: Diograph;
 }
-interface Diograph2 {
+interface Diograph {
     [key: string]: Diory;
 }
 interface Diory {
     id: string;
-    text: string;
+    text?: string;
     image?: string;
     latlng?: string;
     date?: string;
@@ -18,13 +19,13 @@ interface Diory {
     style?: object;
     links: object;
 }
-declare class Diograph {
+declare class DiographJson {
     path: string;
     rootId: string;
-    diograph: Diograph2;
-    constructor({ path }: DiographParams);
+    diograph: Diograph;
+    constructor({ path }: DiographJsonParams);
     load: () => Promise<void>;
     get: (id: string) => Diory;
     save: () => Promise<void>;
 }
-export default Diograph;
+export default DiographJson;

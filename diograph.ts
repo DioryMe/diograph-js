@@ -1,21 +1,22 @@
 import { readFile, writeFile } from 'fs/promises'
 
-interface DiographParams {
+interface DiographJsonParams {
   path: string
 }
 
-interface Diograph {
+interface DiographJson {
+  path: string
   rootId: string
-  diograph: Diograph2
+  diograph: Diograph
 }
 
-interface Diograph2 {
+interface Diograph {
   [key: string]: Diory
 }
 
 interface Diory {
   id: string
-  text: string
+  text?: string
   image?: string
   latlng?: string
   date?: string
@@ -24,12 +25,12 @@ interface Diory {
   links: object
 }
 
-class Diograph {
+class DiographJson {
   path: string
   rootId: string = ''
-  diograph: Diograph2 = {}
+  diograph: Diograph = {}
 
-  constructor({ path }: DiographParams) {
+  constructor({ path }: DiographJsonParams) {
     this.path = path
   }
 
@@ -46,16 +47,16 @@ class Diograph {
   }
 
   save = () => {
-    const diographJson = {
+    const diographJsonContents = {
       rootId: this.rootId,
       diograph: this.diograph,
     }
 
-    const fileContent = JSON.stringify(diographJson, null, 2)
-    return writeFile('diograph.json', fileContent).then(() => {
+    const fileContent = JSON.stringify(diographJsonContents, null, 2)
+    return writeFile(this.path, fileContent).then(() => {
       console.log(`diograph.save(): Saved diograph.json to ${this.path}`)
     })
   }
 }
 
-export default Diograph
+export default DiographJson

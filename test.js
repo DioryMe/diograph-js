@@ -1,15 +1,17 @@
-const Diograph = require('.').default
+const DiographJson = require('.').default
 
 const test = async () => {
-  const diograph = new Diograph({ path: 'diograph.json' })
-  const bool = await diograph.load()
+  const diographJson = new DiographJson({ path: 'diograph.json' })
 
-  console.log(diograph.rootId)
+  await diographJson.load()
 
-  const rootDiory = diograph.get(diograph.rootId)
+  const rootId = diographJson.rootId
+  console.log(rootId)
+
+  const rootDiory = diographJson.get(rootId)
   console.log(rootDiory)
 
-  diograph.save()
+  diographJson.save()
 }
 
 test()
