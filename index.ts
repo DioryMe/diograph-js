@@ -1,3 +1,3 @@
-import Diograph from './diograph'
+import DiographJson from './diograph'
 
-export default Diograph
+export default DiographJson

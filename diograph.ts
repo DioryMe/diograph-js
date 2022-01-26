@@ -1,29 +1,5 @@
+import { DiographJsonParams, Diograph, Diory } from './types'
 import { readFile, writeFile } from 'fs/promises'
-
-interface DiographJsonParams {
-  path: string
-}
-
-interface DiographJson {
-  path: string
-  rootId: string
-  diograph: Diograph
-}
-
-interface Diograph {
-  [key: string]: Diory
-}
-
-interface Diory {
-  id: string
-  text?: string
-  image?: string
-  latlng?: string
-  date?: string
-  data?: Array<object>
-  style?: object
-  links: object
-}
 
 class DiographJson {
   path: string
@@ -37,6 +13,7 @@ class DiographJson {
   load = () => {
     return readFile(this.path, { encoding: 'utf8' }).then((diographJsonContents) => {
       const parsedJson = JSON.parse(diographJsonContents)
+      // TODO: Validate JSON with own validator.js (using ajv.js.org)
       this.rootId = parsedJson.rootId
       this.diograph = parsedJson.diograph
     })
