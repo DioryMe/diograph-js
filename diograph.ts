@@ -1,6 +1,6 @@
-import { DiographJsonParams, Diograph, Diory } from './types'
+import { DiographJsonParams, Diograph } from './types'
 import { readFile, writeFile } from 'fs/promises'
-import { getDiory } from './api/get'
+import { getDiory, search } from './api'
 
 class DiographJson {
   path: string
@@ -8,6 +8,7 @@ class DiographJson {
   diograph: Diograph = {}
 
   get = getDiory
+  search = search
 
   constructor({ path }: DiographJsonParams) {
     this.path = path
