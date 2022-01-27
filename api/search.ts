@@ -1,4 +1,4 @@
-import DiographJson from '../diograph'
+import { DiographJson } from '../diograph'
 import { Diory } from '../types'
 
 function search(this: DiographJson, query: string, field: 'text' | 'data'): Diory[] {

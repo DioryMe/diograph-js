@@ -1,4 +1,4 @@
-import DiographJson from '../diograph'
+import { DiographJson } from '../diograph'
 import { Diory } from '../types'
 
 function getDiory(this: DiographJson, id: string): Diory {

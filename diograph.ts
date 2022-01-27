@@ -37,4 +37,4 @@ class DiographJson {
   }
 }
 
-export default DiographJson
+export { DiographJson }

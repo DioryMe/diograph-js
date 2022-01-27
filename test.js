@@ -1,4 +1,4 @@
-const DiographJson = require('./dist').default
+const { DiographJson } = require('./dist')
 
 const test = async () => {
   // Construct
