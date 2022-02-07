@@ -34,6 +34,8 @@ diographJson.load().then(() => {
 
 ### update
 
+### delete
+
 ## Development
 
 ```
