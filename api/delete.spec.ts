@@ -24,9 +24,12 @@ describe('deleteDiory', () => {
 
     it('works', () => {
       const returnValue = diographJson.deleteDiory('some-id')
+      expect(returnValue).toEqual(true)
+
+      expect(diographJson.get('some-id')).toEqual(undefined)
+      expect(diographJson.get('some-other-id')).toEqual(diory2)
       expect(diographJson.diograph['some-id']).toEqual(undefined)
       expect(diographJson.diograph['some-other-id']).toEqual(diory2)
-      expect(returnValue).toEqual(true)
     })
   })
 })
