@@ -2,7 +2,7 @@ const { DiographJson } = require('./dist')
 
 const test = async () => {
   // Construct
-  const diographJson = new DiographJson({ path: 'fixtures/diograph.json' })
+  const diographJson = new DiographJson({ path: 'fixtures' })
 
   // Load
   await diographJson.load()

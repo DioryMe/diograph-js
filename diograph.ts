@@ -1,9 +1,12 @@
 import { DiographJsonParams, Diograph } from './types'
 import { readFile, writeFile } from 'fs/promises'
+import { join } from 'path'
 import { getDiory, search, update, deleteDiory } from './api'
 
 class DiographJson {
   path: string
+  diographJsonPath: string
+  imageFolder: string
   rootId: string = ''
   diograph: Diograph = {}
 
@@ -14,6 +17,8 @@ class DiographJson {
 
   constructor({ path }: DiographJsonParams) {
     this.path = path
+    this.diographJsonPath = join(path, 'diograph.json')
+    this.imageFolder = join(path, 'images')
   }
 
   setDiograph = (diograph: Diograph, rootId?: string) => {
@@ -22,7 +27,7 @@ class DiographJson {
   }
 
   load = () => {
-    return readFile(this.path, { encoding: 'utf8' }).then((diographJsonContents) => {
+    return readFile(this.diographJsonPath, { encoding: 'utf8' }).then((diographJsonContents) => {
       const parsedJson = JSON.parse(diographJsonContents)
       // TODO: Validate JSON with own validator.js (using ajv.js.org)
       this.rootId = parsedJson.rootId
@@ -37,7 +42,7 @@ class DiographJson {
     }
 
     const fileContent = JSON.stringify(diographJsonContents, null, 2)
-    return writeFile(this.path, fileContent).then(() => {
+    return writeFile(this.diographJsonPath, fileContent).then(() => {
       console.log(`diograph.save(): Saved diograph.json to ${this.path}`)
     })
   }

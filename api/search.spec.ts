@@ -4,7 +4,7 @@ describe('get', () => {
   let diographJson: DiographJson
 
   beforeEach(async () => {
-    diographJson = new DiographJson({ path: 'fixtures/diograph.json' })
+    diographJson = new DiographJson({ path: 'fixtures' })
     await diographJson.load()
   })
 
