@@ -36,8 +36,8 @@ describe('deleteDiory', () => {
         expect(diographJson.get('some-other-id')).toEqual(diory2)
       })
 
-      it.skip('diory and its linked diories', () => {
-        const returnValue = diographJson.deleteDiory(diory.id)
+      it('diory and its linked diories', () => {
+        const returnValue = diographJson.deleteDiory(diory.id, { linkedDiories: true })
         expect(returnValue).toEqual([diory, diory2])
 
         expect(diographJson.get('some-id')).toEqual(undefined)
@@ -56,7 +56,7 @@ describe('deleteDiory', () => {
         expect(diographJson.get('some-other-id')).toEqual(diory2)
       })
 
-      it.skip('diory and its linked diories', () => {
+      it('diory and its linked diories', () => {
         const returnValue = diographJson.deleteDiory(diory.id, {
           dryRun: true,
           linkedDiories: true,

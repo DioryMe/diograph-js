@@ -16,11 +16,23 @@ const DEFAULT_OPTIONS: deleteOptions = {
 }
 
 function deleteDiory(this: DiographJson, id: string, opts: object = {}): Array<Diory> {
+  let dioriesToBeDeleted
+
   const optsWithDefaults: deleteOptions = {
     ...DEFAULT_OPTIONS,
     ...opts,
   }
-  const dioriesToBeDeleted = [this.diograph[id]]
+
+  const storyDiory = this.diograph[id]
+  dioriesToBeDeleted = [storyDiory]
+
+  if (optsWithDefaults.linkedDiories && storyDiory.links) {
+    Object.values(storyDiory.links).forEach((link) => {
+      const linkedDiory = this.diograph[link.id]
+      dioriesToBeDeleted.push(linkedDiory)
+    })
+  }
+
   if (!optsWithDefaults.dryRun) {
     dioriesToBeDeleted.forEach((dioryToBeDeleted) => {
       delete this.diograph[dioryToBeDeleted.id]
