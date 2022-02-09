@@ -3,6 +3,7 @@ import { DiographJson } from '../diograph'
 
 const diory: Diory = {
   id: 'some-id',
+  image: 'images/some-id.jpg',
   links: {
     'some-other-id': {
       id: 'some-other-id',

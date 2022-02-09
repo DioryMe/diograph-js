@@ -20,6 +20,13 @@ function getDiory(this: DiographJson, id: string, opts: object = {}): Diory | Ar
   const storyDiory: Diory = this.diograph[id]
   const storyDioryWithLinkedDiories = [storyDiory]
 
+  if (optsWithDefaults.linkedDiories && storyDiory.links) {
+    Object.values(storyDiory.links).forEach((link) => {
+      const linkedDiory = this.diograph[link.id]
+      storyDioryWithLinkedDiories.push(linkedDiory)
+    })
+  }
+
   return Object.keys(opts).length === 0 ? storyDiory : storyDioryWithLinkedDiories
 }
 
