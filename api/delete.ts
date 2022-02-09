@@ -23,7 +23,6 @@ function deleteDiory(this: DiographJson, id: string, opts: object = {}): Array<D
   const dioryToBeDeleted = this.diograph[id]
   if (!optsWithDefaults.dryRun) {
     delete this.diograph[id]
-    return [dioryToBeDeleted]
   }
   return [dioryToBeDeleted]
 }

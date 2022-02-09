@@ -3,6 +3,11 @@ import { DiographJson } from '../diograph'
 
 const diory: Diory = {
   id: 'some-id',
+  links: {
+    'some-other-id': {
+      id: 'some-other-id',
+    },
+  },
 }
 
 const diory2: Diory = {
@@ -22,22 +27,45 @@ describe('deleteDiory', () => {
   })
 
   describe('without options', () => {
-    it('deletes single diory', () => {
-      const returnValue = diographJson.deleteDiory(diory.id)
-      expect(returnValue).toEqual([diory])
+    describe('lists and deletes', () => {
+      it('single diory', () => {
+        const returnValue = diographJson.deleteDiory(diory.id)
+        expect(returnValue).toEqual([diory])
 
-      expect(diographJson.get('some-id')).toEqual(undefined)
-      expect(diographJson.get('some-other-id')).toEqual(diory2)
+        expect(diographJson.get('some-id')).toEqual(undefined)
+        expect(diographJson.get('some-other-id')).toEqual(diory2)
+      })
+
+      it.skip('diory and its linked diories', () => {
+        const returnValue = diographJson.deleteDiory(diory.id)
+        expect(returnValue).toEqual([diory, diory2])
+
+        expect(diographJson.get('some-id')).toEqual(undefined)
+        expect(diographJson.get('some-other-id')).toEqual(undefined)
+      })
     })
   })
 
   describe('with dryRun enabled', () => {
-    it("doesn't delete single diory", () => {
-      const returnValue = diographJson.deleteDiory(diory.id, { dryRun: true })
-      expect(returnValue).toEqual([diory])
+    describe("lists but doesn't delete", () => {
+      it('single diory', () => {
+        const returnValue = diographJson.deleteDiory(diory.id, { dryRun: true })
+        expect(returnValue).toEqual([diory])
 
-      expect(diographJson.get('some-id')).toEqual(diory)
-      expect(diographJson.get('some-other-id')).toEqual(diory2)
+        expect(diographJson.get('some-id')).toEqual(diory)
+        expect(diographJson.get('some-other-id')).toEqual(diory2)
+      })
+
+      it.skip('diory and its linked diories', () => {
+        const returnValue = diographJson.deleteDiory(diory.id, {
+          dryRun: true,
+          linkedDiories: true,
+        })
+        expect(returnValue).toEqual([diory, diory2])
+
+        expect(diographJson.get('some-id')).toEqual(diory)
+        expect(diographJson.get('some-other-id')).toEqual(diory2)
+      })
     })
   })
 })
