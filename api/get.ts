@@ -11,15 +11,16 @@ const DEFAULT_OPTIONS: GetOptions = {
   reverseLinkedDiories: false,
 }
 
-function getDiory(this: DiographJson, id: string, opts: object = {}): Diory {
+function getDiory(this: DiographJson, id: string, opts: object = {}): Diory | Array<Diory> {
   const optsWithDefaults: GetOptions = {
     ...DEFAULT_OPTIONS,
     ...opts,
   }
 
   const storyDiory: Diory = this.diograph[id]
+  const storyDioryWithLinkedDiories = [storyDiory]
 
-  return storyDiory
+  return Object.keys(opts).length === 0 ? storyDiory : storyDioryWithLinkedDiories
 }
 
 export { getDiory }
