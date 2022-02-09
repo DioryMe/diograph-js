@@ -31,6 +31,19 @@ function getDiory(this: DiographJson, id: string, opts: object = {}): Diory | Ar
     })
   }
 
+  if (optsWithDefaults.reverseLinkedDiories && storyDiory.links) {
+    Object.values(this.diograph).forEach((reverseLinkedDiory) => {
+      if (reverseLinkedDiory.links) {
+        Object.values(reverseLinkedDiory.links).forEach((link) => {
+          const maybeStoryDiory = this.diograph[link.id]
+          if (storyDiory === maybeStoryDiory) {
+            storyDioryWithLinkedDiories.push(reverseLinkedDiory)
+          }
+        })
+      }
+    })
+  }
+
   return Object.keys(opts).length === 0 ? storyDiory : storyDioryWithLinkedDiories
 }
 
