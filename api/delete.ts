@@ -1,13 +1,13 @@
 import { DiographJson } from '../diograph'
 import { Diory } from '../types'
 
-interface deleteOptions {
+interface DeleteOptions {
   force: boolean
   linkedDiories: boolean
   dryRun: boolean
 }
 
-const DEFAULT_OPTIONS: deleteOptions = {
+const DEFAULT_OPTIONS: DeleteOptions = {
   // deletes linkedDiories although they are linked
   // without this throws an error if any diories are linked to other diories
   force: false,
@@ -18,7 +18,7 @@ const DEFAULT_OPTIONS: deleteOptions = {
 function deleteDiory(this: DiographJson, id: string, opts: object = {}): Array<Diory> {
   let dioriesToBeDeleted
 
-  const optsWithDefaults: deleteOptions = {
+  const optsWithDefaults: DeleteOptions = {
     ...DEFAULT_OPTIONS,
     ...opts,
   }
