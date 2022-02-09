@@ -15,6 +15,15 @@ const diory2: Diory = {
   id: 'some-other-id',
 }
 
+const diory3: Diory = {
+  id: 'some-else-id',
+  links: {
+    'some-id': {
+      id: 'some-id',
+    },
+  },
+}
+
 describe('getDiory', () => {
   let diographJson: DiographJson
 
@@ -22,6 +31,7 @@ describe('getDiory', () => {
     const diograph: Diograph = {
       'some-id': diory,
       'some-other-id': diory2,
+      'some-else-id': diory3,
     }
     diographJson = new DiographJson({ path: 'some-path/diograph.json' })
     diographJson.setDiograph(diograph)
