@@ -1,7 +1,7 @@
 import { DiographJsonParams, Diograph } from './types'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
-import { getDiory, search, update, deleteDiory } from './api'
+import { get, getDiory, search, update, deleteDiory } from './api'
 
 class DiographJson {
   path: string
@@ -10,7 +10,8 @@ class DiographJson {
   rootId: string = ''
   diograph: Diograph = {}
 
-  get = getDiory
+  get = get
+  getDiory = getDiory
   update = update
   search = search
   deleteDiory = deleteDiory
