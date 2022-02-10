@@ -18,7 +18,8 @@
     "build-watch": "yarn build --watch",
     "prettier": "prettier --write .",
     "test": "jest .",
-    "test-watch": "yarn test --watch"
+    "test-watch": "yarn test --watch",
+    "manual-test": "node manual-test.js"
   },
   "prettier": {
     "tabWidth": 2,
