@@ -1,7 +1,7 @@
 import { DiographJsonParams, Diograph } from './types'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
-import { get, getDiory, search, update, deleteDiory } from './api'
+import { get, getDiory, search, update, deleteDiory, importFile, importFolder } from './api'
 
 class DiographJson {
   path: string
@@ -15,6 +15,8 @@ class DiographJson {
   update = update
   search = search
   deleteDiory = deleteDiory
+  importFile = importFile
+  importFolder = importFolder
 
   constructor({ path }: DiographJsonParams) {
     this.path = path
