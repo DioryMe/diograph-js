@@ -50,8 +50,12 @@ class Room {
 
   // - diograph.update(diory.id, { contentUrl: dataobjectPath })
 
+  getFilePath = function getFilePath(this: Room, contentUrl: string) {
+    return join(this.baseUrl, contentUrl)
+  }
+
   deleteDataobject = function deleteDataobject(this: Room, contentUrl: string) {
-    const filePath: string | undefined = this.contentUrls[contentUrl]
+    const filePath: string = this.getFilePath(contentUrl) // this.contentUrls[contentUrl]
     // TODO: This should be abstracted as "localConnector.deleteDataobject(filePath)"
     return rm(filePath)
   }

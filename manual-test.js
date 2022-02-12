@@ -47,8 +47,8 @@ const test = async () => {
   }
 
   // Delete dataobject (of that deleted diory)
-  // const contentUrl = deletedDiory.data[0].contentUrl
-  // room.deleteDataobject(contentUrl)
+  const contentUrl = deletedDiory.data[0].contentUrl
+  room.deleteDataobject(contentUrl)
 
   // importFile to diograph
   // const importFilePath = './PIXNIO-53799-6177x4118.jpeg'
