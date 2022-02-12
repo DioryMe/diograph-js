@@ -18,6 +18,8 @@ export interface DioryAttributes {
   date?: string
   data?: Array<DataAttributes>
   style?: object
+  created?: string
+  modified?: string
 }
 
 export interface DataAttributes {

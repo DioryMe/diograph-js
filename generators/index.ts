@@ -1,6 +1,5 @@
-function generateImageObject(path: string, imagePath: string) {
-  console.log(path)
-  console.log(imagePath)
+function dioryImageGenerator(fileContent: Buffer) {
+  return { typeSpecificDiory: { text: 'asdfas' }, thumbnailBuffer: fileContent, cid: 'sadfasdf' }
 }
 
-export { generateImageObject }
+export { dioryImageGenerator }

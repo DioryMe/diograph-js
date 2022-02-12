@@ -1,4 +1,4 @@
-import { DiographJsonParams, Diograph } from './types'
+import { DiographJsonParams, Diograph, Diory } from './types'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import { get, getDiory, search, update, deleteDiory, importFile, importFolder } from './api'
@@ -18,6 +18,10 @@ class DiographJson {
   importFile = importFile
   importFolder = importFolder
 
+  createDiory = function createDiory(payload: object) {
+    return payload
+  }
+
   constructor({ path }: DiographJsonParams) {
     this.path = path
     this.diographJsonPath = join(path, 'diograph.json')
@@ -27,6 +31,10 @@ class DiographJson {
   setDiograph = (diograph: Diograph, rootId?: string) => {
     this.diograph = diograph
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
+  }
+
+  addThumbnail = function addThumbnail(thumbnailBuffer: Buffer, diory: object) {
+    return writeFile('iidee', thumbnailBuffer)
   }
 
   load = () => {

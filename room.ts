@@ -32,6 +32,7 @@ class Room {
     return readFile(filePath)
   }
 
+  // importDataobject?
   copyDataobject = async function copyDataobject(
     this: Room,
     contentUrl: string,
@@ -40,6 +41,13 @@ class Room {
     const content = await this.getDataobject(contentUrl)
     return writeFile(destinationPath, content)
   }
+
+  // Import dataobject
+  // - const dataobjectPath = getInternalPath(diory)
+  // - const dataobject = new Dataobject(filePath)
+  // - dataobject.copy(dataobjectPath)
+
+  // - diograph.update(diory.id, { contentUrl: dataobjectPath })
 
   deleteDataobject = function deleteDataobject(this: Room, contentUrl: string) {
     const filePath: string | undefined = this.contentUrls[contentUrl]
