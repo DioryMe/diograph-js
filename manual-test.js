@@ -1,9 +1,9 @@
-const { DiographJson, Dataobject } = require('./dist')
-const { join } = require('path')
+const { DiographJson, Room } = require('./dist')
 
 const test = async () => {
-  // Construct diograph object
-  const diographJson = new DiographJson({ path: 'fixtures' })
+  // Construct diograph & room objects
+  const diographJson = new DiographJson({ baseUrl: 'fixtures' })
+  const room = new Room({ baseUrl: 'fixtures' })
 
   // Load diograph
   await diographJson.load()
@@ -47,8 +47,8 @@ const test = async () => {
   }
 
   // Delete dataobject (of that deleted diory)
-  const contentUrl = deletedDiory.data[0].contentUrl
-  room.deleteDataobject(contentUrl)
+  // const contentUrl = deletedDiory.data[0].contentUrl
+  // room.deleteDataobject(contentUrl)
 
   // importFile to diograph
   // const importFilePath = './PIXNIO-53799-6177x4118.jpeg'

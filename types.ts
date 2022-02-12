@@ -1,5 +1,5 @@
 export interface DiographJsonParams {
-  path: string
+  baseUrl: string
 }
 
 export interface Diograph {

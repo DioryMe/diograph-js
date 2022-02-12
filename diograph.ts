@@ -1,10 +1,10 @@
-import { DiographJsonParams, Diograph, Diory } from './types'
+import { Diograph, DiographJsonParams } from './types'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import { get, getDiory, search, update, deleteDiory, importFile, importFolder } from './api'
 
 class DiographJson {
-  path: string
+  baseUrl: string
   diographJsonPath: string
   imageFolder: string
   rootId: string = ''
@@ -22,10 +22,10 @@ class DiographJson {
     return payload
   }
 
-  constructor({ path }: DiographJsonParams) {
-    this.path = path
-    this.diographJsonPath = join(path, 'diograph.json')
-    this.imageFolder = join(path, 'images')
+  constructor({ baseUrl }: DiographJsonParams) {
+    this.baseUrl = baseUrl
+    this.diographJsonPath = join(baseUrl, 'diograph.json')
+    this.imageFolder = join(baseUrl, 'images')
   }
 
   setDiograph = (diograph: Diograph, rootId?: string) => {
@@ -54,7 +54,7 @@ class DiographJson {
 
     const fileContent = JSON.stringify(diographJsonContents, null, 2)
     return writeFile(this.diographJsonPath, fileContent).then(() => {
-      console.log(`diograph.save(): Saved diograph.json to ${this.path}`)
+      console.log(`diograph.save(): Saved diograph.json to ${this.diographJsonPath}`)
     })
   }
 }

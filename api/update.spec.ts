@@ -12,7 +12,7 @@ describe('update', () => {
         image: 'images/some-id.jpg',
       },
     }
-    diographJson = new DiographJson({ path: 'some-path/diograph.json' })
+    diographJson = new DiographJson({ baseUrl: 'some-path/diograph.json' })
     diographJson.setDiograph(diograph)
     expect(diographJson.get('some-id').text).toEqual('some-text')
   })

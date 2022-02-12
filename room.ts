@@ -1,3 +1,4 @@
+import { DiographJsonParams } from './types'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
 
@@ -10,7 +11,7 @@ class Room {
   roomJsonPath: string
   contentUrls: ContentUrls = {}
 
-  constructor(baseUrl: string) {
+  constructor({ baseUrl }: DiographJsonParams) {
     this.baseUrl = baseUrl
     this.roomJsonPath = join(baseUrl, 'room.json')
   }

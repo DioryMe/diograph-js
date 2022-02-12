@@ -33,7 +33,7 @@ describe('getDiory', () => {
       'some-other-id': diory2,
       'some-else-id': diory3,
     }
-    diographJson = new DiographJson({ path: 'some-path/diograph.json' })
+    diographJson = new DiographJson({ baseUrl: 'some-path/diograph.json' })
     diographJson.setDiograph(diograph)
   })
 

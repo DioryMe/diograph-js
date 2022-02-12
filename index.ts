@@ -1,3 +1,4 @@
 import { DiographJson } from './diograph'
+import { Room } from './room'
 
-export { DiographJson }
+export { DiographJson, Room }
