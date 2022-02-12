@@ -1,0 +1,18 @@
+{
+  "diographUrl": "diograph.json",
+  "contentUrls": {
+    "65d860160bdc9b98abf72407e14ca40b609417de7939897d3b58d55787aaef69": "Mary/PIXNIO-53799-6177x4118.jpeg"
+  },
+  "connectors": [
+    {
+      "id": "kallen-paras-S3",
+      "baseUrl": "http://kallen-paras-s3.s3-website.eu-north-1.amazonaws.com/",
+      "credentials": {
+        "token": "ASDFDFEF2342WWEFEW"
+      },
+      "contentUrls": {
+        "d85ee79fe90160bdc9b98abf72407e14ca40b609417de7939897d3b58d55ad24": "Jane/PIXNIO-65123-5177x3117.jpeg"
+      }
+    }
+  ]
+}
