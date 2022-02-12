@@ -1,17 +1,18 @@
-const { DiographJson } = require('./dist')
+const { DiographJson, Dataobject } = require('./dist')
+const { join } = require('path')
 
 const test = async () => {
-  // Construct
+  // Construct diograph object
   const diographJson = new DiographJson({ path: 'fixtures' })
 
-  // Load
+  // Load diograph
   await diographJson.load()
 
   // RootId
   const rootId = diographJson.rootId
   console.log(rootId)
 
-  // Get
+  // Get diory
   const rootDiory = diographJson.get(rootId)
   console.log(rootDiory)
 
@@ -23,10 +24,10 @@ const test = async () => {
   const dataMaries = diographJson.search('Audio', 'data')
   console.log(dataMaries.map((diory) => diory.text))
 
-  // Update
+  // Update diory
   try {
     const wronglyUpdatedDiory = diographJson.update(rootId, { wrongAttribute: 'some' })
-    console.log(`This SHOULDNT be printed... ${wronglyUpdatedDiory.wrongAttribute}`)
+    throw new Error(`This SHOULDNT be printed... ${wronglyUpdatedDiory.wrongAttribute}`)
   } catch (e) {
     console.log('Yes, we got an error!', e.message)
   }
@@ -36,8 +37,24 @@ const test = async () => {
   console.log(updatedDiory.text)
   diographJson.update(rootId, { text: originalText }) // ...and revert it...
 
-  // Save
-  diographJson.save()
+  // Save diograph
+  await diographJson.save()
+
+  // Delete diory
+  const deletedDiory = diographJson.deleteDiory('78661050-900d-4e87-84e2-a5262fca6770')[0]
+  if (diographJson.get(deletedDiory.id)) {
+    throw new Error("ERROR: Diory wasn't deleted!")
+  }
+
+  // Delete dataobject (of that deleted diory)
+  const contentUrl = deletedDiory.data[0].contentUrl
+  room.deleteDataobject(contentUrl)
+
+  // importFile to diograph
+  // const importFilePath = './PIXNIO-53799-6177x4118.jpeg'
+  // const otherContentUrl = diographJson.importFile(importFilePath)
+  // Copy dataobject of imported diory to Room
+  // room.copyDataobject(importFilePath, otherContentUrl)
 }
 
 test()
