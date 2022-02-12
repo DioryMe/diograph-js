@@ -2,8 +2,10 @@ import { DiographJson } from '..'
 import * as fileType from 'file-type'
 import { stat } from 'fs/promises'
 import { dioryImageGenerator } from '../generators'
+import { readFile } from 'fs/promises'
 
-async function importFile(this: DiographJson, fileContent: Buffer, contentUrl: string) {
+async function importFile(this: DiographJson, filePath: string, contentUrl: string) {
+  const fileContent = await readFile(filePath)
   const { diory, thumbnailBuffer } = await dioryGenerator(fileContent, contentUrl)
   const createdDiory = this.createDiory(diory) // <-- tässä luodaan ID diorylle!!!
   this.addThumbnail(thumbnailBuffer, diory)
@@ -14,12 +16,14 @@ async function importFile(this: DiographJson, fileContent: Buffer, contentUrl: s
 }
 
 async function dioryGenerator(fileContent: Buffer, contentUrl: string) {
-  const { birthtime, mtime } = (await stat(fileContent)) || {}
-  const baseDiory = {
-    text: 'basename', // basename(filePath), => fileContent doesn't have basename!!!
-    created: birthtime && birthtime.toISOString(),
-    modified: mtime && mtime.toISOString(),
-  }
+  // FIXME: These need a filePath, can't use fileContent...
+  // const { birthtime, mtime } = (await stat(fileContent)) || {}
+  // const baseDiory = {
+  //   text: 'basename', // basename(filePath), => fileContent doesn't have basename!!!
+  //   created: birthtime && birthtime.toISOString(),
+  //   modified: mtime && mtime.toISOString(),
+  // }
+  const baseDiory = {}
 
   const encodingFormat = await fileType.fromBuffer(fileContent)
 
