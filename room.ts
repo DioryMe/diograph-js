@@ -5,14 +5,9 @@ export interface ContentUrls {
   [key: string]: string
 }
 
-export interface Connector {
-  contentUrls: ContentUrls
-}
-
 class Room {
   baseUrl: string
   roomJsonPath: string
-  connectors: Connector[] = []
   contentUrls: ContentUrls = {}
 
   constructor(baseUrl: string) {
@@ -24,7 +19,6 @@ class Room {
     return readFile(this.roomJsonPath, { encoding: 'utf8' }).then((roomJsonContents) => {
       const parsedJson = JSON.parse(roomJsonContents)
       // TODO: Validate JSON with own validator.js (using ajv.js.org)
-      this.connectors = parsedJson.connectors
       this.baseUrl = parsedJson.baseUrl
       this.contentUrls = parsedJson.contentUrls
     })
@@ -32,13 +26,6 @@ class Room {
 
   getDataobject = async function getDataobject(this: Room, contentUrl: string): Promise<Buffer> {
     const filePath: string | undefined = this.contentUrls[contentUrl]
-    // FUTURE STUFF: Connector has to getDataobject with auth
-    // if (!filePath) {
-    //   const connectorJollaOnContentUrl = this.connectors.find((connector) => {
-    //     return connector.contentUrls[contentUrl]
-    //   })
-    //   filePath = connectorJollaOnContentUrl?.contentUrls[contentUrl]
-    // }
     if (!filePath) {
       throw new Error('Dataobject not found!')
     }
