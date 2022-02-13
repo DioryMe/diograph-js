@@ -10,11 +10,11 @@ async function importFile(this: DiographJson, filePath: string, contentUrl: stri
   const fileContent = await readFile(filePath)
 
   const { diory, thumbnailBuffer } = await dioryGenerator(filePath, fileContent, contentUrl)
-  const createdDiory = this.createDiory(diory) // <-- tässä luodaan ID diorylle!!!
-  this.addThumbnail(thumbnailBuffer, diory)
+  const createdDiory = this.createDiory(diory)
+  this.addThumbnail(thumbnailBuffer, createdDiory)
 
   return {
-    diory,
+    diory: createdDiory,
     contentUrl,
   }
 }

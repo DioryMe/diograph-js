@@ -56,12 +56,28 @@ const test = async () => {
     importFilePath,
     'PIXNIO-53799-6177x4118.jpeg',
   )
-  console.log(diory.text)
-  console.log(contentUrl)
+  const importedDiory = diographJson.get(diory.id)
+  console.log(
+    'Diory imported:',
+    importedDiory.text,
+    importedDiory.id,
+    diory.id === importedDiory.id,
+  )
+  console.log(
+    '- dataobject copied to diory folder:',
+    contentUrl,
+    importedDiory.data[0].contentUrl === contentUrl,
+  )
+  console.log('- thumbnail copied to /images folder:', importedDiory.image)
 
-  // Copy dataobject of imported diory to Room
-  // room.importDataobject(importFilePath, otherContentUrl)
-  // => alkuperäinen filu on tuotu oikealle paikalleen dioryFolderiin
+  // diographJson.deleteDiory(importedDiory.id)
+  // room.deleteDataobject(contentUrl)
+
+  // if (diographJson.get(importedDiory.id)) {
+  //   throw new Error('Diory SHOULD HAVE BEEN deleted!')
+  // }
+  // => no dataobject
+  // => no thumbnail
 }
 
 test()
