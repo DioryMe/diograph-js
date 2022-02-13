@@ -1,10 +1,5 @@
-function dioryImageGenerator(fileContent: Buffer, filePath: string, contentUrl: string) {
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'ImageObject',
-    contentUrl,
-  }
-  return { typeSpecificDiory: { data: [schema] }, thumbnailBuffer: fileContent, cid: 'sadfasdf' }
-}
+import { dioryImageGenerator } from './image'
+import { dioryVideoGenerator } from './video'
+import { dioryAudioGenerator } from './audio'
 
-export { dioryImageGenerator }
+export { dioryImageGenerator, dioryVideoGenerator, dioryAudioGenerator }

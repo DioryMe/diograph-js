@@ -70,11 +70,15 @@ function generateTypeSpecificDiory(
   }
   return {
     typeSpecificDiory: {
-      '@context': 'https://schema.org',
-      '@type': 'DigitalDocument',
-      contentUrl,
+      data: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'DigitalDocument',
+          contentUrl,
+        },
+      ],
     },
-    thumbnailBuffer: fileContent,
+    thumbnailBuffer: undefined,
     cid: 'sadfasdf',
   }
 }
