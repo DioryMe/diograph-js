@@ -1,6 +1,8 @@
 const { DiographJson, Room } = require('./dist')
 
 const test = async () => {
+  const importFilePath = './PIXNIO-53799-6177x4118.jpeg'
+
   // Construct diograph & room objects
   const diographJson = new DiographJson({ baseUrl: 'fixtures' })
   const room = new Room({ baseUrl: 'fixtures' })
@@ -50,37 +52,38 @@ const test = async () => {
   const deletedDioryContentUrl = deletedDiory.data[0].contentUrl
   room.deleteDataobject(deletedDioryContentUrl)
 
-  // importFile to diograph
-  const importFilePath = './PIXNIO-53799-6177x4118.jpeg'
-  const { diory, contentUrl } = await diographJson.importFile(
-    importFilePath,
-    'PIXNIO-53799-6177x4118.jpeg',
-  )
-  const importedDiory = diographJson.get(diory.id)
-  console.log(
-    'Diory imported:',
-    importedDiory.text,
-    importedDiory.id,
-    diory.id === importedDiory.id,
-  )
-  console.log(
-    '- dataobject copied to diory folder:',
-    contentUrl,
-    importedDiory.data[0].contentUrl === contentUrl,
-  )
-  console.log('- thumbnail copied to /images folder:', importedDiory.image)
+  // Import the same dataobject back to diograph
+  room.importDataobject(importFilePath, deletedDioryContentUrl)
 
-  // Import dataobject to diory folder
-  room.importDataobject(importFilePath, contentUrl)
+  // const { diory, contentUrl } = await diographJson.importFile(
+  //   importFilePath,
+  //   deletedDioryContentUrl,
+  // )
+  // const importedDiory = diographJson.get(diory.id)
+  // console.log(
+  //   'Diory imported:',
+  //   importedDiory.text,
+  //   importedDiory.id,
+  //   diory.id === importedDiory.id,
+  // )
+  // console.log(
+  //   '- dataobject copied to diory folder:',
+  //   contentUrl,
+  //   importedDiory.data[0].contentUrl === contentUrl,
+  // )
+  // console.log('- thumbnail copied to /images folder:', importedDiory.image)
 
-  await diographJson.deleteDiory(importedDiory.id, { deleteThumbnail: true })
+  // // Import dataobject to diory folder
+  // room.importDataobject(importFilePath, contentUrl)
+
+  // await diographJson.deleteDiory(importedDiory.id, { deleteThumbnail: true })
   // room.deleteDataobject(contentUrl)
 
-  if (diographJson.get(importedDiory.id)) {
-    throw new Error('Diory SHOULD HAVE BEEN deleted!')
-  }
-  // => no dataobject
-  // => no thumbnail
+  // if (diographJson.get(importedDiory.id)) {
+  //   throw new Error('Diory SHOULD HAVE BEEN deleted!')
+  // }
+  // // => no dataobject
+  // // => no thumbnail
 }
 
 test()
