@@ -26,21 +26,20 @@ class Room {
   }
 
   getDataobject = async function getDataobject(this: Room, contentUrl: string): Promise<Buffer> {
-    const filePath: string | undefined = this.contentUrls[contentUrl]
+    const filePath: string | undefined = this.getFilePath(contentUrl)
     if (!filePath) {
       throw new Error('Dataobject not found!')
     }
     return readFile(filePath)
   }
 
-  // importDataobject?
-  copyDataobject = async function copyDataobject(
+  importDataobject = async function importDataobject(
     this: Room,
+    sourcePath: string,
     contentUrl: string,
-    destinationPath: string,
   ): Promise<void> {
-    const content = await this.getDataobject(contentUrl)
-    return writeFile(destinationPath, content)
+    const sourceFileContent: Buffer = await readFile(sourcePath)
+    return writeFile(this.getFilePath(contentUrl), sourceFileContent)
   }
 
   // Import dataobject
@@ -50,23 +49,16 @@ class Room {
 
   // - diograph.update(diory.id, { contentUrl: dataobjectPath })
 
-  getFilePath = function getFilePath(this: Room, contentUrl: string) {
-    return join(this.baseUrl, contentUrl)
-  }
-
   deleteDataobject = function deleteDataobject(this: Room, contentUrl: string) {
-    const filePath: string = this.getFilePath(contentUrl) // this.contentUrls[contentUrl]
+    const filePath: string = this.getFilePath(contentUrl)
     // TODO: This should be abstracted as "localConnector.deleteDataobject(filePath)"
     return rm(filePath)
   }
 
-  moveDataobject = async function moveDataobject(
-    this: Room,
-    contentUrl: string,
-    destinationPath: string,
-  ) {
-    await this.copyDataobject(contentUrl, destinationPath)
-    await this.deleteDataobject(contentUrl)
+  // --- CONNECTOR ---
+
+  getFilePath = function getFilePath(this: Room, contentUrl: string) {
+    return join(this.baseUrl, contentUrl)
   }
 }
 

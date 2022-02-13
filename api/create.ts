@@ -2,7 +2,10 @@ import { DioryAttributes } from '../types'
 import { v4 as uuidv4 } from 'uuid'
 import { DiographJson } from '..'
 
-function createDiory(this: DiographJson{ text, date, image, latlng, created, modified, data }: DioryAttributes) {
+function createDiory(
+  this: DiographJson,
+  { text, date, image, latlng, created, modified, data }: DioryAttributes,
+) {
   const diory = {
     id: uuidv4(),
     ...(text && { text }),

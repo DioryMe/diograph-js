@@ -70,12 +70,15 @@ const test = async () => {
   )
   console.log('- thumbnail copied to /images folder:', importedDiory.image)
 
-  // diographJson.deleteDiory(importedDiory.id)
+  // Import dataobject to diory folder
+  room.importDataobject(importFilePath, contentUrl)
+
+  diographJson.deleteDiory(importedDiory.id)
   // room.deleteDataobject(contentUrl)
 
-  // if (diographJson.get(importedDiory.id)) {
-  //   throw new Error('Diory SHOULD HAVE BEEN deleted!')
-  // }
+  if (diographJson.get(importedDiory.id)) {
+    throw new Error('Diory SHOULD HAVE BEEN deleted!')
+  }
   // => no dataobject
   // => no thumbnail
 }
