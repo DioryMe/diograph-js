@@ -2,7 +2,16 @@ import { Diograph, DiographJsonParams } from './types'
 import { readFile, writeFile } from 'fs/promises'
 import { existsSync, mkdirSync } from 'fs'
 import { join } from 'path'
-import { get, getDiory, search, update, deleteDiory, importFile, importFolder } from './api'
+import {
+  createDiory,
+  get,
+  getDiory,
+  search,
+  update,
+  deleteDiory,
+  importFile,
+  importFolder,
+} from './api'
 
 class DiographJson {
   baseUrl: string
@@ -11,6 +20,7 @@ class DiographJson {
   rootId: string = ''
   diograph: Diograph = {}
 
+  createDiory = createDiory
   get = get
   getDiory = getDiory
   update = update
@@ -18,10 +28,6 @@ class DiographJson {
   deleteDiory = deleteDiory
   importFile = importFile
   importFolder = importFolder
-
-  createDiory = function createDiory(payload: object) {
-    return payload
-  }
 
   constructor({ baseUrl }: DiographJsonParams) {
     this.baseUrl = baseUrl
