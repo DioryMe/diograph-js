@@ -1,6 +1,6 @@
 import { DiographJsonParams } from './types'
 import { readFile, writeFile, rm } from 'fs/promises'
-import { join } from 'path'
+import { join } from 'path/posix'
 
 export interface ContentUrls {
   [key: string]: string

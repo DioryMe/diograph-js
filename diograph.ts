@@ -1,7 +1,7 @@
 import { Diory, Diograph, DiographJsonParams } from './types'
 import { readFile, writeFile } from 'fs/promises'
 import { existsSync, mkdirSync } from 'fs'
-import { join } from 'path'
+import { join } from 'path/posix'
 import {
   createDiory,
   get,

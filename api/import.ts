@@ -3,7 +3,7 @@ import * as fileType from 'file-type'
 import { stat } from 'fs/promises'
 import { dioryImageGenerator } from '../generators'
 import { readFile } from 'fs/promises'
-import { basename } from 'path'
+import { basename } from 'path/posix'
 
 async function importFile(this: DiographJson, filePath: string, contentUrl: string) {
   // Copy to temp here and use tmp file from then on...
