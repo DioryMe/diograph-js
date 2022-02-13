@@ -5,8 +5,10 @@ import { dioryImageGenerator } from '../generators'
 import { readFile } from 'fs/promises'
 
 async function importFile(this: DiographJson, filePath: string, contentUrl: string) {
+  // Copy to temp here and use tmp file from then on...
   const fileContent = await readFile(filePath)
-  const { diory, thumbnailBuffer } = await dioryGenerator(fileContent, contentUrl)
+
+  const { diory, thumbnailBuffer } = await dioryGenerator(filePath, fileContent, contentUrl)
   const createdDiory = this.createDiory(diory) // <-- tässä luodaan ID diorylle!!!
   this.addThumbnail(thumbnailBuffer, diory)
 
@@ -15,15 +17,13 @@ async function importFile(this: DiographJson, filePath: string, contentUrl: stri
   }
 }
 
-async function dioryGenerator(fileContent: Buffer, contentUrl: string) {
-  // FIXME: These need a filePath, can't use fileContent...
-  // const { birthtime, mtime } = (await stat(fileContent)) || {}
-  // const baseDiory = {
-  //   text: 'basename', // basename(filePath), => fileContent doesn't have basename!!!
-  //   created: birthtime && birthtime.toISOString(),
-  //   modified: mtime && mtime.toISOString(),
-  // }
-  const baseDiory = {}
+async function dioryGenerator(filePath: string, fileContent: Buffer, contentUrl: string) {
+  const { birthtime, mtime } = (await stat(filePath)) || {}
+  const baseDiory = {
+    text: 'basename', // basename(filePath), => fileContent doesn't have basename!!!
+    created: birthtime && birthtime.toISOString(),
+    modified: mtime && mtime.toISOString(),
+  }
 
   const encodingFormat = await fileType.fromBuffer(fileContent)
 
@@ -33,6 +33,7 @@ async function dioryGenerator(fileContent: Buffer, contentUrl: string) {
   const { typeSpecificDiory, thumbnailBuffer, cid } = generateTypeSpecificDiory(
     encodingFormat,
     fileContent,
+    filePath,
     contentUrl,
   )
 
@@ -47,11 +48,16 @@ async function dioryGenerator(fileContent: Buffer, contentUrl: string) {
   }
 }
 
-function generateTypeSpecificDiory(encodingFormat: any, fileContent: Buffer, contentUrl: string) {
+function generateTypeSpecificDiory(
+  encodingFormat: any,
+  fileContent: Buffer,
+  filePath: string,
+  contentUrl: string,
+) {
   const type = encodingFormat.mime.split('/')[0]
   switch (type) {
     case 'image':
-      return dioryImageGenerator(fileContent)
+      return dioryImageGenerator(fileContent, filePath, contentUrl)
     case 'video':
     // return dioryVideoGenerator(fileContent)
     case 'audio':
@@ -60,7 +66,15 @@ function generateTypeSpecificDiory(encodingFormat: any, fileContent: Buffer, con
     // case 'text':
     default:
   }
-  return { typeSpecificDiory: { text: 'asdf' }, thumbnailBuffer: fileContent, cid: 'sadfasdf' }
+  return {
+    typeSpecificDiory: {
+      '@context': 'https://schema.org',
+      '@type': 'DigitalDocument',
+      contentUrl,
+    },
+    thumbnailBuffer: fileContent,
+    cid: 'sadfasdf',
+  }
 }
 
 function importFolder(this: DiographJson, url: string) {}

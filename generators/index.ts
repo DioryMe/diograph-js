@@ -1,5 +1,10 @@
-function dioryImageGenerator(fileContent: Buffer) {
-  return { typeSpecificDiory: { text: 'asdfas' }, thumbnailBuffer: fileContent, cid: 'sadfasdf' }
+function dioryImageGenerator(fileContent: Buffer, filePath: string, contentUrl: string) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'ImageObject',
+    contentUrl,
+  }
+  return { typeSpecificDiory: { data: [schema] }, thumbnailBuffer: fileContent, cid: 'sadfasdf' }
 }
 
 export { dioryImageGenerator }
