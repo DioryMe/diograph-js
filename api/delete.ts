@@ -1,10 +1,13 @@
 import { DiographJson } from '../diograph'
 import { Diory } from '../types'
+import { rm } from 'fs/promises'
+import { join } from 'path/posix'
 
 interface DeleteOptions {
   force: boolean
   linkedDiories: boolean
   dryRun: boolean
+  deleteThumbnail: boolean
 }
 
 const DEFAULT_OPTIONS: DeleteOptions = {
@@ -13,9 +16,14 @@ const DEFAULT_OPTIONS: DeleteOptions = {
   force: false,
   linkedDiories: false,
   dryRun: false,
+  deleteThumbnail: false,
 }
 
-function deleteDiory(this: DiographJson, id: string, opts: object = {}): Array<Diory> {
+async function deleteDiory(
+  this: DiographJson,
+  id: string,
+  opts: object = {},
+): Promise<Array<Diory>> {
   let dioriesToBeDeleted
 
   const optsWithDefaults: DeleteOptions = {
@@ -34,10 +42,17 @@ function deleteDiory(this: DiographJson, id: string, opts: object = {}): Array<D
   }
 
   if (!optsWithDefaults.dryRun) {
-    dioriesToBeDeleted.forEach((dioryToBeDeleted) => {
-      delete this.diograph[dioryToBeDeleted.id]
-    })
+    await Promise.all(
+      dioriesToBeDeleted.map(async (dioryToBeDeleted) => {
+        delete this.diograph[dioryToBeDeleted.id]
+        if (optsWithDefaults.deleteThumbnail) {
+          await rm(join(this.imageFolder, `${dioryToBeDeleted.id}.jpg`))
+        }
+        return dioryToBeDeleted
+      }),
+    )
   }
+
   return dioriesToBeDeleted
 }
 

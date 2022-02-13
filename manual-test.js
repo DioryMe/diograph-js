@@ -41,7 +41,7 @@ const test = async () => {
   await diographJson.save()
 
   // Delete diory
-  const deletedDiory = diographJson.deleteDiory('78661050-900d-4e87-84e2-a5262fca6770')[0]
+  const deletedDiory = (await diographJson.deleteDiory('78661050-900d-4e87-84e2-a5262fca6770'))[0]
   if (diographJson.get(deletedDiory.id)) {
     throw new Error("ERROR: Diory wasn't deleted!")
   }
@@ -73,7 +73,7 @@ const test = async () => {
   // Import dataobject to diory folder
   room.importDataobject(importFilePath, contentUrl)
 
-  diographJson.deleteDiory(importedDiory.id)
+  await diographJson.deleteDiory(importedDiory.id, { deleteThumbnail: true })
   // room.deleteDataobject(contentUrl)
 
   if (diographJson.get(importedDiory.id)) {
