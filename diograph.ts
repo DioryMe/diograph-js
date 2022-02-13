@@ -1,4 +1,4 @@
-import { Diograph, DiographJsonParams } from './types'
+import { Diory, Diograph, DiographJsonParams } from './types'
 import { readFile, writeFile } from 'fs/promises'
 import { existsSync, mkdirSync } from 'fs'
 import { join } from 'path'
@@ -40,11 +40,11 @@ class DiographJson {
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
   }
 
-  addThumbnail = (thumbnailBuffer: Buffer, diory: object) => {
+  addThumbnail = (thumbnailBuffer: Buffer, diory: Diory) => {
     if (!existsSync(this.imageFolder)) {
       mkdirSync(this.imageFolder)
     }
-    return writeFile(join(this.imageFolder, 'iidee.jpeg'), thumbnailBuffer)
+    return writeFile(join(this.imageFolder, `${diory.id}.jpg`), thumbnailBuffer)
   }
 
   load = () => {
