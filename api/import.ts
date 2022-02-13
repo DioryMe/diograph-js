@@ -3,6 +3,7 @@ import * as fileType from 'file-type'
 import { stat } from 'fs/promises'
 import { dioryImageGenerator } from '../generators'
 import { readFile } from 'fs/promises'
+import { basename } from 'path'
 
 async function importFile(this: DiographJson, filePath: string, contentUrl: string) {
   // Copy to temp here and use tmp file from then on...
@@ -14,13 +15,14 @@ async function importFile(this: DiographJson, filePath: string, contentUrl: stri
 
   return {
     diory,
+    contentUrl,
   }
 }
 
 async function dioryGenerator(filePath: string, fileContent: Buffer, contentUrl: string) {
   const { birthtime, mtime } = (await stat(filePath)) || {}
   const baseDiory = {
-    text: 'basename', // basename(filePath), => fileContent doesn't have basename!!!
+    text: basename(filePath),
     created: birthtime && birthtime.toISOString(),
     modified: mtime && mtime.toISOString(),
   }

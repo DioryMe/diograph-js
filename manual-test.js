@@ -47,16 +47,17 @@ const test = async () => {
   }
 
   // Delete dataobject (of that deleted diory)
-  const contentUrl = deletedDiory.data[0].contentUrl
-  room.deleteDataobject(contentUrl)
+  const deletedDioryContentUrl = deletedDiory.data[0].contentUrl
+  room.deleteDataobject(deletedDioryContentUrl)
 
   // importFile to diograph
   const importFilePath = './PIXNIO-53799-6177x4118.jpeg'
-  const otherContentUrl = diographJson.importFile(
+  const { diory, contentUrl } = await diographJson.importFile(
     importFilePath,
     'PIXNIO-53799-6177x4118.jpeg',
-  ).contentUrl
-  // => fileContentista muodostettu diory on lisätty diographiin
+  )
+  console.log(diory.text)
+  console.log(contentUrl)
 
   // Copy dataobject of imported diory to Room
   // room.importDataobject(importFilePath, otherContentUrl)
