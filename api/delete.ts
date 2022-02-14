@@ -46,7 +46,7 @@ async function deleteDiory(
       dioriesToBeDeleted.map(async (dioryToBeDeleted) => {
         delete this.diograph[dioryToBeDeleted.id]
         if (optsWithDefaults.deleteThumbnail) {
-          await rm(join(this.imageFolder, `${dioryToBeDeleted.id}.jpg`))
+          await rm(join(this.imageFolderPath, `${dioryToBeDeleted.id}.jpg`))
         }
         return dioryToBeDeleted
       }),

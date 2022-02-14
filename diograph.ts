@@ -9,14 +9,14 @@ import {
   search,
   update,
   deleteDiory,
-  importFile,
+  importDioryFromFile,
   importFolder,
 } from './api'
 
 class DiographJson {
   baseUrl: string
   diographJsonPath: string
-  imageFolder: string
+  imageFolderPath: string
   rootId: string = ''
   diograph: Diograph = {}
 
@@ -26,13 +26,13 @@ class DiographJson {
   update = update
   search = search
   deleteDiory = deleteDiory
-  importFile = importFile
+  importDioryFromFile = importDioryFromFile
   importFolder = importFolder
 
   constructor({ baseUrl }: DiographJsonParams) {
     this.baseUrl = baseUrl
     this.diographJsonPath = join(baseUrl, 'diograph.json')
-    this.imageFolder = join(baseUrl, 'images')
+    this.imageFolderPath = join(baseUrl, 'images')
   }
 
   setDiograph = (diograph: Diograph, rootId?: string) => {
@@ -41,10 +41,10 @@ class DiographJson {
   }
 
   addThumbnail = (thumbnailBuffer: Buffer, diory: Diory) => {
-    if (!existsSync(this.imageFolder)) {
-      mkdirSync(this.imageFolder)
+    if (!existsSync(this.imageFolderPath)) {
+      mkdirSync(this.imageFolderPath)
     }
-    return writeFile(join(this.imageFolder, `${diory.id}.jpg`), thumbnailBuffer)
+    return writeFile(join(this.imageFolderPath, `${diory.id}.jpg`), thumbnailBuffer)
   }
 
   load = () => {

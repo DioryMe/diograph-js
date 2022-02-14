@@ -1,9 +1,6 @@
-const { cp } = require('fs/promises')
 const { DiographJson, Room } = require('./dist')
 
 const test = async () => {
-  const importFilePath = './PIXNIO-IMPORT-TEST.jpeg'
-
   // Construct diograph & room objects
   const diographJson = new DiographJson({ baseUrl: 'fixtures' })
   const room = new Room({ baseUrl: 'fixtures' })
@@ -41,7 +38,8 @@ const test = async () => {
   diographJson.update(rootId, { text: originalText }) // ...and revert it...
 
   // 4a. importFile
-  const { diory, contentUrl } = await diographJson.importFile(
+  const importFilePath = './PIXNIO-IMPORT-TEST.jpeg'
+  const { diory, contentUrl } = await diographJson.importDioryFromFile(
     importFilePath,
     'tosi-hieno-content-url.jiipeegee',
   )
