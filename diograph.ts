@@ -1,8 +1,5 @@
-import { Diory, Diograph, DiographJsonParams } from './types'
-import { LocalConnector, Connector } from './connectors'
-import { readFile, writeFile } from 'fs/promises'
-import { existsSync, mkdirSync } from 'fs'
-import { join } from 'path/posix'
+import { Diograph, DiographJsonParams } from './types'
+import { LocalConnector } from './connectors'
 import {
   createDiory,
   get,
@@ -15,10 +12,7 @@ import {
 } from './api'
 
 class DiographJson {
-  connector: Connector
-  baseUrl: string
-  diographJsonPath: string
-  imageFolderPath: string
+  connector: LocalConnector
   rootId: string = ''
   diograph: Diograph = {}
 
@@ -31,11 +25,8 @@ class DiographJson {
   importDioryFromFile = importDioryFromFile
   importFolder = importFolder
 
-  constructor({ baseUrl }: DiographJsonParams, connector?: Connector) {
-    this.baseUrl = baseUrl
-    this.diographJsonPath = join(baseUrl, 'diograph.json')
-    this.imageFolderPath = join(baseUrl, 'images')
-    this.connector = connector || new LocalConnector()
+  constructor({ baseUrl }: DiographJsonParams, connector?: LocalConnector) {
+    this.connector = connector || new LocalConnector(baseUrl)
   }
 
   setDiograph = (diograph: Diograph, rootId?: string) => {
@@ -43,32 +34,23 @@ class DiographJson {
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
   }
 
-  addThumbnail = (thumbnailBuffer: Buffer, diory: Diory) => {
-    if (!existsSync(this.imageFolderPath)) {
-      mkdirSync(this.imageFolderPath)
-    }
-    return writeFile(join(this.imageFolderPath, `${diory.id}.jpg`), thumbnailBuffer)
+  loadDiograph = async () => {
+    const diographJsonContents = await this.connector.readDiograph()
+    // TODO: Validate JSON with own validator.js (using ajv.js.org)
+    const { diograph, rootId } = JSON.parse(diographJsonContents)
+    this.rootId = rootId
+    this.diograph = diograph
   }
 
-  load = () => {
-    return readFile(this.diographJsonPath, { encoding: 'utf8' }).then((diographJsonContents) => {
-      const parsedJson = JSON.parse(diographJsonContents)
-      // TODO: Validate JSON with own validator.js (using ajv.js.org)
-      this.rootId = parsedJson.rootId
-      this.diograph = parsedJson.diograph
-    })
-  }
-
-  save = () => {
+  saveDiograph = () => {
     const diographJsonContents = {
       rootId: this.rootId,
       diograph: this.diograph,
     }
 
     const fileContent = JSON.stringify(diographJsonContents, null, 2)
-    return writeFile(this.diographJsonPath, fileContent).then(() => {
-      console.log(`diograph.save(): Saved diograph.json to ${this.diographJsonPath}`)
-    })
+    // TODO: Validate JSON with own validator.js (using ajv.js.org)
+    return this.connector.writeDiograph(fileContent)
   }
 }
 

@@ -1,5 +1,5 @@
 import { DiographJsonParams } from './types'
-import { LocalConnector, Connector } from './connectors'
+import { LocalConnector } from './connectors'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path/posix'
 
@@ -8,28 +8,22 @@ export interface ContentUrls {
 }
 
 class Room {
-  baseUrl: string
-  roomJsonPath: string
   contentUrls: ContentUrls = {}
-  connector: Connector
+  connector: LocalConnector
 
-  constructor({ baseUrl }: DiographJsonParams, connector?: Connector) {
-    this.baseUrl = baseUrl
-    this.roomJsonPath = join(baseUrl, 'room.json')
-    this.connector = connector || new LocalConnector()
+  constructor({ baseUrl }: DiographJsonParams, connector?: LocalConnector) {
+    this.connector = connector || new LocalConnector(baseUrl)
   }
 
-  load = () => {
-    return readFile(this.roomJsonPath, { encoding: 'utf8' }).then((roomJsonContents) => {
-      const parsedJson = JSON.parse(roomJsonContents)
-      // TODO: Validate JSON with own validator.js (using ajv.js.org)
-      this.baseUrl = parsedJson.baseUrl
-      this.contentUrls = parsedJson.contentUrls
-    })
+  load = async () => {
+    const roomJsonContents = await this.connector.loadRoom()
+    const { contentUrls } = JSON.parse(roomJsonContents)
+    // TODO: Validate JSON with own validator.js (using ajv.js.org)
+    this.contentUrls = contentUrls
   }
 
   getDataobject = async function getDataobject(this: Room, contentUrl: string): Promise<Buffer> {
-    const filePath: string | undefined = this.getFilePath(contentUrl)
+    const filePath: string | undefined = this.connector.getFilePath(contentUrl)
     if (!filePath) {
       throw new Error('Dataobject not found!')
     }
@@ -42,7 +36,7 @@ class Room {
     contentUrl: string,
   ): Promise<void> {
     const sourceFileContent: Buffer = await readFile(sourcePath)
-    return writeFile(this.getFilePath(contentUrl), sourceFileContent)
+    return writeFile(this.connector.getFilePath(contentUrl), sourceFileContent)
   }
 
   // Import dataobject
@@ -53,15 +47,9 @@ class Room {
   // - diograph.update(diory.id, { contentUrl: dataobjectPath })
 
   deleteDataobject = function deleteDataobject(this: Room, contentUrl: string) {
-    const filePath: string = this.getFilePath(contentUrl)
+    const filePath: string = this.connector.getFilePath(contentUrl)
     // TODO: This should be abstracted as "localConnector.deleteDataobject(filePath)"
     return rm(filePath)
-  }
-
-  // --- CONNECTOR ---
-
-  getFilePath = function getFilePath(this: Room, contentUrl: string) {
-    return join(this.baseUrl, contentUrl)
   }
 }
 

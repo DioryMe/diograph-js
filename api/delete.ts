@@ -1,7 +1,5 @@
 import { DiographJson } from '../diograph'
 import { Diory } from '../types'
-import { rm } from 'fs/promises'
-import { join } from 'path/posix'
 
 interface DeleteOptions {
   force: boolean
@@ -46,7 +44,7 @@ async function deleteDiory(
       dioriesToBeDeleted.map(async (dioryToBeDeleted) => {
         delete this.diograph[dioryToBeDeleted.id]
         if (optsWithDefaults.deleteThumbnail) {
-          await rm(join(this.imageFolderPath, `${dioryToBeDeleted.id}.jpg`))
+          await this.connector.deleteThumbnail(`${dioryToBeDeleted.id}.jpg`)
         }
         return dioryToBeDeleted
       }),

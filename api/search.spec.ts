@@ -5,7 +5,7 @@ describe('get', () => {
 
   beforeEach(async () => {
     diographJson = new DiographJson({ baseUrl: 'fixtures' })
-    await diographJson.load()
+    await diographJson.loadDiograph()
   })
 
   it('text search works', () => {

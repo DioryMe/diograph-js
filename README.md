@@ -15,7 +15,7 @@ import DiographJson from 'diograph-js'
 
 const diographJson = new DiographJson({ path: 'diograph.json' })
 
-diographJson.load().then(() => {
+diographJson.loadDiograph().then(() => {
   const diory = diographJson.get('id-of-my-diory')
   diographJson.update(diory.id, { text: 'New name' })
   diographJson.save()

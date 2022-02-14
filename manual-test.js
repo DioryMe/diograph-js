@@ -1,14 +1,12 @@
 const { DiographJson, Room, LocalConnector } = require('./dist')
 
 const test = async () => {
-  const localConnector = new LocalConnector()
-
   // Construct diograph & room objects
-  const diographJson = new DiographJson({ baseUrl: 'fixtures' }, localConnector)
-  const room = new Room({ baseUrl: 'fixtures' }, localConnector)
+  const diographJson = new DiographJson({ baseUrl: 'fixtures' })
+  const room = new Room({ baseUrl: 'fixtures' })
 
   // 0. Load diograph
-  await diographJson.load()
+  await diographJson.loadDiograph()
 
   // RootId
   const rootId = diographJson.rootId
@@ -53,7 +51,7 @@ const test = async () => {
   await room.deleteDataobject(contentUrl)
 
   // 5. Save diograph
-  await diographJson.save()
+  await diographJson.saveDiograph()
 }
 
 test()
