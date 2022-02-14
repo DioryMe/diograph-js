@@ -1,8 +1,8 @@
 import { retrieveMetadata } from './metadata'
 import { generateThumbnail } from './thumbnailer'
 
-function dioryImageGenerator(fileContent: Buffer, filePath: string, contentUrl: string) {
-  const thumbnailBuffer = generateThumbnail()
+async function dioryImageGenerator(fileContent: Buffer, filePath: string, contentUrl: string) {
+  const thumbnailBuffer = await generateThumbnail(fileContent)
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'ImageObject',

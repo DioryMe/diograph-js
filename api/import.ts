@@ -32,7 +32,7 @@ async function dioryGenerator(filePath: string, fileContent: Buffer, contentUrl:
   if (!encodingFormat) {
     throw new Error("Couldn't detect file type")
   }
-  const { typeSpecificDiory, thumbnailBuffer, cid } = generateTypeSpecificDiory(
+  const { typeSpecificDiory, thumbnailBuffer, cid } = await generateTypeSpecificDiory(
     encodingFormat,
     fileContent,
     filePath,
@@ -50,7 +50,7 @@ async function dioryGenerator(filePath: string, fileContent: Buffer, contentUrl:
   }
 }
 
-function generateTypeSpecificDiory(
+async function generateTypeSpecificDiory(
   encodingFormat: any,
   fileContent: Buffer,
   filePath: string,
@@ -59,7 +59,7 @@ function generateTypeSpecificDiory(
   const type = encodingFormat.mime.split('/')[0]
   switch (type) {
     case 'image':
-      return dioryImageGenerator(fileContent, filePath, contentUrl)
+      return await dioryImageGenerator(fileContent, filePath, contentUrl)
     case 'video':
     // return dioryVideoGenerator(fileContent)
     case 'audio':

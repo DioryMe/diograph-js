@@ -2,6 +2,7 @@ import { DiographJson } from '../../diograph'
 import { Diory } from '../../types'
 import { join } from 'path'
 import { writeFile } from 'fs/promises'
+import * as sharp from 'sharp'
 
 const MAX_HEIGHT = 360
 const MAX_WIDTH = 480
@@ -38,7 +39,12 @@ const resizeAndSaveImage = async ({
 }
 */
 
-const generateThumbnail = () => {
+const generateThumbnail = async (fileContent: Buffer) => {
+  return await sharp(fileContent)
+    .resize({ width: MAX_WIDTH, height: MAX_HEIGHT, fit: 'inside' })
+    .jpeg()
+    .toBuffer()
+
   // async (diograph: DiographJson, diory: Diory): Promise<string | null> => {
   /*
   // contentUrl must exist in order to make a thumbnail
@@ -63,8 +69,8 @@ const generateThumbnail = () => {
   return resizeAndSaveImage(params).then(() => dioryThumbnailPath)
 
   */
-  console.log('Image thumbnail generator not implemented')
-  return 'imageThumbnailPath'
+  // console.log('Image thumbnail generator not implemented')
+  // return 'imageThumbnailPath'
 }
 
 export { generateThumbnail }
