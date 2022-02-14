@@ -11,14 +11,14 @@ yarn install diograph-js
 Example:
 
 ```js
-import DiographJson from 'diograph-js'
+import { DiographJson } from 'diograph-js'
 
-const diographJson = new DiographJson({ path: 'diograph.json' })
+const diographJson = new DiographJson({ baseUrl: 'diograph.json' })
 
 diographJson.loadDiograph().then(() => {
-  const diory = diographJson.get('id-of-my-diory')
+  const diory = diographJson.getDiory('id-of-my-diory')
   diographJson.update(diory.id, { text: 'New name' })
-  diographJson.save()
+  diographJson.saveDiograph()
 })
 ```
 

@@ -10,7 +10,7 @@ function update(this: DiographJson, id: string, payload: DioryAttributes): Diory
 
   let diory = { ...this.diograph[id], ...payload }
   this.diograph[id] = diory
-  return this.get(id)
+  return this.getDiory(id)
 }
 
 export { update }

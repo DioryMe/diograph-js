@@ -39,24 +39,27 @@ describe('getDiory', () => {
 
   describe('without options', () => {
     it('returns diory', () => {
-      expect(diographJson.get('some-id')).toEqual(diory)
+      expect(diographJson.getDiory('some-id')).toEqual(diory)
     })
   })
 
   describe('with options', () => {
     it('returns array of diories', () => {
-      expect(diographJson.getDiory('some-id', { jee: 'joo' })).toEqual([diory])
+      expect(diographJson.getDioryWithLinks('some-id', { jee: 'joo' })).toEqual([diory])
     })
 
     describe('linkedDiories', () => {
       it('returns diory and its linked diories', () => {
-        expect(diographJson.getDiory('some-id', { linkedDiories: true })).toEqual([diory, diory2])
+        expect(diographJson.getDioryWithLinks('some-id', { linkedDiories: true })).toEqual([
+          diory,
+          diory2,
+        ])
       })
     })
 
     describe('reverseLinkedDiories', () => {
       it('returns diory and its linked diories', () => {
-        expect(diographJson.getDiory('some-id', { reverseLinkedDiories: true })).toEqual([
+        expect(diographJson.getDioryWithLinks('some-id', { reverseLinkedDiories: true })).toEqual([
           diory,
           diory3,
         ])
@@ -66,7 +69,10 @@ describe('getDiory', () => {
     describe('linkedDiories and reverseLinkedDiories', () => {
       it('returns diory and its linked diories', () => {
         expect(
-          diographJson.getDiory('some-id', { linkedDiories: true, reverseLinkedDiories: true }),
+          diographJson.getDioryWithLinks('some-id', {
+            linkedDiories: true,
+            reverseLinkedDiories: true,
+          }),
         ).toEqual([diory, diory2, diory3])
       })
     })

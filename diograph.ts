@@ -2,8 +2,8 @@ import { Diograph, DiographJsonParams } from './types'
 import { LocalConnector } from './connectors'
 import {
   createDiory,
-  get,
   getDiory,
+  getDioryWithLinks,
   search,
   update,
   deleteDiory,
@@ -17,8 +17,8 @@ class DiographJson {
   diograph: Diograph = {}
 
   createDiory = createDiory
-  get = get
   getDiory = getDiory
+  getDioryWithLinks = getDioryWithLinks
   update = update
   search = search
   deleteDiory = deleteDiory

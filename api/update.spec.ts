@@ -14,12 +14,12 @@ describe('update', () => {
     }
     diographJson = new DiographJson({ baseUrl: 'some-path/diograph.json' })
     diographJson.setDiograph(diograph)
-    expect(diographJson.get('some-id').text).toEqual('some-text')
+    expect(diographJson.getDiory('some-id').text).toEqual('some-text')
   })
 
   it('works', () => {
     diographJson.update('some-id', { text: 'updated-text' })
-    const updatedDiory = diographJson.get('some-id')
+    const updatedDiory = diographJson.getDiory('some-id')
     expect(updatedDiory.text).toEqual('updated-text')
     expect(updatedDiory.image).toEqual('images/some-id.jpg')
   })
