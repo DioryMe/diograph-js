@@ -11,8 +11,9 @@ async function importFile(this: DiographJson, filePath: string, contentUrl: stri
 
   const { diory, thumbnailBuffer } = await dioryGenerator(filePath, fileContent, contentUrl)
   const createdDiory = this.createDiory(diory)
-  await this.addThumbnail(thumbnailBuffer, createdDiory)
-
+  if (thumbnailBuffer) {
+    await this.addThumbnail(thumbnailBuffer, createdDiory)
+  }
   return {
     diory: createdDiory,
     contentUrl,
@@ -45,7 +46,7 @@ async function dioryGenerator(filePath: string, fileContent: Buffer, contentUrl:
       ...baseDiory,
       ...typeSpecificDiory,
     },
-    thumbnailBuffer: fileContent,
+    thumbnailBuffer,
     cid,
   }
 }
