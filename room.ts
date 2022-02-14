@@ -1,4 +1,5 @@
 import { DiographJsonParams } from './types'
+import { LocalConnector, Connector } from './connectors'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path/posix'
 
@@ -10,10 +11,12 @@ class Room {
   baseUrl: string
   roomJsonPath: string
   contentUrls: ContentUrls = {}
+  connector: Connector
 
-  constructor({ baseUrl }: DiographJsonParams) {
+  constructor({ baseUrl }: DiographJsonParams, connector?: Connector) {
     this.baseUrl = baseUrl
     this.roomJsonPath = join(baseUrl, 'room.json')
+    this.connector = connector || new LocalConnector()
   }
 
   load = () => {

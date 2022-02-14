@@ -1,4 +1,5 @@
 import { Diory, Diograph, DiographJsonParams } from './types'
+import { LocalConnector, Connector } from './connectors'
 import { readFile, writeFile } from 'fs/promises'
 import { existsSync, mkdirSync } from 'fs'
 import { join } from 'path/posix'
@@ -14,6 +15,7 @@ import {
 } from './api'
 
 class DiographJson {
+  connector: Connector
   baseUrl: string
   diographJsonPath: string
   imageFolderPath: string
@@ -29,10 +31,11 @@ class DiographJson {
   importDioryFromFile = importDioryFromFile
   importFolder = importFolder
 
-  constructor({ baseUrl }: DiographJsonParams) {
+  constructor({ baseUrl }: DiographJsonParams, connector?: Connector) {
     this.baseUrl = baseUrl
     this.diographJsonPath = join(baseUrl, 'diograph.json')
     this.imageFolderPath = join(baseUrl, 'images')
+    this.connector = connector || new LocalConnector()
   }
 
   setDiograph = (diograph: Diograph, rootId?: string) => {

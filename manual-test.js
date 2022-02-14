@@ -1,9 +1,11 @@
-const { DiographJson, Room } = require('./dist')
+const { DiographJson, Room, LocalConnector } = require('./dist')
 
 const test = async () => {
+  const localConnector = new LocalConnector()
+
   // Construct diograph & room objects
-  const diographJson = new DiographJson({ baseUrl: 'fixtures' })
-  const room = new Room({ baseUrl: 'fixtures' })
+  const diographJson = new DiographJson({ baseUrl: 'fixtures' }, localConnector)
+  const room = new Room({ baseUrl: 'fixtures' }, localConnector)
 
   // 0. Load diograph
   await diographJson.load()
