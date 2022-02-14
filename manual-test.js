@@ -1,4 +1,5 @@
-const { DiographJson, Room, LocalConnector } = require('./dist')
+const { DiographJson, Room } = require('./dist')
+const { readFile } = require('fs/promises')
 
 const test = async () => {
   // Construct diograph & room objects

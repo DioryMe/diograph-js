@@ -1,6 +1,5 @@
 import { DiographJsonParams } from './types'
 import { LocalConnector } from './connectors'
-import { readFile, writeFile, rm } from 'fs/promises'
 
 export interface ContentUrls {
   [key: string]: string
@@ -22,11 +21,7 @@ class Room {
   }
 
   getDataobject = async function getDataobject(this: Room, contentUrl: string): Promise<Buffer> {
-    const filePath: string | undefined = this.connector.getFilePath(contentUrl)
-    if (!filePath) {
-      throw new Error('Dataobject not found!')
-    }
-    return readFile(filePath)
+    return this.connector.getDataobject(contentUrl)
   }
 
   importDataobject = async function importDataobject(
@@ -36,13 +31,6 @@ class Room {
   ): Promise<void> {
     return this.connector.writeDataobject(contentUrl, sourceFileContent)
   }
-
-  // Import dataobject
-  // - const dataobjectPath = getInternalPath(diory)
-  // - const dataobject = new Dataobject(filePath)
-  // - dataobject.copy(dataobjectPath)
-
-  // - diograph.update(diory.id, { contentUrl: dataobjectPath })
 
   deleteDataobject = function deleteDataobject(this: Room, contentUrl: string) {
     return this.connector.deleteDataobject(contentUrl)

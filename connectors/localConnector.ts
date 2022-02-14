@@ -47,6 +47,14 @@ class LocalConnector extends Connector {
     return join(this.baseUrl, contentUrl)
   }
 
+  getDataobject = (contentUrl: string) => {
+    const filePath: string | undefined = this.getFilePath(contentUrl)
+    if (!filePath) {
+      throw new Error('Dataobject not found!')
+    }
+    return readFile(filePath)
+  }
+
   writeDataobject = (contentUrl: string, sourceFileContent: Buffer) => {
     return writeFile(this.getFilePath(contentUrl), sourceFileContent)
   }
