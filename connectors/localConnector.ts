@@ -46,6 +46,15 @@ class LocalConnector extends Connector {
   getFilePath = (contentUrl: string) => {
     return join(this.baseUrl, contentUrl)
   }
+
+  writeDataobject = (contentUrl: string, sourceFileContent: Buffer) => {
+    return writeFile(this.getFilePath(contentUrl), sourceFileContent)
+  }
+
+  deleteDataobject = (contentUrl: string) => {
+    const filePath: string = this.getFilePath(contentUrl)
+    return rm(filePath)
+  }
 }
 
 export { Connector, LocalConnector }

@@ -31,11 +31,10 @@ class Room {
 
   importDataobject = async function importDataobject(
     this: Room,
-    sourcePath: string,
+    sourceFileContent: Buffer,
     contentUrl: string,
   ): Promise<void> {
-    const sourceFileContent: Buffer = await readFile(sourcePath)
-    return writeFile(this.connector.getFilePath(contentUrl), sourceFileContent)
+    return this.connector.writeDataobject(contentUrl, sourceFileContent)
   }
 
   // Import dataobject
@@ -46,9 +45,7 @@ class Room {
   // - diograph.update(diory.id, { contentUrl: dataobjectPath })
 
   deleteDataobject = function deleteDataobject(this: Room, contentUrl: string) {
-    const filePath: string = this.connector.getFilePath(contentUrl)
-    // TODO: This should be abstracted as "localConnector.deleteDataobject(filePath)"
-    return rm(filePath)
+    return this.connector.deleteDataobject(contentUrl)
   }
 }
 

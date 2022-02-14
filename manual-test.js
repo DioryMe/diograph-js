@@ -45,7 +45,8 @@ const test = async () => {
   )
   console.log('Diory imported from file:', diory)
   // 4b. importDataobject
-  await room.importDataobject(importFilePath, 'tosi-hieno-content-url.jiipeegee')
+  const sourceFileContent = await readFile(importFilePath)
+  await room.importDataobject(sourceFileContent, 'tosi-hieno-content-url.jiipeegee')
   // ...cleanup importFile & importDataobject mess...
   await diographJson.deleteDiory(diory.id, { deleteThumbnail: true })
   await room.deleteDataobject(contentUrl)
