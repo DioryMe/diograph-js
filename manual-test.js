@@ -54,18 +54,6 @@ const test = async () => {
 
   // 5. Save diograph
   await diographJson.save()
-
-  // 6a. Delete diory
-  const deletedDiory = (await diographJson.deleteDiory('78661050-900d-4e87-84e2-a5262fca6770'))[0]
-  if (diographJson.get(deletedDiory.id)) {
-    throw new Error("ERROR: Diory wasn't deleted!")
-  }
-  // 6b. Delete dataobject (of that deleted diory)
-  const deletedDioryContentUrl = deletedDiory.data[0].contentUrl
-  await room.deleteDataobject(deletedDioryContentUrl)
-
-  // Import the same dataobject back to diograph
-  await cp('./PIXNIO-IMPORT-TEST.jpeg', './fixtures/PIXNIO-53799-6177x4118.jpeg')
 }
 
 test()
