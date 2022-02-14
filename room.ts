@@ -1,7 +1,6 @@
 import { DiographJsonParams } from './types'
 import { LocalConnector } from './connectors'
 import { readFile, writeFile, rm } from 'fs/promises'
-import { join } from 'path/posix'
 
 export interface ContentUrls {
   [key: string]: string
