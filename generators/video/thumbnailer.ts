@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid'
 async function generateThumbnail(sourceFilePath: string, time: number = 3) {
   const tmpPath = join('/', 'tmp', `${uuidv4()}.jpg`)
   // prettier-ignore
-  await execFile(pathToFfmpeg, [
+  const returnObject = await execFile(pathToFfmpeg, [
     '-y',
     '-i', sourceFilePath,
     '-vframes', 1,
@@ -16,7 +16,8 @@ async function generateThumbnail(sourceFilePath: string, time: number = 3) {
     '-ss', time,
     tmpPath
   ])
-  return readFile(tmpPath)
+  const ffmpegOutput: string = returnObject.stderr
+  return { thumbnailBuffer: await readFile(tmpPath), ffmpegOutput }
 }
 
 export { generateThumbnail }
