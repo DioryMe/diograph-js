@@ -1,7 +1,7 @@
 import { DiographJson } from '..'
 import * as fileType from 'file-type'
 import { stat } from 'fs/promises'
-import { dioryImageGenerator } from '../generators'
+import { dioryImageGenerator, dioryVideoGenerator } from '../generators'
 import { readFile } from 'fs/promises'
 import { basename } from 'path/posix'
 
@@ -62,7 +62,7 @@ async function generateTypeSpecificDiory(
     case 'image':
       return await dioryImageGenerator(fileContent, filePath, contentUrl)
     case 'video':
-    // return dioryVideoGenerator(fileContent)
+      return await dioryVideoGenerator(fileContent, filePath, contentUrl)
     case 'audio':
     // return dioryAudioGenerator(fileContent)
     // case 'application':

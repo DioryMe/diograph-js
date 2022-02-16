@@ -39,24 +39,38 @@ const test = async () => {
   console.log(updatedDiory.text)
   diographJson.update(rootId, { text: originalText }) // ...and revert it...
 
-  // 4a. importFile
-  const importFilePath = './PIXNIO-IMPORT-TEST.jpeg'
-  const { diory, contentUrl } = await diographJson.importDioryFromFile(
-    importFilePath,
+  // 4a. importFile (image)
+  const importImageFilePath = './PIXNIO-IMPORT-TEST.jpeg'
+  let { diory, contentUrl } = await diographJson.importDioryFromFile(
+    importImageFilePath,
     'tosi-hieno-content-url.jiipeegee',
   )
   console.log('Diory imported from file:', diory)
   // 4b. importDataobject
-  const sourceFileContent = await readFile(importFilePath)
+  let sourceFileContent = await readFile(importImageFilePath)
   await room.importDataobject(sourceFileContent, 'tosi-hieno-content-url.jiipeegee')
-  // ...cleanup importFile & importDataobject mess...
+  // 4c. Cleanup importFile & importDataobject mess...
   await diographJson.deleteDiory(diory.id, { deleteThumbnail: true })
   await room.deleteDataobject(contentUrl)
 
-  // 5. Save diograph
-  await diographJson.saveDiograph()
+  // 5a. importFile (image)
+  const importVideoFilePath = './test.mov'
+  const joo = await diographJson.importDioryFromFile(
+    importVideoFilePath,
+    'viela-hienompi-content-url.moooov',
+  )
+  diory = joo.diory
+  contentUrl = joo.contentUrl
+  console.log('Diory imported from file:', diory)
+  // 5b. importDataobject
+  sourceFileContent = await readFile(importVideoFilePath)
+  await room.importDataobject(sourceFileContent, 'viela-hienompi-content-url.moooov')
+  // 5c. Cleanup importFile & importDataobject mess...
+  await diographJson.deleteDiory(diory.id, { deleteThumbnail: true })
+  await room.deleteDataobject(contentUrl)
 
-  await dioryVideoGenerator()
+  // 6. Save diograph
+  await diographJson.saveDiograph()
 }
 
 test()
