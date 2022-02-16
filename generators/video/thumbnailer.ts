@@ -16,8 +16,6 @@ async function generateThumbnail(sourceFilePath: string, time: number = 3) {
     '-ss', time,
     tmpPath
   ])
-
-  console.log(tmpPath)
   return readFile(tmpPath)
 }
 

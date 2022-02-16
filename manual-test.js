@@ -53,10 +53,10 @@ const test = async () => {
   diographJson.update(rootId, { text: originalText }) // ...and revert it...
 
   // 4. Import image file
-  await importFileTest(diographJson, room, './PIXNIO-IMPORT-TEST.jpeg')
+  await importFileTest(diographJson, room, './fixtures/PIXNIO-53799-6177x4118.jpeg')
 
   // 5. Import video file
-  await importFileTest(diographJson, room, './test.mov')
+  await importFileTest(diographJson, room, './fixtures/Generic Content/some-video.mov')
 
   // 6. Save diograph
   await diographJson.saveDiograph()
