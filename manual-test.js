@@ -1,5 +1,6 @@
 const { DiographJson, Room } = require('./dist')
 const { readFile } = require('fs/promises')
+const { dioryVideoGenerator } = require('./dist/generators/video')
 
 const test = async () => {
   // Construct diograph & room objects
@@ -54,6 +55,8 @@ const test = async () => {
 
   // 5. Save diograph
   await diographJson.saveDiograph()
+
+  await dioryVideoGenerator()
 }
 
 test()
