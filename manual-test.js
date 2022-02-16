@@ -14,7 +14,7 @@ const test = async () => {
   console.log(rootId)
 
   // 1. Get diory
-  const rootDiory = diographJson.get(rootId)
+  const rootDiory = diographJson.getDiory(rootId)
   console.log(rootDiory)
 
   // 2a. Search text
