@@ -1,4 +1,4 @@
-// Promisified version of execFile to execute the ffmpeg command as child_process
+// Promisified version of execFile to execute the ffmpeg command safely as child_process
 const execFile = require('util').promisify(require('child_process').execFile)
 const pathToFfmpeg = require('ffmpeg-static')
 import { join } from 'path'

@@ -1,6 +1,3 @@
-function retrieveMetadata() {
-  console.log('Video metadata retriever not implemented')
-  return {}
-}
-
-export { retrieveMetadata }
+// Video currently doesn't use own metadataRetriever
+// - metadata parsing is done in dioryVideoGenerator
+// - metadata is parsed from thumbnailer's output string with regex(=ffmpegOutput)
