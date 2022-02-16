@@ -8,21 +8,27 @@ class LocalConnector extends Connector {
   baseUrl: string
   diographJsonPath: string
   imageFolderPath: string
+  relativeImageFolderPath: string
   roomJsonPath: string
 
   constructor(baseUrl: string) {
     super()
     this.baseUrl = baseUrl
     this.diographJsonPath = join(baseUrl, 'diograph.json')
-    this.imageFolderPath = join(baseUrl, 'images')
+    this.relativeImageFolderPath = 'images'
+    this.imageFolderPath = join(baseUrl, this.relativeImageFolderPath)
     this.roomJsonPath = join(baseUrl, 'room.json')
   }
 
-  addThumbnail = (thumbnailBuffer: Buffer, diory: Diory) => {
+  addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
     if (!existsSync(this.imageFolderPath)) {
       mkdirSync(this.imageFolderPath)
     }
-    return writeFile(join(this.imageFolderPath, `${diory.id}.jpg`), thumbnailBuffer)
+    // Writes thumbnail image file to absolute path
+    console.log('Thumbnail written to:', join(this.imageFolderPath, thumbnailContentUrl))
+    await writeFile(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
+    // Returns relative thumbnail image path to be set as diory.image
+    return join(this.relativeImageFolderPath, thumbnailContentUrl)
   }
 
   deleteThumbnail = (thumbnailFileName: string) => {

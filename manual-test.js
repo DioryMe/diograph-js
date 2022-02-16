@@ -1,6 +1,5 @@
 const { DiographJson, Room } = require('./dist')
 const { readFile } = require('fs/promises')
-const { dioryVideoGenerator } = require('./dist/generators/video')
 
 const importFileTest = async (diographJson, room, filePath) => {
   const givenContentUrl = 'tosi-hieno-content-url'

@@ -1,8 +1,7 @@
 import { DiographJson } from '..'
 import * as fileType from 'file-type'
-import { stat } from 'fs/promises'
+import { readFile, stat } from 'fs/promises'
 import { dioryImageGenerator, dioryVideoGenerator } from '../generators'
-import { readFile } from 'fs/promises'
 import { basename } from 'path/posix'
 
 async function importDioryFromFile(this: DiographJson, filePath: string, contentUrl: string) {
@@ -12,10 +11,14 @@ async function importDioryFromFile(this: DiographJson, filePath: string, content
   const { diory, thumbnailBuffer } = await dioryGenerator(filePath, fileContent, contentUrl)
   const createdDiory = this.createDiory(diory)
   if (thumbnailBuffer) {
-    await this.connector.addThumbnail(thumbnailBuffer, createdDiory)
+    const thumbnailContentUrl: string = await this.connector.addThumbnail(
+      thumbnailBuffer,
+      `${createdDiory.id}.jpg`,
+    )
+    this.update(createdDiory.id, { image: thumbnailContentUrl })
   }
   return {
-    diory: createdDiory,
+    diory: this.getDiory(createdDiory.id),
     contentUrl,
   }
 }
@@ -51,6 +54,7 @@ async function dioryGenerator(filePath: string, fileContent: Buffer, contentUrl:
   }
 }
 
+// TODO: This doesn't create only type specific diory but creates also thumbnail...
 async function generateTypeSpecificDiory(
   encodingFormat: any,
   fileContent: Buffer,
@@ -60,9 +64,15 @@ async function generateTypeSpecificDiory(
   const type = encodingFormat.mime.split('/')[0]
   switch (type) {
     case 'image':
-      return await dioryImageGenerator(fileContent, filePath, contentUrl)
+      // TODO: imageDiory can't be typed as Diory as it doesn't have id yet...
+      const imageDiory = await dioryImageGenerator(fileContent, filePath, contentUrl)
+      imageDiory.typeSpecificDiory.data[0]['encodingFormat'] = encodingFormat.mime
+      return imageDiory
     case 'video':
-      return await dioryVideoGenerator(fileContent, filePath, contentUrl)
+      // TODO: videoDiory can't be typed as Diory as it doesn't have id yet...
+      const videoDiory = await dioryVideoGenerator(fileContent, filePath, contentUrl)
+      videoDiory.typeSpecificDiory.data[0]['encodingFormat'] = encodingFormat.mime
+      return videoDiory
     case 'audio':
     // return dioryAudioGenerator(fileContent)
     // case 'application':

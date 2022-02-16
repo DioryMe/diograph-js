@@ -16,6 +16,7 @@ async function dioryVideoGenerator(fileContent: Buffer, filePath: string, conten
         '@context': 'https://schema.org',
         '@type': 'VideoObject',
         contentUrl,
+        encodingFormat: '',
       },
     ],
   }
