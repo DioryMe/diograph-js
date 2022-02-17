@@ -17,7 +17,13 @@ async function generateThumbnail(sourceFilePath: string, time: number = 3) {
     tmpPath
   ]).then((async (returnObject: any) => {
     const ffmpegOutput: string = returnObject.stderr
-    const thumbnailBuffer = await readFile(tmpPath)
+    let thumbnailBuffer
+    try {
+      thumbnailBuffer = await readFile(tmpPath)
+    } catch (e) {
+      console.log(returnObject)
+      console.log(e)
+    }
     return { thumbnailBuffer, ffmpegOutput }
   })
 }
