@@ -8,16 +8,18 @@ import { v4 as uuidv4 } from 'uuid'
 async function generateThumbnail(sourceFilePath: string, time: number = 3) {
   const tmpPath = join('/', 'tmp', `${uuidv4()}.jpg`)
   // prettier-ignore
-  const returnObject = await execFile(pathToFfmpeg, [
+  return execFile(pathToFfmpeg, [
     '-y',
     '-i', sourceFilePath,
     '-vframes', 1,
     '-an',
     '-ss', time,
     tmpPath
-  ])
-  const ffmpegOutput: string = returnObject.stderr
-  return { thumbnailBuffer: await readFile(tmpPath), ffmpegOutput }
+  ]).then((async (returnObject: any) => {
+    const ffmpegOutput: string = returnObject.stderr
+    const thumbnailBuffer = await readFile(tmpPath)
+    return { thumbnailBuffer, ffmpegOutput }
+  })
 }
 
 export { generateThumbnail }
