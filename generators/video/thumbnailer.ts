@@ -4,7 +4,22 @@ import { join } from 'path'
 import { readFile } from 'fs/promises'
 import { v4 as uuidv4 } from 'uuid'
 
-function executeFfmpegInChildProcess({ pathToFfmpeg, sourceFilePath, time }: any) {
+// source: https://github.com/DefinitelyTyped/DefinitelyTyped/blob/cccb632e91d7eb1f345ac04afa663b3813711ed4/types/node/child_process.d.ts#L1012
+interface execFileReturnObject {
+  stdout: string
+  stderr: string
+}
+
+interface executeFfmpegInChildProcessReturnObject {
+  returnObject: execFileReturnObject
+  tmpPath: string
+}
+
+function executeFfmpegInChildProcess(
+  pathToFfmpeg: string,
+  sourceFilePath: string,
+  time: number,
+): Promise<executeFfmpegInChildProcessReturnObject> {
   const tmpPath = join('/', 'tmp', `${uuidv4()}.jpg`)
   // prettier-ignore
   return execFile(pathToFfmpeg, [
@@ -14,15 +29,15 @@ function executeFfmpegInChildProcess({ pathToFfmpeg, sourceFilePath, time }: any
     '-an',
     '-ss', time,
     tmpPath
-  ]).then(async (returnObject: any) => {
+  ]).then(async (returnObject: execFileReturnObject) => {
     return { returnObject, tmpPath }
   })
 }
 
 async function generateThumbnail(sourceFilePath: string, time: number = 3) {
   const pathToFfmpeg = process.env.FFMPEG_PATH
-  executeFfmpegInChildProcess({ pathToFfmpeg, sourceFilePath, time }).then(
-    async ({ returnObject, tmpPath }: any) => {
+  return executeFfmpegInChildProcess(pathToFfmpeg, sourceFilePath, time).then(
+    async ({ returnObject, tmpPath }) => {
       const ffmpegOutput: string = returnObject.stderr
       let thumbnailBuffer
       try {
