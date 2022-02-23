@@ -3,7 +3,13 @@ function parseDate(outputString: string) {
 }
 
 function parseLatlng(outputString: string) {
-  return outputString.match(/(?<=location\s\s\s\s\s\s\s\s:\s\+).{16}/)
+  // Hacky way to trim longitude's leading zero
+  const matchArray = outputString.match(/(?<=location\s\s\s\s\s\s\s\s:\s\+).{16}/)
+  if (!matchArray) {
+    return
+  }
+  const splitter = matchArray && matchArray[0].match(/\+0/) ? '+0' : '0'
+  return matchArray[0].split(splitter).join(', ')
 }
 
 function parseDuration(outputString: string) {
@@ -14,12 +20,10 @@ function parseFfmpegOutput(outputString: string) {
   const date = parseDate(outputString)
   const latlng = parseLatlng(outputString)
   const duration = parseDuration(outputString)
-  // Hacky way to trim longitude's leading zero
-  const splitter = latlng && latlng[0].match(/\+0/) ? '+0' : '0'
   return {
     date: date && date[0],
     duration: duration && duration[0],
-    latlng: latlng && latlng[0].split(splitter).join(', '),
+    latlng: latlng,
   }
 }
 
