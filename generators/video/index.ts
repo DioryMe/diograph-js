@@ -1,23 +1,19 @@
 import { generateThumbnail } from './thumbnailer'
+import { parseFfmpegOutput } from './ffmpeg-output-parser'
 
 async function dioryVideoGenerator(filePath: string, contentUrl: string) {
   const { thumbnailBuffer, ffmpegOutput } = await generateThumbnail(filePath)
-
-  const creationTime = ffmpegOutput.match(/(?<=creation_time\s\s\s:\s).*/)
-  const latlng = ffmpegOutput.match(/(?<=location\s\s\s\s\s\s\s\s:\s\+).{16}/)
-  const duration = ffmpegOutput.match(/(?<=Duration:\s).{11}/)
-  // Hacky way to trim longitude's leading zero
-  const splitter = latlng && latlng[0].match(/\+0/) ? '+0' : '0'
+  const { date, latlng, duration } = parseFfmpegOutput(ffmpegOutput)
 
   const typeSpecificDiory = {
-    date: creationTime && creationTime[0],
-    latlng: latlng && latlng[0].split(splitter).join(', '),
+    ...(date && { date }),
+    ...(latlng && { latlng }),
     data: [
       {
         '@context': 'https://schema.org',
         '@type': 'VideoObject',
         contentUrl,
-        duration: duration && duration[0],
+        ...(duration && { duration }),
         encodingFormat: '',
       },
     ],
