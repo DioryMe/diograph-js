@@ -6,7 +6,7 @@ jest.mock('fs/promises', () => ({
   readFile: () => new Promise((resolve) => resolve('some-thumbnail-buffer-content')),
 }))
 jest.mock('./ffmpeg')
-const { execFileReturnObjectFixture } = require('./exec-file-return-object-fixture')
+const { execFileReturnObjectFixture } = require('./ffmpeg-return-object-fixture')
 
 describe('generateThumbnail', () => {
   beforeEach(() => {
