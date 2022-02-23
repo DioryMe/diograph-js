@@ -3,13 +3,12 @@ function parseDate(outputString: string) {
 }
 
 function parseLatlng(outputString: string) {
-  // Hacky way to trim longitude's leading zero
-  const matchArray = outputString.match(/(?<=location\s\s\s\s\s\s\s\s:\s\+).{16}/)
+  const matchArray = outputString.match(/(?<=location[\s]*:\s\+)[\d+\.]*/)
   if (!matchArray) {
     return
   }
-  const splitter = matchArray && matchArray[0].match(/\+0/) ? '+0' : '0'
-  return matchArray[0].split(splitter).join(', ')
+  const [lat, lng] = matchArray[0].split('+')
+  return `${lat}, ${lng.replace(/^0+/, '')}`
 }
 
 function parseDuration(outputString: string) {
