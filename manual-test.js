@@ -54,8 +54,12 @@ const test = async () => {
   // 4. Import image file
   await importFileTest(diographJson, room, './fixtures/PIXNIO-53799-6177x4118.jpeg')
 
-  // 5. Import video file
-  await importFileTest(diographJson, room, './fixtures/Generic Content/some-video.mov')
+  if (process.env.FFMPEG_PATH) {
+    // 5. Import video file
+    await importFileTest(diographJson, room, './fixtures/Generic Content/some-video.mov')
+  } else {
+    console.log("SKIPPED: FFMPEG_PATH missing, importing video file can't be tested without it")
+  }
 
   // 6. Save diograph
   await diographJson.saveDiograph()
