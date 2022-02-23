@@ -1,5 +1,6 @@
 function parseDate(outputString: string) {
-  return outputString.match(/(?<=creation_time\s\s\s:\s).*/)
+  const matchArray = outputString.match(/(?<=creation_time[\s]*:\s).*/)
+  return matchArray && matchArray[0]
 }
 
 function parseLatlng(outputString: string) {
@@ -12,18 +13,15 @@ function parseLatlng(outputString: string) {
 }
 
 function parseDuration(outputString: string) {
-  return outputString.match(/(?<=Duration:\s).{11}/)
+  const matchArray = outputString.match(/(?<=Duration:\s).{11}/)
+  return matchArray && matchArray[0]
 }
 
 function parseFfmpegOutput(outputString: string) {
   const date = parseDate(outputString)
   const latlng = parseLatlng(outputString)
   const duration = parseDuration(outputString)
-  return {
-    date: date && date[0],
-    duration: duration && duration[0],
-    latlng: latlng,
-  }
+  return { date, duration, latlng }
 }
 
 export { parseFfmpegOutput, parseDate, parseLatlng, parseDuration }

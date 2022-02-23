@@ -1,4 +1,4 @@
-import { parseFfmpegOutput, parseLatlng, parseDate, parseDuration } from './ffmpeg-output-parser'
+import { parseLatlng } from './parse-ffmpeg-output'
 
 describe('parseLatlng', () => {
   it('fixture location', async () => {

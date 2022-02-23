@@ -1,5 +1,5 @@
 import { generateThumbnail } from './thumbnailer'
-import { parseFfmpegOutput } from './ffmpeg-output-parser'
+import { parseFfmpegOutput } from './parse-ffmpeg-output'
 
 async function dioryVideoGenerator(filePath: string, contentUrl: string) {
   const { thumbnailBuffer, ffmpegOutput } = await generateThumbnail(filePath)
