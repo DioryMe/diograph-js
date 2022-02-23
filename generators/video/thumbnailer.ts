@@ -4,9 +4,8 @@ import { join } from 'path'
 import { readFile } from 'fs/promises'
 import { v4 as uuidv4 } from 'uuid'
 
-async function generateThumbnail(sourceFilePath: string, time: number = 3) {
+function executeFfmpegInChildProcess({ pathToFfmpeg, sourceFilePath, time }: any) {
   const tmpPath = join('/', 'tmp', `${uuidv4()}.jpg`)
-  const pathToFfmpeg = process.env.FFMPEG_PATH
   // prettier-ignore
   return execFile(pathToFfmpeg, [
     '-y',
@@ -16,16 +15,25 @@ async function generateThumbnail(sourceFilePath: string, time: number = 3) {
     '-ss', time,
     tmpPath
   ]).then(async (returnObject: any) => {
-    const ffmpegOutput: string = returnObject.stderr
-    let thumbnailBuffer
-    try {
-      thumbnailBuffer = await readFile(tmpPath)
-    } catch (e) {
-      console.log(returnObject)
-      console.log(e)
-    }
-    return { thumbnailBuffer, ffmpegOutput }
+    return { returnObject, tmpPath }
   })
+}
+
+async function generateThumbnail(sourceFilePath: string, time: number = 3) {
+  const pathToFfmpeg = process.env.FFMPEG_PATH
+  executeFfmpegInChildProcess({ pathToFfmpeg, sourceFilePath, time }).then(
+    async ({ returnObject, tmpPath }: any) => {
+      const ffmpegOutput: string = returnObject.stderr
+      let thumbnailBuffer
+      try {
+        thumbnailBuffer = await readFile(tmpPath)
+      } catch (e) {
+        console.log(returnObject)
+        console.log(e)
+      }
+      return { thumbnailBuffer, ffmpegOutput }
+    },
+  )
 }
 
 export { generateThumbnail }
