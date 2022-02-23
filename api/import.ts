@@ -70,7 +70,7 @@ async function generateTypeSpecificDiory(
       return imageDiory
     case 'video':
       // TODO: videoDiory can't be typed as Diory as it doesn't have id yet...
-      const videoDiory = await dioryVideoGenerator(fileContent, filePath, contentUrl)
+      const videoDiory = await dioryVideoGenerator(filePath, contentUrl)
       videoDiory.typeSpecificDiory.data[0]['encodingFormat'] = encodingFormat.mime
       return videoDiory
     case 'audio':
