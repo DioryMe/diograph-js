@@ -15,23 +15,22 @@ interface executeFfmpegInChildProcessReturnObject {
   tmpPath: string
 }
 
-function executeFfmpegInChildProcess(
+async function executeFfmpegInChildProcess(
   pathToFfmpeg: string,
   sourceFilePath: string,
   time: number,
 ): Promise<executeFfmpegInChildProcessReturnObject> {
   const tmpPath = join('/', 'tmp', `${uuidv4()}.jpg`)
   // prettier-ignore
-  return execFile(pathToFfmpeg, [
+  const returnObject: execFileReturnObject = await execFile(pathToFfmpeg, [
     '-y',
     '-i', sourceFilePath,
     '-vframes', 1,
     '-an',
     '-ss', time,
     tmpPath
-  ]).then(async (returnObject: execFileReturnObject) => {
-    return { returnObject, tmpPath }
-  })
+  ])
+  return { returnObject, tmpPath }
 }
 
 async function generateThumbnail(sourceFilePath: string, time: number = 3) {
