@@ -1,6 +1,6 @@
 import { generateThumbnail } from './thumbnailer'
 
-async function dioryVideoGenerator(fileContent: Buffer, filePath: string, contentUrl: string) {
+async function dioryVideoGenerator(filePath: string, contentUrl: string) {
   const { thumbnailBuffer, ffmpegOutput } = await generateThumbnail(filePath)
 
   const creationTime = ffmpegOutput.match(/(?<=creation_time\s\s\s:\s).*/)
