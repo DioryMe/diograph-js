@@ -1,4 +1,3 @@
-import { Diory } from '../types'
 import { join } from 'path'
 import { existsSync, mkdirSync } from 'fs'
 import { rm, readFile, writeFile } from 'fs/promises'
