@@ -45,7 +45,7 @@ async function generateSchema(tags: any, contentUrl: string) {
     contentUrl,
     height: tags && tags['Image Height'] && tags['Image Height'].value,
     width: tags && tags['Image Width'] && tags['Image Width'].value,
-    encodingUrl: '',
+    encodingFormat: '',
   }
 }
 
