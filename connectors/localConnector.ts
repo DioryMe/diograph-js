@@ -5,8 +5,11 @@ import { Connector } from './baseConnector'
 import { makeRelative } from './makeRelative'
 
 class LocalConnector extends Connector {
+  baseUrl: string
+
   constructor(baseUrl: string) {
-    super(baseUrl)
+    super()
+    this.baseUrl = baseUrl
   }
 
   getFilePath = (contentUrl: string) => {

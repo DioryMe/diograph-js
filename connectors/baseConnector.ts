@@ -1,13 +1,11 @@
 import { join } from 'path'
 
 class Connector {
-  baseUrl: string
   diographJsonPath: string
   imageFolderPath: string
   roomJsonPath: string
 
-  constructor(baseUrl: string) {
-    this.baseUrl = baseUrl
+  constructor() {
     this.diographJsonPath = 'diograph.json'
 
     this.imageFolderPath = 'images'
@@ -51,16 +49,6 @@ class Connector {
   }
 
   // -----------------
-
-  getFilePath = (contentUrl: string) => {
-    // throw new Error('Not implemented.')
-    return 'string'
-  }
-
-  getContentUrl = (diory: string) => {
-    // throw new Error('Not implemented.')
-    return 'string'
-  }
 
   readItem = async (contentUrl: string): Promise<Buffer> => {
     // throw new Error('Not implemented.')

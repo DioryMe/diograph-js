@@ -30,7 +30,8 @@
     "prettier": "prettier --write .",
     "test": "jest .",
     "test-watch": "yarn test --watch",
-    "manual-test": "node manual-test.js"
+    "manual-test": "node manual-test.js",
+    "s3-test": "node s3-test.js"
   },
   "prettier": {
     "tabWidth": 2,
