@@ -1,5 +1,18 @@
 const { readFile } = require('fs/promises')
-const { DiographJson, Room, LocalConnector } = require('./dist')
+const { DiographJson, Room, LocalConnector, S3Connector } = require('./dist')
+
+const connectorType = process.argv[2]
+if (!connectorType) {
+  throw new Error('ConnectorType missing, please provide one! (local or s3)')
+}
+
+let connector
+if (connectorType === 'local') {
+  connector = new LocalConnector('fixtures')
+}
+if (connectorType === 's3') {
+  connector = new S3Connector()
+}
 
 const importFileTest = async (diographJson, room, filePath) => {
   const givenContentUrl = 'tosi-hieno-content-url'
@@ -16,7 +29,6 @@ const importFileTest = async (diographJson, room, filePath) => {
 
 const test = async () => {
   // Construct diograph & room objects
-  const connector = new LocalConnector('fixtures')
   const diographJson = new DiographJson(connector)
   const room = new Room(connector)
 

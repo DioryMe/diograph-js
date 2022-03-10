@@ -1,4 +1,4 @@
-import { Diograph, DiographJsonParams } from './types'
+import { Diograph } from './types'
 import { Connector } from './connectors'
 import {
   createDiory,
