@@ -1,7 +1,3 @@
-export interface DiographJsonParams {
-  baseUrl: string
-}
-
 export interface Diograph {
   [key: string]: Diory
 }

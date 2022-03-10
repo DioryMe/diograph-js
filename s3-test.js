@@ -1,6 +1,5 @@
 const { readFile } = require('fs/promises')
-const { DiographJson, Room } = require('./dist')
-const { S3Connector } = require('./dist/connectors')
+const { DiographJson, Room, S3Connector } = require('./dist')
 
 const importFileTest = async (diographJson, room, filePath) => {
   const givenContentUrl = 'tosi-hieno-content-url'
@@ -11,14 +10,15 @@ const importFileTest = async (diographJson, room, filePath) => {
   const sourceFileContent = await readFile(filePath)
   await room.createDataobject(sourceFileContent, contentUrl)
   // 3. Cleanup
-  await diographJson.deleteDiory(diory.id, { deleteThumbnail: true })
-  await room.deleteDataobject(contentUrl)
+  // await diographJson.deleteDiory(diory.id, { deleteThumbnail: true })
+  // await room.deleteDataobject(contentUrl)
 }
 
 const test = async () => {
   // Construct diograph & room objects
-  const diographJson = new DiographJson({ baseUrl: 'fixtures' })
-  const room = new Room({ baseUrl: 'fixtures' }, new S3Connector())
+  const connector = new S3Connector()
+  const diographJson = new DiographJson(connector)
+  const room = new Room(connector)
 
   // 0. Load diograph
   await diographJson.loadDiograph()

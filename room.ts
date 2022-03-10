@@ -1,5 +1,4 @@
-import { DiographJsonParams } from './types'
-import { Connector, LocalConnector } from './connectors'
+import { Connector } from './connectors'
 
 export interface ContentUrls {
   [key: string]: string
@@ -9,8 +8,8 @@ class Room {
   contentUrls: ContentUrls = {}
   connector: Connector
 
-  constructor({ baseUrl }: DiographJsonParams, connector?: Connector) {
-    this.connector = connector || new LocalConnector(baseUrl)
+  constructor(connector: Connector) {
+    this.connector = connector
   }
 
   load = async () => {
