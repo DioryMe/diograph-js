@@ -1,23 +1,49 @@
 import { Connector } from './base'
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
 
+interface S3ConnectorConfig {
+  bucket?: {
+    name: string
+    region: string
+  }
+  baseUrl?: string
+  credentials?: {
+    AWS_ACCESS_KEY_ID: string
+    AWS_SECRET_ACCESS_KEY: string
+    AWS_SESSION_TOKEN?: string
+  }
+}
+
 class S3Connector extends Connector {
-  constructor() {
+  bucketName: string
+  bucketRegion: string
+  baseUrl: string
+
+  constructor(config: S3ConnectorConfig = {}) {
     super()
+    this.bucketName = (config.bucket && config.bucket.name) || 'diory-camera-upload'
+    this.bucketRegion = (config.bucket && config.bucket.region) || 'eu-west-1'
+    this.baseUrl = config.baseUrl || 'https://diory-camera-upload.s3.eu-west-1.amazonaws.com'
   }
 
-  print = async () => {
-    const s3 = new S3Client({})
+  getDataobject = async (
+    contentUrl: string = '6597aed6-c8b0-45b3-a65d-da603a0f3a1d/xGround_cover2.png',
+  ) => {
+    const s3 = new S3Client({
+      // FIXME: Why this has to be added? I would like to remove this...
+      // PermanentRedirect: The bucket you are attempting to access must be addressed using the specified endpoint. Please send all future requests to this endpoint.
+      region: this.bucketRegion,
+    })
 
     const params = {
-      Bucket: 'diory-camera-upload',
-      Key: '6597aed6-c8b0-45b3-a65d-da603a0f3a1d/xGround_cover2.png',
+      Bucket: this.bucketName,
+      Key: contentUrl,
     }
 
-    // Get S3 object and write it to baseUrl (=/tmp)
     const command = new GetObjectCommand(params)
     const data = await s3.send(command)
-    console.log(data)
+
+    return data.Body
   }
 }
 
