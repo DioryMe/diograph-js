@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { join, dirname } from 'path'
 import { existsSync, mkdirSync } from 'fs'
 import { rm, readFile, writeFile } from 'fs/promises'
 import { Connector } from './base'
@@ -14,59 +14,81 @@ class LocalConnector extends Connector {
     super()
     this.baseUrl = baseUrl
     this.diographJsonPath = join(baseUrl, 'diograph.json')
+
     this.relativeImageFolderPath = 'images'
     this.imageFolderPath = join(baseUrl, this.relativeImageFolderPath)
     this.roomJsonPath = join(baseUrl, 'room.json')
   }
 
   addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
-    if (!existsSync(this.imageFolderPath)) {
-      mkdirSync(this.imageFolderPath)
-    }
     // Writes thumbnail image file to absolute path
     console.log('Thumbnail written to:', join(this.imageFolderPath, thumbnailContentUrl))
-    await writeFile(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
+    await this.writeItem(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
     // Returns relative thumbnail image path to be set as diory.image
     return join(this.relativeImageFolderPath, thumbnailContentUrl)
   }
 
-  deleteThumbnail = (thumbnailFileName: string) => {
-    return rm(join(this.imageFolderPath, thumbnailFileName))
+  deleteThumbnail = async (thumbnailFileName: string) => {
+    return this.deleteItem(join(this.imageFolderPath, thumbnailFileName))
   }
 
-  readDiograph = () => {
-    return readFile(this.diographJsonPath, { encoding: 'utf8' })
+  readDiograph = async () => {
+    return this.readTextItem(this.diographJsonPath)
   }
 
   writeDiograph = (fileContent: string) => {
-    return writeFile(this.diographJsonPath, fileContent).then(() => {
+    return this.writeItem(this.diographJsonPath, fileContent).then(() => {
       console.log(`diograph.save(): Saved diograph.json to ${this.diographJsonPath}`)
     })
   }
 
-  loadRoom = () => {
-    return readFile(this.roomJsonPath, { encoding: 'utf8' })
+  loadRoom = async () => {
+    return this.readTextItem(this.roomJsonPath)
   }
+
+  getDataobject = (contentUrl: string) => {
+    return this.readItem(contentUrl)
+  }
+
+  // TODO: writeDataobject ei ota contentUrlia, vaan sen pitäisi luoda se...
+  writeDataobject = async (contentUrl: string, sourceFileContent: Buffer) => {
+    return this.writeItem(contentUrl, sourceFileContent)
+  }
+
+  deleteDataobject = async (contentUrl: string) => {
+    return this.deleteItem(contentUrl)
+  }
+
+  // -----
 
   getFilePath = (contentUrl: string) => {
     return join(this.baseUrl, contentUrl)
   }
 
-  getDataobject = (contentUrl: string) => {
-    const filePath: string | undefined = this.getFilePath(contentUrl)
-    if (!filePath) {
-      throw new Error('Dataobject not found!')
-    }
-    return readFile(filePath)
-  }
-
-  writeDataobject = (contentUrl: string, sourceFileContent: Buffer) => {
-    return writeFile(this.getFilePath(contentUrl), sourceFileContent)
-  }
-
-  deleteDataobject = (contentUrl: string) => {
+  readItem = async (contentUrl: string) => {
     const filePath: string = this.getFilePath(contentUrl)
-    return rm(filePath)
+    if (!filePath) {
+      throw new Error('Nothing found with that contentUrl!')
+    }
+    return readFile(this.getFilePath(contentUrl))
+  }
+
+  readTextItem = async (contentUrl: string) => {
+    return readFile(this.getFilePath(contentUrl), { encoding: 'utf8' })
+  }
+
+  writeItem = async (contentUrl: string, fileContent: Buffer | string) => {
+    const filePath = this.getFilePath(contentUrl)
+    const dirPath = dirname(filePath)
+    if (!existsSync(dirPath)) {
+      mkdirSync(dirPath, { recursive: true })
+    }
+
+    return writeFile(filePath, fileContent)
+  }
+
+  deleteItem = async (contentUrl: string) => {
+    return rm(this.getFilePath(contentUrl))
   }
 }
 
