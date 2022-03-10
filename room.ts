@@ -27,9 +27,9 @@ class Room {
   importDataobject = async function importDataobject(
     this: Room,
     sourceFileContent: Buffer,
-    contentUrl: string,
-  ): Promise<void> {
-    return this.connector.writeDataobject(contentUrl, sourceFileContent)
+    diory: string,
+  ): Promise<string> {
+    return this.connector.writeDataobject(sourceFileContent, diory)
   }
 
   deleteDataobject = function deleteDataobject(this: Room, contentUrl: string) {

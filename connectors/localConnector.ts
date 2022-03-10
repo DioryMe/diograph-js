@@ -2,30 +2,27 @@ import { join, dirname } from 'path'
 import { existsSync, mkdirSync } from 'fs'
 import { rm, readFile, writeFile } from 'fs/promises'
 import { Connector } from './base'
+import { makeRelative } from './makeRelative'
 
 class LocalConnector extends Connector {
   baseUrl: string
   diographJsonPath: string
   imageFolderPath: string
-  relativeImageFolderPath: string
   roomJsonPath: string
 
   constructor(baseUrl: string) {
     super()
     this.baseUrl = baseUrl
-    this.diographJsonPath = join(baseUrl, 'diograph.json')
+    this.diographJsonPath = 'diograph.json'
 
-    this.relativeImageFolderPath = 'images'
-    this.imageFolderPath = join(baseUrl, this.relativeImageFolderPath)
-    this.roomJsonPath = join(baseUrl, 'room.json')
+    this.imageFolderPath = 'images'
+    this.roomJsonPath = 'room.json'
   }
 
   addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
     // Writes thumbnail image file to absolute path
     console.log('Thumbnail written to:', join(this.imageFolderPath, thumbnailContentUrl))
-    await this.writeItem(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
-    // Returns relative thumbnail image path to be set as diory.image
-    return join(this.relativeImageFolderPath, thumbnailContentUrl)
+    return await this.writeItem(thumbnailBuffer, join(this.imageFolderPath, thumbnailContentUrl))
   }
 
   deleteThumbnail = async (thumbnailFileName: string) => {
@@ -37,7 +34,7 @@ class LocalConnector extends Connector {
   }
 
   writeDiograph = (fileContent: string) => {
-    return this.writeItem(this.diographJsonPath, fileContent).then(() => {
+    return this.writeItem(fileContent, this.diographJsonPath).then(() => {
       console.log(`diograph.save(): Saved diograph.json to ${this.diographJsonPath}`)
     })
   }
@@ -50,9 +47,9 @@ class LocalConnector extends Connector {
     return this.readItem(contentUrl)
   }
 
-  // TODO: writeDataobject ei ota contentUrlia, vaan sen pitäisi luoda se...
-  writeDataobject = async (contentUrl: string, sourceFileContent: Buffer) => {
-    return this.writeItem(contentUrl, sourceFileContent)
+  // TODO: writeDataobject ei pitäisi tarvita fileNamea, vaan sen pitäisi pystyä luomaan contentUrl itse
+  writeDataobject = async (sourceFileContent: Buffer, diory: string) => {
+    return this.writeItem(sourceFileContent, diory)
   }
 
   deleteDataobject = async (contentUrl: string) => {
@@ -63,6 +60,11 @@ class LocalConnector extends Connector {
 
   getFilePath = (contentUrl: string) => {
     return join(this.baseUrl, contentUrl)
+  }
+
+  getContentUrl = (diory: string) => {
+    // TODO: Derive contentUrl from diory
+    return join(this.baseUrl, diory)
   }
 
   readItem = async (contentUrl: string) => {
@@ -77,14 +79,21 @@ class LocalConnector extends Connector {
     return readFile(this.getFilePath(contentUrl), { encoding: 'utf8' })
   }
 
-  writeItem = async (contentUrl: string, fileContent: Buffer | string) => {
-    const filePath = this.getFilePath(contentUrl)
-    const dirPath = dirname(filePath)
-    if (!existsSync(dirPath)) {
-      mkdirSync(dirPath, { recursive: true })
+  writeItem = async (fileContent: Buffer | string, diory?: string) => {
+    let filePath
+    if (diory) {
+      filePath = this.getContentUrl(diory)
+      const dirPath = dirname(filePath)
+      if (!existsSync(dirPath)) {
+        mkdirSync(dirPath, { recursive: true })
+      }
+    } else {
+      filePath = this.getContentUrl(Date.now().toString())
     }
 
-    return writeFile(filePath, fileContent)
+    await writeFile(filePath, fileContent)
+
+    return makeRelative(this.baseUrl, filePath)
   }
 
   deleteItem = async (contentUrl: string) => {
