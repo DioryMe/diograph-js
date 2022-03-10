@@ -42,7 +42,6 @@ class Connector {
     return this.readItem(contentUrl)
   }
 
-  // TODO: writeDataobject ei pitäisi tarvita fileNamea, vaan sen pitäisi pystyä luomaan contentUrl itse
   writeDataobject = async (sourceFileContent: Buffer, diory: string) => {
     return this.writeItem(sourceFileContent, diory)
   }

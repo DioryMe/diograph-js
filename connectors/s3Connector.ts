@@ -1,5 +1,7 @@
 import { Connector } from './baseConnector'
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
+import * as getStream from 'get-stream'
+import { Readable } from 'stream'
 
 interface S3ConnectorConfig {
   bucket?: {
@@ -43,8 +45,11 @@ class S3Connector extends Connector {
     const command = new GetObjectCommand(params)
     const data = await s3.send(command)
 
-    // return data.Body
-    return Buffer.from('string')
+    if (data.Body instanceof Readable) {
+      return getStream.buffer(data.Body as any)
+    } else {
+      throw new Error('Unknown object stream type.')
+    }
   }
 }
 
