@@ -1,15 +1,10 @@
 import { join } from 'path'
 
 class Connector {
-  diographJsonPath: string
   imageFolderPath: string
-  roomJsonPath: string
 
   constructor() {
-    this.diographJsonPath = 'diograph.json'
-
     this.imageFolderPath = 'images'
-    this.roomJsonPath = 'room.json'
   }
 
   addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
@@ -20,20 +15,6 @@ class Connector {
 
   deleteThumbnail = async (thumbnailFileName: string) => {
     return this.deleteItem(join(this.imageFolderPath, thumbnailFileName))
-  }
-
-  readDiograph = async () => {
-    return this.readTextItem(this.diographJsonPath)
-  }
-
-  writeDiograph = (fileContent: string) => {
-    return this.writeItem(fileContent, this.diographJsonPath).then(() => {
-      console.log(`diograph.save(): Saved diograph.json to ${this.diographJsonPath}`)
-    })
-  }
-
-  loadRoom = async () => {
-    return this.readTextItem(this.roomJsonPath)
   }
 
   getDataobject = (contentUrl: string) => {

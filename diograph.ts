@@ -1,5 +1,5 @@
 import { Diograph } from './types'
-import { Connector } from './connectors'
+import { RoomConnector } from './roomConnectors'
 import {
   createDiory,
   getDiory,
@@ -12,9 +12,10 @@ import {
 } from './api'
 
 class DiographJson {
-  connector: Connector
+  connector: RoomConnector
   rootId: string = ''
   diograph: Diograph = {}
+  diographUrl: string
 
   createDiory = createDiory
   getDiory = getDiory
@@ -25,7 +26,8 @@ class DiographJson {
   importDioryFromFile = importDioryFromFile
   importFolder = importFolder
 
-  constructor(connector: Connector) {
+  constructor(diographUrl: string, connector: RoomConnector) {
+    this.diographUrl = diographUrl
     this.connector = connector
   }
 
@@ -50,7 +52,7 @@ class DiographJson {
 
     const fileContent = JSON.stringify(diographJsonContents, null, 2)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    return this.connector.writeDiograph(fileContent)
+    return this.connector.writeTextItem(fileContent, this.diographUrl)
   }
 }
 

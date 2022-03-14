@@ -22,6 +22,7 @@ const test = async () => {
 
   // Construct diograph & room objects
   const room = new Room(roomConnector)
+  await room.load()
   const diographJson = room.diograph
 
   // RootId

@@ -1,38 +1,28 @@
+import { RoomConnector } from './roomConnectors'
 import { Connector } from './connectors'
+import { DiographJson } from '.'
 
 export interface ContentUrls {
   [key: string]: string
 }
 
 class Room {
+  connectors: Connector[] = []
+  connector: RoomConnector
+  diograph: DiographJson | undefined
   contentUrls: ContentUrls = {}
-  connector: Connector
 
-  constructor(connector: Connector) {
+  constructor(connector: RoomConnector) {
     this.connector = connector
   }
 
   load = async () => {
     const roomJsonContents = await this.connector.loadRoom()
-    const { contentUrls } = JSON.parse(roomJsonContents)
+    const { diographUrl, contentUrls, connectors } = JSON.parse(roomJsonContents)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
-  }
-
-  getDataobject = async function getDataobject(this: Room, contentUrl: string): Promise<Buffer> {
-    return this.connector.getDataobject(contentUrl)
-  }
-
-  createDataobject = async function createDataobject(
-    this: Room,
-    sourceFileContent: Buffer,
-    diory: string,
-  ): Promise<string> {
-    return this.connector.writeDataobject(sourceFileContent, diory)
-  }
-
-  deleteDataobject = function deleteDataobject(this: Room, contentUrl: string) {
-    return this.connector.deleteDataobject(contentUrl)
+    this.connectors = connectors
+    this.diograph = new DiographJson(diographUrl, this.connector)
   }
 }
 
