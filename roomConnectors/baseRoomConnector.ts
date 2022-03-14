@@ -1,12 +1,23 @@
+import { mkdirSync, existsSync } from 'fs'
+import { join } from 'path'
+
 class RoomConnector {
+  address: string
   roomJsonPath: string
   diographJsonPath: string
   imageFolderPath: string
 
-  constructor() {
-    this.roomJsonPath = 'fixtures/room.json'
-    this.diographJsonPath = 'fixtures/diograph.json'
-    this.imageFolderPath = 'fixtures/images'
+  constructor(config: any) {
+    if (!config.address) {
+      throw new Error('No address given to room')
+    }
+    this.address = config.address
+    this.roomJsonPath = join(this.address, 'room.json')
+    this.diographJsonPath = join(this.address, 'diograph.json')
+    this.imageFolderPath = join(this.address, 'images')
+    if (!existsSync(this.imageFolderPath)) {
+      mkdirSync(this.imageFolderPath)
+    }
   }
 
   loadRoom = async () => {
@@ -17,6 +28,10 @@ class RoomConnector {
   readDiograph = async () => {
     // throw new Error('Not implemented.')
     return 'string'
+  }
+
+  saveDiograph = async (diographFileContents: string) => {
+    // throw new Error('Not implemented.')
   }
 
   readTextItem = async (url: string) => {

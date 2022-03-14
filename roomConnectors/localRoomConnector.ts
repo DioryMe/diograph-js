@@ -3,8 +3,8 @@ import { RoomConnector } from './baseRoomConnector'
 import { join } from 'path'
 
 class LocalRoomConnector extends RoomConnector {
-  constructor() {
-    super()
+  constructor(config: any) {
+    super(config)
   }
 
   loadRoom = async () => {
@@ -15,16 +15,20 @@ class LocalRoomConnector extends RoomConnector {
     return this.readTextItem(this.diographJsonPath)
   }
 
+  saveDiograph = async (diographFileContents: string) => {
+    return this.writeTextItem(this.diographJsonPath, diographFileContents)
+  }
+
   readTextItem = async (url: string) => {
     return readFile(url, { encoding: 'utf8' })
   }
 
-  writeTextItem = (url: string, fileContent: string) => {
+  writeTextItem = async (url: string, fileContent: string) => {
     return this.writeItem(url, fileContent)
   }
 
   writeItem = async (url: string, fileContent: Buffer | string) => {
-    return await writeFile(url, fileContent)
+    return writeFile(url, fileContent)
   }
 
   deleteItem = async (url: string) => {
@@ -34,7 +38,7 @@ class LocalRoomConnector extends RoomConnector {
   addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
     // Writes thumbnail image file to absolute path
     console.log('Thumbnail written to:', join(this.imageFolderPath, thumbnailContentUrl))
-    return await this.writeItem(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
+    return this.writeItem(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
   }
 
   deleteThumbnail = async (thumbnailContentUrl: string) => {

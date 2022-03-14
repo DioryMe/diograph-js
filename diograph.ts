@@ -59,9 +59,9 @@ class DiographJson {
       diograph: this.diograph,
     }
 
-    const fileContent = JSON.stringify(diographJsonContents, null, 2)
+    const diographFileContents = JSON.stringify(diographJsonContents, null, 2)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    return this.connector.writeTextItem(fileContent, this.diographUrl)
+    return this.connector.saveDiograph(diographFileContents)
   }
 }
 
