@@ -12,7 +12,7 @@ import {
 } from './api'
 
 class DiographJson {
-  connector: RoomConnector
+  connector: RoomConnector | undefined
   rootId: string = ''
   diograph: Diograph = {}
   diographUrl: string
@@ -26,7 +26,7 @@ class DiographJson {
   importDioryFromFile = importDioryFromFile
   importFolder = importFolder
 
-  constructor(diographUrl: string, connector: RoomConnector) {
+  constructor(diographUrl: string, connector?: RoomConnector) {
     this.diographUrl = diographUrl
     this.connector = connector
   }
@@ -37,6 +37,10 @@ class DiographJson {
   }
 
   loadDiograph = async () => {
+    if (!this.connector) {
+      throw new Error("Connector missing, can't load diograph")
+    }
+
     const diographJsonContents = await this.connector.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographJsonContents)
@@ -45,6 +49,10 @@ class DiographJson {
   }
 
   saveDiograph = () => {
+    if (!this.connector) {
+      throw new Error("Connector missing, can't save diograph")
+    }
+
     const diographJsonContents = {
       rootId: this.rootId,
       diograph: this.diograph,

@@ -1,0 +1,9 @@
+{
+  "diographUrl": "./diograph.json",
+  "connectors": [
+    {
+      "id": "abc-123",
+      "address": "."
+    }
+  ]
+}

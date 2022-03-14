@@ -1,11 +1,17 @@
+import { readFile } from 'fs/promises'
 import { DiographJson } from '../diograph'
 
 describe('get', () => {
   let diographJson: DiographJson
 
   beforeEach(async () => {
-    diographJson = new DiographJson({ baseUrl: 'fixtures' })
-    await diographJson.loadDiograph()
+    diographJson = new DiographJson('fixtures')
+    const diograph = await readFile('fixtures/diograph.json', { encoding: 'utf-8' }).then(
+      (data) => {
+        return JSON.parse(data)
+      },
+    )
+    diographJson.setDiograph(diograph)
   })
 
   it('text search works', () => {

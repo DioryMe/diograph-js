@@ -1,5 +1,5 @@
 {
-  "diographUrl": "diograph.json",
+  "diographUrl": "./diograph.json",
   "contentUrls": {
     "65d860160bdc9b98abf72407e14ca40b609417de7939897d3b58d55787aaef69": "Mary/PIXNIO-53799-6177x4118.jpeg"
   },
