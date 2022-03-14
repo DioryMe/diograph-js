@@ -44,6 +44,7 @@ class DiographJson {
     const diographJsonContents = await this.connector.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographJsonContents)
+
     this.rootId = rootId
     this.diograph = diograph
   }

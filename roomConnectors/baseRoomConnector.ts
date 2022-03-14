@@ -4,17 +4,19 @@ class RoomConnector {
   imageFolderPath: string
 
   constructor() {
-    this.roomJsonPath = 'room.json'
-    this.diographJsonPath = 'diograph.json'
-    this.imageFolderPath = 'images'
+    this.roomJsonPath = 'fixtures/room.json'
+    this.diographJsonPath = 'fixtures/diograph.json'
+    this.imageFolderPath = 'fixtures/images'
   }
 
   loadRoom = async () => {
-    return this.readTextItem(this.roomJsonPath)
+    // throw new Error('Not implemented.')
+    return 'string'
   }
 
   readDiograph = async () => {
-    return this.readTextItem(this.diographJsonPath)
+    // throw new Error('Not implemented.')
+    return 'string'
   }
 
   readTextItem = async (url: string) => {

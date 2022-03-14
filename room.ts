@@ -16,7 +16,7 @@ class Room {
     this.connector = connector
   }
 
-  load = async () => {
+  loadRoom = async () => {
     const roomJsonContents = await this.connector.loadRoom()
     const { diographUrl, contentUrls, connectors } = JSON.parse(roomJsonContents)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)

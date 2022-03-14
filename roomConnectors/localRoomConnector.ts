@@ -5,11 +5,18 @@ import { join } from 'path'
 class LocalRoomConnector extends RoomConnector {
   constructor() {
     super()
-    console.log('constructed')
+  }
+
+  loadRoom = async () => {
+    return this.readTextItem(this.roomJsonPath)
+  }
+
+  readDiograph = async () => {
+    return this.readTextItem(this.diographJsonPath)
   }
 
   readTextItem = async (url: string) => {
-    return readFile(this.roomJsonPath, { encoding: 'utf8' })
+    return readFile(url, { encoding: 'utf8' })
   }
 
   writeTextItem = (url: string, fileContent: string) => {
