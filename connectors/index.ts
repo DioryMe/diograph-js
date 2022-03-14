@@ -1,4 +1,4 @@
 import { LocalConnector } from './localConnector'
-import { Connector } from './base'
+import { Connector } from './baseConnector'
 
 export { Connector, LocalConnector }

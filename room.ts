@@ -1,5 +1,4 @@
-import { DiographJsonParams } from './types'
-import { LocalConnector } from './connectors'
+import { Connector } from './connectors'
 
 export interface ContentUrls {
   [key: string]: string
@@ -7,10 +6,10 @@ export interface ContentUrls {
 
 class Room {
   contentUrls: ContentUrls = {}
-  connector: LocalConnector
+  connector: Connector
 
-  constructor({ baseUrl }: DiographJsonParams, connector?: LocalConnector) {
-    this.connector = connector || new LocalConnector(baseUrl)
+  constructor(connector: Connector) {
+    this.connector = connector
   }
 
   load = async () => {
@@ -24,12 +23,12 @@ class Room {
     return this.connector.getDataobject(contentUrl)
   }
 
-  importDataobject = async function importDataobject(
+  createDataobject = async function createDataobject(
     this: Room,
     sourceFileContent: Buffer,
-    contentUrl: string,
-  ): Promise<void> {
-    return this.connector.writeDataobject(contentUrl, sourceFileContent)
+    diory: string,
+  ): Promise<string> {
+    return this.connector.writeDataobject(sourceFileContent, diory)
   }
 
   deleteDataobject = function deleteDataobject(this: Room, contentUrl: string) {

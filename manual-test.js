@@ -1,5 +1,5 @@
 const { readFile } = require('fs/promises')
-const { DiographJson, Room } = require('./dist')
+const { DiographJson, Room, LocalConnector } = require('./dist')
 
 const importFileTest = async (diographJson, room, filePath) => {
   const givenContentUrl = 'tosi-hieno-content-url'
@@ -8,7 +8,7 @@ const importFileTest = async (diographJson, room, filePath) => {
   console.log('Diory imported from file:', diory)
   // 2. Import dataobject
   const sourceFileContent = await readFile(filePath)
-  await room.importDataobject(sourceFileContent, contentUrl)
+  await room.createDataobject(sourceFileContent, contentUrl)
   // 3. Cleanup
   await diographJson.deleteDiory(diory.id, { deleteThumbnail: true })
   await room.deleteDataobject(contentUrl)
@@ -16,8 +16,9 @@ const importFileTest = async (diographJson, room, filePath) => {
 
 const test = async () => {
   // Construct diograph & room objects
-  const diographJson = new DiographJson({ baseUrl: 'fixtures' })
-  const room = new Room({ baseUrl: 'fixtures' })
+  const connector = new LocalConnector('fixtures')
+  const diographJson = new DiographJson(connector)
+  const room = new Room(connector)
 
   // 0. Load diograph
   await diographJson.loadDiograph()

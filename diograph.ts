@@ -1,5 +1,5 @@
-import { Diograph, DiographJsonParams } from './types'
-import { LocalConnector } from './connectors'
+import { Diograph } from './types'
+import { Connector } from './connectors'
 import {
   createDiory,
   getDiory,
@@ -12,7 +12,7 @@ import {
 } from './api'
 
 class DiographJson {
-  connector: LocalConnector
+  connector: Connector
   rootId: string = ''
   diograph: Diograph = {}
 
@@ -25,8 +25,8 @@ class DiographJson {
   importDioryFromFile = importDioryFromFile
   importFolder = importFolder
 
-  constructor({ baseUrl }: DiographJsonParams, connector?: LocalConnector) {
-    this.connector = connector || new LocalConnector(baseUrl)
+  constructor(connector: Connector) {
+    this.connector = connector
   }
 
   setDiograph = (diograph: Diograph, rootId?: string) => {

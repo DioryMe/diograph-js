@@ -27,7 +27,9 @@
     "prettier": "prettier --write .",
     "test": "jest .",
     "test-watch": "yarn test --watch",
-    "manual-test": "node manual-test.js"
+    "manual-test": "node manual-test.js local",
+    "s3-test": "node manual-test.js s3",
+    "room-test": "node room-connector-test.js"
   },
   "prettier": {
     "tabWidth": 2,
