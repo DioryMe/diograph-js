@@ -1,5 +1,6 @@
-import { readFile, writeFile } from 'fs/promises'
+import { readFile, writeFile, rm } from 'fs/promises'
 import { RoomConnector } from './baseRoomConnector'
+import { join } from 'path'
 
 class LocalRoomConnector extends RoomConnector {
   constructor() {
@@ -12,9 +13,25 @@ class LocalRoomConnector extends RoomConnector {
   }
 
   writeTextItem = (url: string, fileContent: string) => {
-    return writeFile(url, fileContent).then(() => {
-      console.log('writeTextItem', this.diographJsonPath)
-    })
+    return this.writeItem(url, fileContent)
+  }
+
+  writeItem = async (url: string, fileContent: Buffer | string) => {
+    return await writeFile(url, fileContent)
+  }
+
+  deleteItem = async (url: string) => {
+    return rm(url)
+  }
+
+  addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
+    // Writes thumbnail image file to absolute path
+    console.log('Thumbnail written to:', join(this.imageFolderPath, thumbnailContentUrl))
+    return await this.writeItem(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
+  }
+
+  deleteThumbnail = async (thumbnailContentUrl: string) => {
+    return this.deleteItem(join(this.imageFolderPath, thumbnailContentUrl))
   }
 }
 

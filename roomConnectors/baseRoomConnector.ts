@@ -1,10 +1,12 @@
 class RoomConnector {
   roomJsonPath: string
   diographJsonPath: string
+  imageFolderPath: string
 
   constructor() {
     this.roomJsonPath = 'room.json'
     this.diographJsonPath = 'diograph.json'
+    this.imageFolderPath = 'images'
   }
 
   loadRoom = async () => {
@@ -21,6 +23,14 @@ class RoomConnector {
   }
 
   writeTextItem = async (url: string, fileContent: string) => {
+    // throw new Error('Not implemented.')
+  }
+
+  addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
+    // throw new Error('Not implemented.')
+  }
+
+  deleteThumbnail = async (thumbnailContentUrl: string) => {
     // throw new Error('Not implemented.')
   }
 }

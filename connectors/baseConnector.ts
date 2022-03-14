@@ -7,16 +7,6 @@ class Connector {
     this.imageFolderPath = 'images'
   }
 
-  addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
-    // Writes thumbnail image file to absolute path
-    console.log('Thumbnail written to:', join(this.imageFolderPath, thumbnailContentUrl))
-    return await this.writeItem(thumbnailBuffer, join(this.imageFolderPath, thumbnailContentUrl))
-  }
-
-  deleteThumbnail = async (thumbnailFileName: string) => {
-    return this.deleteItem(join(this.imageFolderPath, thumbnailFileName))
-  }
-
   getDataobject = (contentUrl: string) => {
     return this.readItem(contentUrl)
   }

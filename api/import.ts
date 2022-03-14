@@ -14,10 +14,9 @@ async function importDioryFromFile(this: DiographJson, filePath: string, content
     if (!this.connector) {
       throw new Error("Connector missing, can't add thumbnail")
     }
-    const thumbnailContentUrl: string = await this.connector.addThumbnail(
-      thumbnailBuffer,
-      `${createdDiory.id}.jpg`,
-    )
+
+    const thumbnailContentUrl = `${createdDiory.id}.jpg`
+    await this.connector.addThumbnail(thumbnailBuffer, thumbnailContentUrl)
     this.update(createdDiory.id, { image: thumbnailContentUrl })
   }
   return {
