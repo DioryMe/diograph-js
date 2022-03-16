@@ -3,8 +3,8 @@
   "connectors": [
     {
       "id": "abc-123",
-      "address": "."
+      "address": ".",
+      "contentUrls": {}
     }
-  ],
-  "contentUrls": {}
+  ]
 }
