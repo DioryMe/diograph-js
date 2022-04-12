@@ -29,6 +29,30 @@ class Room {
     })
     this.diograph = new DiographJson(diographUrl, this.connector)
   }
+
+  initiateRoom = async () => {
+    const defaultRoomJson = JSON.stringify({
+      diographUrl: 'diograph.json',
+      connectors: [
+        {
+          id: 'abc-123',
+          address: '.',
+          contentUrls: {},
+        },
+      ],
+    })
+
+    const defaultDiographJson = JSON.stringify({
+      rootId: 'abc-123',
+      diograph: {
+        id: 'abc-123',
+        text: 'Root diory',
+      },
+    })
+
+    this.connector.writeTextItem(this.connector.roomJsonPath, defaultRoomJson)
+    this.connector.writeTextItem(this.connector.diographJsonPath, defaultDiographJson)
+  }
 }
 
 export { Room }
