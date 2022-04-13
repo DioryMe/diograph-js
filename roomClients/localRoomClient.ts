@@ -1,3 +1,4 @@
+import { mkdirSync, existsSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { RoomClient } from './baseRoomClient'
 import { join } from 'path'
@@ -5,6 +6,33 @@ import { join } from 'path'
 class LocalRoomClient extends RoomClient {
   constructor(config: any) {
     super(config)
+  }
+
+  verifyAndConnect = async () => {
+    if (
+      existsSync(this.roomJsonPath) &&
+      existsSync(this.diographJsonPath) &&
+      existsSync(this.imageFolderPath)
+    ) {
+      return true
+    }
+    throw new Error("No room or invalid room, can't connect!")
+  }
+
+  initiateRoom = async (roomJsonContents: string, diographJsonContents: string) => {
+    // room.json
+    if (!existsSync(this.roomJsonPath)) {
+      this.writeTextItem(this.roomJsonPath, roomJsonContents)
+    }
+    // diograph.json
+    if (!existsSync(this.diographJsonPath)) {
+      this.writeTextItem(this.diographJsonPath, diographJsonContents)
+    }
+    // images/ folder
+    if (!existsSync(this.imageFolderPath)) {
+      mkdirSync(this.imageFolderPath)
+    }
+    return true
   }
 
   loadRoom = async () => {

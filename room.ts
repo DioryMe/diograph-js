@@ -9,25 +9,41 @@ export interface ContentUrls {
 
 class Room {
   address: string
+  connected: boolean
   clients: Client[] = []
-  client: RoomClient
+  roomClient: RoomClient
   diograph: DiographJson | undefined
   contentUrls: ContentUrls = {}
 
-  constructor(address: string, client: RoomClient) {
+  constructor(address: string, roomClient: RoomClient) {
     this.address = address
-    this.client = client
+    this.connected = false
+    this.roomClient = roomClient
+  }
+
+  loadOrInitiateRoom = async () => {
+    try {
+      await this.roomClient.verifyAndConnect()
+      this.connected = true
+      await this.loadRoom()
+    } catch (e) {
+      this.initiateRoom()
+    }
   }
 
   loadRoom = async () => {
-    const roomJsonContents = await this.client.loadRoom()
+    this.connected = await this.roomClient.verifyAndConnect()
+    if (!this.connected) {
+      throw new Error("Can't load room before it's connected!")
+    }
+    const roomJsonContents = await this.roomClient.loadRoom()
     const { diographUrl, contentUrls, clients } = JSON.parse(roomJsonContents)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
     this.clients = clients.map((config: any) => {
-      return new LocalContentSourceClient(join(this.address, config.address))
+      return new LocalClient(join(this.address, config.address))
     })
-    this.diograph = new DiographJson(diographUrl, this.client)
+    this.diograph = new DiographJson(diographUrl, this.roomClient)
   }
 
   initiateRoom = async () => {
@@ -50,8 +66,18 @@ class Room {
       },
     })
 
-    this.client.writeTextItem(this.client.roomJsonPath, defaultRoomJson)
-    this.client.writeTextItem(this.client.diographJsonPath, defaultDiographJson)
+    this.roomClient.initiateRoom(defaultRoomJson, defaultDiographJson)
+  }
+
+  saveRoom = async () => {
+    // this.roomClient.writeTextItem(this.roomClient.roomJsonPath, this.roomJson)
+    // this.roomClient.writeTextItem(this.roomClient.diographJsonPath, this.diographJson)
+  }
+
+  deleteRoom = async () => {
+    this.roomClient.deleteItem(this.roomClient.roomJsonPath)
+    this.roomClient.deleteItem(this.roomClient.diographJsonPath)
+    // this.roomClient.deleteItem(this.roomClient.imageFolderPath)
   }
 }
 

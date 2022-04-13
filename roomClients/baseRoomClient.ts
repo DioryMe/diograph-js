@@ -1,4 +1,3 @@
-import { mkdirSync, existsSync } from 'fs'
 import { join } from 'path'
 
 class RoomClient {
@@ -15,9 +14,16 @@ class RoomClient {
     this.roomJsonPath = join(this.address, 'room.json')
     this.diographJsonPath = join(this.address, 'diograph.json')
     this.imageFolderPath = join(this.address, 'images')
-    if (!existsSync(this.imageFolderPath)) {
-      mkdirSync(this.imageFolderPath)
-    }
+  }
+
+  verifyAndConnect = async () => {
+    // throw new Error('Not implemented.')
+    return true
+  }
+
+  initiateRoom = async (roomJsonContents: string, diographJsonContents: string) => {
+    // throw new Error('Not implemented.')
+    return true
   }
 
   loadRoom = async () => {
@@ -40,6 +46,14 @@ class RoomClient {
   }
 
   writeTextItem = async (url: string, fileContent: string) => {
+    // throw new Error('Not implemented.')
+  }
+
+  writeItem = async (url: string, fileContent: Buffer | string) => {
+    // throw new Error('Not implemented.')
+  }
+
+  deleteItem = async (url: string) => {
     // throw new Error('Not implemented.')
   }
 
