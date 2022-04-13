@@ -1,5 +1,5 @@
 import { Diograph } from './types'
-import { RoomConnector } from './roomConnectors'
+import { RoomClient } from './roomClients'
 import {
   createDiory,
   getDiory,
@@ -12,7 +12,7 @@ import {
 } from './api'
 
 class DiographJson {
-  connector: RoomConnector | undefined
+  client: RoomClient | undefined
   rootId: string = ''
   diograph: Diograph = {}
   diographUrl: string
@@ -26,9 +26,9 @@ class DiographJson {
   importDioryFromFile = importDioryFromFile
   importFolder = importFolder
 
-  constructor(diographUrl: string, connector?: RoomConnector) {
+  constructor(diographUrl: string, client?: RoomClient) {
     this.diographUrl = diographUrl
-    this.connector = connector
+    this.client = client
   }
 
   setDiograph = (diograph: Diograph, rootId?: string) => {
@@ -37,11 +37,11 @@ class DiographJson {
   }
 
   loadDiograph = async () => {
-    if (!this.connector) {
-      throw new Error("Connector missing, can't load diograph")
+    if (!this.client) {
+      throw new Error("Client missing, can't load diograph")
     }
 
-    const diographJsonContents = await this.connector.readDiograph()
+    const diographJsonContents = await this.client.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographJsonContents)
 
@@ -50,8 +50,8 @@ class DiographJson {
   }
 
   saveDiograph = () => {
-    if (!this.connector) {
-      throw new Error("Connector missing, can't save diograph")
+    if (!this.client) {
+      throw new Error("Client missing, can't save diograph")
     }
 
     const diographJsonContents = {
@@ -61,7 +61,7 @@ class DiographJson {
 
     const diographFileContents = JSON.stringify(diographJsonContents, null, 2)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    return this.connector.saveDiograph(diographFileContents)
+    return this.client.saveDiograph(diographFileContents)
   }
 }
 

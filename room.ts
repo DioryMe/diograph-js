@@ -1,5 +1,5 @@
-import { RoomConnector } from './roomConnectors'
-import { Connector, LocalConnector } from './connectors'
+import { RoomClient } from './roomClients'
+import { Client, LocalContentSourceClient } from './clients'
 import { DiographJson } from '.'
 import { join } from 'path'
 
@@ -9,31 +9,31 @@ export interface ContentUrls {
 
 class Room {
   address: string
-  connectors: Connector[] = []
-  connector: RoomConnector
+  clients: Client[] = []
+  client: RoomClient
   diograph: DiographJson | undefined
   contentUrls: ContentUrls = {}
 
-  constructor(address: string, connector: RoomConnector) {
+  constructor(address: string, client: RoomClient) {
     this.address = address
-    this.connector = connector
+    this.client = client
   }
 
   loadRoom = async () => {
-    const roomJsonContents = await this.connector.loadRoom()
-    const { diographUrl, contentUrls, connectors } = JSON.parse(roomJsonContents)
+    const roomJsonContents = await this.client.loadRoom()
+    const { diographUrl, contentUrls, clients } = JSON.parse(roomJsonContents)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
-    this.connectors = connectors.map((config: any) => {
-      return new LocalConnector(join(this.address, config.address))
+    this.clients = clients.map((config: any) => {
+      return new LocalContentSourceClient(join(this.address, config.address))
     })
-    this.diograph = new DiographJson(diographUrl, this.connector)
+    this.diograph = new DiographJson(diographUrl, this.client)
   }
 
   initiateRoom = async () => {
     const defaultRoomJson = JSON.stringify({
       diographUrl: 'diograph.json',
-      connectors: [
+      clients: [
         {
           id: 'abc-123',
           address: '.',
@@ -50,8 +50,8 @@ class Room {
       },
     })
 
-    this.connector.writeTextItem(this.connector.roomJsonPath, defaultRoomJson)
-    this.connector.writeTextItem(this.connector.diographJsonPath, defaultDiographJson)
+    this.client.writeTextItem(this.client.roomJsonPath, defaultRoomJson)
+    this.client.writeTextItem(this.client.diographJsonPath, defaultDiographJson)
   }
 }
 

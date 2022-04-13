@@ -1,4 +1,4 @@
-const { Room, LocalRoomConnector } = require('./dist')
+const { Room, LocalRoomClient } = require('./dist')
 
 const clientType = process.argv[2]
 const path = process.argv[3]
@@ -14,8 +14,8 @@ console.log('')
 
 console.log(`Initiating room to ${path}`)
 
-const connector = new LocalRoomConnector({ address: path })
-const room = new Room(path, connector)
+const client = new LocalRoomClient({ address: path })
+const room = new Room(path, client)
 room.initiateRoom()
 
 console.log('Connected to Room: initiation completed & saved to app-data.json!')

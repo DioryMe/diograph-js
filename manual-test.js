@@ -1,7 +1,7 @@
 const { existsSync } = require('fs')
 const { readFile } = require('fs/promises')
 const { join } = require('path')
-const { Room, LocalRoomConnector } = require('./dist')
+const { Room, LocalRoomClient } = require('./dist')
 
 const importFileTest = async (diographJson, room, filePath) => {
   const givenContentUrl = 'tosi-hieno-content-url'
@@ -10,26 +10,26 @@ const importFileTest = async (diographJson, room, filePath) => {
   console.log('Diory imported from file:', diory)
   // 2. Import dataobject
   const sourceFileContent = await readFile(filePath)
-  await room.connectors[0].writeDataobject(sourceFileContent, contentUrl)
+  await room.clients[0].writeDataobject(sourceFileContent, contentUrl)
   // 3. Cleanup
   await diographJson.deleteDiory(diory.id, { deleteThumbnail: true })
-  await room.connectors[0].deleteDataobject(contentUrl)
+  await room.clients[0].deleteDataobject(contentUrl)
 }
 
 const testApi = async () => {
-  // Connect to room using localRoomConnector
+  // Connect to room using localRoomClient
   const roomAddress = join(__dirname, 'fixtures')
   const roomKey = 'salainen-avain'
-  const roomConnector = new LocalRoomConnector({ address: roomAddress, key: roomKey })
+  const roomClient = new LocalRoomClient({ address: roomAddress, key: roomKey })
 
   // Construct diograph & room objects
-  const room = new Room(roomAddress, roomConnector)
+  const room = new Room(roomAddress, roomClient)
   await room.loadRoom()
   const diographJson = room.diograph
 
-  // Add localConnector to the folder next to diograph.json / room.json
-  // const connector = new LocalConnector('./fixtures')
-  // room.addConnector(connector)
+  // Add localClient to the folder next to diograph.json / room.json
+  // const client = new LocalContentSourceClient('./fixtures')
+  // room.addClient(client)
 
   // 0. Load diograph
   await diographJson.loadDiograph()

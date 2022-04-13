@@ -1,10 +1,10 @@
 import { join, dirname } from 'path'
 import { existsSync, mkdirSync } from 'fs'
 import { rm, readFile, writeFile } from 'fs/promises'
-import { Connector } from './baseConnector'
+import { Client } from './baseClient'
 import { makeRelative } from './makeRelative'
 
-class LocalConnector extends Connector {
+class LocalContentSourceClient extends Client {
   baseUrl: string
 
   constructor(baseUrl: string) {
@@ -55,4 +55,4 @@ class LocalConnector extends Connector {
   }
 }
 
-export { Connector, LocalConnector }
+export { Client, LocalContentSourceClient }

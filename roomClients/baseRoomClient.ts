@@ -1,7 +1,7 @@
 import { mkdirSync, existsSync } from 'fs'
 import { join } from 'path'
 
-class RoomConnector {
+class RoomClient {
   address: string
   roomJsonPath: string
   diographJsonPath: string
@@ -52,4 +52,4 @@ class RoomConnector {
   }
 }
 
-export { RoomConnector }
+export { RoomClient }

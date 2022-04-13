@@ -1,8 +1,8 @@
 import { readFile, writeFile, rm } from 'fs/promises'
-import { RoomConnector } from './baseRoomConnector'
+import { RoomClient } from './baseRoomClient'
 import { join } from 'path'
 
-class LocalRoomConnector extends RoomConnector {
+class LocalRoomClient extends RoomClient {
   constructor(config: any) {
     super(config)
   }
@@ -46,4 +46,4 @@ class LocalRoomConnector extends RoomConnector {
   }
 }
 
-export { LocalRoomConnector }
+export { LocalRoomClient }

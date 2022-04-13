@@ -1,6 +1,6 @@
 import { join } from 'path'
 
-class Connector {
+class Client {
   imageFolderPath: string
 
   constructor() {
@@ -41,4 +41,4 @@ class Connector {
   }
 }
 
-export { Connector }
+export { Client }
