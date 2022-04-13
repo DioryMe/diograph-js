@@ -17,18 +17,25 @@ const importFileTest = async (diographJson, room, filePath) => {
 }
 
 const testApi = async () => {
+  // Connect to room using localRoomConnector
+  const roomAddress = join(__dirname, 'fixtures')
+  const roomKey = 'salainen-avain'
+  const roomConnector = new LocalRoomConnector({ address: roomAddress, key: roomKey })
+
   // Construct diograph & room objects
-  const connector = new LocalRoomConnector({ address: 'fixtures' })
-  const room = new Room('fixtures', connector)
+  const room = new Room(roomAddress, roomConnector)
   await room.loadRoom()
   const diographJson = room.diograph
+
+  // Add localConnector to the folder next to diograph.json / room.json
+  // const connector = new LocalConnector('./fixtures')
+  // room.addConnector(connector)
 
   // 0. Load diograph
   await diographJson.loadDiograph()
 
   // RootId
   const { rootId } = diographJson
-  console.log(rootId)
 
   // 1. Get diory
   const rootDiory = diographJson.getDiory(rootId)
