@@ -11,7 +11,7 @@ describe('get', () => {
         return JSON.parse(data)
       },
     )
-    diographJson.setDiograph(diograph)
+    diographJson.setDiograph(diograph.diograph)
   })
 
   it('text search works', () => {
