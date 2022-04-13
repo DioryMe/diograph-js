@@ -1,4 +1,6 @@
+const { existsSync } = require('fs')
 const { readFile } = require('fs/promises')
+const { join } = require('path')
 const { DiographJson, Room, LocalConnector } = require('./dist')
 
 const importFileTest = async (diographJson, room, filePath) => {
@@ -14,7 +16,7 @@ const importFileTest = async (diographJson, room, filePath) => {
   await room.deleteDataobject(contentUrl)
 }
 
-const test = async () => {
+const testApi = async () => {
   // Construct diograph & room objects
   const connector = new LocalConnector('fixtures')
   const diographJson = new DiographJson(connector)
@@ -64,6 +66,29 @@ const test = async () => {
 
   // 6. Save diograph
   await diographJson.saveDiograph()
+}
+
+const testClientFlow = async () => {
+  const path = '/Users/Jouni/AppleCopyPhotos/TestFolder'
+  const cliCmd = `node client-flow.js local ${path}`
+  const { execSync } = require('child_process')
+  execSync(cliCmd)
+
+  const roomJsonCheck =
+    existsSync(join(path, 'room.json')) && (await readFile(join(path, 'room.json')))
+  const diographJsonCheck =
+    existsSync(join(path, 'room.json')) && (await readFile(join(path, 'room.json')))
+  const appDataCheck =
+    existsSync(join(path, 'room.json')) && (await readFile(join(path, 'room.json')))
+
+  if (!roomJsonCheck || !diographJsonCheck || !appDataCheck) {
+    throw new Error('Test Failed!')
+  }
+}
+
+const test = async () => {
+  // await testApi()
+  await testClientFlow()
 }
 
 test()

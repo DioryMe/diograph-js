@@ -17,3 +17,5 @@ console.log(`Initiating room to ${path}`)
 const connector = new LocalRoomConnector({ address: path })
 const room = new Room(path, connector)
 room.initiateRoom()
+
+console.log('Connected to Room: initiation completed & saved to app-data.json!')
