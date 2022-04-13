@@ -19,17 +19,13 @@ const importFileTest = async (diographJson, room, filePath) => {
 const testApi = async () => {
   // Connect to room using localRoomClient
   const roomAddress = join(__dirname, 'fixtures')
-  const roomKey = 'salainen-avain'
+  const roomKey = 'secret-key'
   const roomClient = new LocalRoomClient({ address: roomAddress, key: roomKey })
 
   // Construct diograph & room objects
   const room = new Room(roomAddress, roomClient)
   await room.loadRoom()
   const diographJson = room.diograph
-
-  // Add localClient to the folder next to diograph.json / room.json
-  // const client = new LocalContentSourceClient('./fixtures')
-  // room.addClient(client)
 
   // 0. Load diograph
   await diographJson.loadDiograph()

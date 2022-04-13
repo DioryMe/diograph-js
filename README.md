@@ -11,10 +11,16 @@ yarn install diograph-js
 Example:
 
 ```js
-import { DiographJson } from 'diograph-js'
+import { Room, LocalRoomClient } from 'diograph-js'
 
-const diographJson = new DiographJson({ baseUrl: 'diograph.json' })
+// Connect to room using LocalRoomClient
+const roomAddress = join(__dirname)
+const roomClient = new LocalRoomClient({ address: roomAddress })
+const room = new Room(roomAddress, roomClient)
+await room.loadRoom()
 
+// Load diograph and do stuff with it!
+const diographJson = room.diograph
 diographJson.loadDiograph().then(() => {
   const diory = diographJson.getDiory('id-of-my-diory')
   diographJson.update(diory.id, { text: 'New name' })
@@ -22,24 +28,50 @@ diographJson.loadDiograph().then(() => {
 })
 ```
 
-## API
+# API
 
-### load
+## RoomClient
 
-### save
+### initiateRoom
 
-### get
+- initiate default room.json content
+- initiate default diograph.json content
+
+### loadRoom
+
+- load room.json
+- initiate (ContentSource)Clients listen in room.json
+
+### saveRoom
+
+- save room.json
+- save diograph.json
+
+### deleteRoom
+
+- delete room.json, diograph.json and images/ folder(?)
+
+## Diograph
+
+### saveDiograph
 
 ### search
 
+## Diory
+
+### createDiory
+
+### getDiory
+
 ### update
 
-### delete
+### deleteDiory
 
-## Development
+# Development
 
 ```
 yarn
-yarn build
-node test.js
+yarn build-watch
+yarn test
+yarn manual-test
 ```
