@@ -1,7 +1,7 @@
 const { existsSync } = require('fs')
 const { readFile } = require('fs/promises')
 const { join } = require('path')
-const { DiographJson, Room, LocalConnector } = require('./dist')
+const { Room, LocalRoomConnector } = require('./dist')
 
 const importFileTest = async (diographJson, room, filePath) => {
   const givenContentUrl = 'tosi-hieno-content-url'
@@ -10,17 +10,18 @@ const importFileTest = async (diographJson, room, filePath) => {
   console.log('Diory imported from file:', diory)
   // 2. Import dataobject
   const sourceFileContent = await readFile(filePath)
-  await room.createDataobject(sourceFileContent, contentUrl)
+  await room.connectors[0].writeDataobject(sourceFileContent, contentUrl)
   // 3. Cleanup
   await diographJson.deleteDiory(diory.id, { deleteThumbnail: true })
-  await room.deleteDataobject(contentUrl)
+  await room.connectors[0].deleteDataobject(contentUrl)
 }
 
 const testApi = async () => {
   // Construct diograph & room objects
-  const connector = new LocalConnector('fixtures')
-  const diographJson = new DiographJson(connector)
-  const room = new Room(connector)
+  const connector = new LocalRoomConnector({ address: 'fixtures' })
+  const room = new Room('fixtures', connector)
+  await room.loadRoom()
+  const diographJson = room.diograph
 
   // 0. Load diograph
   await diographJson.loadDiograph()
@@ -84,10 +85,12 @@ const testClientFlow = async () => {
   if (!roomJsonCheck || !diographJsonCheck || !appDataCheck) {
     throw new Error('Test Failed!')
   }
+
+  console.log('Client flow succeeded!')
 }
 
 const test = async () => {
-  // await testApi()
+  await testApi()
   await testClientFlow()
 }
 
