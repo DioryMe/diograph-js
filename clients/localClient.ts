@@ -4,7 +4,7 @@ import { rm, readFile, writeFile } from 'fs/promises'
 import { Client } from './baseClient'
 import { makeRelative } from './makeRelative'
 
-class LocalContentSourceClient extends Client {
+class LocalClient extends Client {
   baseUrl: string
 
   constructor(baseUrl: string) {
@@ -55,4 +55,4 @@ class LocalContentSourceClient extends Client {
   }
 }
 
-export { Client, LocalContentSourceClient }
+export { Client, LocalClient }

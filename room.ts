@@ -1,5 +1,5 @@
 import { RoomClient } from './roomClients'
-import { Client, LocalContentSourceClient } from './clients'
+import { Client, LocalClient } from './clients'
 import { DiographJson } from '.'
 import { join } from 'path'
 
