@@ -74,8 +74,8 @@ const testApi = async () => {
 
 const testClientFlow = async () => {
   const path = '/Users/Jouni/AppleCopyPhotos/TestFolder'
-  const initiateCmd = `node client-flow.js local ${path}`
-  const deleteCmd = `node client-flow.js local ${path} delete`
+  const initiateCmd = `node ./tests/test-app.js local ${path}`
+  const deleteCmd = `node ./tests/test-app.js local ${path} delete`
   const { execSync } = require('child_process')
   const initiateOutput = execSync(initiateCmd)
 

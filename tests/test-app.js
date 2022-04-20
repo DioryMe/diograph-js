@@ -1,4 +1,4 @@
-const { Room, LocalRoomClient } = require('./dist')
+const { Room, LocalRoomClient } = require('../dist')
 
 const clientType = process.argv[2]
 const path = process.argv[3]
