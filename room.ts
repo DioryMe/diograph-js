@@ -23,9 +23,7 @@ class Room {
 
   loadOrInitiateRoom = async () => {
     try {
-      await this.roomClient.verifyAndConnect()
-      this.connected = true
-      await this.loadRoom()
+      this.loadRoom()
     } catch (e) {
       this.initiateRoom()
     }
@@ -66,7 +64,8 @@ class Room {
       },
     })
 
-    this.roomClient.initiateRoom(defaultRoomJson, defaultDiographJson)
+    await this.roomClient.initiateRoom(defaultRoomJson, defaultDiographJson)
+    await this.loadRoom()
   }
 
   saveRoom = async () => {
