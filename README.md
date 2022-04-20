@@ -36,6 +36,7 @@ diographJson.loadDiograph().then(() => {
 
 - initiate default room.json content
 - initiate default diograph.json content
+- call loadRoom
 
 ### loadRoom
 
