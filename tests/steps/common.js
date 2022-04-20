@@ -4,7 +4,7 @@ const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
 const testApp = require('../test-app')
 
-const path = '/Users/Jouni/AppleCopyPhotos/TestFolder'
+const path = join(__dirname, '..', 'temp-room')
 
 Given('I have empty place for room', async () => {
   await testApp(['local', path, 'delete'])

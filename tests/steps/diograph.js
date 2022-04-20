@@ -4,7 +4,7 @@ const { join } = require('path')
 const assert = require('assert')
 const testApp = require('../test-app')
 
-const path = '/Users/Jouni/AppleCopyPhotos/TestFolder'
+const path = join(__dirname, '..', 'temp-room')
 
 When('I call {word} for diograph', async (apiAction) => {
   await testApp(['local', path, apiAction])
