@@ -1,21 +1,19 @@
 const { existsSync } = require('fs')
 const assert = require('assert')
 const { join } = require('path')
-const { execSync } = require('child_process')
 const { Given, When, Then } = require('@cucumber/cucumber')
+const testApp = require('../test-app')
 
 const path = '/Users/Jouni/AppleCopyPhotos/TestFolder'
-const initiateCmd = `node ./tests/test-app.js local ${path}`
-const deleteCmd = `node ./tests/test-app.js local ${path} delete`
 
 Given('I have empty place for room', () => {})
 
-When('I initiate room', () => {
-  execSync(initiateCmd)
+When('I initiate room', async () => {
+  await testApp(['local', path])
 })
 
-When('I delete room', () => {
-  execSync(deleteCmd)
+When('I delete room', async () => {
+  await testApp(['local', path, 'delete'])
 })
 
 Then('{word} {word} exists', (fileName, doesOrNot) => {

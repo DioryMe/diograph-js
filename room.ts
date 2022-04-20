@@ -75,8 +75,8 @@ class Room {
   }
 
   deleteRoom = async () => {
-    this.roomClient.deleteItem(this.roomClient.roomJsonPath)
-    this.roomClient.deleteItem(this.roomClient.diographJsonPath)
+    await this.roomClient.deleteItem(this.roomClient.roomJsonPath)
+    await this.roomClient.deleteItem(this.roomClient.diographJsonPath)
     // this.roomClient.deleteItem(this.roomClient.imageFolderPath)
   }
 }
