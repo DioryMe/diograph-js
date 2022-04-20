@@ -36,6 +36,7 @@ module.exports = async ([clientType, path, command]) => {
   }
 
   if (command === 'createDiory') {
-    console.log('createDiory')
+    await room.diograph.createDiory({ text: 'Superia' })
+    await room.saveRoom()
   }
 }

@@ -9,4 +9,4 @@ Feature: Diograph
 
   Scenario: Create diory
     When I call createDiory for diograph
-    # Then diograph.json has two diories
+    Then diograph.json has 2 diories
