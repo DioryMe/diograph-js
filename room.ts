@@ -44,6 +44,7 @@ class Room {
       return new LocalClient(join(this.address, config.address))
     })
     this.diograph = new DiographJson(diographUrl, this.roomClient)
+    await this.diograph.loadDiograph()
   }
 
   initiateRoom = async () => {
@@ -53,14 +54,17 @@ class Room {
     })
 
     const defaultDiographJson = JSON.stringify({
-      rootId: 'abc-123',
+      rootId: 'some-diory-id',
       diograph: {
-        id: 'abc-123',
-        text: 'Root diory',
-      },
+        'some-diory-id': {
+          id: 'some-diory-id',
+          text: 'Root diory'
+        }
+      }
     })
 
     await this.roomClient.initiateRoom(defaultRoomJson, defaultDiographJson)
+    await this.loadRoom()
   }
 
   addClient = async (baseUrl: string) => {

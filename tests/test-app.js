@@ -31,7 +31,8 @@ module.exports = async ([clientType, path, command]) => {
   }
 
   if (command === 'getDiory') {
-    console.log('getDiory')
+    const diory = await room.diograph.getDiory('some-diory-id')
+    return diory
   }
 
   if (command === 'createDiory') {

@@ -5,7 +5,7 @@ Feature: Diograph
 
   Scenario: Get diory
     When I call getDiory for diograph
-    # Then I receive diory
+    Then I receive a diory
 
   Scenario: Create diory
     When I call createDiory for diograph

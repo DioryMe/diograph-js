@@ -12,10 +12,12 @@ Given('I have empty place for room', async () => {
 
 Given('I have initiated a room', async () => {
   // NOTE: This should be alias for 'I initiate room'
+  await testApp(['local', path, 'delete'])
   await testApp(['local', path])
 })
 
 When('I initiate room', async () => {
+  // If room already exists, this connects to it instead of initiating a new one
   await testApp(['local', path])
 })
 
