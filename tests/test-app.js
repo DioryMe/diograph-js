@@ -29,4 +29,12 @@ module.exports = async ([clientType, path, command]) => {
     await room.saveRoom()
     console.log('Client added.')
   }
+
+  if (command === 'getDiory') {
+    console.log('getDiory')
+  }
+
+  if (command === 'createDiory') {
+    console.log('createDiory')
+  }
 }

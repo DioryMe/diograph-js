@@ -29,7 +29,7 @@
     "test": "jest .",
     "test-watch": "yarn test --watch",
     "manual-test": "node manual-test.js",
-    "test-e2e": "cucumber-js tests/room.feature tests/steps"
+    "test-e2e": "cucumber-js tests/ tests/steps"
   },
   "prettier": {
     "tabWidth": 2,

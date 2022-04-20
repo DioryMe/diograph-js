@@ -10,6 +10,11 @@ Given('I have empty place for room', async () => {
   await testApp(['local', path, 'delete'])
 })
 
+Given('I have initiated a room', async () => {
+  // NOTE: This should be alias for 'I initiate room'
+  await testApp(['local', path])
+})
+
 When('I initiate room', async () => {
   await testApp(['local', path])
 })
