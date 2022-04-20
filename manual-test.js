@@ -74,21 +74,36 @@ const testApi = async () => {
 
 const testClientFlow = async () => {
   const path = '/Users/Jouni/AppleCopyPhotos/TestFolder'
-  const cliCmd = `node client-flow.js local ${path}`
+  const initiateCmd = `node client-flow.js local ${path}`
+  const deleteCmd = `node client-flow.js local ${path} delete`
   const { execSync } = require('child_process')
-  const output = execSync(cliCmd)
+  const initiateOutput = execSync(initiateCmd)
 
+  // Initiate test
   const roomJsonCheck =
     existsSync(join(path, 'room.json')) && (await readFile(join(path, 'room.json')))
   const diographJsonCheck =
-    existsSync(join(path, 'room.json')) && (await readFile(join(path, 'room.json')))
+    existsSync(join(path, 'diograph.json')) && (await readFile(join(path, 'diograph.json')))
   const appDataCheck =
     existsSync(join(path, 'room.json')) && (await readFile(join(path, 'room.json')))
 
   if (!roomJsonCheck || !diographJsonCheck || !appDataCheck) {
-    throw new Error('Test Failed!')
+    throw new Error('Initiate test Failed!')
   }
-  console.log(output.toString())
+  console.log(initiateOutput.toString())
+  console.log('Room initiation succeeded!')
+
+  // Delete test
+  /* const deleteOutput = */ execSync(deleteCmd)
+  const roomJsonDeleted = !existsSync(join(path, 'room.json'))
+  const diographJsonDeleted = !existsSync(join(path, 'diograph.json'))
+
+  if (!roomJsonDeleted || !diographJsonDeleted) {
+    throw new Error('Delete test Failed!')
+  }
+  // console.log(deleteOutput.toString())
+  console.log('Room delete succeeded!')
+
   console.log('Client flow succeeded!')
 }
 
