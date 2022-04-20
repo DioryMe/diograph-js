@@ -19,10 +19,10 @@ Feature: Room
     And diograph.json not exists
     # And images folder not exists
 
-  # Scenario: Add client to room
-  #   When I initiate room
-  #   And I add client to room
-  #   Then room.json has one client
+  Scenario: Add client to room
+    When I initiate room
+    And I add client to room
+    Then room.json has 1 client
 
   # Scenario: List content source
   #   When I initiate room

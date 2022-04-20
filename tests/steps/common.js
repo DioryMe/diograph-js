@@ -6,7 +6,9 @@ const testApp = require('../test-app')
 
 const path = '/Users/Jouni/AppleCopyPhotos/TestFolder'
 
-Given('I have empty place for room', () => {})
+Given('I have empty place for room', async () => {
+  await testApp(['local', path, 'delete'])
+})
 
 When('I initiate room', async () => {
   await testApp(['local', path])
@@ -14,6 +16,10 @@ When('I initiate room', async () => {
 
 When('I delete room', async () => {
   await testApp(['local', path, 'delete'])
+})
+
+When('I add client to room', async () => {
+  await testApp(['local', path, 'addClient'])
 })
 
 Then('{word} {word} exists', (fileName, doesOrNot) => {
@@ -24,5 +30,5 @@ Then('room.json has {word} client(s)', (clientCount) => {
   const roomJsonContents = readFileSync(join(path, 'room.json'), { encoding: 'utf8' })
   const roomJson = JSON.parse(roomJsonContents)
   assert(roomJson.clients, 'Invalid room.json, clients not found')
-  assert.equal(roomJson.clients, clientCount === 'no' ? 0 : clientCount)
+  assert.equal(roomJson.clients.length, clientCount === 'no' ? 0 : parseInt(clientCount, 10))
 })

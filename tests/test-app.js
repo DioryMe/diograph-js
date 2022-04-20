@@ -23,4 +23,10 @@ module.exports = async ([clientType, path, command]) => {
     await room.deleteRoom()
     console.log('Room deleted.')
   }
+
+  if (command === 'addClient') {
+    await room.addClient('some-room-address')
+    await room.saveRoom()
+    console.log('Client added.')
+  }
 }
