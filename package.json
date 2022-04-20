@@ -28,7 +28,8 @@
     "prettier": "prettier --write .",
     "test": "jest .",
     "test-watch": "yarn test --watch",
-    "manual-test": "node manual-test.js"
+    "manual-test": "node manual-test.js",
+    "test-e2e": "cucumber-js tests/room.feature tests/steps"
   },
   "prettier": {
     "tabWidth": 2,
