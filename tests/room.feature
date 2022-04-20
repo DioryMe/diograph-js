@@ -6,7 +6,7 @@ Feature: Room
   Scenario: Initiate room
     When I initiate room
     Then room.json does exists
-    # And room.json has no clients
+    And room.json has no clients
     And diograph.json does exists
     # And diograph.json has one diory
     # And images folder exists

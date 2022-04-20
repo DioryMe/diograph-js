@@ -63,6 +63,10 @@ class DiographJson {
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     return this.client.saveDiograph(diographFileContents)
   }
+
+  toJson = () => {
+    return { rootId: this.rootId, diograph: this.diograph }
+  }
 }
 
 export { DiographJson }

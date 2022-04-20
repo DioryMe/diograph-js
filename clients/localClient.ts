@@ -53,6 +53,13 @@ class LocalClient extends Client {
   deleteItem = async (contentUrl: string) => {
     return rm(this.getFilePath(contentUrl))
   }
+
+  toJson = () => {
+    return {
+      address: this.baseUrl,
+      contentUrls: {},
+    }
+  }
 }
 
 export { Client, LocalClient }

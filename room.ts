@@ -27,7 +27,7 @@ class Room {
       this.connected = true
       await this.loadRoom()
     } catch (e) {
-      this.initiateRoom()
+      await this.initiateRoom()
     }
   }
 
@@ -49,13 +49,7 @@ class Room {
   initiateRoom = async () => {
     const defaultRoomJson = JSON.stringify({
       diographUrl: 'diograph.json',
-      clients: [
-        {
-          id: 'abc-123',
-          address: '.',
-          contentUrls: {},
-        },
-      ],
+      clients: [],
     })
 
     const defaultDiographJson = JSON.stringify({
@@ -66,12 +60,22 @@ class Room {
       },
     })
 
-    this.roomClient.initiateRoom(defaultRoomJson, defaultDiographJson)
+    await this.roomClient.initiateRoom(defaultRoomJson, defaultDiographJson)
+  }
+
+  addClient = async (baseUrl: string) => {
+    this.clients.push(new LocalClient(join(this.address, baseUrl)))
   }
 
   saveRoom = async () => {
-    // this.roomClient.writeTextItem(this.roomClient.roomJsonPath, this.roomJson)
-    // this.roomClient.writeTextItem(this.roomClient.diographJsonPath, this.diographJson)
+    const roomJson = {
+      diographUrl: this.address,
+      clients: this.clients.map((client) => client.toJson()),
+    }
+    await this.roomClient.writeTextItem(this.roomClient.roomJsonPath, JSON.stringify(roomJson, null, 2))
+
+    const diographJson = this.diograph && this.diograph.toJson()
+    await this.roomClient.writeTextItem(this.roomClient.diographJsonPath, JSON.stringify(diographJson, null, 2)
   }
 
   deleteRoom = async () => {

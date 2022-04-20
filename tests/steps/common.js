@@ -1,4 +1,4 @@
-const { existsSync } = require('fs')
+const { existsSync, readFileSync } = require('fs')
 const assert = require('assert')
 const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
@@ -20,4 +20,9 @@ Then('{word} {word} exists', (fileName, doesOrNot) => {
   assert.equal(existsSync(join(path, `${fileName}`)), doesOrNot === 'does')
 })
 
-// Then('the first result is {stringInDoubleQuotes}', function () {})
+Then('room.json has {word} client(s)', (clientCount) => {
+  const roomJsonContents = readFileSync(join(path, 'room.json'), { encoding: 'utf8' })
+  const roomJson = JSON.parse(roomJsonContents)
+  assert(roomJson.clients, 'Invalid room.json, clients not found')
+  assert.equal(roomJson.clients, clientCount === 'no' ? 0 : clientCount)
+})

@@ -22,11 +22,11 @@ class LocalRoomClient extends RoomClient {
   initiateRoom = async (roomJsonContents: string, diographJsonContents: string) => {
     // room.json
     if (!existsSync(this.roomJsonPath)) {
-      this.writeTextItem(this.roomJsonPath, roomJsonContents)
+      await this.writeTextItem(this.roomJsonPath, roomJsonContents)
     }
     // diograph.json
     if (!existsSync(this.diographJsonPath)) {
-      this.writeTextItem(this.diographJsonPath, diographJsonContents)
+      await this.writeTextItem(this.diographJsonPath, diographJsonContents)
     }
     // images/ folder
     if (!existsSync(this.imageFolderPath)) {

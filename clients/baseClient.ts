@@ -19,6 +19,11 @@ class Client {
     return this.deleteItem(contentUrl)
   }
 
+  toJson = () => {
+    // throw new Error('Not implemented.')
+    return {}
+  }
+
   // -----------------
 
   readItem = async (contentUrl: string): Promise<Buffer> => {
