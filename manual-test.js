@@ -76,7 +76,7 @@ const testClientFlow = async () => {
   const path = '/Users/Jouni/AppleCopyPhotos/TestFolder'
   const cliCmd = `node client-flow.js local ${path}`
   const { execSync } = require('child_process')
-  execSync(cliCmd)
+  const output = execSync(cliCmd)
 
   const roomJsonCheck =
     existsSync(join(path, 'room.json')) && (await readFile(join(path, 'room.json')))
@@ -88,7 +88,7 @@ const testClientFlow = async () => {
   if (!roomJsonCheck || !diographJsonCheck || !appDataCheck) {
     throw new Error('Test Failed!')
   }
-
+  console.log(output.toString())
   console.log('Client flow succeeded!')
 }
 

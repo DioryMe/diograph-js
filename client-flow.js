@@ -16,6 +16,14 @@ console.log(`Initiating room to ${path}`)
 
 const client = new LocalRoomClient({ address: path })
 const room = new Room(path, client)
-room.initiateRoom()
-
-console.log('Connected to Room: initiation completed & saved to app-data.json!')
+room.loadOrInitiateRoom().then(
+  () => {
+    console.log('Connected to Room: initiation completed & saved to app-data.json!')
+    // room.deleteRoom().then(() => {
+    //   console.log('Room deleted.')
+    // })
+  },
+  (e) => {
+    console.log('error', e)
+  },
+)
