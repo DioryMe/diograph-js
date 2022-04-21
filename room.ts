@@ -58,9 +58,9 @@ class Room {
       diograph: {
         'some-diory-id': {
           id: 'some-diory-id',
-          text: 'Root diory'
-        }
-      }
+          text: 'Root diory',
+        },
+      },
     })
 
     await this.roomClient.initiateRoom(defaultRoomJson, defaultDiographJson)
@@ -76,10 +76,16 @@ class Room {
       diographUrl: this.address,
       clients: this.clients.map((client) => client.toJson()),
     }
-    await this.roomClient.writeTextItem(this.roomClient.roomJsonPath, JSON.stringify(roomJson, null, 2))
+    await this.roomClient.writeTextItem(
+      this.roomClient.roomJsonPath,
+      JSON.stringify(roomJson, null, 2),
+    )
 
     const diographJson = this.diograph && this.diograph.toJson()
-    await this.roomClient.writeTextItem(this.roomClient.diographJsonPath, JSON.stringify(diographJson, null, 2)
+    await this.roomClient.writeTextItem(
+      this.roomClient.diographJsonPath,
+      JSON.stringify(diographJson, null, 2),
+    )
   }
 
   deleteRoom = async () => {

@@ -4,21 +4,23 @@ const { join } = require('path')
 const assert = require('assert')
 const testApp = require('../test-app')
 
-const path = join(__dirname, '..', 'temp-room')
+const TEMP_ROOM_PATH = join(__dirname, '..', 'temp-room')
 
 When('I call {word} for diograph', async (apiAction) => {
-  await testApp(['local', path, apiAction])
+  await testApp([apiAction])
 })
 
 Then('I receive a diory', async () => {
-  const response = await testApp(['local', path, 'getDiory'])
+  const response = await testApp(['getDiory'])
   assert.ok(response)
   assert.equal(response.id, 'some-diory-id')
   assert.equal(response.text, 'Root diory')
 })
 
 Then('diograph.json has {word} diories', (dioryCount) => {
-  const diographJsonContents = readFileSync(join(path, 'diograph.json'), { encoding: 'utf8' })
+  const diographJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'diograph.json'), {
+    encoding: 'utf8',
+  })
   const diographJson = JSON.parse(diographJsonContents)
   assert(diographJson.diograph, 'Invalid diograph.json, diograph not found')
   assert.equal(
