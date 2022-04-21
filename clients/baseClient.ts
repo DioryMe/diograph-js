@@ -24,6 +24,11 @@ class Client {
     return 'Not implemented'
   }
 
+  import = async () => {
+    // throw new Error('Not implemented.')
+    return 'Not implemented'
+  }
+
   toJson = () => {
     // throw new Error('Not implemented.')
     return {}

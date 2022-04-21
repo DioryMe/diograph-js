@@ -72,6 +72,12 @@ module.exports = async ([command, arg1, arg2, arg3]) => {
     return list
   }
 
+  if (command === 'importClientContent') {
+    const diory = await client.import()
+    console.log(diory)
+    return diory
+  }
+
   if (command === 'getDiory') {
     const diory = await room.diograph.getDiory('some-diory-id')
     console.log(diory)

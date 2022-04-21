@@ -37,6 +37,11 @@ Then('I can call {word} operation for client', async (operation) => {
       assert.equal(response, 'a list 123')
       break
     }
+    case 'import': {
+      const response = await testApp(['importClientContent'])
+      assert.equal(response, 'diory')
+      break
+    }
     default:
   }
 })

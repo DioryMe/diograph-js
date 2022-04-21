@@ -58,6 +58,10 @@ class LocalClient extends Client {
     return 'a list 123'
   }
 
+  import = async () => {
+    return 'diory'
+  }
+
   toJson = () => {
     return {
       address: this.baseUrl,

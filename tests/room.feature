@@ -29,9 +29,9 @@ Feature: Room
     And I add client to room
     Then I can call list operation for client
 
-  # Scenario: Add diory from content source
-  #   When I initiate room
-  #   And I add client to room
-  #   And I call import operation for one diory for client
+  Scenario: Add diory from content source
+    When I initiate room
+    And I add client to room
+    Then I can call import operation for client
   #   Then diograph.json has two diories
-  #   And images folder has two images
+  #   And images folder has one image
