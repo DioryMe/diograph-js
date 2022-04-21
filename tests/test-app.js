@@ -50,7 +50,7 @@ module.exports = async ([command, arg1, arg2, arg3]) => {
     console.log(rooms)
   }
 
-  if (command === 'delete') {
+  if (command === 'deleteRoom') {
     await room.deleteRoom()
     console.log('Room deleted.')
   }
