@@ -17,7 +17,7 @@ import { Room, LocalRoomClient } from 'diograph-js'
 const roomAddress = join(__dirname)
 const roomClient = new LocalRoomClient({ address: roomAddress })
 const room = new Room(roomAddress, roomClient)
-await room.loadRoom()
+await room.loadOrInitiateRoom()
 
 // Load diograph and do stuff with it!
 const diographJson = room.diograph
@@ -51,6 +51,8 @@ diographJson.loadDiograph().then(() => {
 ### deleteRoom
 
 - delete room.json, diograph.json and images/ folder(?)
+
+### addClient
 
 ## Diograph
 
