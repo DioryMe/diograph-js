@@ -1,6 +1,6 @@
 import { join, dirname } from 'path'
 import { existsSync, mkdirSync } from 'fs'
-import { rm, readFile, writeFile } from 'fs/promises'
+import { rm, readFile, writeFile, readdir } from 'fs/promises'
 import { Client } from './baseClient'
 import { makeRelative } from './makeRelative'
 
@@ -55,7 +55,8 @@ class LocalClient extends Client {
   }
 
   list = async () => {
-    return 'a list 123'
+    // return await readdir(this.baseUrl)
+    return ['a', 'list', '123']
   }
 
   import = async () => {

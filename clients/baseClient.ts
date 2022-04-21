@@ -21,7 +21,7 @@ class Client {
 
   list = async () => {
     // throw new Error('Not implemented.')
-    return 'Not implemented'
+    return ['Not implemented']
   }
 
   import = async () => {

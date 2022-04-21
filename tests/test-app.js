@@ -61,7 +61,7 @@ module.exports = async ([command, arg1, arg2, arg3]) => {
   }
 
   if (command === 'addClient') {
-    await room.addClient('some-room-address')
+    await room.addClient(join(__dirname, 'temp-room', 'some-room-address'))
     await room.saveRoom()
     console.log('Client added.')
   }

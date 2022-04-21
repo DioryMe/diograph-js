@@ -34,7 +34,8 @@ Then('I can call {word} operation for client', async (operation) => {
   switch (operation) {
     case 'list': {
       const response = await testApp(['listClientContents'])
-      assert.equal(response, 'a list 123')
+      assert.equal(response.length, 3)
+      assert.equal(response.join(' '), 'a list 123')
       break
     }
     case 'import': {
