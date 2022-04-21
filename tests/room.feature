@@ -24,11 +24,10 @@ Feature: Room
     And I add client to room
     Then room.json has 1 client
 
-  # Scenario: List content source
-  #   When I initiate room
-  #   And I add client to room
-  #   And I call list operation for client
-  #   Then I receive list of files
+  Scenario: List content source
+    When I initiate room
+    And I add client to room
+    Then I can call list operation for client
 
   # Scenario: Add diory from content source
   #   When I initiate room

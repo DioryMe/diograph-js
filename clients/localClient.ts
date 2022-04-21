@@ -54,6 +54,10 @@ class LocalClient extends Client {
     return rm(this.getFilePath(contentUrl))
   }
 
+  list = async () => {
+    return 'a list 123'
+  }
+
   toJson = () => {
     return {
       address: this.baseUrl,

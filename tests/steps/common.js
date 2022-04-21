@@ -30,6 +30,17 @@ When('I add client to room', async () => {
   await testApp(['addClient'])
 })
 
+Then('I can call {word} operation for client', async (operation) => {
+  switch (operation) {
+    case 'list': {
+      const response = await testApp(['listClientContents'])
+      assert.equal(response, 'a list 123')
+      break
+    }
+    default:
+  }
+})
+
 Then('{word} {word} exists', (fileName, doesOrNot) => {
   assert.equal(existsSync(join(TEMP_ROOM_PATH, `${fileName}`)), doesOrNot === 'does')
 })

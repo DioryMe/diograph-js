@@ -19,6 +19,11 @@ class Client {
     return this.deleteItem(contentUrl)
   }
 
+  list = async () => {
+    // throw new Error('Not implemented.')
+    return 'Not implemented'
+  }
+
   toJson = () => {
     // throw new Error('Not implemented.')
     return {}

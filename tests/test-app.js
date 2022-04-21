@@ -45,9 +45,14 @@ module.exports = async ([command, arg1, arg2, arg3]) => {
   }
 
   const room = rooms[0]
+  const client = room.clients[0]
 
   if (command === 'listRooms') {
     console.log(rooms)
+  }
+
+  if (command === 'listRoomClients') {
+    console.log(room.clients)
   }
 
   if (command === 'deleteRoom') {
@@ -59,6 +64,12 @@ module.exports = async ([command, arg1, arg2, arg3]) => {
     await room.addClient('some-room-address')
     await room.saveRoom()
     console.log('Client added.')
+  }
+
+  if (command === 'listClientContents') {
+    const list = await client.list()
+    console.log(list)
+    return list
   }
 
   if (command === 'getDiory') {
