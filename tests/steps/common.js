@@ -8,17 +8,18 @@ const TEMP_ROOM_PATH = join(__dirname, '..', 'temp-room')
 
 Given('I have empty place for room', async () => {
   await testApp(['delete'])
+  await testApp(['resetApp'])
 })
 
 Given('I have initiated a room', async () => {
   // NOTE: This should be alias for 'I initiate room'
   await testApp(['delete'])
-  await testApp([])
+  await testApp(['addRoom', TEMP_ROOM_PATH])
 })
 
 When('I initiate room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
-  await testApp([])
+  await testApp(['addRoom', TEMP_ROOM_PATH])
 })
 
 When('I delete room', async () => {
