@@ -55,7 +55,7 @@ class LocalClient extends Client {
   }
 
   list = async () => {
-    await readdir(this.baseUrl)
+    await writeFile(join(this.baseUrl, 'diograph.json'), 'contents')
     return []
   }
 

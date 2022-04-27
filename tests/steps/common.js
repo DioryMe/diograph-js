@@ -30,7 +30,7 @@ When('I delete room', async () => {
 })
 
 When('I add client to room', async () => {
-  await testApp.run('addClient')
+  await testApp.run('addClient', APPLICATION_SUPPORT_ROOM_PATH)
 })
 
 When('I call {word} operation for client', async (operation) => {
