@@ -2,16 +2,18 @@ const { When, Then } = require('@cucumber/cucumber')
 const { readFileSync } = require('fs')
 const { join } = require('path')
 const assert = require('assert')
-const testApp = require('../test-app')
+const { App } = require('../../dist/testApp/test-app')
 
-const TEMP_ROOM_PATH = join(__dirname, '..', 'temp-room')
+const TEMP_ROOM_PATH = join(__dirname, '..', '..', 'testApp', 'temp-room')
 
 When('I call {word} for diograph', async (apiAction) => {
-  await testApp([apiAction])
+  const testApp = new App()
+  await testApp.run(apiAction)
 })
 
 Then('I receive a diory', async () => {
-  const response = await testApp(['getDiory'])
+  const testApp = new App()
+  const response = await testApp.run('getDiory')
   assert.ok(response)
   assert.equal(response.id, 'some-diory-id')
   assert.equal(response.text, 'Root diory')

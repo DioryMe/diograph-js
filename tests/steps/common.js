@@ -2,39 +2,41 @@ const { existsSync, readFileSync } = require('fs')
 const assert = require('assert')
 const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
-const testApp = require('../test-app')
+const { App } = require('../../dist/testApp/test-app')
 
-const TEMP_ROOM_PATH = join(__dirname, '..', 'temp-room')
-const APPLICATION_SUPPORT_ROOM_PATH = join(__dirname, '..', 'content-source-room')
+const TEMP_ROOM_PATH = join(__dirname, '..', '..', 'testApp', 'temp-room')
+const APPLICATION_SUPPORT_ROOM_PATH = join(__dirname, '..', '..', 'testApp', 'content-source-room')
+
+const testApp = new App()
 
 Given('I have empty place for room', async () => {
-  await testApp(['deleteRoom'])
-  await testApp(['resetApp'])
+  await testApp.run('deleteRoom')
+  await testApp.run('resetApp')
 })
 
 Given('I have initiated a room', async () => {
   // NOTE: This should be alias for 'I initiate room'
-  await testApp(['deleteRoom'])
-  await testApp(['addRoom', TEMP_ROOM_PATH])
+  await testApp.run('deleteRoom')
+  await testApp.run('addRoom', TEMP_ROOM_PATH)
 })
 
 When('I initiate room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
-  await testApp(['addRoom', TEMP_ROOM_PATH])
+  await testApp.run('addRoom', TEMP_ROOM_PATH)
 })
 
 When('I delete room', async () => {
-  await testApp(['deleteRoom'])
+  await testApp.run('deleteRoom')
 })
 
 When('I add client to room', async () => {
-  await testApp(['addClient'])
+  await testApp.run('addClient')
 })
 
 When('I call {word} operation for client', async (operation) => {
   switch (operation) {
     case 'list': {
-      await testApp(['listClientContents'])
+      await testApp.run('listClientContents')
       break
     }
     default:
@@ -45,7 +47,7 @@ Then('I can call {word} operation for {word}', async (operation, component) => {
   if (component === 'client') {
     switch (operation) {
       case 'import': {
-        const response = await testApp(['importClientContent'])
+        const response = await testApp.run('importClientContent')
         assert.equal(response, 'diory')
         break
       }
@@ -54,12 +56,12 @@ Then('I can call {word} operation for {word}', async (operation, component) => {
   } else if (component === 'app') {
     switch (operation) {
       case 'listRooms': {
-        const response = await testApp(['appListRooms'])
+        const response = await testApp('appListRooms')
         assert.equal(response.length, 1)
         break
       }
       case 'listClients': {
-        const response = await testApp(['appListClients'])
+        const response = await testApp.run('appListClients')
         assert.equal(response.length, 1)
         break
       }
