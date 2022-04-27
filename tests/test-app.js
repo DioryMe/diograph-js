@@ -43,6 +43,20 @@ module.exports = async ([command, arg1, arg2, arg3]) => {
     }),
   )
 
+  if (command === 'listRooms') {
+    console.log(rooms)
+    return rooms
+  }
+
+  if (command === 'appListRooms') {
+    console.log(appData.rooms)
+    return appData.rooms
+  }
+
+  if (command === 'appListClients') {
+    return appData.clients
+  }
+
   if (!rooms.length) {
     console.log('No rooms, please add one!')
     return
@@ -50,10 +64,6 @@ module.exports = async ([command, arg1, arg2, arg3]) => {
 
   const room = rooms[0]
   const client = room.clients[0]
-
-  if (command === 'listRooms') {
-    console.log(rooms)
-  }
 
   if (command === 'listRoomClients') {
     console.log(room.clients)

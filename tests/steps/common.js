@@ -41,14 +41,30 @@ When('I call {word} operation for client', async (operation) => {
   }
 })
 
-Then('I can call {word} operation for client', async (operation) => {
-  switch (operation) {
-    case 'import': {
-      const response = await testApp(['importClientContent'])
-      assert.equal(response, 'diory')
-      break
+Then('I can call {word} operation for {word}', async (operation, component) => {
+  if (component === 'client') {
+    switch (operation) {
+      case 'import': {
+        const response = await testApp(['importClientContent'])
+        assert.equal(response, 'diory')
+        break
+      }
+      default:
     }
-    default:
+  } else if (component === 'app') {
+    switch (operation) {
+      case 'listRooms': {
+        const response = await testApp(['appListRooms'])
+        assert.equal(response.length, 1)
+        break
+      }
+      case 'listClients': {
+        const response = await testApp(['appListClients'])
+        assert.equal(response.length, 1)
+        break
+      }
+      default:
+    }
   }
 })
 

@@ -1,9 +1,15 @@
 Feature: App
 
-#   Background:
+  Background:
+    Given I have empty place for room
+    And I initiate room
+
 #     Given I have no room clients
 #     And I have no clients
 #     When I configure a room client
+
+  Scenario: List rooms
+    Then I can call listRooms operation for app
 
 #   Scenario: List room client without connecting
 #     When I list rooms
@@ -19,11 +25,15 @@ Feature: App
 #     And I list rooms
 #     Then I receive one connected room
 
-#   Scenario: List clients after loading a room with one client
-#     When I initate a connection to a room with room client
-#     And I load a room with one client
-#     And I list clients
-#     Then I receive one client
+  Scenario: List clients
+    When I add client to room
+    Then I can call listClients operation for app
+
+  # Scenario: List clients after loading a room with one client
+  #   When I initate a connection to a room with room client
+  #   And I load a room with one client
+  #   And I list clients
+  #   Then I receive one client
 
 #   Scenario: Remove room client without deleting it
 #     When I initate a connection to a room with room client

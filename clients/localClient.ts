@@ -55,8 +55,8 @@ class LocalClient extends Client {
   }
 
   list = async () => {
-    // return await readdir(this.baseUrl)
-    return ['a', 'list', '123']
+    await readdir(this.baseUrl)
+    return []
   }
 
   import = async () => {
