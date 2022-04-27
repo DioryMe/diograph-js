@@ -56,7 +56,7 @@ Then('I can call {word} operation for {word}', async (operation, component) => {
   } else if (component === 'app') {
     switch (operation) {
       case 'listRooms': {
-        const response = await testApp('appListRooms')
+        const response = await testApp.run('appListRooms')
         assert.equal(response.length, 1)
         break
       }

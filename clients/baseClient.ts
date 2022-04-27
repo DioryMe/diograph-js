@@ -1,9 +1,11 @@
 import { join } from 'path'
 
 class Client {
+  baseUrl: string
   imageFolderPath: string
 
   constructor() {
+    this.baseUrl = ''
     this.imageFolderPath = 'images'
   }
 

@@ -73,18 +73,24 @@ class App {
   }
 
   addAndLoadRoom = async (room: Room) => {
-    await room.loadOrInitiateRoom()
-    await Promise.all(
-      room.clients.map((client) => {
-        return this.addAndLoadClient(client)
-      }),
-    )
-    this.rooms.push(room)
+    const exists = this.rooms.find((existingRoom) => existingRoom.address === room.address)
+    if (!exists) {
+      await room.loadOrInitiateRoom()
+      await Promise.all(
+        room.clients.map((client) => {
+          return this.addAndLoadClient(client)
+        }),
+      )
+      this.rooms.push(room)
+    }
   }
 
   addAndLoadClient = async (client: Client) => {
-    this.clients.push(client)
-    return client.load()
+    const exists = this.clients.find((existingClient) => existingClient.baseUrl === client.baseUrl)
+    if (!exists) {
+      this.clients.push(client)
+      return client.load()
+    }
   }
 
   run = async (command: string, arg1: string, arg2: string, arg3: string) => {
@@ -145,7 +151,7 @@ class App {
     }
 
     if (command === 'addClient') {
-      const clientAddress = arg1 || join('~', 'AppleCopyPhotos', 'TestFolder')
+      const clientAddress = arg1 || __dirname
       await room.addClient(clientAddress)
       await room.saveRoom()
       await this.saveAppData()
