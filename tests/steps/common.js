@@ -5,6 +5,7 @@ const { Given, When, Then } = require('@cucumber/cucumber')
 const testApp = require('../test-app')
 
 const TEMP_ROOM_PATH = join(__dirname, '..', 'temp-room')
+const APPLICATION_SUPPORT_ROOM_PATH = join(__dirname, '..', 'content-source-room')
 
 Given('I have empty place for room', async () => {
   await testApp(['deleteRoom'])
@@ -30,14 +31,18 @@ When('I add client to room', async () => {
   await testApp(['addClient'])
 })
 
-Then('I can call {word} operation for client', async (operation) => {
+When('I call {word} operation for client', async (operation) => {
   switch (operation) {
     case 'list': {
-      const response = await testApp(['listClientContents'])
-      assert.equal(response.length, 3)
-      assert.equal(response.join(' '), 'a list 123')
+      await testApp(['listClientContents'])
       break
     }
+    default:
+  }
+})
+
+Then('I can call {word} operation for client', async (operation) => {
+  switch (operation) {
     case 'import': {
       const response = await testApp(['importClientContent'])
       assert.equal(response, 'diory')
@@ -49,6 +54,10 @@ Then('I can call {word} operation for client', async (operation) => {
 
 Then('{word} {word} exists', (fileName, doesOrNot) => {
   assert.equal(existsSync(join(TEMP_ROOM_PATH, `${fileName}`)), doesOrNot === 'does')
+})
+
+Then('{word} {word} exists in application support room', (fileName, doesOrNot) => {
+  assert.equal(existsSync(join(APPLICATION_SUPPORT_ROOM_PATH, `${fileName}`)), doesOrNot === 'does')
 })
 
 Then('room.json has {word} client(s)', (clientCount) => {

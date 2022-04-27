@@ -24,10 +24,12 @@ Feature: Room
     And I add client to room
     Then room.json has 1 client
 
-  Scenario: List content source
+  Scenario: List and generate diograph from content source
     When I initiate room
     And I add client to room
-    Then I can call list operation for client
+    And I call list operation for client
+    Then diograph.json does exists in application support room
+    # And images folder is not empty in application support room
 
   Scenario: Add diory from content source
     When I initiate room

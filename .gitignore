@@ -5,3 +5,5 @@ dist
 tests/app-data.json
 tests/temp-room/*
 !tests/temp-room/.gitkeep
+tests/content-source-room/*
+!tests/content-source-room/.gitkeep

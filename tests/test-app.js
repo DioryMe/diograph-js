@@ -1,9 +1,11 @@
 const { existsSync } = require('fs')
-const { readFile, writeFile, rm } = require('fs/promises')
+const { readFile, writeFile, rm, mkdir, rmdir } = require('fs/promises')
 const { join } = require('path')
 const { Room, LocalRoomClient } = require('../dist')
 
 const APP_DATA_PATH = join(__dirname, 'app-data.json')
+const APPLICATION_SUPPORT_ROOM_PATH = join(__dirname, 'content-source-room')
+
 module.exports = async ([command, arg1, arg2, arg3]) => {
   if (!command) {
     throw new Error('Command not provided to testApp(), please provide one')
@@ -11,6 +13,8 @@ module.exports = async ([command, arg1, arg2, arg3]) => {
 
   if (command === 'resetApp') {
     await rm(APP_DATA_PATH)
+    await rmdir(APPLICATION_SUPPORT_ROOM_PATH, { recursive: true })
+    !existsSync(APPLICATION_SUPPORT_ROOM_PATH) && (await mkdir(APPLICATION_SUPPORT_ROOM_PATH))
     console.log('App data removed.')
     return
   }
