@@ -59,6 +59,24 @@ class LocalClient extends Client {
     return []
   }
 
+  load = async () => {
+    console.log('client loaded')
+    // this.connected = await this.roomClient.verifyAndConnect()
+    // if (!this.connected) {
+    //   throw new Error("Can't load room before it's connected!")
+    // }
+    // const roomJsonContents = await this.roomClient.loadRoom()
+    // const { diographUrl, contentUrls, clients } = JSON.parse(roomJsonContents)
+    // // TODO: Validate JSON with own validator.js (using ajv.js.org)
+    // this.contentUrls = contentUrls
+    // this.clients = clients.map((config: any) => {
+    //   return new LocalClient(config.address)
+    // })
+    // this.diograph = new DiographJson(diographUrl, this.roomClient)
+    // await this.diograph.loadDiograph()
+    return 'Not implemented'
+  }
+
   import = async () => {
     return 'diory'
   }

@@ -24,6 +24,10 @@ class Client {
     return ['Not implemented']
   }
 
+  load = async () => {
+    return 'Not implemented'
+  }
+
   import = async () => {
     // throw new Error('Not implemented.')
     return 'Not implemented'
