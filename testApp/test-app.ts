@@ -1,11 +1,12 @@
-import { Room, LocalRoomClient } from 'diograph-js'
+import { Room, LocalRoomClient, LocalClient } from '..'
 import { Client } from '../clients'
 import { existsSync } from 'fs'
-import { readFile, writeFile, rm, mkdir, rmdir } from 'fs/promises'
+import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import { join } from 'path'
 
-const APP_DATA_PATH = join(__dirname, 'app-data.json')
-const CONTENT_SOURCE_ROOM_PATH = join(__dirname, '..', '..', 'testApp', 'content-source-room')
+const appDataFolderPath = process.env['APP_DATA_FOLDER'] || process.env.PWD || __dirname
+const APP_DATA_FOLDER = join(appDataFolderPath, 'app-data.json')
+const CONTENT_SOURCE_FOLDER = join(appDataFolderPath, 'content-source-room')
 
 interface RoomData {
   address: string
@@ -25,55 +26,65 @@ interface AppData {
   clients: ClientData[]
 }
 
-let appData: AppData = {
-  rooms: [],
-  clients: [],
-}
-let appRooms: Room[] = []
-let appClients: Client[] = []
-
 class App {
+  appData: AppData = {
+    rooms: [],
+    clients: [],
+  }
+  rooms: Room[] = []
+  clients: Client[] = []
+
   constructor() {}
 
-  loadAppData = async () => {
+  initiateAppData = async () => {
     // Initiate app data if doesn't exist yet
-    if (!existsSync(APP_DATA_PATH)) {
+    if (!existsSync(APP_DATA_FOLDER)) {
       const defaultAppData = { rooms: [], clients: [] }
-      await writeFile(APP_DATA_PATH, JSON.stringify(defaultAppData, null, 2))
+      await writeFile(APP_DATA_FOLDER, JSON.stringify(defaultAppData, null, 2))
     }
 
-    const appDataContents = await readFile(APP_DATA_PATH, { encoding: 'utf8' })
-    appData = JSON.parse(appDataContents)
+    const appDataContents = await readFile(APP_DATA_FOLDER, { encoding: 'utf8' })
+    this.appData = JSON.parse(appDataContents)
 
     // Load rooms
-    appRooms = await Promise.all(
-      appData.rooms.map(async (roomData) => {
+    await Promise.all(
+      this.appData.rooms.map(async (roomData) => {
         const client = new LocalRoomClient({ address: roomData.address })
         const room = new Room(roomData.address, client)
-
-        await room.loadOrInitiateRoom()
-        return room
+        await this.addAndLoadRoom(room)
       }),
     )
 
     // Load clients
-    // appData.clients = appRooms
-    //   .map((room) => room.clients)
-    //   .filter(Boolean)
-    //   .flat()
-    appClients = await Promise.all(
-      appClients.map(async (client) => {
-        await client.load()
-        return client
+    await Promise.all(
+      this.appData.clients.map(async (clientData) => {
+        const client = new LocalClient(clientData.address)
+        await this.addAndLoadClient(client)
       }),
     )
-
-    return appData
   }
 
   saveAppData = async () => {
-    console.log('saveAppData', appData)
-    await writeFile(APP_DATA_PATH, JSON.stringify(appData, null, 2))
+    const jsonAppData = {
+      rooms: this.rooms.map((room) => ({ address: room.address })),
+      clients: this.clients.map((client) => client.toJson()),
+    }
+    await writeFile(APP_DATA_FOLDER, JSON.stringify(jsonAppData, null, 2))
+  }
+
+  addAndLoadRoom = async (room: Room) => {
+    await room.loadOrInitiateRoom()
+    await Promise.all(
+      room.clients.map((client) => {
+        return this.addAndLoadClient(client)
+      }),
+    )
+    this.rooms.push(room)
+  }
+
+  addAndLoadClient = async (client: Client) => {
+    this.clients.push(client)
+    return client.load()
   }
 
   run = async (command: string, arg1: string, arg2: string, arg3: string) => {
@@ -83,44 +94,44 @@ class App {
 
     if (command === 'resetApp') {
       // Remove app-data.json
-      existsSync(APP_DATA_PATH) && (await rm(APP_DATA_PATH))
+      existsSync(APP_DATA_FOLDER) && (await rm(APP_DATA_FOLDER))
       // Remove content source room
-      await rm(CONTENT_SOURCE_ROOM_PATH, { recursive: true })
-      await mkdir(CONTENT_SOURCE_ROOM_PATH)
+      await rm(CONTENT_SOURCE_FOLDER, { recursive: true })
+      await mkdir(CONTENT_SOURCE_FOLDER)
       console.log('App data removed.')
       return
     }
 
-    appData = await this.loadAppData()
-    await this.saveAppData()
+    await this.initiateAppData()
 
     if (command === 'addRoom') {
       const roomPath = arg1 || join(__dirname, '..', '..', 'testApp', 'temp-room')
-      appData.rooms.push({ address: roomPath })
-      await this.loadAppData()
+      const client = new LocalRoomClient({ address: roomPath })
+      const room = new Room(roomPath, client)
+      await this.addAndLoadRoom(room)
       await this.saveAppData()
       console.log('Room added.')
     }
 
     if (command === 'listRooms') {
-      return appData.rooms
+      return this.appData.rooms
     }
 
     if (command === 'appListRooms') {
-      console.log(appRooms)
-      return appData.rooms
+      console.log(this.rooms)
+      return this.appData.rooms
     }
 
     if (command === 'appListClients') {
-      return appData.clients
+      return this.clients
     }
 
-    if (!appData.rooms.length) {
+    if (!this.rooms.length) {
       console.log('No rooms, please add one!')
       return
     }
 
-    const room = appRooms[0]
+    const room = this.rooms[0]
 
     if (command === 'listRoomClients') {
       console.log(room.clients)
@@ -128,13 +139,14 @@ class App {
 
     if (command === 'deleteRoom') {
       await room.deleteRoom()
-      appData.rooms.shift()
+      this.rooms.shift()
       await this.saveAppData()
       console.log('Room deleted.')
     }
 
     if (command === 'addClient') {
-      await room.addClient(join(__dirname, 'some-room-address'))
+      const clientAddress = arg1 || join('~', 'AppleCopyPhotos', 'TestFolder')
+      await room.addClient(clientAddress)
       await room.saveRoom()
       await this.saveAppData()
       console.log('Client added.')

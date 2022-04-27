@@ -5,6 +5,6 @@ const args = process.argv.slice(3)
 
 const app = new App()
 
-app.run([command, ...args]).then((response) => {
+app.run(command, ...args).then((response) => {
   console.log(response)
 })

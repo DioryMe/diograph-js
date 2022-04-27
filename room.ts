@@ -72,6 +72,7 @@ class Room {
   }
 
   saveRoom = async () => {
+    // Room.json
     const roomJson = {
       diographUrl: this.address,
       clients: this.clients.map((client) => client.toJson()),
@@ -81,6 +82,7 @@ class Room {
       JSON.stringify(roomJson, null, 2),
     )
 
+    // Diograph.json
     const diographJson = this.diograph && this.diograph.toJson()
     await this.roomClient.writeTextItem(
       this.roomClient.diographJsonPath,
