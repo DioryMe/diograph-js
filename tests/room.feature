@@ -31,9 +31,9 @@ Feature: Room
     Then diograph.json does exists in application support room
     # And images folder is not empty in application support room
 
-  Scenario: Add diory from content source
-    When I initiate room
-    And I add client to room
-    Then I can call import operation for client
+  # Scenario: Add diory from content source
+  #   When I initiate room
+  #   And I add client to room
+  #   Then I can call import operation for client
   #   Then diograph.json has two diories
   #   And images folder has one image

@@ -6,5 +6,6 @@ app-data.json
 testApp/temp-room/*
 !testestAppts/temp-room/.gitkeep
 testApp/some-room-address/*
+content-source-room
 
 cucumber.js

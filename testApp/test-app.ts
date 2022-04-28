@@ -1,12 +1,16 @@
 import { Room, LocalRoomClient, LocalClient } from '..'
 import { Client } from '../clients'
-import { existsSync } from 'fs'
+import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import { join } from 'path'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || process.cwd()
 const APP_DATA_FOLDER = join(appDataFolderPath, 'app-data.json')
 const CONTENT_SOURCE_FOLDER = join(appDataFolderPath, 'content-source-room')
+
+if (!existsSync(CONTENT_SOURCE_FOLDER)) {
+  mkdirSync(CONTENT_SOURCE_FOLDER)
+}
 
 interface RoomData {
   address: string
@@ -149,7 +153,7 @@ class App {
       const clientAddress = arg1 || process.cwd()
       const client = await room.addClient(clientAddress)
       await room.saveRoom()
-      this.clients.push(client)
+      await this.addAndLoadClient(client)
       await this.saveAppData()
       console.log('Client added.')
     }
