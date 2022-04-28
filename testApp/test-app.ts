@@ -4,7 +4,7 @@ import { existsSync } from 'fs'
 import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import { join } from 'path'
 
-const appDataFolderPath = process.env['APP_DATA_FOLDER'] || process.env.PWD || __dirname
+const appDataFolderPath = process.env['APP_DATA_FOLDER'] || process.cwd()
 const APP_DATA_FOLDER = join(appDataFolderPath, 'app-data.json')
 const CONTENT_SOURCE_FOLDER = join(appDataFolderPath, 'content-source-room')
 
@@ -124,7 +124,6 @@ class App {
     }
 
     if (command === 'appListRooms') {
-      console.log(this.rooms)
       return this.appData.rooms
     }
 
@@ -140,7 +139,7 @@ class App {
     const room = this.rooms[0]
 
     if (command === 'listRoomClients') {
-      console.log(room.clients)
+      return room.clients
     }
 
     if (command === 'deleteRoom') {
@@ -151,7 +150,7 @@ class App {
     }
 
     if (command === 'addClient') {
-      const clientAddress = arg1 || __dirname
+      const clientAddress = arg1 || process.cwd()
       await room.addClient(clientAddress)
       await room.saveRoom()
       await this.saveAppData()

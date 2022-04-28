@@ -2,11 +2,9 @@ yarn-error.log
 node_modules
 dist
 
-testApp/app-data.json
+app-data.json
 testApp/temp-room/*
 !testestAppts/temp-room/.gitkeep
-testApp/content-source-room/*
-!testApp/content-source-room/.gitkeep
 testApp/some-room-address/*
 
 cucumber.js

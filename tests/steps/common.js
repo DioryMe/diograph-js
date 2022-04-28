@@ -5,7 +5,7 @@ const { Given, When, Then } = require('@cucumber/cucumber')
 const { App } = require('../../dist/testApp/test-app')
 
 const TEMP_ROOM_PATH = join(__dirname, '..', '..', 'testApp', 'temp-room')
-const APPLICATION_SUPPORT_ROOM_PATH = join(__dirname, '..', '..', 'testApp', 'content-source-room')
+const APPLICATION_SUPPORT_ROOM_PATH = join(process.cwd(), 'content-source-room')
 
 const testApp = new App()
 
