@@ -159,6 +159,11 @@ class App {
       return list
     }
 
+    if (command === 'listClientContents2') {
+      const list = await room.clients[0].list('Subfolder')
+      return list
+    }
+
     if (command === 'importClientContent') {
       const diory = await room.clients[0].import()
       console.log(diory)

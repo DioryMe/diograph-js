@@ -4,6 +4,7 @@ import { rm, readFile, writeFile, readdir } from 'fs/promises'
 import { Client } from './baseClient'
 import { makeRelative } from './makeRelative'
 import { Diograph } from '../types'
+import { generateDiograph } from '../generators/diograph'
 
 class LocalClient extends Client {
   baseUrl: string
@@ -69,10 +70,16 @@ class LocalClient extends Client {
     // 1. filuista dioreita
     // 2. kansioista dioreita (ilman subfoldereita)
     // 3. linkit rootista dioreihin
-    // const diograph = generateDiograph(path)
+    const diograph = await generateDiograph(path ? join(this.baseUrl, path) : this.baseUrl)
+    console.log(diograph)
     // this.diograph.addToDiograph(diograph)
 
-    await writeFile(join(this.baseUrl, 'diograph.json'), JSON.stringify(this.diograph))
+    const diographJson = {
+      diograph,
+      rootId: 'root123',
+    }
+
+    await writeFile(join(this.baseUrl, 'diograph.json'), JSON.stringify(diographJson, null, 2))
   }
 
   loadOrInitiate = async (path: string = '/') => {
