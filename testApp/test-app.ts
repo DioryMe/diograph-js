@@ -138,7 +138,7 @@ class App {
 
     const room = this.rooms[0]
 
-    if (command === 'listRoomClients') {
+    if (command === 'roomListClients') {
       return room.clients.map((client) => ({ baseUrl: client.baseUrl }))
     }
 
@@ -164,7 +164,7 @@ class App {
     }
 
     if (command === 'listClientContents2') {
-      const list = await room.clients[0].list('Subfolder')
+      const list = await room.clients[0].list('subfolder')
       return list
     }
 
