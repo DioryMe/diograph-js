@@ -3,9 +3,11 @@ import { existsSync, mkdirSync } from 'fs'
 import { rm, readFile, writeFile, readdir } from 'fs/promises'
 import { Client } from './baseClient'
 import { makeRelative } from './makeRelative'
+import { Diograph } from '../types'
 
 class LocalClient extends Client {
   baseUrl: string
+  diograph: Diograph = {}
 
   constructor(baseUrl: string) {
     super()
@@ -54,27 +56,36 @@ class LocalClient extends Client {
     return rm(this.getFilePath(contentUrl))
   }
 
-  list = async () => {
-    await writeFile(join(this.baseUrl, 'diograph.json'), 'contents')
-    return []
+  list = async (path?: string) => {
+    await this.loadOrInitiate(path)
+    if (!path) {
+      return this.diograph
+    }
+    // Somehow should list only diograph/diories from given folder path...
+    return this.diograph //[path]
   }
 
-  load = async () => {
-    console.log('client loaded')
-    // this.connected = await this.roomClient.verifyAndConnect()
-    // if (!this.connected) {
-    //   throw new Error("Can't load room before it's connected!")
-    // }
-    // const roomJsonContents = await this.roomClient.loadRoom()
-    // const { diographUrl, contentUrls, clients } = JSON.parse(roomJsonContents)
-    // // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    // this.contentUrls = contentUrls
-    // this.clients = clients.map((config: any) => {
-    //   return new LocalClient(config.address)
-    // })
-    // this.diograph = new DiographJson(diographUrl, this.roomClient)
-    // await this.diograph.loadDiograph()
-    return 'Not implemented'
+  initiate = async (path?: string) => {
+    // 1. filuista dioreita
+    // 2. kansioista dioreita (ilman subfoldereita)
+    // 3. linkit rootista dioreihin
+    // const diograph = generateDiograph(path)
+    // this.diograph.addToDiograph(diograph)
+
+    await writeFile(join(this.baseUrl, 'diograph.json'), JSON.stringify(this.diograph))
+  }
+
+  loadOrInitiate = async (path: string = '/') => {
+    if (!existsSync(join(this.baseUrl, 'diograph.json'))) {
+      // Should check if path already exists? Shouldn't load if not necessary...
+      // if (!this.diograph.includes(path)) {
+      // Initiate and add diograph.json
+      await this.initiate(path)
+      // }
+    }
+    this.diograph = JSON.parse(
+      await readFile(join(this.baseUrl, 'diograph.json'), { encoding: 'utf8' }),
+    )
   }
 
   import = async () => {

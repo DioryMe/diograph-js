@@ -1,6 +1,7 @@
-import { join } from 'path'
+import { Diograph } from '../types'
 
 class Client {
+  diograph: Diograph = {}
   baseUrl: string
   imageFolderPath: string
 
@@ -21,9 +22,9 @@ class Client {
     return this.deleteItem(contentUrl)
   }
 
-  list = async () => {
+  list = async (path?: string) => {
     // throw new Error('Not implemented.')
-    return ['Not implemented']
+    return this.diograph
   }
 
   load = async () => {
