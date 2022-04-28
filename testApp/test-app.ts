@@ -119,16 +119,12 @@ class App {
       console.log('Room added.')
     }
 
-    if (command === 'listRooms') {
-      return this.appData.rooms
-    }
-
     if (command === 'appListRooms') {
       return this.appData.rooms
     }
 
     if (command === 'appListClients') {
-      return this.clients
+      return this.appData.clients
     }
 
     if (!this.rooms.length) {
@@ -139,7 +135,7 @@ class App {
     const room = this.rooms[0]
 
     if (command === 'listRoomClients') {
-      return room.clients
+      return room.clients.map((client) => ({ baseUrl: client.baseUrl }))
     }
 
     if (command === 'deleteRoom') {
@@ -151,34 +147,43 @@ class App {
 
     if (command === 'addClient') {
       const clientAddress = arg1 || process.cwd()
-      await room.addClient(clientAddress)
+      const client = await room.addClient(clientAddress)
       await room.saveRoom()
+      this.clients.push(client)
       await this.saveAppData()
       console.log('Client added.')
     }
 
     if (command === 'listClientContents') {
       const list = await room.clients[0].list()
-      console.log(list)
       return list
     }
 
     if (command === 'importClientContent') {
       const diory = await room.clients[0].import()
       console.log(diory)
-      return diory
+      return 'Not implemented.'
+    }
+
+    if (command === 'getDiograph' && room.diograph) {
+      return room.diograph.diograph
     }
 
     if (command === 'getDiory' && room.diograph) {
       const diory = await room.diograph.getDiory('some-diory-id')
-      console.log(diory)
       return diory
     }
 
     if (command === 'createDiory' && room.diograph) {
       await room.diograph.createDiory({ text: 'Superia' })
       await room.saveRoom()
-      console.log('Diory created')
+      console.log('Diory created.')
+    }
+
+    if (command === 'deleteDiory' && room.diograph) {
+      await room.diograph.deleteDiory(arg1)
+      await room.saveRoom()
+      console.log('Diory deleted.')
     }
   }
 }

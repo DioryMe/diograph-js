@@ -68,7 +68,9 @@ class Room {
   }
 
   addClient = async (baseUrl: string) => {
-    this.clients.push(new LocalClient(baseUrl))
+    const client = new LocalClient(baseUrl)
+    this.clients.push(client)
+    return client
   }
 
   saveRoom = async () => {
