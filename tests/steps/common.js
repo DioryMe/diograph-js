@@ -5,7 +5,8 @@ const { Given, When, Then } = require('@cucumber/cucumber')
 const { App } = require('../../dist/testApp/test-app')
 
 const TEMP_ROOM_PATH = join(__dirname, '..', '..', 'testApp', 'temp-room')
-const APPLICATION_SUPPORT_ROOM_PATH = join(process.cwd(), 'fixtures', 'content-source')
+const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'fixtures', 'content-source')
+const APP_DATA_PATH = join(process.cwd(), 'app-data.json')
 
 const testApp = new App()
 
@@ -30,28 +31,11 @@ When('I delete room', async () => {
 })
 
 When('I add client to room', async () => {
-  await testApp.run('addClient', APPLICATION_SUPPORT_ROOM_PATH)
+  await testApp.run('addClient', CONTENT_SOURCE_FOLDER)
 })
 
 When('I call {word} operation', async (operation) => {
   await testApp.run(operation)
-})
-
-Then('I can call {word} operation', async (operation) => {
-  await testApp.run(operation).then((response) => {
-    // TODO: Read these from app-data.json
-    switch (operation) {
-      case 'appListRooms': {
-        assert.equal(response.length, 1)
-        break
-      }
-      case 'appListClients': {
-        assert.equal(response.length, 1)
-        break
-      }
-      default:
-    }
-  })
 })
 
 Then('{word} {word} exists', (fileName, doesOrNot) => {
@@ -59,7 +43,7 @@ Then('{word} {word} exists', (fileName, doesOrNot) => {
 })
 
 Then('{word} {word} exists in application support room', (fileName, doesOrNot) => {
-  assert.equal(existsSync(join(APPLICATION_SUPPORT_ROOM_PATH, `${fileName}`)), doesOrNot === 'does')
+  assert.equal(existsSync(join(CONTENT_SOURCE_FOLDER, `${fileName}`)), doesOrNot === 'does')
 })
 
 Then('room.json has {word} client(s)', (clientCount) => {
@@ -69,9 +53,20 @@ Then('room.json has {word} client(s)', (clientCount) => {
   assert.equal(roomJson.clients.length, clientCount === 'no' ? 0 : parseInt(clientCount, 10))
 })
 
+Then('appData has {word} {word}', (count, type) => {
+  const appDataContents = readFileSync(APP_DATA_PATH, { encoding: 'utf8' })
+  const appData = JSON.parse(appDataContents)
+
+  if (type === 'rooms') {
+    assert.equal(appData.rooms.length, parseInt(count, 10))
+  } else if (type === 'clients') {
+    assert.equal(appData.clients.length, parseInt(count, 10))
+  }
+})
+
 Then('Content source diograph.json has {word} diories', (dioryCount) => {
   const contentSourceDiographJsonContents = readFileSync(
-    join(APPLICATION_SUPPORT_ROOM_PATH, 'diograph.json'),
+    join(CONTENT_SOURCE_FOLDER, 'diograph.json'),
     {
       encoding: 'utf8',
     },

@@ -5,7 +5,7 @@ import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import { join } from 'path'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || process.cwd()
-const APP_DATA_FOLDER = join(appDataFolderPath, 'app-data.json')
+const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
 const CONTENT_SOURCE_FOLDER = join(appDataFolderPath, 'fixtures', 'content-source')
 
 if (!existsSync(CONTENT_SOURCE_FOLDER)) {
@@ -42,12 +42,12 @@ class App {
 
   initiateAppData = async () => {
     // Initiate app data if doesn't exist yet
-    if (!existsSync(APP_DATA_FOLDER)) {
+    if (!existsSync(APP_DATA_PATH)) {
       const defaultAppData = { rooms: [], clients: [] }
-      await writeFile(APP_DATA_FOLDER, JSON.stringify(defaultAppData, null, 2))
+      await writeFile(APP_DATA_PATH, JSON.stringify(defaultAppData, null, 2))
     }
 
-    const appDataContents = await readFile(APP_DATA_FOLDER, { encoding: 'utf8' })
+    const appDataContents = await readFile(APP_DATA_PATH, { encoding: 'utf8' })
     this.appData = JSON.parse(appDataContents)
 
     // Load rooms
@@ -73,7 +73,7 @@ class App {
       rooms: this.rooms.map((room) => ({ address: room.address })),
       clients: this.clients.map((client) => client.toJson()),
     }
-    await writeFile(APP_DATA_FOLDER, JSON.stringify(jsonAppData, null, 2))
+    await writeFile(APP_DATA_PATH, JSON.stringify(jsonAppData, null, 2))
   }
 
   addAndLoadRoom = async (room: Room) => {
@@ -104,7 +104,7 @@ class App {
 
     if (command === 'resetApp') {
       // Remove app-data.json
-      existsSync(APP_DATA_FOLDER) && (await rm(APP_DATA_FOLDER))
+      existsSync(APP_DATA_PATH) && (await rm(APP_DATA_PATH))
       // Remove content source room
       existsSync(join(CONTENT_SOURCE_FOLDER, 'diograph.json')) &&
         (await rm(join(CONTENT_SOURCE_FOLDER, 'diograph.json')))

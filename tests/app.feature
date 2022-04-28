@@ -5,8 +5,8 @@ Feature: App
     And I initiate room
 
   Scenario: List rooms
-    Then I can call appListRooms operation
+    Then appData has 1 rooms
 
   Scenario: List clients
     When I add client to room
-    Then I can call appListClients operation
+    Then appData has 1 client
