@@ -75,7 +75,7 @@ class LocalClient extends Client {
     // this.diograph.addToDiograph(diograph)
 
     const diographJson = {
-      diograph,
+      diograph: diograph.diograph,
       rootId: 'root123',
     }
 

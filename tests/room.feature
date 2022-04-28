@@ -2,9 +2,9 @@ Feature: Room
 
   Background:
     Given I have empty place for room
+    And I initiate room
 
   Scenario: Initiate room
-    When I initiate room
     Then room.json does exists
     And room.json has no clients
     And diograph.json does exists
@@ -13,22 +13,32 @@ Feature: Room
     # And images folder has no files
 
   Scenario: Delete room
-    When I initiate room
-    And I delete room
+    When I delete room
     Then room.json not exists
     And diograph.json not exists
     # And images folder not exists
 
   Scenario: Add client to room
-    When I initiate room
-    And I add client to room
+    When I add client to room
     Then room.json has 1 client
 
-  Scenario: List and generate diograph from content source
-    When I initiate room
-    And I add client to room
+  Scenario: Content source contents list
+    When I add client to room
     And I call listClientContents operation
-    Then diograph.json does exists in application support room
+    Then Content source diograph.json has 4 diories
+    # And images folder is not empty in application support room
+
+  Scenario: Content source contents list 2
+    When I add client to room
+    And I call listClientContents2 operation
+    Then Content source diograph.json has 2 diories
+    # And images folder is not empty in application support room
+
+  # Scenario: Content source contents list for both
+  #   When I add client to room
+  #   And I call listClientContents operation
+  #   And I call listClientContents2 operation
+  #   Then Content source diograph.json has 123 diories
     # And images folder is not empty in application support room
 
   # Scenario: Add diory from content source

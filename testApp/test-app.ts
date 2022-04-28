@@ -6,7 +6,7 @@ import { join } from 'path'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || process.cwd()
 const APP_DATA_FOLDER = join(appDataFolderPath, 'app-data.json')
-const CONTENT_SOURCE_FOLDER = join(appDataFolderPath, 'content-source-room')
+const CONTENT_SOURCE_FOLDER = join(appDataFolderPath, 'fixtures', 'content-source')
 
 if (!existsSync(CONTENT_SOURCE_FOLDER)) {
   mkdirSync(CONTENT_SOURCE_FOLDER)
@@ -106,8 +106,8 @@ class App {
       // Remove app-data.json
       existsSync(APP_DATA_FOLDER) && (await rm(APP_DATA_FOLDER))
       // Remove content source room
-      await rm(CONTENT_SOURCE_FOLDER, { recursive: true })
-      await mkdir(CONTENT_SOURCE_FOLDER)
+      existsSync(join(CONTENT_SOURCE_FOLDER, 'diograph.json')) &&
+        (await rm(join(CONTENT_SOURCE_FOLDER, 'diograph.json')))
       console.log('App data removed.')
       return
     }
