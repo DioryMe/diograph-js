@@ -34,11 +34,11 @@ Feature: Room
     Then Content source diograph.json has 2 diories
     # And images folder is not empty in application support room
 
-  # Scenario: Content source contents list for both
-  #   When I add client to room
-  #   And I call listClientContents operation
-  #   And I call listClientContents2 operation
-  #   Then Content source diograph.json has 123 diories
+  Scenario: Content source contents list for both
+    When I add client to room
+    And I call listClientContents operation
+    And I call listClientContents2 operation
+    Then Content source diograph.json has 6 diories
     # And images folder is not empty in application support room
 
   # Scenario: Add diory from content source

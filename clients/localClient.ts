@@ -67,15 +67,13 @@ class LocalClient extends Client {
   }
 
   initiate = async (path?: string) => {
-    // 1. filuista dioreita
-    // 2. kansioista dioreita (ilman subfoldereita)
-    // 3. linkit rootista dioreihin
     const diograph = await generateDiograph(path ? join(this.baseUrl, path) : this.baseUrl)
-    console.log(diograph)
-    // this.diograph.addToDiograph(diograph)
 
     const diographJson = {
-      diograph: diograph.diograph,
+      diograph: {
+        ...this.diograph.diograph,
+        ...diograph.diograph,
+      },
       rootId: 'root123',
     }
 
@@ -83,16 +81,17 @@ class LocalClient extends Client {
   }
 
   loadOrInitiate = async (path: string = '/') => {
-    if (!existsSync(join(this.baseUrl, 'diograph.json'))) {
-      // Should check if path already exists? Shouldn't load if not necessary...
-      // if (!this.diograph.includes(path)) {
-      // Initiate and add diograph.json
-      await this.initiate(path)
-      // }
+    // Load existing diograph if available
+    if (existsSync(join(this.baseUrl, 'diograph.json'))) {
+      this.diograph = JSON.parse(
+        await readFile(join(this.baseUrl, 'diograph.json'), { encoding: 'utf8' }),
+      )
     }
-    this.diograph = JSON.parse(
-      await readFile(join(this.baseUrl, 'diograph.json'), { encoding: 'utf8' }),
-    )
+    // Should check if path already exists? Shouldn't load if not necessary...
+    // if (!this.diograph.includes(path)) {
+    // Initiate and add diograph.json
+    await this.initiate(path)
+    // }
   }
 
   import = async () => {
