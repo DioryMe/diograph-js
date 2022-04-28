@@ -4,7 +4,7 @@ export interface Diograph {
 
 export interface Diory extends DioryAttributes {
   id: string
-  links?: object
+  links?: DioryLinkObject
 }
 
 export interface DioryAttributes {
@@ -20,4 +20,12 @@ export interface DioryAttributes {
 
 export interface DataAttributes {
   [key: string]: string
+}
+
+export interface DioryLink {
+  id: string
+}
+
+export interface DioryLinkObject {
+  [key: string]: DioryLink
 }
