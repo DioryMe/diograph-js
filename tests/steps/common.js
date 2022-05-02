@@ -36,11 +36,11 @@ When('I delete room', async () => {
   await testApp.run('deleteRoom')
 })
 
-When('I add client to room', async () => {
+When('I add connection to room', async () => {
   if (!existsSync(CONTENT_SOURCE_FOLDER)) {
     throw new Error(`ERROR: content-source-folder not found ${CONTENT_SOURCE_FOLDER}`)
   }
-  await testApp.run('addClient', CONTENT_SOURCE_FOLDER)
+  await testApp.run('addConnection', CONTENT_SOURCE_FOLDER)
 })
 
 When('I call {word} operation', async (operation) => {
@@ -55,7 +55,7 @@ Then('{word} {word} exists in application support room', (fileName, doesOrNot) =
   assert.equal(existsSync(join(CACHE_PATH, `${fileName}`)), doesOrNot === 'does')
 })
 
-Then('room.json has {word} client(s)', (clientCount) => {
+Then('room.json has {word} connection(s)', (clientCount) => {
   const roomJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'room.json'), { encoding: 'utf8' })
   const roomJson = JSON.parse(roomJsonContents)
   assert(roomJson.clients, 'Invalid room.json, clients not found')

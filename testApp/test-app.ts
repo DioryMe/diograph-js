@@ -1,5 +1,4 @@
 import { Room, LocalRoomClient, LocalClient } from '..'
-import { Client } from '../clients'
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import { join } from 'path'

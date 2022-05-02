@@ -6,7 +6,7 @@ Feature: Room
 
   Scenario: Initiate room
     Then room.json does exists
-    And room.json has no clients
+    And room.json has no connections
     And diograph.json does exists
     # And diograph.json has one diory
     # And images folder exists
@@ -18,31 +18,31 @@ Feature: Room
     And diograph.json not exists
     # And images folder not exists
 
-  Scenario: Add client to room
-    When I add client to room
-    Then room.json has 1 client
+  Scenario: Add connection to room
+    When I add connection to room
+    Then room.json has 1 connection
 
   Scenario: Content source contents list
-    When I add client to room
+    When I add connection to room
     And I call listClientContents operation
     Then Content source diograph.json has 4 diories
     # And images folder is not empty in application support room
 
   Scenario: Content source contents list 2
-    When I add client to room
+    When I add connection to room
     And I call listClientContents2 operation
     Then Content source diograph.json has 2 diories
     # And images folder is not empty in application support room
 
   Scenario: Content source contents list for both
-    When I add client to room
+    When I add connection to room
     And I call listClientContents operation
     And I call listClientContents2 operation
     Then Content source diograph.json has 6 diories
     # And images folder is not empty in application support room
 
   # Scenario: Add diory from content source
-  #   When I add client to room
+  #   When I add connection to room
   #   And I call import operation for client
   #   Then diograph.json has two diories
   #   And images folder has one image

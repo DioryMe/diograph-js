@@ -63,4 +63,4 @@ class LocalClient extends Client {
   }
 }
 
-export { Client, LocalClient }
+export { LocalClient }
