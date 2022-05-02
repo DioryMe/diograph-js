@@ -41,7 +41,9 @@ class Room {
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
     this.clients = clients.map((config: any) => {
-      return new LocalClient(config.address)
+      const client = new LocalClient(config.address)
+      client.load()
+      return client
     })
     this.diograph = new DiographJson(diographUrl, this.roomClient)
     await this.diograph.loadDiograph()
@@ -68,9 +70,13 @@ class Room {
   }
 
   addClient = async (baseUrl: string) => {
-    const client = new LocalClient(baseUrl)
-    this.clients.push(client)
-    return client
+    const existingClient = this.clients.find((existingClient) => existingClient.baseUrl === baseUrl)
+    if (!existingClient) {
+      const client = new LocalClient(baseUrl)
+      this.clients.push(client)
+      return client
+    }
+    return existingClient
   }
 
   saveRoom = async () => {

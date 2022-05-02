@@ -20,23 +20,15 @@ interface ContentUrls {
   [key: string]: string
 }
 
-interface ClientData {
-  address: string
-  contentUrls: ContentUrls
-}
-
 interface AppData {
   rooms: RoomData[]
-  clients: ClientData[]
 }
 
 class App {
   appData: AppData = {
     rooms: [],
-    clients: [],
   }
   rooms: Room[] = []
-  clients: Client[] = []
 
   constructor() {}
 
@@ -53,17 +45,12 @@ class App {
     // Load rooms
     await Promise.all(
       this.appData.rooms.map(async (roomData) => {
+        if (!existsSync(roomData.address)) {
+          throw new Error('Invalid room address in app-data.json')
+        }
         const client = new LocalRoomClient({ address: roomData.address })
         const room = new Room(roomData.address, client)
         await this.addAndLoadRoom(room)
-      }),
-    )
-
-    // Load clients
-    await Promise.all(
-      this.appData.clients.map(async (clientData) => {
-        const client = new LocalClient(clientData.address)
-        await this.addAndLoadClient(client)
       }),
     )
   }
@@ -71,7 +58,6 @@ class App {
   saveAppData = async () => {
     const jsonAppData = {
       rooms: this.rooms.map((room) => ({ address: room.address })),
-      clients: this.clients.map((client) => client.toJson()),
     }
     await writeFile(APP_DATA_PATH, JSON.stringify(jsonAppData, null, 2))
   }
@@ -80,20 +66,7 @@ class App {
     const exists = this.rooms.find((existingRoom) => existingRoom.address === room.address)
     if (!exists) {
       await room.loadOrInitiateRoom()
-      await Promise.all(
-        room.clients.map((client) => {
-          return this.addAndLoadClient(client)
-        }),
-      )
       this.rooms.push(room)
-    }
-  }
-
-  addAndLoadClient = async (client: Client) => {
-    const exists = this.clients.find((existingClient) => existingClient.baseUrl === client.baseUrl)
-    if (!exists) {
-      this.clients.push(client)
-      return client.load()
     }
   }
 
@@ -116,6 +89,9 @@ class App {
 
     if (command === 'addRoom') {
       const roomPath = arg1 || join(__dirname, '..', '..', 'testApp', 'temp-room')
+      if (!existsSync(roomPath)) {
+        mkdirSync(roomPath)
+      }
       const client = new LocalRoomClient({ address: roomPath })
       const room = new Room(roomPath, client)
       await this.addAndLoadRoom(room)
@@ -125,10 +101,6 @@ class App {
 
     if (command === 'appListRooms') {
       return this.appData.rooms
-    }
-
-    if (command === 'appListClients') {
-      return this.appData.clients
     }
 
     if (!this.rooms.length) {
@@ -153,9 +125,12 @@ class App {
       const clientAddress = arg1 || process.cwd()
       const client = await room.addClient(clientAddress)
       await room.saveRoom()
-      await this.addAndLoadClient(client)
-      await this.saveAppData()
       console.log('Client added.')
+    }
+
+    if (command === 'listClients') {
+      const clients = this.rooms.flatMap((room) => room.clients)
+      return clients.map((client) => client.baseUrl)
     }
 
     if (command === 'listClientContents') {
