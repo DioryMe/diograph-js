@@ -6,11 +6,6 @@ import { join } from 'path'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || process.cwd()
 const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
-const CONTENT_SOURCE_FOLDER = join(appDataFolderPath, 'fixtures', 'content-source')
-
-if (!existsSync(CONTENT_SOURCE_FOLDER)) {
-  mkdirSync(CONTENT_SOURCE_FOLDER)
-}
 
 interface RoomData {
   address: string
@@ -78,9 +73,6 @@ class App {
     if (command === 'resetApp') {
       // Remove app-data.json
       existsSync(APP_DATA_PATH) && (await rm(APP_DATA_PATH))
-      // Remove content source room
-      existsSync(join(CONTENT_SOURCE_FOLDER, 'diograph.json')) &&
-        (await rm(join(CONTENT_SOURCE_FOLDER, 'diograph.json')))
       console.log('App data removed.')
       return
     }
@@ -123,7 +115,7 @@ class App {
 
     if (command === 'addClient') {
       const clientAddress = arg1 || process.cwd()
-      const client = await room.addClient(clientAddress)
+      await room.addClient(clientAddress)
       await room.saveRoom()
       console.log('Client added.')
     }

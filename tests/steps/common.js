@@ -1,4 +1,4 @@
-const { existsSync, readFileSync } = require('fs')
+const { existsSync, readFileSync, mkdirSync, rmSync } = require('fs')
 const assert = require('assert')
 const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
@@ -13,6 +13,9 @@ const testApp = new App()
 Given('I have empty place for room', async () => {
   await testApp.run('deleteRoom')
   await testApp.run('resetApp')
+  // Remove content source room
+  existsSync(join(CONTENT_SOURCE_FOLDER, 'diograph.json')) &&
+    rmSync(join(CONTENT_SOURCE_FOLDER, 'diograph.json'))
 })
 
 Given('I have initiated a room', async () => {
@@ -31,6 +34,9 @@ When('I delete room', async () => {
 })
 
 When('I add client to room', async () => {
+  if (!existsSync(CONTENT_SOURCE_FOLDER)) {
+    throw new Error(`ERROR: content-source-folder not found ${CONTENT_SOURCE_FOLDER}`)
+  }
   await testApp.run('addClient', CONTENT_SOURCE_FOLDER)
 })
 
