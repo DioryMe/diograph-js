@@ -69,10 +69,10 @@ class Room {
     await this.loadRoom()
   }
 
-  addClient = async (baseUrl: string) => {
+  addClient = async (baseUrl: string, cachePath: string) => {
     const existingClient = this.clients.find((existingClient) => existingClient.baseUrl === baseUrl)
     if (!existingClient) {
-      const client = new LocalClient(baseUrl)
+      const client = new LocalClient(baseUrl, cachePath)
       this.clients.push(client)
       return client
     }

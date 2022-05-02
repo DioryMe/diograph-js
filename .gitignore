@@ -1,11 +1,10 @@
 yarn-error.log
 node_modules
 dist
+tmp
 
-app-data.json
 testApp/temp-room/*
 !testestAppts/temp-room/.gitkeep
 testApp/some-room-address/*
-fixtures/content-source/diograph.json
 
 cucumber.js

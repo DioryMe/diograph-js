@@ -8,11 +8,13 @@ import { generateDiograph } from '../generators/diograph'
 
 class LocalClient extends Client {
   baseUrl: string
+  cachePath: string
   diograph: Diograph = {}
 
-  constructor(baseUrl: string) {
+  constructor(baseUrl: string, cachePath: string) {
     super()
     this.baseUrl = baseUrl
+    this.cachePath = cachePath
   }
 
   getFilePath = (contentUrl: string) => {
@@ -77,14 +79,14 @@ class LocalClient extends Client {
       rootId: 'root123',
     }
 
-    await writeFile(join(this.baseUrl, 'diograph.json'), JSON.stringify(diographJson, null, 2))
+    await writeFile(join(this.cachePath, 'diograph.json'), JSON.stringify(diographJson, null, 2))
   }
 
   loadOrInitiate = async (path: string = '/') => {
     // Load existing diograph if available
-    if (existsSync(join(this.baseUrl, 'diograph.json'))) {
+    if (existsSync(join(this.cachePath, 'diograph.json'))) {
       this.diograph = JSON.parse(
-        await readFile(join(this.baseUrl, 'diograph.json'), { encoding: 'utf8' }),
+        await readFile(join(this.cachePath, 'diograph.json'), { encoding: 'utf8' }),
       )
     }
     // Should check if path already exists? Shouldn't load if not necessary...

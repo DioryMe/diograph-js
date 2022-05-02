@@ -6,7 +6,3 @@ Feature: App
 
   Scenario: List rooms
     Then appData has 1 rooms
-
-  Scenario: List clients
-    When I add client to room
-    Then appData has 1 client

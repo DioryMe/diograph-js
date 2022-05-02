@@ -1,4 +1,4 @@
-const { existsSync, readFileSync, mkdirSync, rmSync } = require('fs')
+const { existsSync, readFileSync, rmSync, mkdirSync } = require('fs')
 const assert = require('assert')
 const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
@@ -6,16 +6,19 @@ const { App } = require('../../dist/testApp/test-app')
 
 const TEMP_ROOM_PATH = join(__dirname, '..', '..', 'testApp', 'temp-room')
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'fixtures', 'content-source')
-const APP_DATA_PATH = join(process.cwd(), 'app-data.json')
+const APP_DATA_PATH = join(process.cwd(), 'tmp')
+const CACHE_PATH = join(APP_DATA_PATH, 'local-client-cache')
+if (!existsSync(CACHE_PATH)) {
+  mkdirSync(CACHE_PATH)
+}
 
 const testApp = new App()
 
 Given('I have empty place for room', async () => {
   await testApp.run('deleteRoom')
   await testApp.run('resetApp')
-  // Remove content source room
-  existsSync(join(CONTENT_SOURCE_FOLDER, 'diograph.json')) &&
-    rmSync(join(CONTENT_SOURCE_FOLDER, 'diograph.json'))
+  existsSync(join(CACHE_PATH, 'diograph.json')) && (await rmSync(join(CACHE_PATH, 'diograph.json')))
+  existsSync(join(CACHE_PATH, 'app-data.json')) && (await rmSync(join(CACHE_PATH, 'app-data.json')))
 })
 
 Given('I have initiated a room', async () => {
@@ -49,7 +52,7 @@ Then('{word} {word} exists', (fileName, doesOrNot) => {
 })
 
 Then('{word} {word} exists in application support room', (fileName, doesOrNot) => {
-  assert.equal(existsSync(join(CONTENT_SOURCE_FOLDER, `${fileName}`)), doesOrNot === 'does')
+  assert.equal(existsSync(join(CACHE_PATH, `${fileName}`)), doesOrNot === 'does')
 })
 
 Then('room.json has {word} client(s)', (clientCount) => {
@@ -59,24 +62,17 @@ Then('room.json has {word} client(s)', (clientCount) => {
   assert.equal(roomJson.clients.length, clientCount === 'no' ? 0 : parseInt(clientCount, 10))
 })
 
-Then('appData has {word} {word}', (count, type) => {
-  const appDataContents = readFileSync(APP_DATA_PATH, { encoding: 'utf8' })
+Then('appData has {word} room(s)', (count) => {
+  const appDataContents = readFileSync(join(APP_DATA_PATH, 'app-data.json'), { encoding: 'utf8' })
   const appData = JSON.parse(appDataContents)
 
-  if (type === 'rooms') {
-    assert.equal(appData.rooms.length, parseInt(count, 10))
-  } else if (type === 'clients') {
-    assert.equal(appData.clients.length, parseInt(count, 10))
-  }
+  assert.equal(appData.rooms.length, parseInt(count, 10))
 })
 
 Then('Content source diograph.json has {word} diories', (dioryCount) => {
-  const contentSourceDiographJsonContents = readFileSync(
-    join(CONTENT_SOURCE_FOLDER, 'diograph.json'),
-    {
-      encoding: 'utf8',
-    },
-  )
+  const contentSourceDiographJsonContents = readFileSync(join(CACHE_PATH, 'diograph.json'), {
+    encoding: 'utf8',
+  })
   const diographJson = JSON.parse(contentSourceDiographJsonContents)
   assert.equal(Object.keys(diographJson.diograph).length, parseInt(dioryCount, 10))
 })

@@ -4,8 +4,15 @@ import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import { join } from 'path'
 
-const appDataFolderPath = process.env['APP_DATA_FOLDER'] || process.cwd()
+const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
+if (!existsSync(appDataFolderPath)) {
+  mkdirSync(appDataFolderPath)
+}
 const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
+const CACHE_PATH = join(appDataFolderPath, 'local-client-cache')
+if (!existsSync(CACHE_PATH)) {
+  mkdirSync(CACHE_PATH)
+}
 
 interface RoomData {
   address: string
@@ -115,7 +122,7 @@ class App {
 
     if (command === 'addClient') {
       const clientAddress = arg1 || process.cwd()
-      await room.addClient(clientAddress)
+      await room.addClient(clientAddress, CACHE_PATH)
       await room.saveRoom()
       console.log('Client added.')
     }
