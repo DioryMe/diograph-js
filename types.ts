@@ -30,7 +30,8 @@ export interface DioryLinkObject {
   [key: string]: DioryLink
 }
 
-export interface ClientData {
+export interface ConnectionData {
   address: string
-  contentUrls: string[]
+  type: string
+  contentUrls?: string[]
 }

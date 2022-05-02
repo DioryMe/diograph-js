@@ -3,7 +3,8 @@ import { Client } from '../clients'
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import { join } from 'path'
-import { ClientData } from '../types'
+import { ConnectionData } from '../types'
+import { Connection } from '../connection'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -32,9 +33,19 @@ class App {
     rooms: [],
   }
   rooms: Room[] = []
-  clients: Client[] = []
+  connections: Connection[] = []
 
   constructor() {}
+
+  getClient = (connection: Connection) => {
+    switch (connection.type) {
+      case 'local':
+        return new LocalClient(connection)
+      default:
+        throw new Error(`Couldn't get Client for Connection type: ${connection.type}`)
+        break
+    }
+  }
 
   initiateAppData = async () => {
     // Initiate app data if doesn't exist yet
@@ -72,10 +83,10 @@ class App {
       await room.loadOrInitiateRoom()
       this.rooms.push(room)
     }
-    this.clients = room.clientData.map((config: any) => {
-      const client = new LocalClient(config.address, CACHE_PATH)
-      room.addClient(client)
-      return client
+    this.connections = room.connectionData.map((connectionData: ConnectionData) => {
+      const connection = new Connection(connectionData, CACHE_PATH)
+      room.addConnection(connection)
+      return connection
     })
   }
 
@@ -117,7 +128,7 @@ class App {
     const room = this.rooms[0]
 
     if (command === 'roomListClients') {
-      return room.clients.map((client) => ({ baseUrl: client.baseUrl }))
+      return room.connections.map((connection) => ({ baseUrl: connection.address }))
     }
 
     if (command === 'deleteRoom') {
@@ -127,34 +138,30 @@ class App {
       console.log('Room deleted.')
     }
 
-    if (command === 'addClient') {
-      const clientAddress = arg1 || process.cwd()
-      const client = new LocalClient(clientAddress, CACHE_PATH)
-      this.clients.push(client)
-      room.addClient(client)
+    if (command === 'addConnection') {
+      const connectionAddress = arg1 || process.cwd()
+      const connection = new Connection({ address: connectionAddress, type: 'local' }, CACHE_PATH)
+      this.connections.push(connection)
+      room.addConnection(connection)
       await room.saveRoom()
       console.log('Client added.')
     }
 
-    if (command === 'listClients') {
-      const clients = this.rooms.flatMap((room) => room.clients)
-      return clients.map((client) => client.baseUrl)
+    if (command === 'listConnections') {
+      const clients = this.rooms.flatMap((room) => room.connections)
+      return clients.map((client) => client.address)
     }
 
     if (command === 'listClientContents') {
-      const list = await room.clients[0].list()
+      const client = this.getClient(room.connections[0])
+      const list = await client.list()
       return list
     }
 
     if (command === 'listClientContents2') {
-      const list = await room.clients[0].list('subfolder')
+      const client = this.getClient(room.connections[0])
+      const list = await client.list('subfolder')
       return list
-    }
-
-    if (command === 'importClientContent') {
-      const diory = await room.clients[0].import()
-      console.log(diory)
-      return 'Not implemented.'
     }
 
     if (command === 'getDiograph' && room.diograph) {

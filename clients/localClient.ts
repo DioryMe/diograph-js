@@ -3,18 +3,17 @@ import { existsSync, mkdirSync } from 'fs'
 import { rm, readFile, writeFile, readdir } from 'fs/promises'
 import { Client } from './baseClient'
 import { makeRelative } from './makeRelative'
-import { ClientData, Diograph } from '../types'
+import { Diograph } from '../types'
 import { generateDiograph } from '../generators/diograph'
+import { Connection } from '../connection'
 
 class LocalClient extends Client {
-  baseUrl: string
-  cachePath: string
   diograph: Diograph = {}
+  connection: Connection
 
-  constructor(baseUrl: string, cachePath: string) {
+  constructor(connection: Connection) {
     super()
-    this.baseUrl = baseUrl
-    this.cachePath = cachePath
+    this.connection = connection
   }
 
   getFilePath = (contentUrl: string) => {
@@ -60,52 +59,7 @@ class LocalClient extends Client {
   }
 
   list = async (path?: string) => {
-    await this.loadOrInitiate(path)
-    if (!path) {
-      return this.diograph
-    }
-    // Somehow should list only diograph/diories from given folder path...
-    return this.diograph //[path]
-  }
-
-  initiate = async (path?: string) => {
-    const diograph = await generateDiograph(path ? join(this.baseUrl, path) : this.baseUrl)
-
-    const diographJson = {
-      diograph: {
-        ...this.diograph,
-        ...diograph.diograph,
-      },
-      rootId: 'root123',
-    }
-    this.diograph = diographJson.diograph
-    await writeFile(join(this.cachePath, 'diograph.json'), JSON.stringify(diographJson, null, 2))
-  }
-
-  loadOrInitiate = async (path: string = '/') => {
-    // Load existing diograph if available
-    if (existsSync(join(this.cachePath, 'diograph.json'))) {
-      this.diograph = JSON.parse(
-        await readFile(join(this.cachePath, 'diograph.json'), { encoding: 'utf8' }),
-      ).diograph
-      // return // <--- This will prevent duplicates when using CLI
-    }
-    // Should check if path already exists? Shouldn't load if not necessary...
-    // if (!this.diograph.includes(path)) {
-    // Initiate and add diograph.json
-    await this.initiate(path)
-    // }
-  }
-
-  import = async () => {
-    return 'diory'
-  }
-
-  toJson = (): ClientData => {
-    return {
-      address: this.baseUrl,
-      contentUrls: [],
-    }
+    return this.connection.diograph //[path || '/']
   }
 }
 

@@ -1,7 +1,8 @@
 import { RoomClient } from './roomClients'
 import { Client, LocalClient } from './clients'
 import { DiographJson } from '.'
-import { ClientData } from './types'
+import { ConnectionData } from './types'
+import { Connection } from './connection'
 
 export interface ContentUrls {
   [key: string]: string
@@ -10,8 +11,8 @@ export interface ContentUrls {
 class Room {
   address: string
   connected: boolean
-  clients: Client[] = []
-  clientData: ClientData[] = []
+  connections: Connection[] = []
+  connectionData: ConnectionData[] = []
   roomClient: RoomClient
   diograph: DiographJson | undefined
   contentUrls: ContentUrls = {}
@@ -41,7 +42,7 @@ class Room {
     const { diographUrl, contentUrls, clients } = JSON.parse(roomJsonContents)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
-    this.clientData = clients
+    this.connectionData = clients
     this.diograph = new DiographJson(diographUrl, this.roomClient)
     await this.diograph.loadDiograph()
   }
@@ -66,22 +67,22 @@ class Room {
     await this.loadRoom()
   }
 
-  addClient = (client: Client) => {
-    const existingClient = this.clients.find(
-      (existingClient) => existingClient.baseUrl === client.baseUrl,
+  addConnection = (connection: Connection) => {
+    const existingConnection = this.connections.find(
+      (existingConnection) => existingConnection.address === connection.address,
     )
-    if (!existingClient) {
-      this.clients.push(client)
-      return client
+    if (!existingConnection) {
+      this.connections.push(connection)
+      return connection
     }
-    return existingClient
+    return existingConnection
   }
 
   saveRoom = async () => {
     // Room.json
     const roomJson = {
       diographUrl: this.address,
-      clients: this.clients.map((client) => client.toJson()),
+      clients: this.connections.map((connection) => connection.toJson()),
     }
     await this.roomClient.writeTextItem(
       this.roomClient.roomJsonPath,

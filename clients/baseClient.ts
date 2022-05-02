@@ -3,11 +3,9 @@ import { Diograph } from '../types'
 class Client {
   diograph: Diograph = {}
   baseUrl: string
-  imageFolderPath: string
 
   constructor() {
     this.baseUrl = ''
-    this.imageFolderPath = 'images'
   }
 
   getDataobject = (contentUrl: string) => {
@@ -25,16 +23,6 @@ class Client {
   list = async (path?: string) => {
     // throw new Error('Not implemented.')
     return this.diograph
-  }
-
-  import = async () => {
-    // throw new Error('Not implemented.')
-    return 'Not implemented'
-  }
-
-  toJson = () => {
-    // throw new Error('Not implemented.')
-    return {}
   }
 
   // -----------------
