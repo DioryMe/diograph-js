@@ -66,7 +66,7 @@ class Room {
     await this.loadRoom()
   }
 
-  addClient = async (client: Client) => {
+  addClient = (client: Client) => {
     const existingClient = this.clients.find(
       (existingClient) => existingClient.baseUrl === client.baseUrl,
     )

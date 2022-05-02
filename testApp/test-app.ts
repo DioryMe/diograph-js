@@ -74,7 +74,7 @@ class App {
     }
     this.clients = room.clientData.map((config: any) => {
       const client = new LocalClient(config.address, CACHE_PATH)
-      client.load()
+      room.addClient(client)
       return client
     })
   }
@@ -130,7 +130,8 @@ class App {
     if (command === 'addClient') {
       const clientAddress = arg1 || process.cwd()
       const client = new LocalClient(clientAddress, CACHE_PATH)
-      await room.addClient(client)
+      this.clients.push(client)
+      room.addClient(client)
       await room.saveRoom()
       console.log('Client added.')
     }

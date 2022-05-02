@@ -27,10 +27,6 @@ class Client {
     return this.diograph
   }
 
-  load = async () => {
-    return 'Not implemented'
-  }
-
   import = async () => {
     // throw new Error('Not implemented.')
     return 'Not implemented'
