@@ -3,6 +3,7 @@ import { Client } from '../clients'
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import { join } from 'path'
+import { ClientData } from '../types'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -31,6 +32,7 @@ class App {
     rooms: [],
   }
   rooms: Room[] = []
+  clients: Client[] = []
 
   constructor() {}
 
@@ -70,6 +72,11 @@ class App {
       await room.loadOrInitiateRoom()
       this.rooms.push(room)
     }
+    this.clients = room.clientData.map((config: any) => {
+      const client = new LocalClient(config.address, CACHE_PATH)
+      client.load()
+      return client
+    })
   }
 
   run = async (command: string, arg1: string, arg2: string, arg3: string) => {
@@ -122,7 +129,8 @@ class App {
 
     if (command === 'addClient') {
       const clientAddress = arg1 || process.cwd()
-      await room.addClient(clientAddress, CACHE_PATH)
+      const client = new LocalClient(clientAddress, CACHE_PATH)
+      await room.addClient(client)
       await room.saveRoom()
       console.log('Client added.')
     }

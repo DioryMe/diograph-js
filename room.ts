@@ -1,7 +1,7 @@
 import { RoomClient } from './roomClients'
 import { Client, LocalClient } from './clients'
 import { DiographJson } from '.'
-import { join } from 'path'
+import { ClientData } from './types'
 
 export interface ContentUrls {
   [key: string]: string
@@ -11,6 +11,7 @@ class Room {
   address: string
   connected: boolean
   clients: Client[] = []
+  clientData: ClientData[] = []
   roomClient: RoomClient
   diograph: DiographJson | undefined
   contentUrls: ContentUrls = {}
@@ -40,11 +41,7 @@ class Room {
     const { diographUrl, contentUrls, clients } = JSON.parse(roomJsonContents)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
-    this.clients = clients.map((config: any) => {
-      const client = new LocalClient(config.address)
-      client.load()
-      return client
-    })
+    this.clientData = clients
     this.diograph = new DiographJson(diographUrl, this.roomClient)
     await this.diograph.loadDiograph()
   }
@@ -69,10 +66,11 @@ class Room {
     await this.loadRoom()
   }
 
-  addClient = async (baseUrl: string, cachePath: string) => {
-    const existingClient = this.clients.find((existingClient) => existingClient.baseUrl === baseUrl)
+  addClient = async (client: Client) => {
+    const existingClient = this.clients.find(
+      (existingClient) => existingClient.baseUrl === client.baseUrl,
+    )
     if (!existingClient) {
-      const client = new LocalClient(baseUrl, cachePath)
       this.clients.push(client)
       return client
     }

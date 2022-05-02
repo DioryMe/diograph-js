@@ -3,7 +3,7 @@ import { existsSync, mkdirSync } from 'fs'
 import { rm, readFile, writeFile, readdir } from 'fs/promises'
 import { Client } from './baseClient'
 import { makeRelative } from './makeRelative'
-import { Diograph } from '../types'
+import { ClientData, Diograph } from '../types'
 import { generateDiograph } from '../generators/diograph'
 
 class LocalClient extends Client {
@@ -11,10 +11,7 @@ class LocalClient extends Client {
   cachePath: string
   diograph: Diograph = {}
 
-  constructor(
-    baseUrl: string,
-    cachePath: string = '/Users/Jouni/Code/diory-browser-electron/diograph-js/tmp/local-client-cache',
-  ) {
+  constructor(baseUrl: string, cachePath: string) {
     super()
     this.baseUrl = baseUrl
     this.cachePath = cachePath
@@ -104,10 +101,10 @@ class LocalClient extends Client {
     return 'diory'
   }
 
-  toJson = () => {
+  toJson = (): ClientData => {
     return {
       address: this.baseUrl,
-      contentUrls: {},
+      contentUrls: [],
     }
   }
 }
