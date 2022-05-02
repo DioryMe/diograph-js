@@ -22,9 +22,9 @@ async function typeSpecificData(filePath: string) {
   switch (type) {
     case 'image':
       const fileContent = await readFile(filePath)
-      return dioryImageGenerator(fileContent, filePath, filePath)
+      return (await dioryImageGenerator(fileContent, filePath, filePath)).typeSpecificDiory
     case 'video':
-      return dioryVideoGenerator(filePath, filePath)
+      return (await dioryVideoGenerator(filePath, filePath)).typeSpecificDiory
     case 'audio':
       defaultSchema['@type'] = 'AudioObject'
       break
