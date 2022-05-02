@@ -91,8 +91,7 @@ class LocalClient extends Client {
       this.diograph = JSON.parse(
         await readFile(join(this.cachePath, 'diograph.json'), { encoding: 'utf8' }),
       ).diograph
-      // FIXME: This prevents duplicates
-      return
+      // return // <--- This will prevent duplicates when using CLI
     }
     // Should check if path already exists? Shouldn't load if not necessary...
     // if (!this.diograph.includes(path)) {
