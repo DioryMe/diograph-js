@@ -11,7 +11,10 @@ class LocalClient extends Client {
   cachePath: string
   diograph: Diograph = {}
 
-  constructor(baseUrl: string, cachePath: string) {
+  constructor(
+    baseUrl: string,
+    cachePath: string = '/Users/Jouni/Code/diory-browser-electron/diograph-js/tmp/local-client-cache',
+  ) {
     super()
     this.baseUrl = baseUrl
     this.cachePath = cachePath
@@ -73,12 +76,12 @@ class LocalClient extends Client {
 
     const diographJson = {
       diograph: {
-        ...this.diograph.diograph,
+        ...this.diograph,
         ...diograph.diograph,
       },
       rootId: 'root123',
     }
-
+    this.diograph = diographJson.diograph
     await writeFile(join(this.cachePath, 'diograph.json'), JSON.stringify(diographJson, null, 2))
   }
 
@@ -87,7 +90,9 @@ class LocalClient extends Client {
     if (existsSync(join(this.cachePath, 'diograph.json'))) {
       this.diograph = JSON.parse(
         await readFile(join(this.cachePath, 'diograph.json'), { encoding: 'utf8' }),
-      )
+      ).diograph
+      // FIXME: This prevents duplicates
+      return
     }
     // Should check if path already exists? Shouldn't load if not necessary...
     // if (!this.diograph.includes(path)) {
