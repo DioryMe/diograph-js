@@ -153,7 +153,7 @@ class App {
 
     if (command === 'listClientContents') {
       const client = this.getClient(room.connections[0])
-      const list = await client.list()
+      const list = await client.list('/')
       return list
     }
 

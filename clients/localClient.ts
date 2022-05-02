@@ -14,6 +14,7 @@ class LocalClient extends Client {
   constructor(connection: Connection) {
     super()
     this.connection = connection
+    this.connection.load()
   }
 
   getFilePath = (contentUrl: string) => {
@@ -58,8 +59,10 @@ class LocalClient extends Client {
     return rm(this.getFilePath(contentUrl))
   }
 
-  list = async (path?: string) => {
-    return this.connection.diograph //[path || '/']
+  list = async (path: string) => {
+    const diograph = await generateDiograph(join(this.connection.address, path))
+    await this.connection.cacheDiograph(diograph)
+    return diograph
   }
 }
 

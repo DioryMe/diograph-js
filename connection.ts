@@ -1,8 +1,7 @@
 import { join, dirname } from 'path'
-import { existsSync, mkdirSync } from 'fs'
-import { rm, readFile, writeFile, readdir } from 'fs/promises'
+import { existsSync, mkdirSync, readFileSync } from 'fs'
+import { writeFile } from 'fs/promises'
 import { ConnectionData, Diograph } from './types'
-import { generateDiograph } from './generators/diograph'
 
 class Connection {
   address: string
@@ -18,33 +17,25 @@ class Connection {
     this.cachePath = cachePath
   }
 
-  initiate = async (path?: string) => {
-    const diograph = await generateDiograph(path ? join(this.address, path) : this.address)
+  load = () => {
+    if (existsSync(join(this.cachePath, 'diograph.json'))) {
+      this.diograph = JSON.parse(
+        readFileSync(join(this.cachePath, 'diograph.json'), { encoding: 'utf8' }),
+      ).diograph
+    }
+  }
 
-    const diographJson = {
+  cacheDiograph = async (diograph: Diograph) => {
+    const diographJson: any = {
       diograph: {
         ...this.diograph,
         ...diograph.diograph,
       },
+      // diograph, // <-- this will prevent duplicates
       rootId: 'root123',
     }
     this.diograph = diographJson.diograph
     await writeFile(join(this.cachePath, 'diograph.json'), JSON.stringify(diographJson, null, 2))
-  }
-
-  loadOrInitiate = async (path: string = '/') => {
-    // Load existing diograph if available
-    if (existsSync(join(this.cachePath, 'diograph.json'))) {
-      this.diograph = JSON.parse(
-        await readFile(join(this.cachePath, 'diograph.json'), { encoding: 'utf8' }),
-      ).diograph
-      // return // <--- This will prevent duplicates when using CLI
-    }
-    // Should check if path already exists? Shouldn't load if not necessary...
-    // if (!this.diograph.includes(path)) {
-    // Initiate and add diograph.json
-    await this.initiate(path)
-    // }
   }
 
   toJson = (): ConnectionData => {

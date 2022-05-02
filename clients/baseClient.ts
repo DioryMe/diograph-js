@@ -20,7 +20,7 @@ class Client {
     return this.deleteItem(contentUrl)
   }
 
-  list = async (path?: string) => {
+  list = async (path: string) => {
     // throw new Error('Not implemented.')
     return this.diograph
   }
