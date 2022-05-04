@@ -104,7 +104,10 @@ class App {
     await this.initiateAppData()
 
     if (command === 'addRoom') {
-      const roomPath = arg1 || join(__dirname, '..', '..', 'testApp', 'temp-room')
+      const roomPath = arg1
+      if (!arg1) {
+        throw new Error('Arg1 not provided for addRoom(), please provide one')
+      }
       if (!existsSync(roomPath)) {
         mkdirSync(roomPath)
       }

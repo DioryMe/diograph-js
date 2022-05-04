@@ -1,4 +1,5 @@
 import { DiographObject } from './types'
+import { Diory } from './diory'
 import { RoomClient } from './roomClients'
 import {
   createDiory,
@@ -15,6 +16,7 @@ class Diograph {
   client: RoomClient | undefined
   rootId: string = ''
   diograph: DiographObject = {}
+  diories: Diory[] = []
   diographUrl: string
 
   createDiory = createDiory
@@ -32,6 +34,7 @@ class Diograph {
   }
 
   setDiograph = (diograph: DiographObject, rootId?: string) => {
+    this.diories = Object.values(diograph).map((dioryObject) => new Diory(dioryObject))
     this.diograph = diograph
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
   }
@@ -47,6 +50,7 @@ class Diograph {
 
     this.rootId = rootId
     this.diograph = diograph
+    this.diories = Object.values(this.diograph).map((dioryObject) => new Diory(dioryObject))
   }
 
   saveDiograph = () => {
@@ -54,18 +58,21 @@ class Diograph {
       throw new Error("Client missing, can't save diograph")
     }
 
-    const diographContents = {
-      rootId: this.rootId,
-      diograph: this.diograph,
-    }
-
-    const diographFileContents = JSON.stringify(diographContents, null, 2)
+    const diographFileContents = JSON.stringify(this.toJson(), null, 2)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     return this.client.saveDiograph(diographFileContents)
   }
 
+  addDiory = (diory: Diory) => {
+    this.diories.push(diory)
+  }
+
   toJson = () => {
-    return { rootId: this.rootId, diograph: this.diograph }
+    const diographObject: DiographObject = {}
+    this.diories.forEach((diory) => {
+      diographObject[diory.id] = diory.toJson()
+    })
+    return { rootId: this.rootId, diograph: diographObject }
   }
 }
 

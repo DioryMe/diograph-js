@@ -1,12 +1,13 @@
 import { DioryAttributes } from '../types'
 import { v4 as uuidv4 } from 'uuid'
 import { Diograph } from '..'
+import { Diory } from '../diory'
 
 function createDiory(
   this: Diograph,
   { text, date, image, latlng, created, modified, data }: DioryAttributes,
 ) {
-  const diory = {
+  const diory = new Diory({
     id: uuidv4(),
     ...(text && { text }),
     ...(image && { image }),
@@ -15,8 +16,8 @@ function createDiory(
     ...(created && { created }),
     ...(modified && { modified }),
     ...(data && { data }),
-  }
-  this.diograph[diory.id] = diory
+  })
+  this.addDiory(diory)
   return diory
 }
 
