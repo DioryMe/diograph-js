@@ -11,7 +11,7 @@ class LocalRoomClient extends RoomClient {
   verifyAndConnect = async () => {
     if (
       existsSync(this.roomJsonPath) &&
-      existsSync(this.diographJsonPath) &&
+      existsSync(this.diographPath) &&
       existsSync(this.imageFolderPath)
     ) {
       return true
@@ -19,14 +19,14 @@ class LocalRoomClient extends RoomClient {
     throw new Error("No room or invalid room, can't connect!")
   }
 
-  initiateRoom = async (roomJsonContents: string, diographJsonContents: string) => {
+  initiateRoom = async (roomJsonContents: string, diographContents: string) => {
     // room.json
     if (!existsSync(this.roomJsonPath)) {
       await this.writeTextItem(this.roomJsonPath, roomJsonContents)
     }
     // diograph.json
-    if (!existsSync(this.diographJsonPath)) {
-      await this.writeTextItem(this.diographJsonPath, diographJsonContents)
+    if (!existsSync(this.diographPath)) {
+      await this.writeTextItem(this.diographPath, diographContents)
     }
     // images/ folder
     if (!existsSync(this.imageFolderPath)) {
@@ -40,11 +40,11 @@ class LocalRoomClient extends RoomClient {
   }
 
   readDiograph = async () => {
-    return this.readTextItem(this.diographJsonPath)
+    return this.readTextItem(this.diographPath)
   }
 
   saveDiograph = async (diographFileContents: string) => {
-    return this.writeTextItem(this.diographJsonPath, diographFileContents)
+    return this.writeTextItem(this.diographPath, diographFileContents)
   }
 
   readTextItem = async (url: string) => {

@@ -3,7 +3,7 @@ import { join } from 'path'
 class RoomClient {
   address: string
   roomJsonPath: string
-  diographJsonPath: string
+  diographPath: string
   imageFolderPath: string
 
   constructor(config: any) {
@@ -12,7 +12,7 @@ class RoomClient {
     }
     this.address = config.address
     this.roomJsonPath = join(this.address, 'room.json')
-    this.diographJsonPath = join(this.address, 'diograph.json')
+    this.diographPath = join(this.address, 'diograph.json')
     this.imageFolderPath = join(this.address, 'images')
   }
 
@@ -21,7 +21,7 @@ class RoomClient {
     return true
   }
 
-  initiateRoom = async (roomJsonContents: string, diographJsonContents: string) => {
+  initiateRoom = async (roomJsonContents: string, diographContents: string) => {
     // throw new Error('Not implemented.')
     return true
   }

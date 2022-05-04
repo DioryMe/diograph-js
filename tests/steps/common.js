@@ -73,6 +73,6 @@ Then('Content source diograph.json has {word} diories', (dioryCount) => {
   const contentSourceDiographJsonContents = readFileSync(join(CACHE_PATH, 'diograph.json'), {
     encoding: 'utf8',
   })
-  const diographJson = JSON.parse(contentSourceDiographJsonContents)
-  assert.equal(Object.keys(diographJson.diograph).length, parseInt(dioryCount, 10))
+  const diograph = JSON.parse(contentSourceDiographJsonContents)
+  assert.equal(Object.keys(diograph.diograph).length, parseInt(dioryCount, 10))
 })

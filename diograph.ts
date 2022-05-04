@@ -41,9 +41,9 @@ class Diograph {
       throw new Error("Client missing, can't load diograph")
     }
 
-    const diographJsonContents = await this.client.readDiograph()
+    const diographContents = await this.client.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    const { diograph, rootId } = JSON.parse(diographJsonContents)
+    const { diograph, rootId } = JSON.parse(diographContents)
 
     this.rootId = rootId
     this.diograph = diograph
@@ -54,12 +54,12 @@ class Diograph {
       throw new Error("Client missing, can't save diograph")
     }
 
-    const diographJsonContents = {
+    const diographContents = {
       rootId: this.rootId,
       diograph: this.diograph,
     }
 
-    const diographFileContents = JSON.stringify(diographJsonContents, null, 2)
+    const diographFileContents = JSON.stringify(diographContents, null, 2)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     return this.client.saveDiograph(diographFileContents)
   }

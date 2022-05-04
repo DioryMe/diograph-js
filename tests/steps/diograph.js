@@ -20,13 +20,13 @@ Then('I receive a diory', async () => {
 })
 
 Then('diograph.json has {word} diories', (dioryCount) => {
-  const diographJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'diograph.json'), {
+  const diographContents = readFileSync(join(TEMP_ROOM_PATH, 'diograph.json'), {
     encoding: 'utf8',
   })
-  const diographJson = JSON.parse(diographJsonContents)
-  assert(diographJson.diograph, 'Invalid diograph.json, diograph not found')
+  const diograph = JSON.parse(diographContents)
+  assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
   assert.equal(
-    Object.values(diographJson.diograph).length,
+    Object.values(diograph.diograph).length,
     dioryCount === 'no' ? 0 : parseInt(dioryCount, 10),
   )
 })

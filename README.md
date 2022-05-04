@@ -20,11 +20,11 @@ const room = new Room(roomAddress, roomClient)
 await room.loadOrInitiateRoom()
 
 // Load diograph and do stuff with it!
-const diographJson = room.diograph
-diographJson.loadDiograph().then(() => {
-  const diory = diographJson.getDiory('id-of-my-diory')
-  diographJson.update(diory.id, { text: 'New name' })
-  diographJson.saveDiograph()
+const diograph = room.diograph
+diograph.loadDiograph().then(() => {
+  const diory = diograph.getDiory('id-of-my-diory')
+  diograph.update(diory.id, { text: 'New name' })
+  diograph.saveDiograph()
 })
 ```
 

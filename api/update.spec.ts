@@ -1,25 +1,23 @@
-import { DiographObject } from '../types'
 import { Diograph } from '../diograph'
 
 describe('update', () => {
-  let diographJson: Diograph
+  let diograph: Diograph
 
   beforeEach(() => {
-    const diograph: DiographObject = {
+    diograph = new Diograph('some-path/diograph.json')
+    diograph.setDiograph({
       'some-id': {
         id: 'some-id',
         text: 'some-text',
         image: 'images/some-id.jpg',
       },
-    }
-    diographJson = new Diograph('some-path/diograph.json')
-    diographJson.setDiograph(diograph)
-    expect(diographJson.getDiory('some-id').text).toEqual('some-text')
+    })
+    expect(diograph.getDiory('some-id').text).toEqual('some-text')
   })
 
   it('works', () => {
-    diographJson.update('some-id', { text: 'updated-text' })
-    const updatedDiory = diographJson.getDiory('some-id')
+    diograph.update('some-id', { text: 'updated-text' })
+    const updatedDiory = diograph.getDiory('some-id')
     expect(updatedDiory.text).toEqual('updated-text')
     expect(updatedDiory.image).toEqual('images/some-id.jpg')
   })

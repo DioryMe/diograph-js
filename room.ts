@@ -90,16 +90,16 @@ class Room {
     )
 
     // Diograph.json
-    const diographJson = this.diograph && this.diograph.toJson()
+    const diograph = this.diograph && this.diograph.toJson()
     await this.roomClient.writeTextItem(
-      this.roomClient.diographJsonPath,
-      JSON.stringify(diographJson, null, 2),
+      this.roomClient.diographPath,
+      JSON.stringify(diograph, null, 2),
     )
   }
 
   deleteRoom = async () => {
     await this.roomClient.deleteItem(this.roomClient.roomJsonPath)
-    await this.roomClient.deleteItem(this.roomClient.diographJsonPath)
+    await this.roomClient.deleteItem(this.roomClient.diographPath)
     // this.roomClient.deleteItem(this.roomClient.imageFolderPath)
   }
 }
