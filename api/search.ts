@@ -1,8 +1,9 @@
 import { Diograph } from '../diograph'
-import { Diory } from '../diory'
+import { DioryObject } from '../types'
 
-function search(this: Diograph, query: string, field: 'text' | 'data'): Diory[] {
-  return this.diories.filter((diory: Diory) => {
+function search(this: Diograph, query: string, field: 'text' | 'data'): DioryObject[] {
+  const diories: DioryObject[] = Object.values(this.diograph)
+  return diories.filter((diory: DioryObject) => {
     if (field === 'text') {
       return diory.text && diory.text.toLowerCase().includes(query.toLowerCase())
     } else if (field === 'data') {
