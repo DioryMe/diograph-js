@@ -1,10 +1,9 @@
 import { statSync } from 'fs'
 import { basename } from 'path/posix'
-import { DioryLinkObject } from '../../types'
-import { Diory } from '../../diory'
+import { DioryLinkObject, DioryObject } from '../../types'
 import { generateDiory } from '../diory'
 
-function getFirstImage(linkedDiorys: Diory[]) {
+function getFirstImage(linkedDiorys: DioryObject[]) {
   const image = linkedDiorys
     .map(({ image }) => image)
     .find((image) => image && !/^data:/.exec(image))
@@ -17,7 +16,7 @@ function getAverage(array: Array<any> = []) {
     : undefined
 }
 
-function getAverageLocation(linkedDiorys: Diory[]) {
+function getAverageLocation(linkedDiorys: DioryObject[]) {
   const locations = linkedDiorys.filter(({ latlng }) => latlng)
   const latitudes = locations.map(({ latlng }) => latlng && latlng.split(', ')[0])
   const longitudes = locations.map(({ latlng }) => latlng && latlng.split(', ')[1])
@@ -58,7 +57,7 @@ function generateLinks(dioryLinks: DioryLinkObject) {
 }
 
 function generateDioryFromFolder(folderPath: string, dioryLinks: DioryLinkObject = {}) {
-  const linkedDiorys: Diory[] = Object.values(dioryLinks)
+  const linkedDiorys: DioryObject[] = Object.values(dioryLinks)
   return {
     ...generateDiory({
       ...getFirstImage(linkedDiorys),
