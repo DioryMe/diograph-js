@@ -73,7 +73,7 @@ class Diograph {
   toDiographObject = (): DiographObject => {
     const diographObject: DiographObject = {}
     this.diories.forEach((diory) => {
-      diographObject[diory.id] = diory.toJson()
+      diographObject[diory.id] = diory.toDioryObject()
     })
     return diographObject
   }
