@@ -1,15 +1,15 @@
 import { DiographObject } from './types'
 import { Diory } from './diory'
-import { RoomClient } from './roomClients'
 import { createDiory, getDiory, getDioryWithLinks, search, update, deleteDiory } from './api'
+import { Room } from '.'
 
 class Diograph {
-  client?: RoomClient
   rootId: string = ''
   diories: Diory[] = []
   // REMOVE ME: Only tests use me
   diograph: DiographObject = {}
   diographUrl?: string
+  room?: Room
 
   createDiory = createDiory
   getDiory = getDiory
@@ -18,9 +18,9 @@ class Diograph {
   search = search
   deleteDiory = deleteDiory
 
-  constructor(diographUrl?: string, client?: RoomClient) {
+  constructor(diographUrl?: string, room?: Room) {
     this.diographUrl = diographUrl
-    this.client = client
+    this.room = room
   }
 
   setDiograph = (diograph: DiographObject, rootId?: string) => {
@@ -35,11 +35,11 @@ class Diograph {
   }
 
   loadDiograph = async () => {
-    if (!this.client) {
+    if (!this.room || !this.room.roomClient) {
       throw new Error("Client missing, can't load diograph")
     }
 
-    const diographContents = await this.client.readDiograph()
+    const diographContents = await this.room.roomClient.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographContents)
 
@@ -47,17 +47,19 @@ class Diograph {
   }
 
   saveDiograph = () => {
-    if (!this.client) {
+    if (!this.room || !this.room.roomClient) {
       throw new Error("Client missing, can't save diograph")
     }
 
     const dioriesWithThumbnails = this.diories.filter((diory) => diory.thumbnailBuffer)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     return Promise.all([
-      this.client.writeTextItem(this.client.diographPath, this.toJson()),
+      this.room.roomClient.writeTextItem(this.room.roomClient.diographPath, this.toJson()),
       dioriesWithThumbnails.map(
         (diory) =>
-          diory.thumbnailBuffer && this.client?.addThumbnail(diory.thumbnailBuffer, diory.id),
+          diory.thumbnailBuffer &&
+          this.room &&
+          this.room.roomClient.addThumbnail(diory.thumbnailBuffer, diory.id),
       ),
     ])
   }

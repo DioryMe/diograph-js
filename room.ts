@@ -42,7 +42,7 @@ class Room {
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
     this.connectionData = clients
-    this.diograph = new Diograph(diographUrl, this.roomClient)
+    this.diograph = new Diograph(diographUrl, this)
     await this.diograph.loadDiograph()
   }
 

@@ -20,6 +20,7 @@ Given('I have empty place for room', async () => {
   await testApp.run('resetApp')
   existsSync(join(CACHE_PATH, 'diograph.json')) && (await rmSync(join(CACHE_PATH, 'diograph.json')))
   existsSync(join(CACHE_PATH, 'app-data.json')) && (await rmSync(join(CACHE_PATH, 'app-data.json')))
+  // TODO: Remove also images/ folder
 })
 
 Given('I have initiated a room', async () => {

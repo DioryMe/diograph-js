@@ -44,10 +44,10 @@ async function deleteDiory(
       dioriesToBeDeleted.map(async (dioryToBeDeleted) => {
         delete this.diograph[dioryToBeDeleted.id]
         if (optsWithDefaults.deleteThumbnail) {
-          if (!this.client) {
+          if (!this.room || !this.room.roomClient) {
             throw new Error("Client missing, can't delete thumbnail")
           }
-          await this.client.deleteThumbnail(`${dioryToBeDeleted.id}.jpg`)
+          await this.room.roomClient.deleteThumbnail(`${dioryToBeDeleted.id}.jpg`)
         }
         return dioryToBeDeleted
       }),
