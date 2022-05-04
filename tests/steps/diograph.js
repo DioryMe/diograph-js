@@ -4,7 +4,7 @@ const { join } = require('path')
 const assert = require('assert')
 const { App } = require('../../dist/testApp/test-app')
 
-const TEMP_ROOM_PATH = join(__dirname, '..', '..', 'testApp', 'temp-room')
+const TEMP_ROOM_PATH = join(process.cwd(), 'tmp')
 
 When('I call {word} for diograph', async (apiAction) => {
   const testApp = new App()

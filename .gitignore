@@ -3,8 +3,4 @@ node_modules
 dist
 tmp
 
-testApp/temp-room/*
-!testestAppts/temp-room/.gitkeep
-testApp/some-room-address/*
-
 cucumber.js

@@ -1,12 +1,13 @@
-const { existsSync, readFileSync, rmSync, mkdirSync } = require('fs')
+const { existsSync, readFileSync, rmSync, mkdirSync, readdirSync, lstatSync } = require('fs')
 const assert = require('assert')
 const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
 const { App } = require('../../dist/testApp/test-app')
 
-const TEMP_ROOM_PATH = join(__dirname, '..', '..', 'testApp', 'temp-room')
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'fixtures', 'content-source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
+const TEMP_ROOM_PATH = APP_DATA_PATH
+const IMAGE_FOLDER_PATH = join(APP_DATA_PATH, 'images')
 const CACHE_PATH = join(APP_DATA_PATH, 'local-client-cache')
 if (!existsSync(CACHE_PATH)) {
   mkdirSync(CACHE_PATH)
@@ -75,4 +76,9 @@ Then('Content source diograph.json has {word} diories', (dioryCount) => {
   })
   const diograph = JSON.parse(contentSourceDiographJsonContents)
   assert.equal(Object.keys(diograph.diograph).length, parseInt(dioryCount, 10))
+})
+
+Then('images folder has {int} image', (count) => {
+  const imageFileList = lstatSync(IMAGE_FOLDER_PATH).isDirectory() && readdirSync(IMAGE_FOLDER_PATH)
+  assert.equal(imageFileList.length, count)
 })

@@ -10,3 +10,8 @@ Feature: Diograph
   Scenario: Create diory
     When I call createDiory for diograph
     Then diograph.json has 2 diories
+
+  Scenario: Import diory
+    When I call importDiory for diograph
+    # Then diograph.json has 2 diories
+    And images folder has 1 image
