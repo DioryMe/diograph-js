@@ -1,16 +1,7 @@
 import { DiographObject } from './types'
 import { Diory } from './diory'
 import { RoomClient } from './roomClients'
-import {
-  createDiory,
-  getDiory,
-  getDioryWithLinks,
-  search,
-  update,
-  deleteDiory,
-  importDioryFromFile,
-  importFolder,
-} from './api'
+import { createDiory, getDiory, getDioryWithLinks, search, update, deleteDiory } from './api'
 
 class Diograph {
   client?: RoomClient
@@ -26,8 +17,6 @@ class Diograph {
   update = update
   search = search
   deleteDiory = deleteDiory
-  importDioryFromFile = importDioryFromFile
-  importFolder = importFolder
 
   constructor(diographUrl?: string, client?: RoomClient) {
     this.diographUrl = diographUrl
