@@ -1,7 +1,6 @@
 import { DiographObject } from '../types'
 
 class Client {
-  diograph: DiographObject = {}
   baseUrl: string
 
   constructor() {
@@ -22,7 +21,7 @@ class Client {
 
   list = async (path: string) => {
     // throw new Error('Not implemented.')
-    return this.diograph
+    return 'Not implemented'
   }
 
   // -----------------

@@ -21,6 +21,7 @@ class Connection {
 
   load = () => {
     if (this.diograph.diographUrl && existsSync(this.diograph.diographUrl)) {
+      // TODO: Parse JSON with Diograph.parseJSON (=class method)
       this.diograph.setDiograph(
         JSON.parse(readFileSync(this.diograph.diographUrl, { encoding: 'utf8' })).diograph,
       )

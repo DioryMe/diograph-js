@@ -15,8 +15,9 @@ import {
 class Diograph {
   client?: RoomClient
   rootId: string = ''
-  diograph: DiographObject = {}
   diories: Diory[] = []
+  // REMOVE ME: Only tests use me
+  diograph: DiographObject = {}
   diographUrl?: string
 
   createDiory = createDiory
@@ -35,8 +36,9 @@ class Diograph {
 
   setDiograph = (diograph: DiographObject, rootId?: string) => {
     this.diories = Object.values(diograph).map((dioryObject) => new Diory(dioryObject))
-    this.diograph = diograph
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
+    // REMOVE ME: Only tests use me
+    this.diograph = diograph
   }
 
   mergeDiograph = (diograph: DiographObject) => {
@@ -60,9 +62,8 @@ class Diograph {
       throw new Error("Client missing, can't save diograph")
     }
 
-    const diographFileContents = this.toJson()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    return this.client.saveDiograph(diographFileContents)
+    return this.client.saveDiograph(this.toJson())
   }
 
   addDiory = (diory: Diory) => {
