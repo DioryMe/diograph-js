@@ -51,8 +51,15 @@ class Diograph {
       throw new Error("Client missing, can't save diograph")
     }
 
+    const dioriesWithThumbnails = this.diories.filter((diory) => diory.thumbnailBuffer)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    return this.client.saveDiograph(this.toJson())
+    return Promise.all([
+      this.client.writeTextItem(this.client.diographPath, this.toJson()),
+      dioriesWithThumbnails.map(
+        (diory) =>
+          diory.thumbnailBuffer && this.client?.addThumbnail(diory.thumbnailBuffer, diory.id),
+      ),
+    ])
   }
 
   addDiory = (diory: Diory) => {

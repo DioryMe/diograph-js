@@ -72,12 +72,12 @@ function baseData(filePath: string): DioryAttributes {
 }
 
 async function generateDioryFromFile(filePath: string) {
-  const { typeSpecificDiory } = await generatedDioryData(filePath)
+  const { typeSpecificDiory, thumbnailBuffer } = await generatedDioryData(filePath)
   const dioryObject = generateDiory({
     ...baseData(filePath),
     ...typeSpecificDiory,
   })
-  return new Diory(dioryObject)
+  return new Diory(dioryObject, thumbnailBuffer)
 }
 
 export { dioryImageGenerator, dioryVideoGenerator, dioryAudioGenerator, generateDioryFromFile }

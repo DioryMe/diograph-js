@@ -91,7 +91,7 @@ class Room {
     if (!this.diograph) {
       throw new Error("Can't saveRoom: no this.diograph")
     }
-    await this.roomClient.writeTextItem(this.roomClient.diographPath, this.diograph.toJson())
+    await this.diograph.saveDiograph()
   }
 
   deleteRoom = async () => {
