@@ -1,8 +1,8 @@
 export interface Diograph {
-  [key: string]: DioryObject
+  [key: string]: Diory
 }
 
-export interface DioryObject extends DioryAttributes {
+export interface Diory extends DioryAttributes {
   id: string
   links?: DioryLinkObject
 }

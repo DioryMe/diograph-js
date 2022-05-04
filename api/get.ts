@@ -1,5 +1,5 @@
 import { DiographJson } from '../diograph'
-import { DioryObject } from '../types'
+import { Diory } from '../types'
 
 interface GetOptions {
   linkedDiories: boolean
@@ -11,7 +11,7 @@ const DEFAULT_OPTIONS: GetOptions = {
   reverseLinkedDiories: false,
 }
 
-function getDiory(this: DiographJson, id: string): DioryObject {
+function getDiory(this: DiographJson, id: string): Diory {
   return this.diograph[id]
 }
 
@@ -19,13 +19,13 @@ function getDioryWithLinks(
   this: DiographJson,
   id: string,
   opts: object = {},
-): DioryObject | Array<DioryObject> {
+): Diory | Array<Diory> {
   const optsWithDefaults: GetOptions = {
     ...DEFAULT_OPTIONS,
     ...opts,
   }
 
-  const storyDiory: DioryObject = this.diograph[id]
+  const storyDiory: Diory = this.diograph[id]
   const storyDioryWithLinkedDiories = [storyDiory]
 
   if (optsWithDefaults.linkedDiories && storyDiory.links) {

@@ -1,5 +1,5 @@
 import { DiographJson } from '../diograph'
-import { DioryObject } from '../types'
+import { Diory } from '../types'
 
 interface DeleteOptions {
   force: boolean
@@ -21,7 +21,7 @@ async function deleteDiory(
   this: DiographJson,
   id: string,
   opts: object = {},
-): Promise<Array<DioryObject>> {
+): Promise<Array<Diory>> {
   let dioriesToBeDeleted
 
   const optsWithDefaults: DeleteOptions = {

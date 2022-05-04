@@ -1,7 +1,7 @@
 import { DiographJson } from '../diograph'
-import { DioryObject, DioryAttributes } from '../types'
+import { Diory, DioryAttributes } from '../types'
 
-function update(this: DiographJson, id: string, payload: DioryAttributes): DioryObject {
+function update(this: DiographJson, id: string, payload: DioryAttributes): Diory {
   // Check that only valid keys are given
   Object.keys(payload).forEach((key) => {
     if (!['text', 'image', 'latlng', 'date', 'data', 'style'].includes(key))
