@@ -13,5 +13,5 @@ Feature: Diograph
 
   Scenario: Import diory
     When I call importDiory for diograph
-    # Then diograph.json has 2 diories
+    Then diograph.json has 2 diories
     And images folder has 1 image

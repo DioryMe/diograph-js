@@ -116,6 +116,7 @@ class App {
       await this.addAndLoadRoom(room)
       await this.saveAppData()
       console.log('Room added.')
+      return
     }
 
     if (command === 'appListRooms') {
@@ -138,6 +139,7 @@ class App {
       this.rooms.shift()
       await this.saveAppData()
       console.log('Room deleted.')
+      return
     }
 
     if (command === 'addConnection') {
@@ -147,6 +149,7 @@ class App {
       room.addConnection(connection)
       await room.saveRoom()
       console.log('Client added.')
+      return
     }
 
     if (command === 'listConnections') {
@@ -179,13 +182,21 @@ class App {
       await room.diograph.createDiory({ text: 'Superia' })
       await room.saveRoom()
       console.log('Diory created.')
+      return
     }
 
     if (command === 'deleteDiory' && room.diograph) {
       await room.diograph.deleteDiory(arg1)
       await room.saveRoom()
       console.log('Diory deleted.')
+      return
     }
+
+    if (command === 'dryRun') {
+      console.log('Dry run completed.')
+    }
+
+    throw new Error(`Invalid command '${command}' (or invalid room...)`)
   }
 }
 
