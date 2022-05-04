@@ -2,7 +2,7 @@ import { existsSync, lstatSync } from 'fs'
 import { readdir } from 'fs/promises'
 import { basename } from 'path/posix'
 import { generateDioryFromFile } from '..'
-import { Diory, DioryLink, DioryLinkObject } from '../../types'
+import { DioryObject, DioryLink, DioryLinkObject } from '../../types'
 import { generateDioryFromFolder } from '../folder'
 import { getPath, isFile, isFolder, isValid } from './dirent-utils'
 
@@ -42,7 +42,7 @@ function generateDioryLink({ linkKey, diory }: any): DioryLinkObject {
   }
 }
 
-function reduceDiorysToDiograph(diorys: Diory[]) {
+function reduceDiorysToDiograph(diorys: DioryObject[]) {
   return diorys.reduce(
     (obj, diory) => ({
       ...obj,

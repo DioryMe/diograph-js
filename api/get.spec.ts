@@ -1,7 +1,7 @@
-import { Diory, Diograph } from '../types'
+import { DioryObject, Diograph } from '../types'
 import { DiographJson } from '../diograph'
 
-const diory: Diory = {
+const diory: DioryObject = {
   id: 'some-id',
   image: 'images/some-id.jpg',
   links: {
@@ -11,11 +11,11 @@ const diory: Diory = {
   },
 }
 
-const diory2: Diory = {
+const diory2: DioryObject = {
   id: 'some-other-id',
 }
 
-const diory3: Diory = {
+const diory3: DioryObject = {
   id: 'some-else-id',
   links: {
     'some-id': {
