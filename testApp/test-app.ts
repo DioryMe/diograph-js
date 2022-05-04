@@ -5,6 +5,7 @@ import { join } from 'path'
 import { ConnectionObject } from '../types'
 import { Connection } from '../connection'
 import { generateDioryFromFile } from '../generators'
+import { Diory } from '../diory'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -194,10 +195,10 @@ class App {
     }
 
     if (command === 'importDiory' && room.diograph) {
-      const diory = await generateDioryFromFile(
-        join('..', 'fixtures', 'PIXNIO-53799-6177x4118.jpeg'),
-      )
-      // await room.diograph.addDiory(diory)
+      const diory = await generateDioryFromFile(arg1)
+      await room.diograph.addDiory(diory)
+      await room.saveRoom()
+      return
     }
 
     if (command === 'dryRun') {

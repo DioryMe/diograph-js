@@ -5,7 +5,7 @@ import { statSync } from 'fs'
 import { basename } from 'path/posix'
 import { fromFile } from 'file-type'
 import { readFile } from 'fs/promises'
-import { DioryAttributes, DioryGeneratorData } from '../types'
+import { DioryAttributes, DioryGeneratorData, DioryObject } from '../types'
 import { Diory } from '../diory'
 import { getDefaultImage } from './diory/getDefaultImage'
 import { v4 as uuidv4 } from 'uuid'
@@ -41,7 +41,15 @@ async function generatedDioryData(filePath: string): Promise<DioryGeneratorData>
   return { typeSpecificDiory: { data: [defaultSchema] } }
 }
 
-function generateDiory({ text, date, image, latlng, created, modified, data }: DioryAttributes) {
+function generateDiory({
+  text,
+  date,
+  image,
+  latlng,
+  created,
+  modified,
+  data,
+}: DioryAttributes): DioryObject {
   return {
     id: uuidv4(),
     ...(text && { text }),
@@ -54,7 +62,7 @@ function generateDiory({ text, date, image, latlng, created, modified, data }: D
   }
 }
 
-function baseData(filePath: string) {
+function baseData(filePath: string): DioryAttributes {
   const { birthtime, mtime } = statSync(filePath) || {}
   return {
     text: basename(filePath),
@@ -65,10 +73,11 @@ function baseData(filePath: string) {
 
 async function generateDioryFromFile(filePath: string) {
   const { typeSpecificDiory } = await generatedDioryData(filePath)
-  return generateDiory({
-    ...(await baseData(filePath)),
+  const dioryObject = generateDiory({
+    ...baseData(filePath),
     ...typeSpecificDiory,
   })
+  return new Diory(dioryObject)
 }
 
 export { dioryImageGenerator, dioryVideoGenerator, dioryAudioGenerator, generateDioryFromFile }
