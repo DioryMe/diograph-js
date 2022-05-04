@@ -19,6 +19,6 @@ describe('dioryVideoGenerator', () => {
     expect(thumbnailBuffer).toEqual('some-buffer')
     expect(typeSpecificDiory.date).toEqual('2020-06-30T08:18:22.000000Z')
     expect(typeSpecificDiory.latlng).toEqual('65.4752, 27.9785')
-    expect(typeSpecificDiory.data[0].duration).toEqual('00:00:34.56')
+    expect(typeSpecificDiory.data && typeSpecificDiory.data[0].duration).toEqual('00:00:34.56')
   })
 })

@@ -1,11 +1,16 @@
 import { dioryImageGenerator } from './image'
 import { dioryVideoGenerator } from './video'
 import { dioryAudioGenerator } from './audio'
-import { baseData, generateDiory } from './diory'
+import { statSync } from 'fs'
+import { basename } from 'path/posix'
 import { fromFile } from 'file-type'
 import { readFile } from 'fs/promises'
+import { DioryAttributes, DioryGeneratorData } from '../types'
+import { Diory } from '../diory'
+import { getDefaultImage } from './diory/getDefaultImage'
+import { v4 as uuidv4 } from 'uuid'
 
-async function typeSpecificData(filePath: string) {
+async function generatedDioryData(filePath: string): Promise<DioryGeneratorData> {
   const defaultSchema: any = {
     '@context': 'https://schema.org',
     '@type': 'DigitalDocument',
@@ -14,7 +19,7 @@ async function typeSpecificData(filePath: string) {
 
   const fileType = await fromFile(filePath)
   if (!fileType || !fileType.mime) {
-    return { data: [defaultSchema] }
+    return { typeSpecificDiory: { data: [defaultSchema] } }
   }
   defaultSchema.encodingFormat = fileType.mime
 
@@ -22,9 +27,9 @@ async function typeSpecificData(filePath: string) {
   switch (type) {
     case 'image':
       const fileContent = await readFile(filePath)
-      return (await dioryImageGenerator(fileContent, filePath, filePath)).typeSpecificDiory
+      return dioryImageGenerator(fileContent, filePath, filePath)
     case 'video':
-      return (await dioryVideoGenerator(filePath, filePath)).typeSpecificDiory
+      return dioryVideoGenerator(filePath, filePath)
     case 'audio':
       defaultSchema['@type'] = 'AudioObject'
       break
@@ -33,13 +38,36 @@ async function typeSpecificData(filePath: string) {
     default:
   }
 
-  return { data: [defaultSchema] }
+  return { typeSpecificDiory: { data: [defaultSchema] } }
+}
+
+function generateDiory({ text, date, image, latlng, created, modified, data }: DioryAttributes) {
+  return {
+    id: uuidv4(),
+    ...(text && { text }),
+    ...(image ? { image } : { image: getDefaultImage() }),
+    ...(date && { date }),
+    ...(latlng && { latlng }),
+    ...(created && { created }),
+    ...(modified && { modified }),
+    ...(data && { data }),
+  }
+}
+
+function baseData(filePath: string) {
+  const { birthtime, mtime } = statSync(filePath) || {}
+  return {
+    text: basename(filePath),
+    created: birthtime && birthtime.toISOString(),
+    modified: mtime && mtime.toISOString(),
+  }
 }
 
 async function generateDioryFromFile(filePath: string) {
+  const { typeSpecificDiory } = await generatedDioryData(filePath)
   return generateDiory({
     ...(await baseData(filePath)),
-    ...(await typeSpecificData(filePath)),
+    ...typeSpecificDiory,
   })
 }
 

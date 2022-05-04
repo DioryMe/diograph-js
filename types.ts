@@ -35,3 +35,9 @@ export interface ConnectionObject {
   type: string
   contentUrls?: string[]
 }
+
+export interface DioryGeneratorData {
+  typeSpecificDiory: DioryAttributes
+  thumbnailBuffer?: Buffer
+  cid?: string
+}

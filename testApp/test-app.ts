@@ -4,6 +4,7 @@ import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import { join } from 'path'
 import { ConnectionObject } from '../types'
 import { Connection } from '../connection'
+import { generateDioryFromFile } from '../generators'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -190,6 +191,13 @@ class App {
       await room.saveRoom()
       console.log('Diory deleted.')
       return
+    }
+
+    if (command === 'importDiory' && room.diograph) {
+      const diory = await generateDioryFromFile(
+        join('..', 'fixtures', 'PIXNIO-53799-6177x4118.jpeg'),
+      )
+      // await room.diograph.addDiory(diory)
     }
 
     if (command === 'dryRun') {
