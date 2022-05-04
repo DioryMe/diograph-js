@@ -2,7 +2,7 @@ import { Room, LocalRoomClient, LocalClient } from '..'
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import { join } from 'path'
-import { ConnectionData } from '../types'
+import { ConnectionObject } from '../types'
 import { Connection } from '../connection'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
@@ -82,7 +82,7 @@ class App {
       await room.loadOrInitiateRoom()
       this.rooms.push(room)
     }
-    this.connections = room.connectionData.map((connectionData: ConnectionData) => {
+    this.connections = room.connectionData.map((connectionData: ConnectionObject) => {
       const connection = new Connection(connectionData, CACHE_PATH)
       room.addConnection(connection)
       return connection

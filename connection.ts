@@ -1,7 +1,7 @@
 import { join, dirname } from 'path'
 import { existsSync, mkdirSync, readFileSync } from 'fs'
 import { writeFile } from 'fs/promises'
-import { ConnectionData, DiographObject } from './types'
+import { ConnectionObject, DiographObject } from './types'
 import { Diograph } from '.'
 
 class Connection {
@@ -11,7 +11,7 @@ class Connection {
   cachePath: string
   diograph: Diograph
 
-  constructor({ address, type, contentUrls }: ConnectionData, cachePath: string) {
+  constructor({ address, type, contentUrls }: ConnectionObject, cachePath: string) {
     this.address = address
     this.type = type
     this.contentUrls = contentUrls || []
@@ -36,7 +36,7 @@ class Connection {
     await writeFile(this.diograph.diographUrl, this.diograph.toJson())
   }
 
-  toJson = (): ConnectionData => {
+  toConnectionObject = (): ConnectionObject => {
     return {
       address: this.address,
       type: this.type,

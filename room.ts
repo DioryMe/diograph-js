@@ -1,7 +1,6 @@
 import { RoomClient } from './roomClients'
-import { Client, LocalClient } from './clients'
 import { Diograph } from '.'
-import { ConnectionData } from './types'
+import { ConnectionObject } from './types'
 import { Connection } from './connection'
 
 export interface ContentUrls {
@@ -12,7 +11,7 @@ class Room {
   address: string
   connected: boolean
   connections: Connection[] = []
-  connectionData: ConnectionData[] = []
+  connectionData: ConnectionObject[] = []
   roomClient: RoomClient
   diograph: Diograph | undefined
   contentUrls: ContentUrls = {}
@@ -77,10 +76,11 @@ class Room {
   }
 
   saveRoom = async () => {
+    // TODO: Make RoomJson an object with .toJson()
     // Room.json
     const roomJson = {
       diographUrl: this.address,
-      clients: this.connections.map((connection) => connection.toJson()),
+      clients: this.connections.map((connection) => connection.toConnectionObject()),
     }
     await this.roomClient.writeTextItem(
       this.roomClient.roomJsonPath,
