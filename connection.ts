@@ -20,7 +20,7 @@ class Connection {
   }
 
   load = () => {
-    if (existsSync(this.diograph.diographUrl)) {
+    if (this.diograph.diographUrl && existsSync(this.diograph.diographUrl)) {
       this.diograph.setDiograph(
         JSON.parse(readFileSync(this.diograph.diographUrl, { encoding: 'utf8' })).diograph,
       )
@@ -28,9 +28,12 @@ class Connection {
   }
 
   cacheDiograph = async (diographObject: DiographObject) => {
+    if (!this.diograph.diographUrl) {
+      throw new Error("Can't cacheDiograph: diographUrl is not defined")
+    }
     this.diograph.mergeDiograph(diographObject)
     // FIXME: Use RoomClient or something in here instead writeFile
-    await writeFile(this.diograph.diographUrl, JSON.stringify(this.diograph.toJson(), null, 2))
+    await writeFile(this.diograph.diographUrl, this.diograph.toJson())
   }
 
   toJson = (): ConnectionData => {

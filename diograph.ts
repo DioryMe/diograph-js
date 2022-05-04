@@ -13,11 +13,11 @@ import {
 } from './api'
 
 class Diograph {
-  client: RoomClient | undefined
+  client?: RoomClient
   rootId: string = ''
   diograph: DiographObject = {}
   diories: Diory[] = []
-  diographUrl: string
+  diographUrl?: string
 
   createDiory = createDiory
   getDiory = getDiory
@@ -28,7 +28,7 @@ class Diograph {
   importDioryFromFile = importDioryFromFile
   importFolder = importFolder
 
-  constructor(diographUrl: string, client?: RoomClient) {
+  constructor(diographUrl?: string, client?: RoomClient) {
     this.diographUrl = diographUrl
     this.client = client
   }
@@ -60,7 +60,7 @@ class Diograph {
       throw new Error("Client missing, can't save diograph")
     }
 
-    const diographFileContents = JSON.stringify(this.toJson(), null, 2)
+    const diographFileContents = this.toJson()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     return this.client.saveDiograph(diographFileContents)
   }
@@ -69,12 +69,17 @@ class Diograph {
     this.diories.push(diory)
   }
 
-  toJson = () => {
+  toDiographObject = (): DiographObject => {
     const diographObject: DiographObject = {}
     this.diories.forEach((diory) => {
       diographObject[diory.id] = diory.toJson()
     })
-    return { rootId: this.rootId, diograph: diographObject }
+    return diographObject
+  }
+
+  toJson = (): string => {
+    const diographJsonObject = { rootId: this.rootId, diograph: this.toDiographObject() }
+    return JSON.stringify(diographJsonObject, null, 2)
   }
 }
 

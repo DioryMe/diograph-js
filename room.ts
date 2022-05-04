@@ -53,13 +53,11 @@ class Room {
       clients: [],
     })
 
-    const defaultDiograph = JSON.stringify({
-      rootId: 'some-diory-id',
-      diograph: {
-        'some-diory-id': {
-          id: 'some-diory-id',
-          text: 'Root diory',
-        },
+    const defaultDiograph = new Diograph()
+    defaultDiograph.setDiograph({
+      'some-diory-id': {
+        id: 'some-diory-id',
+        text: 'Root diory',
       },
     })
 
@@ -90,11 +88,10 @@ class Room {
     )
 
     // Diograph.json
-    const diograph = this.diograph && this.diograph.toJson()
-    await this.roomClient.writeTextItem(
-      this.roomClient.diographPath,
-      JSON.stringify(diograph, null, 2),
-    )
+    if (!this.diograph) {
+      throw new Error("Can't saveRoom: no this.diograph")
+    }
+    await this.roomClient.writeTextItem(this.roomClient.diographPath, this.diograph.toJson())
   }
 
   deleteRoom = async () => {

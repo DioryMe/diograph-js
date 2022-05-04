@@ -51,7 +51,7 @@ class Diory {
     return {
       id: this.id,
       links: this.links,
-      // Could this be just:
+      // TODO: Make test and try if this could be just:
       // ...this.dioryAttributes,
       text: this.text,
       image: this.image,

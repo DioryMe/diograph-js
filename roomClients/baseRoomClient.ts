@@ -1,4 +1,5 @@
 import { join } from 'path'
+import { Diograph } from '..'
 
 class RoomClient {
   address: string
@@ -21,7 +22,7 @@ class RoomClient {
     return true
   }
 
-  initiateRoom = async (roomJsonContents: string, diographContents: string) => {
+  initiateRoom = async (roomJsonContents: string, diographContents: Diograph) => {
     // throw new Error('Not implemented.')
     return true
   }
