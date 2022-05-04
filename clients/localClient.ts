@@ -60,9 +60,10 @@ class LocalClient extends Client {
   }
 
   list = async (path: string) => {
-    const diograph = await generateDiograph(join(this.connection.address, path))
-    await this.connection.cacheDiograph(diograph)
-    return diograph
+    // TODO: Add typings for generateDiograph
+    const diograph: any = await generateDiograph(join(this.connection.address, path))
+    await this.connection.cacheDiograph(diograph.diograph)
+    return diograph.diograph
   }
 }
 

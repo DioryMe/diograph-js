@@ -2,40 +2,35 @@ import { join, dirname } from 'path'
 import { existsSync, mkdirSync, readFileSync } from 'fs'
 import { writeFile } from 'fs/promises'
 import { ConnectionData, DiographObject } from './types'
+import { Diograph } from '.'
 
 class Connection {
   address: string
   type: string
   contentUrls: string[]
   cachePath: string
-  diograph: DiographObject = {}
+  diograph: Diograph
 
   constructor({ address, type, contentUrls }: ConnectionData, cachePath: string) {
     this.address = address
     this.type = type
     this.contentUrls = contentUrls || []
     this.cachePath = cachePath
+    this.diograph = new Diograph(join(this.cachePath, 'diograph.json'))
   }
 
   load = () => {
-    if (existsSync(join(this.cachePath, 'diograph.json'))) {
-      this.diograph = JSON.parse(
-        readFileSync(join(this.cachePath, 'diograph.json'), { encoding: 'utf8' }),
-      ).diograph
+    if (existsSync(this.diograph.diographUrl)) {
+      this.diograph.setDiograph(
+        JSON.parse(readFileSync(this.diograph.diographUrl, { encoding: 'utf8' })).diograph,
+      )
     }
   }
 
-  cacheDiograph = async (diograph: DiographObject) => {
-    const diographJson: any = {
-      diograph: {
-        ...this.diograph,
-        ...diograph.diograph,
-      },
-      // diograph, // <-- this will prevent duplicates
-      rootId: 'root123',
-    }
-    this.diograph = diographJson.diograph
-    await writeFile(join(this.cachePath, 'diograph.json'), JSON.stringify(diographJson, null, 2))
+  cacheDiograph = async (diographObject: DiographObject) => {
+    this.diograph.mergeDiograph(diographObject)
+    // FIXME: Use RoomClient or something in here instead writeFile
+    await writeFile(this.diograph.diographUrl, JSON.stringify(this.diograph.toJson(), null, 2))
   }
 
   toJson = (): ConnectionData => {

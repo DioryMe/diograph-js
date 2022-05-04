@@ -17,6 +17,10 @@ class Diory {
   modified?: string
 
   constructor(dioryObject: DioryObject) {
+    const keys = Object.keys(dioryObject)
+    if (keys.includes('rootId') || keys.includes('diograph') || keys.includes('linkKey')) {
+      throw new Error('Invalid dioryObject: includes rootId, diograph or linkKey key!!')
+    }
     this.id = dioryObject.id
     this.links = dioryObject.links
     this.dioryAttributes = this.extractDioryAttributes(dioryObject)

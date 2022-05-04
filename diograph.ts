@@ -39,6 +39,10 @@ class Diograph {
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
   }
 
+  mergeDiograph = (diograph: DiographObject) => {
+    Object.values(diograph).forEach((dioryObject) => this.addDiory(new Diory(dioryObject)))
+  }
+
   loadDiograph = async () => {
     if (!this.client) {
       throw new Error("Client missing, can't load diograph")
@@ -48,9 +52,7 @@ class Diograph {
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographContents)
 
-    this.rootId = rootId
-    this.diograph = diograph
-    this.diories = Object.values(this.diograph).map((dioryObject) => new Diory(dioryObject))
+    this.setDiograph(diograph, rootId)
   }
 
   saveDiograph = () => {
