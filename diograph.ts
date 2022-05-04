@@ -67,13 +67,17 @@ class Diograph {
   }
 
   addDiory = (diory: Diory) => {
+    // Not tested
+    if (this.getDiory(diory.id)) {
+      this.diories.filter((arrayDiory) => arrayDiory.id !== diory.id)
+    }
     this.diories.push(diory)
   }
 
   toDiographObject = (): DiographObject => {
     const diographObject: DiographObject = {}
     this.diories.forEach((diory) => {
-      diographObject[diory.id] = diory.toJson()
+      diographObject[diory.id] = diory.toDioryObject()
     })
     return diographObject
   }

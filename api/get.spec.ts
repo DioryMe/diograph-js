@@ -38,18 +38,18 @@ describe('getDiory', () => {
 
   describe('without options', () => {
     it('returns diory', () => {
-      expect(diograph.getDiory('some-id')).toEqual(diory)
+      expect(diograph.getDiory('some-id')).toMatchObject(diory)
     })
   })
 
   describe('with options', () => {
     it('returns array of diories', () => {
-      expect(diograph.getDioryWithLinks('some-id', { jee: 'joo' })).toEqual([diory])
+      expect(diograph.getDioryWithLinks('some-id', { jee: 'joo' })).toMatchObject([diory])
     })
 
     describe('linkedDiories', () => {
       it('returns diory and its linked diories', () => {
-        expect(diograph.getDioryWithLinks('some-id', { linkedDiories: true })).toEqual([
+        expect(diograph.getDioryWithLinks('some-id', { linkedDiories: true })).toMatchObject([
           diory,
           diory2,
         ])

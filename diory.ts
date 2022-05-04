@@ -47,7 +47,7 @@ class Diory {
     return { text, image, latlng, date, data, style, created, modified }
   }
 
-  toJson = () => {
+  toDioryObject = (): DioryObject => {
     return {
       id: this.id,
       links: this.links,
