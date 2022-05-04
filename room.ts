@@ -1,6 +1,6 @@
 import { RoomClient } from './roomClients'
 import { Client, LocalClient } from './clients'
-import { DiographJson } from '.'
+import { Diograph } from '.'
 import { ConnectionData } from './types'
 import { Connection } from './connection'
 
@@ -14,7 +14,7 @@ class Room {
   connections: Connection[] = []
   connectionData: ConnectionData[] = []
   roomClient: RoomClient
-  diograph: DiographJson | undefined
+  diograph: Diograph | undefined
   contentUrls: ContentUrls = {}
 
   constructor(address: string, roomClient: RoomClient) {
@@ -43,7 +43,7 @@ class Room {
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
     this.connectionData = clients
-    this.diograph = new DiographJson(diographUrl, this.roomClient)
+    this.diograph = new Diograph(diographUrl, this.roomClient)
     await this.diograph.loadDiograph()
   }
 
@@ -53,7 +53,7 @@ class Room {
       clients: [],
     })
 
-    const defaultDiographJson = JSON.stringify({
+    const defaultDiograph = JSON.stringify({
       rootId: 'some-diory-id',
       diograph: {
         'some-diory-id': {
@@ -63,7 +63,7 @@ class Room {
       },
     })
 
-    await this.roomClient.initiateRoom(defaultRoomJson, defaultDiographJson)
+    await this.roomClient.initiateRoom(defaultRoomJson, defaultDiograph)
     await this.loadRoom()
   }
 

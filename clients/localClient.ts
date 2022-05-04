@@ -3,12 +3,12 @@ import { existsSync, mkdirSync } from 'fs'
 import { rm, readFile, writeFile, readdir } from 'fs/promises'
 import { Client } from './baseClient'
 import { makeRelative } from './makeRelative'
-import { Diograph } from '../types'
+import { DiographObject } from '../types'
 import { generateDiograph } from '../generators/diograph'
 import { Connection } from '../connection'
 
 class LocalClient extends Client {
-  diograph: Diograph = {}
+  diograph: DiographObject = {}
   connection: Connection
 
   constructor(connection: Connection) {

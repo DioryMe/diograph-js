@@ -1,7 +1,7 @@
-import { DiographJson } from '../diograph'
-import { Diory } from '../types'
+import { Diograph } from '../diograph'
+import { Diory } from '../diory'
 
-function search(this: DiographJson, query: string, field: 'text' | 'data'): Diory[] {
+function search(this: Diograph, query: string, field: 'text' | 'data'): Diory[] {
   const diories: Diory[] = Object.values(this.diograph)
   return diories.filter((diory: Diory) => {
     if (field === 'text') {

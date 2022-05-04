@@ -1,7 +1,7 @@
-import { Diograph } from '../types'
+import { DiographObject } from '../types'
 
 class Client {
-  diograph: Diograph = {}
+  diograph: DiographObject = {}
   baseUrl: string
 
   constructor() {

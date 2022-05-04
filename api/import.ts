@@ -1,10 +1,10 @@
-import { DiographJson } from '..'
+import { Diograph } from '..'
 import * as fileType from 'file-type'
 import { readFile, stat } from 'fs/promises'
 import { dioryImageGenerator, dioryVideoGenerator } from '../generators'
 import { basename } from 'path'
 
-async function importDioryFromFile(this: DiographJson, filePath: string, contentUrl: string) {
+async function importDioryFromFile(this: Diograph, filePath: string, contentUrl: string) {
   // Copy to temp here and use tmp file from then on...
   const fileContent = await readFile(filePath)
 
@@ -96,6 +96,6 @@ async function generateTypeSpecificDiory(
   }
 }
 
-function importFolder(this: DiographJson, url: string) {}
+function importFolder(this: Diograph, url: string) {}
 
 export { importDioryFromFile, importFolder }

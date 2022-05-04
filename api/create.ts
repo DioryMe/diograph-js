@@ -1,9 +1,9 @@
 import { DioryAttributes } from '../types'
 import { v4 as uuidv4 } from 'uuid'
-import { DiographJson } from '..'
+import { Diograph } from '..'
 
 function createDiory(
-  this: DiographJson,
+  this: Diograph,
   { text, date, image, latlng, created, modified, data }: DioryAttributes,
 ) {
   const diory = {

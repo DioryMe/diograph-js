@@ -1,7 +1,8 @@
-import { Diory, Diograph } from '../types'
-import { DiographJson } from '../diograph'
+import { DiographObject } from '../types'
+import { Diory } from '../diory'
+import { Diograph } from '../diograph'
 
-const diory: Diory = {
+const diory: Diory = new Diory({
   id: 'some-id',
   image: 'images/some-id.jpg',
   links: {
@@ -9,31 +10,31 @@ const diory: Diory = {
       id: 'some-other-id',
     },
   },
-}
+})
 
-const diory2: Diory = {
+const diory2: Diory = new Diory({
   id: 'some-other-id',
-}
+})
 
-const diory3: Diory = {
+const diory3: Diory = new Diory({
   id: 'some-else-id',
   links: {
     'some-id': {
       id: 'some-id',
     },
   },
-}
+})
 
 describe('getDiory', () => {
-  let diographJson: DiographJson
+  let diographJson: Diograph
 
   beforeEach(() => {
-    const diograph: Diograph = {
+    const diograph: DiographObject = {
       'some-id': diory,
       'some-other-id': diory2,
       'some-else-id': diory3,
     }
-    diographJson = new DiographJson('some-path/diograph.json')
+    diographJson = new Diograph('some-path/diograph.json')
     diographJson.setDiograph(diograph)
   })
 

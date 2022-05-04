@@ -1,4 +1,4 @@
-import { Diograph } from './types'
+import { DiographObject } from './types'
 import { RoomClient } from './roomClients'
 import {
   createDiory,
@@ -11,10 +11,10 @@ import {
   importFolder,
 } from './api'
 
-class DiographJson {
+class Diograph {
   client: RoomClient | undefined
   rootId: string = ''
-  diograph: Diograph = {}
+  diograph: DiographObject = {}
   diographUrl: string
 
   createDiory = createDiory
@@ -31,7 +31,7 @@ class DiographJson {
     this.client = client
   }
 
-  setDiograph = (diograph: Diograph, rootId?: string) => {
+  setDiograph = (diograph: DiographObject, rootId?: string) => {
     this.diograph = diograph
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
   }
@@ -69,4 +69,4 @@ class DiographJson {
   }
 }
 
-export { DiographJson }
+export { Diograph }
