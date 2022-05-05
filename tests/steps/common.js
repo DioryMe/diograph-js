@@ -50,6 +50,11 @@ When('I call importDiory', async () => {
   await testApp.run('importDiory', imageFilePath)
 })
 
+When('I call importDiory with content', async () => {
+  const imageFilePath = join(APP_DATA_PATH, '..', 'fixtures', 'PIXNIO-53799-6177x4118.jpeg')
+  await testApp.run('importDiory', imageFilePath, true)
+})
+
 When('I call {word} operation', async (operation) => {
   await testApp.run(operation)
 })
