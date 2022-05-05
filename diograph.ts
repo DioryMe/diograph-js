@@ -54,13 +54,17 @@ class Diograph {
     const dioriesWithThumbnails = this.diories.filter((diory) => diory.thumbnailBuffer)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     return Promise.all([
+      // Diograph.json
       this.room.roomClient.writeTextItem(this.room.roomClient.diographPath, this.toJson()),
+      // Thumbnails
       dioriesWithThumbnails.map(
         (diory) =>
           diory.thumbnailBuffer &&
           this.room &&
           this.room.roomClient.addThumbnail(diory.thumbnailBuffer, diory.id),
       ),
+      // Content
+      // this.room.roomClient.writeItem,
     ])
   }
 

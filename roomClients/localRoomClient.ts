@@ -3,6 +3,8 @@ import { readFile, writeFile, rm } from 'fs/promises'
 import { RoomClient } from './baseRoomClient'
 import { join } from 'path'
 import { Diograph } from '..'
+import { dirname } from 'path/posix'
+import { makeRelative } from '../clients/makeRelative'
 
 class LocalRoomClient extends RoomClient {
   constructor(config: any) {
@@ -56,8 +58,46 @@ class LocalRoomClient extends RoomClient {
     return this.writeItem(url, fileContent)
   }
 
+  getFilePath = (contentUrl: string) => {
+    return join(this.address, contentUrl)
+  }
+
+  getContentUrl = (diory: string) => {
+    // TODO: Derive contentUrl from diory
+    return join(this.address, diory)
+  }
+
+  writeContent = async (fileContent: Buffer | string, diory?: string) => {
+    let filePath
+    if (diory) {
+      filePath = this.getContentUrl(diory)
+      const dirPath = dirname(filePath)
+      if (!existsSync(dirPath)) {
+        mkdirSync(dirPath, { recursive: true })
+      }
+    } else {
+      filePath = this.getContentUrl(Date.now().toString())
+    }
+
+    await writeFile(filePath, fileContent)
+
+    return makeRelative(this.address, filePath)
+  }
+
+  writeThumbnail = async (url: string, fileContent: Buffer | string) => {
+    return this.writeItem(url, fileContent)
+  }
+
   writeItem = async (url: string, fileContent: Buffer | string) => {
     return writeFile(url, fileContent)
+  }
+
+  readItem = async (contentUrl: string) => {
+    const filePath: string = this.getFilePath(contentUrl)
+    if (!filePath) {
+      throw new Error('Nothing found with that contentUrl!')
+    }
+    return readFile(this.getFilePath(contentUrl))
   }
 
   deleteItem = async (url: string) => {
@@ -67,7 +107,7 @@ class LocalRoomClient extends RoomClient {
   addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
     // Writes thumbnail image file to absolute path
     console.log('Thumbnail written to:', join(this.imageFolderPath, thumbnailContentUrl))
-    return this.writeItem(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
+    return this.writeThumbnail(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
   }
 
   deleteThumbnail = async (thumbnailContentUrl: string) => {
