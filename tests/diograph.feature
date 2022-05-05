@@ -1,7 +1,8 @@
 Feature: Diograph
 
   Background:
-    Given I have initiated a room
+    Given I have empty place for room
+    And I initiate a room
 
   Scenario: Get diory
     When I call getDiory for diograph

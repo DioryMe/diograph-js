@@ -7,7 +7,7 @@ const { App } = require('../../dist/testApp/test-app')
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'fixtures', 'content-source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 const TEMP_ROOM_PATH = APP_DATA_PATH
-const IMAGE_FOLDER_PATH = join(APP_DATA_PATH, 'images')
+const IMAGE_FOLDER_PATH = join(APP_DATA_PATH, 'images') // <-- this is deleted recursively!
 const CACHE_PATH = join(APP_DATA_PATH, 'local-client-cache')
 if (!existsSync(CACHE_PATH)) {
   mkdirSync(CACHE_PATH)
@@ -20,16 +20,11 @@ Given('I have empty place for room', async () => {
   await testApp.run('resetApp')
   existsSync(join(CACHE_PATH, 'diograph.json')) && (await rmSync(join(CACHE_PATH, 'diograph.json')))
   existsSync(join(CACHE_PATH, 'app-data.json')) && (await rmSync(join(CACHE_PATH, 'app-data.json')))
-  // TODO: Remove also images/ folder
+  console.log(join(CACHE_PATH, 'images'))
+  existsSync(IMAGE_FOLDER_PATH) && (await rmSync(IMAGE_FOLDER_PATH, { recursive: true }))
 })
 
-Given('I have initiated a room', async () => {
-  // NOTE: This should be alias for 'I initiate room'
-  await testApp.run('deleteRoom')
-  await testApp.run('addRoom', TEMP_ROOM_PATH)
-})
-
-When('I initiate room', async () => {
+When('I initiate a room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
   await testApp.run('addRoom', TEMP_ROOM_PATH)
 })
