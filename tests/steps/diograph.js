@@ -30,3 +30,19 @@ Then('diograph.json has {word} diories', (dioryCount) => {
     dioryCount === 'no' ? 0 : parseInt(dioryCount, 10),
   )
 })
+
+Then('last diory has {word} as {word}', (value, property) => {
+  const diographContents = readFileSync(join(TEMP_ROOM_PATH, 'diograph.json'), {
+    encoding: 'utf8',
+  })
+  const diograph = JSON.parse(diographContents)
+  assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
+  const diories = Object.values(diograph.diograph)
+  const lastDiory = diories[diories.length - 1]
+
+  if (property === 'image') {
+    assert.equal(lastDiory.image, value)
+  } else if (property === 'contentUrl') {
+    assert.equal(lastDiory.data[0].contentUrl, value)
+  }
+})

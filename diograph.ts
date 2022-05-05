@@ -63,8 +63,6 @@ class Diograph {
           this.room &&
           this.room.roomClient.addThumbnail(diory.thumbnailBuffer, diory.id),
       ),
-      // Content
-      // this.room.roomClient.writeItem,
     ])
   }
 
