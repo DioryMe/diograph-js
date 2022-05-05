@@ -69,7 +69,7 @@ class LocalRoomClient extends RoomClient {
 
   getContentUrl = (diory: string) => {
     // TODO: Derive contentUrl from diory
-    return join(this.address, diory)
+    return join(this.contentFolderPath, diory)
   }
 
   writeContent = async (fileContent: Buffer | string, diory?: string) => {
@@ -97,12 +97,17 @@ class LocalRoomClient extends RoomClient {
     return writeFile(url, fileContent)
   }
 
-  readItem = async (contentUrl: string) => {
+  readContent = async (contentUrl: string) => {
     const filePath: string = this.getFilePath(contentUrl)
     if (!filePath) {
       throw new Error('Nothing found with that contentUrl!')
     }
     return readFile(this.getFilePath(contentUrl))
+  }
+
+  deleteContent = async (contentUrl: string) => {
+    const filePath: string = this.getFilePath(contentUrl)
+    return rm(filePath)
   }
 
   deleteItem = async (url: string) => {

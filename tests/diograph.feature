@@ -16,6 +16,7 @@ Feature: Diograph
     When I call importDiory
     Then diograph.json has 2 diories
     And images folder has 1 image
+    And content folder has 0 file
 
   Scenario: Import diory with content
     When I call importDiory with content

@@ -67,6 +67,17 @@ class RoomClient {
   deleteThumbnail = async (thumbnailContentUrl: string) => {
     // throw new Error('Not implemented.')
   }
+
+  readContent = (contentUrl: string) => {
+    // return this.readItem(contentUrl)
+  }
+
+  writeContent = async (sourceFileContent: Buffer, diory?: string) => {
+    // Not implemented
+    return 'Not implemented'
+  }
+
+  deleteContent = async (contentUrl: string) => {}
 }
 
 export { RoomClient }
