@@ -117,7 +117,8 @@ class LocalRoomClient extends RoomClient {
   addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
     // Writes thumbnail image file to absolute path
     console.log('Thumbnail written to:', join(this.imageFolderPath, thumbnailContentUrl))
-    return this.writeThumbnail(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
+    await this.writeThumbnail(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
+    return `images/${thumbnailContentUrl}`
   }
 
   deleteThumbnail = async (thumbnailContentUrl: string) => {

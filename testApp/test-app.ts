@@ -197,11 +197,12 @@ class App {
     if (command === 'importDiory' && room.diograph) {
       const filePath = arg1
       const copyContent = arg2
+
+      const diory = await generateDioryFromFile(filePath)
       if (copyContent) {
         const sourceFileContent = await readFile(filePath)
         await room.roomClient.writeContent(sourceFileContent)
       }
-      const diory = await generateDioryFromFile(filePath)
       await room.diograph.addDiory(diory)
       await room.saveRoom()
       return

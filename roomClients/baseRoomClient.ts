@@ -62,6 +62,7 @@ class RoomClient {
 
   addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
     // throw new Error('Not implemented.')
+    return 'Not implemented.'
   }
 
   deleteThumbnail = async (thumbnailContentUrl: string) => {

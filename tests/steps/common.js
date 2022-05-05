@@ -21,7 +21,6 @@ Given('I have empty place for room', async () => {
   await testApp.run('resetApp')
   existsSync(join(CACHE_PATH, 'diograph.json')) && (await rmSync(join(CACHE_PATH, 'diograph.json')))
   existsSync(join(CACHE_PATH, 'app-data.json')) && (await rmSync(join(CACHE_PATH, 'app-data.json')))
-  console.log(join(CACHE_PATH, 'images'))
   existsSync(IMAGE_FOLDER_PATH) && (await rmSync(IMAGE_FOLDER_PATH, { recursive: true }))
   existsSync(CONTENT_FOLDER_PATH) && (await rmSync(CONTENT_FOLDER_PATH, { recursive: true }))
 })

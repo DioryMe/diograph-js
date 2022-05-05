@@ -41,7 +41,7 @@ Then('last diory has {word} as {word}', (value, property) => {
   const lastDiory = diories[diories.length - 1]
 
   if (property === 'image') {
-    assert.equal(lastDiory.image, value)
+    assert.equal(lastDiory.image, `images/${lastDiory.id}`)
   } else if (property === 'contentUrl') {
     assert.equal(lastDiory.data[0].contentUrl, value)
   }

@@ -23,5 +23,6 @@ Feature: Diograph
     Then diograph.json has 2 diories
     And images folder has 1 image
     And content folder has 1 file
-    And last diory has 123abc as image
+    And last diory has dioryId as image
+    # Annetaan uusi contentUrl Diory:lle, osaa laittaa sen paikoilleen
     And last diory has 456def as contentUrl
