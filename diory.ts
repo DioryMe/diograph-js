@@ -28,6 +28,13 @@ class Diory {
     this.thumbnailBuffer = thumbnailBuffer
   }
 
+  changeContentUrl = (contentUrl: string) => {
+    if (this.data) {
+      const data: DataAttributes = this.data[0]
+      data.contentUrl = contentUrl
+    }
+  }
+
   extractDioryAttributes = ({
     text,
     image,

@@ -201,7 +201,8 @@ class App {
       const diory = await generateDioryFromFile(filePath)
       if (copyContent) {
         const sourceFileContent = await readFile(filePath)
-        await room.roomClient.writeContent(sourceFileContent)
+        const contentUrl = await room.roomClient.writeContent(sourceFileContent, diory.id)
+        diory.changeContentUrl(contentUrl)
       }
       await room.diograph.addDiory(diory)
       await room.saveRoom()

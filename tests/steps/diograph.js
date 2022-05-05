@@ -43,6 +43,6 @@ Then('last diory has {word} as {word}', (value, property) => {
   if (property === 'image') {
     assert.equal(lastDiory.image, `images/${lastDiory.id}`)
   } else if (property === 'contentUrl') {
-    assert.equal(lastDiory.data[0].contentUrl, value)
+    assert.equal(lastDiory.data[0].contentUrl, `Diory Content/${lastDiory.id}`)
   }
 })

@@ -36,22 +36,22 @@ class LocalClient extends Client {
     return readFile(this.getFilePath(contentUrl), { encoding: 'utf8' })
   }
 
-  writeItem = async (fileContent: Buffer | string, diory?: string) => {
-    let filePath
-    if (diory) {
-      filePath = this.getContentUrl(diory)
-      const dirPath = dirname(filePath)
-      if (!existsSync(dirPath)) {
-        mkdirSync(dirPath, { recursive: true })
-      }
-    } else {
-      filePath = this.getContentUrl(Date.now().toString())
-    }
+  // writeItem = async (fileContent: Buffer | string, diory?: string) => {
+  //   let filePath
+  //   if (diory) {
+  //     filePath = this.getContentUrl(diory)
+  //     const dirPath = dirname(filePath)
+  //     if (!existsSync(dirPath)) {
+  //       mkdirSync(dirPath, { recursive: true })
+  //     }
+  //   } else {
+  //     filePath = this.getContentUrl(Date.now().toString())
+  //   }
 
-    await writeFile(filePath, fileContent)
+  //   await writeFile(filePath, fileContent)
 
-    return makeRelative(this.baseUrl, filePath)
-  }
+  //   return makeRelative(this.baseUrl, filePath)
+  // }
 
   deleteItem = async (contentUrl: string) => {
     return rm(this.getFilePath(contentUrl))

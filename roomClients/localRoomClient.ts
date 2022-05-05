@@ -86,7 +86,7 @@ class LocalRoomClient extends RoomClient {
 
     await writeFile(filePath, fileContent)
 
-    return makeRelative(this.address, filePath)
+    return makeRelative(filePath, this.address)
   }
 
   writeThumbnail = async (url: string, fileContent: Buffer | string) => {

@@ -31,10 +31,10 @@ const makeRelative = function makeRelative(url: string, baseUrl: string) {
   const fileUrl = toFileUrl(url, { resolve: false })
 
   if (fileUrl.startsWith(baseFileUrl)) {
-    return fileUrl.replace(`${baseFileUrl}/`, '')
+    return decodeURIComponent(fileUrl.replace(`${baseFileUrl}/`, ''))
   }
 
-  return url
+  return decodeURIComponent(url)
 }
 
 export { makeRelative }
