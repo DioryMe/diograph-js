@@ -76,6 +76,5 @@ diograph.loadDiograph().then(() => {
 yarn
 yarn build-watch
 yarn test
-yarn manual-test
 yarn test-e2e
 ```
