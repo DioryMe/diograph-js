@@ -45,11 +45,10 @@ async function generateSchema(tags: any, contentUrl: string) {
     contentUrl,
     height: tags && tags['Image Height'] && tags['Image Height'].value,
     width: tags && tags['Image Width'] && tags['Image Width'].value,
-    encodingFormat: '',
   }
 }
 
-async function retrieveMetadata(imagePath: string, contentUrl: string) {
+async function retrieveMetadata(imagePath: string, contentUrl: string, encodingFormat: string) {
   if (!imagePath) {
     return
   }
@@ -63,6 +62,7 @@ async function retrieveMetadata(imagePath: string, contentUrl: string) {
       data: [
         {
           ...(await generateSchema(tags, contentUrl)),
+          ...{ encodingFormat },
         },
       ],
     }

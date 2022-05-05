@@ -27,7 +27,7 @@ async function generatedDioryData(filePath: string): Promise<DioryGeneratorData>
   switch (type) {
     case 'image':
       const fileContent = await readFile(filePath)
-      return dioryImageGenerator(fileContent, filePath, filePath)
+      return dioryImageGenerator(fileContent, filePath, filePath, fileType.mime)
     case 'video':
       return dioryVideoGenerator(filePath, filePath)
     case 'audio':
