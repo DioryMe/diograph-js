@@ -8,6 +8,7 @@ const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'fixtures', 'content-source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 const TEMP_ROOM_PATH = APP_DATA_PATH
 const IMAGE_FOLDER_PATH = join(APP_DATA_PATH, 'images') // <-- this is deleted recursively!
+const CONTENT_FOLDER_PATH = join(APP_DATA_PATH, 'Diory Content') // <-- this is deleted recursively!
 const CACHE_PATH = join(APP_DATA_PATH, 'local-client-cache')
 if (!existsSync(CACHE_PATH)) {
   mkdirSync(CACHE_PATH)
@@ -22,6 +23,7 @@ Given('I have empty place for room', async () => {
   existsSync(join(CACHE_PATH, 'app-data.json')) && (await rmSync(join(CACHE_PATH, 'app-data.json')))
   console.log(join(CACHE_PATH, 'images'))
   existsSync(IMAGE_FOLDER_PATH) && (await rmSync(IMAGE_FOLDER_PATH, { recursive: true }))
+  existsSync(CONTENT_FOLDER_PATH) && (await rmSync(CONTENT_FOLDER_PATH, { recursive: true }))
 })
 
 When('I initiate a room', async () => {
@@ -87,4 +89,10 @@ Then('Content source diograph.json has {word} diories', (dioryCount) => {
 Then('images folder has {int} image', (count) => {
   const imageFileList = lstatSync(IMAGE_FOLDER_PATH).isDirectory() && readdirSync(IMAGE_FOLDER_PATH)
   assert.equal(imageFileList.length, count)
+})
+
+Then('content folder has {int} file(s)', (count) => {
+  const contentFileList =
+    lstatSync(CONTENT_FOLDER_PATH).isDirectory() && readdirSync(CONTENT_FOLDER_PATH)
+  assert.equal(contentFileList.length, count)
 })

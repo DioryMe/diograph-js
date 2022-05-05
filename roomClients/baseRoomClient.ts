@@ -6,6 +6,7 @@ class RoomClient {
   roomJsonPath: string
   diographPath: string
   imageFolderPath: string
+  contentFolderPath: string
 
   constructor(config: any) {
     if (!config.address) {
@@ -15,6 +16,7 @@ class RoomClient {
     this.roomJsonPath = join(this.address, 'room.json')
     this.diographPath = join(this.address, 'diograph.json')
     this.imageFolderPath = join(this.address, 'images')
+    this.contentFolderPath = join(this.address, 'Diory Content')
   }
 
   verifyAndConnect = async () => {

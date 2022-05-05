@@ -15,7 +15,8 @@ class LocalRoomClient extends RoomClient {
     if (
       existsSync(this.roomJsonPath) &&
       existsSync(this.diographPath) &&
-      existsSync(this.imageFolderPath)
+      existsSync(this.imageFolderPath) &&
+      existsSync(this.contentFolderPath)
     ) {
       return true
     }
@@ -34,6 +35,10 @@ class LocalRoomClient extends RoomClient {
     // images/ folder
     if (!existsSync(this.imageFolderPath)) {
       mkdirSync(this.imageFolderPath)
+    }
+    // Diory Content/ folder
+    if (!existsSync(this.contentFolderPath)) {
+      mkdirSync(this.contentFolderPath)
     }
     return true
   }
