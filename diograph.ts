@@ -5,6 +5,7 @@ import {
   getDiory,
   getDiory2,
   getDioryWithLinks,
+  getDioryWithLinks2,
   search,
   update,
   deleteDiory,
@@ -23,6 +24,7 @@ class Diograph {
   getDiory = getDiory
   getDiory2 = getDiory2
   getDioryWithLinks = getDioryWithLinks
+  getDioryWithLinks2 = getDioryWithLinks2
   update = update
   search = search
   deleteDiory = deleteDiory

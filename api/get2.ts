@@ -1,5 +1,5 @@
 import { Diograph } from '../diograph'
-import { DioryObject } from '../types'
+import { Diory } from '../diory'
 
 interface GetOptions {
   linkedDiories: boolean
@@ -11,35 +11,31 @@ const DEFAULT_OPTIONS: GetOptions = {
   reverseLinkedDiories: false,
 }
 
-function getDiory(this: Diograph, id: string): DioryObject {
-  return this.diories.filter((diory) => diory.id === id)[0].toDioryObject()
+function getDiory(this: Diograph, id: string): Diory {
+  return this.diories.filter((diory) => diory.id === id)[0]
 }
 
-function getDioryWithLinks(
-  this: Diograph,
-  id: string,
-  opts: object = {},
-): DioryObject | Array<DioryObject> {
+function getDioryWithLinks(this: Diograph, id: string, opts: object = {}): Diory[] {
   const optsWithDefaults: GetOptions = {
     ...DEFAULT_OPTIONS,
     ...opts,
   }
 
-  const storyDiory = this.getDiory(id)
+  const storyDiory = this.getDiory2(id)
   const storyDioryWithLinkedDiories = [storyDiory]
 
   if (optsWithDefaults.linkedDiories && storyDiory.links) {
     Object.values(storyDiory.links).forEach((link) => {
-      const linkedDiory = this.diograph[link.id]
+      const linkedDiory = this.getDiory2(link.id)
       storyDioryWithLinkedDiories.push(linkedDiory)
     })
   }
 
   if (optsWithDefaults.reverseLinkedDiories && storyDiory.links) {
-    Object.values(this.diograph).forEach((reverseLinkedDiory) => {
+    Object.values(this.diories).forEach((reverseLinkedDiory) => {
       if (reverseLinkedDiory.links) {
         Object.values(reverseLinkedDiory.links).forEach((link) => {
-          const maybeStoryDiory = this.diograph[link.id]
+          const maybeStoryDiory = this.getDiory2(link.id)
           if (storyDiory === maybeStoryDiory) {
             storyDioryWithLinkedDiories.push(reverseLinkedDiory)
           }
