@@ -46,8 +46,3 @@ Feature: Room
   #   And I call import operation for client
   #   Then diograph.json has two diories
   #   And images folder has one image
-
-  # Scenario: Add content to room
-  #   When I add content to room
-  #   Then content folder has one file
-  #   And content list from room has one item
