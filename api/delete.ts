@@ -1,5 +1,5 @@
 import { Diograph } from '../diograph'
-import { DioryObject } from '../types'
+import { Diory } from '../diory'
 
 interface DeleteOptions {
   force: boolean
@@ -17,7 +17,7 @@ const DEFAULT_OPTIONS: DeleteOptions = {
   deleteThumbnail: false,
 }
 
-async function deleteDiory(this: Diograph, id: string, opts: object = {}): Promise<DioryObject[]> {
+async function deleteDiory(this: Diograph, id: string, opts: object = {}): Promise<Diory[]> {
   let dioriesToBeDeleted
 
   const optsWithDefaults: DeleteOptions = {
@@ -25,12 +25,12 @@ async function deleteDiory(this: Diograph, id: string, opts: object = {}): Promi
     ...opts,
   }
 
-  const storyDiory = this.diograph[id]
+  const storyDiory = this.getDiory2(id)
   dioriesToBeDeleted = [storyDiory]
 
   if (optsWithDefaults.linkedDiories && storyDiory.links) {
     Object.values(storyDiory.links).forEach((link) => {
-      const linkedDiory = this.diograph[link.id]
+      const linkedDiory = this.getDiory2(link.id)
       dioriesToBeDeleted.push(linkedDiory)
     })
   }

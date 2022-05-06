@@ -40,18 +40,20 @@ describe('deleteDiory', () => {
     describe('lists and deletes', () => {
       it('single diory', async () => {
         const returnValue = await diograph.deleteDiory(diory.id)
-        expect(returnValue).toEqual([diory])
+        const returnValueIds = returnValue.map((diory) => diory.id)
+        expect(returnValueIds).toEqual([diory.id])
 
-        expect(diograph.getDiory('some-id')).toEqual(undefined)
-        expect(diograph.getDiory('some-other-id')).toEqual(diory2)
+        expect(diograph.getDiory2('some-id')).toEqual(undefined)
+        expect(diograph.getDiory2('some-other-id').id).toEqual(diory2.id)
       })
 
       it('diory and its linked diories', async () => {
         const returnValue = await diograph.deleteDiory(diory.id, { linkedDiories: true })
-        expect(returnValue).toEqual([diory, diory2])
+        const returnValueIds = returnValue.map((diory) => diory.id)
+        expect(returnValueIds).toEqual([diory.id, diory2.id])
 
-        expect(diograph.getDiory('some-id')).toEqual(undefined)
-        expect(diograph.getDiory('some-other-id')).toEqual(undefined)
+        expect(diograph.getDiory2('some-id')).toEqual(undefined)
+        expect(diograph.getDiory2('some-other-id')).toEqual(undefined)
       })
     })
   })
@@ -60,10 +62,11 @@ describe('deleteDiory', () => {
     describe("lists but doesn't delete", () => {
       it('single diory', async () => {
         const returnValue = await diograph.deleteDiory(diory.id, { dryRun: true })
-        expect(returnValue).toEqual([diory])
+        const returnValueIds = returnValue.map((diory) => diory.id)
+        expect(returnValueIds).toEqual([diory.id])
 
-        expect(diograph.getDiory('some-id')).toEqual(diory)
-        expect(diograph.getDiory('some-other-id')).toEqual(diory2)
+        expect(diograph.getDiory2('some-id').id).toEqual(diory.id)
+        expect(diograph.getDiory2('some-other-id').id).toEqual(diory2.id)
       })
 
       it('diory and its linked diories', async () => {
@@ -71,10 +74,11 @@ describe('deleteDiory', () => {
           dryRun: true,
           linkedDiories: true,
         })
-        expect(returnValue).toEqual([diory, diory2])
+        const returnValueIds = returnValue.map((diory) => diory.id)
+        expect(returnValueIds).toEqual([diory.id, diory2.id])
 
-        expect(diograph.getDiory('some-id')).toEqual(diory)
-        expect(diograph.getDiory('some-other-id')).toEqual(diory2)
+        expect(diograph.getDiory2('some-id').id).toEqual(diory.id)
+        expect(diograph.getDiory2('some-other-id').id).toEqual(diory2.id)
       })
     })
   })
