@@ -103,13 +103,13 @@ async function generateDioriesFromPaths(
   return subfolderDiories.concat(fileDiories)
 }
 
-async function generateDiograph2(folderPath: string): Promise<any> {
+async function generateDiograph2(folderPath: string): Promise<Diory[]> {
   const { filePaths = [], subfolderPaths = [] } = (await getFileAndSubfolderPaths(folderPath)) || {}
 
   const diories = await generateDioriesFromPaths(filePaths, subfolderPaths)
   const rootDiory = generateDioryFromFolder(folderPath)
 
-  return diories.concat([rootDiory])
+  return diories.concat([rootDiory]).map((dioryObject) => new Diory(dioryObject))
 }
 
 export { generateDiograph, generateDiograph2 }

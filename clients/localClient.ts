@@ -3,6 +3,7 @@ import { rm, readFile } from 'fs/promises'
 import { Client } from './baseClient'
 import { generateDiograph, generateDiograph2 } from '../generators/diograph'
 import { Connection } from '../connection'
+import { Diory } from '../diory'
 
 class LocalClient extends Client {
   connection: Connection
@@ -58,9 +59,13 @@ class LocalClient extends Client {
   list = async (path: string) => {
     // TODO: Add typings for generateDiograph
     // const diograph: Diory[] = await generateDiograph(join(this.connection.address, path))
-    const diograph: any = await generateDiograph(join(this.connection.address, path))
-    await this.connection.cacheDiograph(diograph.diograph)
-    return Object.values(diograph.diograph).map((diory: any) => diory.text)
+    const generatedDiories: Diory[] = await generateDiograph2(join(this.connection.address, path))
+    console.log(generatedDiories.map((diory: any) => diory.text))
+    generatedDiories.forEach((generatedDiory) =>
+      this.connection.cacheRoom.diograph?.addDiory(generatedDiory),
+    )
+    await this.connection.cacheRoom.diograph?.saveDiograph()
+    return this.connection.cacheRoom.diograph?.diories.map((diory: any) => diory.text)
   }
 }
 

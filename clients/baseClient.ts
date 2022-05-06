@@ -1,3 +1,4 @@
+import { Diory } from '../diory'
 import { DiographObject } from '../types'
 
 class Client {
@@ -19,9 +20,9 @@ class Client {
     return this.deleteItem(contentUrl)
   }
 
-  list = async (path: string) => {
+  list = async (path: string): Promise<string[] | undefined> => {
     // throw new Error('Not implemented.')
-    return ['Not implemented']
+    return []
   }
 
   // -----------------
