@@ -1,6 +1,6 @@
 {
   "diographUrl": "diograph.json",
-  "clients": [
+  "connections": [
     {
       "id": "abc-123",
       "address": ".",

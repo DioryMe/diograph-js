@@ -66,8 +66,8 @@ Then('{word} {word} exists in application support room', (fileName, doesOrNot) =
 Then('room.json has {word} connection(s)', (clientCount) => {
   const roomJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'room.json'), { encoding: 'utf8' })
   const roomJson = JSON.parse(roomJsonContents)
-  assert(roomJson.clients, 'Invalid room.json, clients not found')
-  assert.equal(roomJson.clients.length, clientCount === 'no' ? 0 : parseInt(clientCount, 10))
+  assert(roomJson.connections, 'Invalid room.json, connections not found')
+  assert.equal(roomJson.connections.length, clientCount === 'no' ? 0 : parseInt(clientCount, 10))
 })
 
 Then('appData has {word} room(s)', (count) => {

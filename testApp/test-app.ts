@@ -50,7 +50,7 @@ class App {
   initiateAppData = async () => {
     // Initiate app data if doesn't exist yet
     if (!existsSync(APP_DATA_PATH)) {
-      const defaultAppData = { rooms: [], clients: [] }
+      const defaultAppData = { rooms: [] }
       await writeFile(APP_DATA_PATH, JSON.stringify(defaultAppData, null, 2))
     }
 
@@ -131,7 +131,7 @@ class App {
 
     const room = this.rooms[0]
 
-    if (command === 'roomListClients') {
+    if (command === 'roomListConnections') {
       return room.connections.map((connection) => ({ baseUrl: connection.address }))
     }
 
@@ -154,8 +154,8 @@ class App {
     }
 
     if (command === 'listConnections') {
-      const clients = this.rooms.flatMap((room) => room.connections)
-      return clients.map((client) => client.address)
+      const connections = this.rooms.flatMap((room) => room.connections)
+      return connections.map((connection) => connection.address)
     }
 
     if (command === 'listClientContents') {

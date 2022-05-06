@@ -38,10 +38,10 @@ class Room {
       throw new Error("Can't load room before it's connected!")
     }
     const roomJsonContents = await this.roomClient.loadRoom()
-    const { diographUrl, contentUrls, clients } = JSON.parse(roomJsonContents)
+    const { diographUrl, contentUrls, connections } = JSON.parse(roomJsonContents)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
-    this.connectionData = clients
+    this.connectionData = connections
     this.diograph = new Diograph(diographUrl, this)
     await this.diograph.loadDiograph()
   }
@@ -49,7 +49,7 @@ class Room {
   initiateRoom = async () => {
     const defaultRoomJson = JSON.stringify({
       diographUrl: 'diograph.json',
-      clients: [],
+      connections: [],
     })
 
     const defaultDiograph = new Diograph()
@@ -80,7 +80,7 @@ class Room {
     // Room.json
     const roomJson = {
       diographUrl: this.address,
-      clients: this.connections.map((connection) => connection.toConnectionObject()),
+      connections: this.connections.map((connection) => connection.toConnectionObject()),
     }
     await this.roomClient.writeTextItem(
       this.roomClient.roomJsonPath,
