@@ -1,7 +1,7 @@
 import { join } from 'path'
 import { rm, readFile } from 'fs/promises'
 import { Client } from './baseClient'
-import { generateDiograph } from '../generators/diograph'
+import { generateDiograph, generateDiograph2 } from '../generators/diograph'
 import { Connection } from '../connection'
 
 class LocalClient extends Client {
@@ -60,7 +60,7 @@ class LocalClient extends Client {
     // const diograph: Diory[] = await generateDiograph(join(this.connection.address, path))
     const diograph: any = await generateDiograph(join(this.connection.address, path))
     await this.connection.cacheDiograph(diograph.diograph)
-    return Object.values(diograph.diograph).map((diory) => diory.text)
+    return Object.values(diograph.diograph).map((diory: any) => diory.text)
   }
 }
 

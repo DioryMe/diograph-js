@@ -171,7 +171,7 @@ class App {
     }
 
     if (command === 'getDiograph' && room.diograph) {
-      return room.diograph.diograph
+      return room.diograph.diories
     }
 
     if (command === 'getDiory' && room.diograph) {

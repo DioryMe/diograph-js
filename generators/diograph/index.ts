@@ -3,6 +3,7 @@ import { readdir } from 'fs/promises'
 import { basename } from 'path/posix'
 import { generateDioryFromFile } from '..'
 import { DioryLinkObject, DioryObject } from '../../types'
+import { Diory } from '../../diory'
 import { generateDioryFromFolder } from '../folder'
 import { getPath, isFile, isFolder, isValid } from './dirent-utils'
 
@@ -89,4 +90,26 @@ async function generateDiograph(folderPath: string): Promise<any> {
   }
 }
 
-export { generateDiograph }
+async function generateDioriesFromPaths(
+  filePaths: string[],
+  subfolderPaths: string[],
+): Promise<DioryObject[]> {
+  const subfolderDiories: DioryObject[] = await Promise.all(
+    subfolderPaths.map((subfolderPath) => generateDioryFromFolder(subfolderPath)),
+  )
+  const fileDiories: DioryObject[] = await Promise.all(
+    filePaths.map((filePath) => generateDioryFromFile(filePath)),
+  )
+  return subfolderDiories.concat(fileDiories)
+}
+
+async function generateDiograph2(folderPath: string): Promise<any> {
+  const { filePaths = [], subfolderPaths = [] } = (await getFileAndSubfolderPaths(folderPath)) || {}
+
+  const diories = await generateDioriesFromPaths(filePaths, subfolderPaths)
+  const rootDiory = generateDioryFromFolder(folderPath)
+
+  return diories.concat([rootDiory])
+}
+
+export { generateDiograph, generateDiograph2 }
