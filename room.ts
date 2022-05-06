@@ -13,7 +13,7 @@ class Room {
   connections: Connection[] = []
   connectionData: ConnectionObject[] = []
   roomClient: RoomClient
-  diograph: Diograph | undefined
+  diograph?: Diograph
   contentUrls: ContentUrls = {}
 
   constructor(address: string, roomClient: RoomClient) {

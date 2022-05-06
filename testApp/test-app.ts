@@ -5,7 +5,6 @@ import { join } from 'path'
 import { ConnectionObject } from '../types'
 import { Connection } from '../connection'
 import { generateDioryFromFile } from '../generators'
-import { Diory } from '../diory'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {

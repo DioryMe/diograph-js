@@ -1,40 +1,31 @@
-import { join, dirname } from 'path'
-import { existsSync, mkdirSync, readFileSync } from 'fs'
-import { writeFile } from 'fs/promises'
+import { join } from 'path'
 import { ConnectionObject, DiographObject } from './types'
-import { Diograph } from '.'
+import { Room } from '.'
+import { LocalRoomClient } from './roomClients'
 
 class Connection {
   address: string
   type: string
   contentUrls: string[]
-  cachePath: string
-  diograph: Diograph
+  cacheRoom: Room
 
   constructor({ address, type, contentUrls }: ConnectionObject, cachePath: string) {
     this.address = address
     this.type = type
     this.contentUrls = contentUrls || []
-    this.cachePath = cachePath
-    this.diograph = new Diograph(join(this.cachePath, 'diograph.json'))
+    this.cacheRoom = new Room(join(cachePath), new LocalRoomClient({ address: cachePath }))
   }
 
-  load = () => {
-    if (this.diograph.diographUrl && existsSync(this.diograph.diographUrl)) {
-      // TODO: Parse JSON with Diograph.parseJSON (=class method)
-      this.diograph.setDiograph(
-        JSON.parse(readFileSync(this.diograph.diographUrl, { encoding: 'utf8' })).diograph,
-      )
-    }
+  load = async () => {
+    return this.cacheRoom.loadOrInitiateRoom()
   }
 
   cacheDiograph = async (diographObject: DiographObject) => {
-    if (!this.diograph.diographUrl) {
-      throw new Error("Can't cacheDiograph: diographUrl is not defined")
+    if (!this.cacheRoom.diograph) {
+      throw new Error("Can't cacheDiograph: diograph/room is not loaded")
     }
-    this.diograph.mergeDiograph(diographObject)
-    // FIXME: Use RoomClient or something in here instead writeFile
-    await writeFile(this.diograph.diographUrl, this.diograph.toJson())
+    this.cacheRoom.diograph.mergeDiograph(diographObject)
+    return this.cacheRoom.diograph.saveDiograph()
   }
 
   toConnectionObject = (): ConnectionObject => {
