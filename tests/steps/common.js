@@ -9,7 +9,7 @@ const APP_DATA_PATH = join(process.cwd(), 'tmp')
 const TEMP_ROOM_PATH = APP_DATA_PATH
 const IMAGE_FOLDER_PATH = join(APP_DATA_PATH, 'images') // <-- this is deleted recursively!
 const CONTENT_FOLDER_PATH = join(APP_DATA_PATH, 'Diory Content') // <-- this is deleted recursively!
-const CACHE_PATH = join(APP_DATA_PATH, 'local-client-cache')
+const CACHE_PATH = join(APP_DATA_PATH, 'connection-cache-room')
 if (!existsSync(CACHE_PATH)) {
   mkdirSync(CACHE_PATH)
 }

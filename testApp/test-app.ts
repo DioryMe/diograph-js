@@ -11,7 +11,7 @@ if (!existsSync(appDataFolderPath)) {
   mkdirSync(appDataFolderPath)
 }
 const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
-const CACHE_PATH = join(appDataFolderPath, 'local-client-cache')
+const CACHE_PATH = join(appDataFolderPath, 'connection-cache-room')
 if (!existsSync(CACHE_PATH)) {
   mkdirSync(CACHE_PATH)
 }

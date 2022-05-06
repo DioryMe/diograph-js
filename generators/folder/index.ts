@@ -1,5 +1,6 @@
 import { statSync } from 'fs'
 import { basename } from 'path/posix'
+import { Diory } from '../../diory'
 import { DioryLinkObject, DioryObject } from '../../types'
 import { generateDiory } from '../diory'
 
@@ -58,7 +59,7 @@ function generateLinks(dioryLinks: DioryLinkObject) {
 
 function generateDioryFromFolder(folderPath: string, dioryLinks: DioryLinkObject = {}) {
   const linkedDiorys: DioryObject[] = Object.values(dioryLinks)
-  return {
+  return new Diory({
     ...generateDiory({
       ...getFirstImage(linkedDiorys),
       ...getAverageLocation(linkedDiorys),
@@ -66,7 +67,7 @@ function generateDioryFromFolder(folderPath: string, dioryLinks: DioryLinkObject
       ...readFolderMetadata(folderPath),
     }),
     ...generateLinks(dioryLinks),
-  }
+  })
 }
 
 function readFolderMetadata(folderPath: string = '') {
