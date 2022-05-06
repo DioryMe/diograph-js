@@ -1,6 +1,14 @@
 import { DiographObject } from './types'
 import { Diory } from './diory'
-import { createDiory, getDiory, getDioryWithLinks, search, update, deleteDiory } from './api'
+import {
+  createDiory,
+  getDiory,
+  getDiory2,
+  getDioryWithLinks,
+  search,
+  update,
+  deleteDiory,
+} from './api'
 import { Room } from '.'
 
 class Diograph {
@@ -13,6 +21,7 @@ class Diograph {
 
   createDiory = createDiory
   getDiory = getDiory
+  getDiory2 = getDiory2
   getDioryWithLinks = getDioryWithLinks
   update = update
   search = search
