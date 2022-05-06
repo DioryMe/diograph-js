@@ -12,12 +12,12 @@ describe('update', () => {
         image: 'images/some-id.jpg',
       },
     })
-    expect(diograph.getDiory2('some-id').text).toEqual('some-text')
+    expect(diograph.getDiory('some-id').text).toEqual('some-text')
   })
 
   it('works', () => {
     diograph.update('some-id', { text: 'updated-text' })
-    const updatedDiory = diograph.getDiory2('some-id')
+    const updatedDiory = diograph.getDiory('some-id')
     expect(updatedDiory.text).toEqual('updated-text')
     expect(updatedDiory.image).toEqual('images/some-id.jpg')
   })

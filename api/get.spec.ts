@@ -38,41 +38,48 @@ describe('getDiory', () => {
 
   describe('without options', () => {
     it('returns diory', () => {
-      expect(diograph.getDiory('some-id')).toEqual(diory)
+      const returnedDiory = diograph.getDiory('some-id')
+      expect(returnedDiory.id).toEqual(diory.id)
+      expect(returnedDiory.image).toEqual(diory.image)
+      expect(returnedDiory.links).toEqual(diory.links)
     })
   })
 
   describe('with options', () => {
     it('returns array of diories', () => {
-      expect(diograph.getDioryWithLinks('some-id', { jee: 'joo' })).toEqual([diory])
+      const returnedDioryIds = diograph.getDioryWithLinks('some-id').map((diory) => diory.id)
+      expect(returnedDioryIds[0]).toEqual(diory.id)
     })
 
     describe('linkedDiories', () => {
       it('returns diory and its linked diories', () => {
-        expect(diograph.getDioryWithLinks('some-id', { linkedDiories: true })).toEqual([
-          diory,
-          diory2,
-        ])
+        const returnedDioryIds = diograph
+          .getDioryWithLinks('some-id', { linkedDiories: true })
+          .map((diory) => diory.id)
+        expect(returnedDioryIds).toEqual([diory.id, diory2.id])
       })
     })
 
     describe('reverseLinkedDiories', () => {
       it('returns diory and its linked diories', () => {
-        expect(diograph.getDioryWithLinks('some-id', { reverseLinkedDiories: true })).toEqual([
-          diory,
-          diory3,
-        ])
+        const returnedDioryIds = diograph
+          .getDioryWithLinks('some-id', {
+            reverseLinkedDiories: true,
+          })
+          .map((diory) => diory.id)
+        expect(returnedDioryIds).toEqual([diory.id, diory3.id])
       })
     })
 
     describe('linkedDiories and reverseLinkedDiories', () => {
       it('returns diory and its linked diories', () => {
-        expect(
-          diograph.getDioryWithLinks('some-id', {
+        const returnedDioryIds = diograph
+          .getDioryWithLinks('some-id', {
             linkedDiories: true,
             reverseLinkedDiories: true,
-          }),
-        ).toEqual([diory, diory2, diory3])
+          })
+          .map((diory) => diory.id)
+        expect(returnedDioryIds).toEqual([diory.id, diory2.id, diory3.id])
       })
     })
   })

@@ -1,30 +1,17 @@
 import { DiographObject } from './types'
 import { Diory } from './diory'
-import {
-  createDiory,
-  getDiory,
-  getDiory2,
-  getDioryWithLinks,
-  getDioryWithLinks2,
-  search,
-  update,
-  deleteDiory,
-} from './api'
+import { createDiory, getDiory, getDioryWithLinks, search, update, deleteDiory } from './api'
 import { Room } from '.'
 
 class Diograph {
   rootId: string = ''
   diories: Diory[] = []
-  // REMOVE ME: Only tests use me
-  diograph: DiographObject = {}
   diographUrl?: string
   room?: Room
 
   createDiory = createDiory
   getDiory = getDiory
-  getDiory2 = getDiory2
   getDioryWithLinks = getDioryWithLinks
-  getDioryWithLinks2 = getDioryWithLinks2
   update = update
   search = search
   deleteDiory = deleteDiory
@@ -37,8 +24,6 @@ class Diograph {
   setDiograph = (diograph: DiographObject, rootId?: string) => {
     this.diories = Object.values(diograph).map((dioryObject) => new Diory(dioryObject))
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
-    // REMOVE ME: Only tests use me
-    this.diograph = diograph
   }
 
   mergeDiograph = (diograph: DiographObject) => {

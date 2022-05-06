@@ -43,8 +43,8 @@ describe('deleteDiory', () => {
         const returnValueIds = returnValue.map((diory) => diory.id)
         expect(returnValueIds).toEqual([diory.id])
 
-        expect(diograph.getDiory2('some-id')).toEqual(undefined)
-        expect(diograph.getDiory2('some-other-id').id).toEqual(diory2.id)
+        expect(diograph.getDiory('some-id')).toEqual(undefined)
+        expect(diograph.getDiory('some-other-id').id).toEqual(diory2.id)
       })
 
       it('diory and its linked diories', async () => {
@@ -52,8 +52,8 @@ describe('deleteDiory', () => {
         const returnValueIds = returnValue.map((diory) => diory.id)
         expect(returnValueIds).toEqual([diory.id, diory2.id])
 
-        expect(diograph.getDiory2('some-id')).toEqual(undefined)
-        expect(diograph.getDiory2('some-other-id')).toEqual(undefined)
+        expect(diograph.getDiory('some-id')).toEqual(undefined)
+        expect(diograph.getDiory('some-other-id')).toEqual(undefined)
       })
     })
   })
@@ -65,8 +65,8 @@ describe('deleteDiory', () => {
         const returnValueIds = returnValue.map((diory) => diory.id)
         expect(returnValueIds).toEqual([diory.id])
 
-        expect(diograph.getDiory2('some-id').id).toEqual(diory.id)
-        expect(diograph.getDiory2('some-other-id').id).toEqual(diory2.id)
+        expect(diograph.getDiory('some-id').id).toEqual(diory.id)
+        expect(diograph.getDiory('some-other-id').id).toEqual(diory2.id)
       })
 
       it('diory and its linked diories', async () => {
@@ -77,8 +77,8 @@ describe('deleteDiory', () => {
         const returnValueIds = returnValue.map((diory) => diory.id)
         expect(returnValueIds).toEqual([diory.id, diory2.id])
 
-        expect(diograph.getDiory2('some-id').id).toEqual(diory.id)
-        expect(diograph.getDiory2('some-other-id').id).toEqual(diory2.id)
+        expect(diograph.getDiory('some-id').id).toEqual(diory.id)
+        expect(diograph.getDiory('some-other-id').id).toEqual(diory2.id)
       })
     })
   })

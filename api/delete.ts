@@ -21,12 +21,12 @@ async function deleteDiory(this: Diograph, id: string, opts: object = {}): Promi
     ...opts,
   }
 
-  const storyDiory = this.getDiory2(id)
+  const storyDiory = this.getDiory(id)
   dioriesToBeDeleted = [storyDiory]
 
   if (optsWithDefaults.linkedDiories && storyDiory.links) {
     Object.values(storyDiory.links).forEach((link) => {
-      const linkedDiory = this.getDiory2(link.id)
+      const linkedDiory = this.getDiory(link.id)
       dioriesToBeDeleted.push(linkedDiory)
     })
   }

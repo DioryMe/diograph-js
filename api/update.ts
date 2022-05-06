@@ -9,10 +9,10 @@ function update(this: Diograph, id: string, payload: DioryAttributes): Diory {
       throw new Error('extra key')
   })
 
-  const diory = this.getDiory2(id)
+  const diory = this.getDiory(id)
   diory.dioryAttributes = { ...diory.dioryAttributes, ...payload }
   diory.extractDioryAttributes(diory.dioryAttributes)
-  return this.getDiory2(id)
+  return this.getDiory(id)
 }
 
 export { update }
