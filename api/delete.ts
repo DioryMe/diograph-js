@@ -2,16 +2,12 @@ import { Diograph } from '../diograph'
 import { Diory } from '../diory'
 
 interface DeleteOptions {
-  force: boolean
   linkedDiories: boolean
   dryRun: boolean
   deleteThumbnail: boolean
 }
 
 const DEFAULT_OPTIONS: DeleteOptions = {
-  // deletes linkedDiories although they are linked
-  // without this throws an error if any diories are linked to other diories
-  force: false,
   linkedDiories: false,
   dryRun: false,
   deleteThumbnail: false,
