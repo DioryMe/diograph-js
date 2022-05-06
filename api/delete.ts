@@ -17,11 +17,7 @@ const DEFAULT_OPTIONS: DeleteOptions = {
   deleteThumbnail: false,
 }
 
-async function deleteDiory(
-  this: Diograph,
-  id: string,
-  opts: object = {},
-): Promise<Array<DioryObject>> {
+async function deleteDiory(this: Diograph, id: string, opts: object = {}): Promise<DioryObject[]> {
   let dioriesToBeDeleted
 
   const optsWithDefaults: DeleteOptions = {

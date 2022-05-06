@@ -12,7 +12,7 @@ export interface DioryAttributes {
   image?: string
   latlng?: string
   date?: string
-  data?: Array<DataAttributes>
+  data?: DataAttributes[]
   style?: object
   created?: string
   modified?: string

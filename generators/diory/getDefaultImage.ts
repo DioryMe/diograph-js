@@ -1,6 +1,6 @@
 // Base64 colors are 1x1 png images generated with https://png-pixel.com/
 
-const getRandom = (array: Array<any>) => array[Math.floor(Math.random() * array.length)]
+const getRandom = (array: any[]) => array[Math.floor(Math.random() * array.length)]
 
 const prefix = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42'
 const suffix = 'AAAABJRU5ErkJggg=='

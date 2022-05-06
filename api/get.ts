@@ -19,7 +19,7 @@ function getDioryWithLinks(
   this: Diograph,
   id: string,
   opts: object = {},
-): DioryObject | Array<DioryObject> {
+): DioryObject | DioryObject[] {
   const optsWithDefaults: GetOptions = {
     ...DEFAULT_OPTIONS,
     ...opts,

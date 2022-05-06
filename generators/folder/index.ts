@@ -10,7 +10,7 @@ function getFirstImage(linkedDiorys: DioryObject[]) {
   return image && { image }
 }
 
-function getAverage(array: Array<any> = []) {
+function getAverage(array: any[] = []) {
   return array.length
     ? array.reduce((a, b) => parseFloat(a) + parseFloat(b), 0) / array.length
     : undefined
