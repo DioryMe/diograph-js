@@ -1,6 +1,6 @@
 import { Room, LocalRoomClient, LocalClient } from '..'
 import { existsSync, mkdirSync } from 'fs'
-import { readFile, writeFile, rm, mkdir } from 'fs/promises'
+import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
 import { ConnectionObject } from '../types'
 import { Connection } from '../connection'
