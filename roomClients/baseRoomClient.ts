@@ -1,5 +1,6 @@
 import { join } from 'path'
 import { Diograph } from '..'
+import { Connection } from '../connection'
 
 class RoomClient {
   address: string
@@ -7,8 +8,9 @@ class RoomClient {
   diographPath: string
   imageFolderPath: string
   contentFolderPath: string
+  connection?: Connection
 
-  constructor(config: any) {
+  constructor(config: any, connection?: Connection) {
     if (!config.address) {
       throw new Error('No address given to room')
     }
@@ -17,6 +19,10 @@ class RoomClient {
     this.diographPath = join(this.address, 'diograph.json')
     this.imageFolderPath = join(this.address, 'images')
     this.contentFolderPath = join(this.address, 'Diory Content')
+    this.connection = connection
+    if (this.connection) {
+      this.connection.load()
+    }
   }
 
   verifyAndConnect = async () => {

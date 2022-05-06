@@ -40,7 +40,7 @@ class App {
   getClient = (connection: Connection) => {
     switch (connection.type) {
       case 'local':
-        return new LocalClient(connection)
+        return new LocalRoomClient({ address: connection.address }, connection)
       default:
         throw new Error(`Couldn't get Client for Connection type: ${connection.type}`)
         break
@@ -132,7 +132,7 @@ class App {
     const room = this.rooms[0]
 
     if (command === 'roomListConnections') {
-      return room.connections.map((connection) => ({ baseUrl: connection.address }))
+      return room.connections.map((connection) => ({ address: connection.address }))
     }
 
     if (command === 'deleteRoom') {

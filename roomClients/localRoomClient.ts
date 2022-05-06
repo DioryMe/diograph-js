@@ -4,11 +4,14 @@ import { RoomClient } from './baseRoomClient'
 import { join } from 'path'
 import { Diograph } from '..'
 import { dirname } from 'path/posix'
-import { makeRelative } from '../clients/makeRelative'
+import { makeRelative } from '../roomClients/makeRelative'
+import { Connection } from '../connection'
+import { Diory } from '../diory'
+import { generateDiograph } from '../generators/diograph'
 
 class LocalRoomClient extends RoomClient {
-  constructor(config: any) {
-    super(config)
+  constructor(config: any, connection?: Connection) {
+    super(config, connection)
   }
 
   verifyAndConnect = async () => {
@@ -123,6 +126,18 @@ class LocalRoomClient extends RoomClient {
 
   deleteThumbnail = async (thumbnailContentUrl: string) => {
     return this.deleteItem(join(this.imageFolderPath, thumbnailContentUrl))
+  }
+
+  list = async (path: string) => {
+    if (!this.connection) {
+      throw new Error("Can't do 'list': no connection provided")
+    }
+    const generatedDiories: Diory[] = await generateDiograph(join(this.connection.address, path))
+    generatedDiories.forEach((generatedDiory) =>
+      this.connection?.cacheRoom.diograph?.addDiory(generatedDiory),
+    )
+    await this.connection.cacheRoom.diograph?.saveDiograph()
+    return this.connection.cacheRoom.diograph?.diories.map((diory: any) => diory.text)
   }
 }
 
