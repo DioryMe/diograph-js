@@ -116,6 +116,7 @@ class App {
       const room = new Room(roomPath, client)
       await this.addAndLoadRoom(room)
       await this.saveAppData()
+      await room.saveRoom()
       console.log('Room added.')
       return
     }
@@ -205,6 +206,7 @@ class App {
       }
       await room.diograph.addDiory(diory)
       await room.saveRoom()
+      console.log(room.toRoomObject())
       // console.log(await room.diograph.getDiory(diory.id))
       return
     }

@@ -4,6 +4,7 @@ Feature: Diograph
     Given I have empty place for room
     And I initiate a room
     And diograph.json has 1 diories
+    And room.json has 0 connection
 
   Scenario: Get diory
     When I call getDiory for diograph
@@ -26,6 +27,7 @@ Feature: Diograph
     Then diograph.json has 2 diories
     And images folder has 1 image
     And content folder has 0 file
+    And room.json has 0 connection
 
   Scenario: Import diory with content
     When I call importDiory with content
@@ -35,6 +37,7 @@ Feature: Diograph
     And last diory has dioryId as image
     And last diory has dioryId as contentUrl
     And last diory has image/jpeg as encodingFormat
+    And room.json has 0 connection
 
   # Scenario: Delete diory with content
   #   When I call importDiory with content

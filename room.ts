@@ -75,16 +75,19 @@ class Room {
     return existingConnection
   }
 
-  saveRoom = async () => {
-    // TODO: Make RoomJson an object with .toJson()
-    // Room.json
-    const roomJson = {
+  toRoomObject = () => {
+    return {
       diographUrl: this.address,
       connections: this.connections.map((connection) => connection.toConnectionObject()),
     }
+  }
+
+  saveRoom = async () => {
+    // TODO: Make RoomJson an object with .toJson()
+    // Room.json
     await this.roomClient.writeTextItem(
       this.roomClient.roomJsonPath,
-      JSON.stringify(roomJson, null, 2),
+      JSON.stringify(this.toRoomObject(), null, 2),
     )
 
     // Diograph.json

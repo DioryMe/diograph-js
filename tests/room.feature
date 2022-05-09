@@ -27,12 +27,14 @@ Feature: Room
     And I call listClientContents operation
     Then Content source diograph.json has 6 diories
     # And images folder is not empty in application support room
+    And room.json has 1 connection
 
   Scenario: Content source contents list 2
     When I add connection to room
     And I call listClientContents2 operation
     Then Content source diograph.json has 3 diories
     # And images folder is not empty in application support room
+    And room.json has 1 connection
 
   Scenario: Content source contents list for both
     When I add connection to room
@@ -40,6 +42,7 @@ Feature: Room
     And I call listClientContents2 operation
     Then Content source diograph.json has 8 diories
     # And images folder is not empty in application support room
+    And room.json has 1 connection
 
   # Scenario: Add diory from content source
   #   When I add connection to room
