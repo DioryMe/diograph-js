@@ -25,6 +25,8 @@ Given('I have empty place for room', async () => {
   existsSync(CONTENT_FOLDER_PATH) && (await rmSync(CONTENT_FOLDER_PATH, { recursive: true }))
 })
 
+// WHEN
+
 When('I initiate a room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
   await testApp.run('addRoom', TEMP_ROOM_PATH)
@@ -54,6 +56,13 @@ When('I call importDiory with content', async () => {
 When('I call {word} operation', async (operation) => {
   await testApp.run(operation)
 })
+
+When('I call {word} for diograph', async (apiAction) => {
+  const testApp = new App()
+  await testApp.run(apiAction)
+})
+
+// THEN
 
 Then('{word} {word} exists', (fileName, doesOrNot) => {
   assert.equal(existsSync(join(TEMP_ROOM_PATH, `${fileName}`)), doesOrNot === 'does')
@@ -94,4 +103,42 @@ Then('content folder has {int} file(s)', (count) => {
   const contentFileList =
     lstatSync(CONTENT_FOLDER_PATH).isDirectory() && readdirSync(CONTENT_FOLDER_PATH)
   assert.equal(contentFileList.length, count)
+})
+
+Then('I receive a diory', async () => {
+  const testApp = new App()
+  const response = await testApp.run('getDiory')
+  assert.ok(response)
+  assert.equal(response.id, 'some-diory-id')
+  assert.equal(response.text, 'Root diory')
+})
+
+Then('diograph.json has {word} diories', (dioryCount) => {
+  const diographContents = readFileSync(join(TEMP_ROOM_PATH, 'diograph.json'), {
+    encoding: 'utf8',
+  })
+  const diograph = JSON.parse(diographContents)
+  assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
+  assert.equal(
+    Object.values(diograph.diograph).length,
+    dioryCount === 'no' ? 0 : parseInt(dioryCount, 10),
+  )
+})
+
+Then('last diory has {word} as {word}', (value, property) => {
+  const diographContents = readFileSync(join(TEMP_ROOM_PATH, 'diograph.json'), {
+    encoding: 'utf8',
+  })
+  const diograph = JSON.parse(diographContents)
+  assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
+  const diories = Object.values(diograph.diograph)
+  const lastDiory = diories[diories.length - 1]
+
+  if (property === 'image') {
+    assert.equal(lastDiory.image, `images/${lastDiory.id}`)
+  } else if (property === 'contentUrl') {
+    assert.equal(lastDiory.data[0].contentUrl, `Diory Content/${lastDiory.id}`)
+  } else if (property === 'encodingFormat') {
+    assert.equal(lastDiory.data[0].encodingFormat, value)
+  }
 })
