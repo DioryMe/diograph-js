@@ -160,13 +160,13 @@ class App {
     }
 
     if (command === 'listClientContents') {
-      const client = this.getClient(room.connections[0])
+      const client = this.getClient(room.connections[1])
       const list = await client.list('/')
       return list
     }
 
     if (command === 'listClientContents2') {
-      const client = this.getClient(room.connections[0])
+      const client = this.getClient(room.connections[1])
       const list = await client.list('subfolder')
       return list
     }

@@ -2,6 +2,7 @@ import { RoomClient } from './roomClients'
 import { Diograph } from '.'
 import { ConnectionObject } from './types'
 import { Connection } from './connection'
+import { join } from 'path'
 
 export interface ContentUrls {
   [key: string]: string
@@ -61,6 +62,12 @@ class Room {
     })
 
     await this.roomClient.initiateRoom(defaultRoomJson, defaultDiograph)
+
+    const connection = new Connection(
+      { address: join(this.address, 'Diory Content'), type: 'local' },
+      '/tmp',
+    )
+    this.addConnection(connection)
     await this.loadRoom()
   }
 

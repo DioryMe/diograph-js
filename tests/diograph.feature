@@ -4,7 +4,7 @@ Feature: Diograph
     Given I have empty place for room
     And I initiate a room
     And diograph.json has 1 diories
-    And room.json has 0 connection
+    And room.json has 1 connection
 
   Scenario: Get diory
     When I call getDiory for diograph

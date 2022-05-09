@@ -3,11 +3,11 @@ Feature: Room
   Background:
     Given I have empty place for room
     And I initiate a room
-    And room.json has 0 connection
+    And room.json has 1 connection
 
   Scenario: Initiate room
     Then room.json does exists
-    And room.json has no connections
+    And room.json has 1 connections
     And diograph.json does exists
     # And diograph.json has one diory
     # And images folder exists
@@ -21,14 +21,14 @@ Feature: Room
 
   Scenario: Add connection to room
     When I add connection to content-source-folder
-    Then room.json has 1 connection
+    Then room.json has 2 connections
 
   Scenario: Content source contents list
     When I add connection to content-source-folder
     And I call listClientContents operation
     Then Content source diograph.json has 6 diories
     # And images folder is not empty in application support room
-    And room.json has 1 connection
+    And room.json has 2 connections
     # And room.json connection has 123 contentUrls
 
   Scenario: Content source contents list 2
@@ -36,7 +36,7 @@ Feature: Room
     And I call listClientContents2 operation
     Then Content source diograph.json has 3 diories
     # And images folder is not empty in application support room
-    And room.json has 1 connection
+    And room.json has 2 connections
 
   Scenario: Content source contents list for both
     When I add connection to content-source-folder
@@ -44,7 +44,7 @@ Feature: Room
     And I call listClientContents2 operation
     Then Content source diograph.json has 8 diories
     # And images folder is not empty in application support room
-    And room.json has 1 connection
+    And room.json has 2 connections
 
   # Scenario: Add diory from content source
   #   When I add connection to content-source-folder
@@ -53,8 +53,7 @@ Feature: Room
   #   And images folder has one image
 
   Scenario: Import diory
-    When I add connection to DioryContent
-    And I call importDiory
+    When I call importDiory
     Then diograph.json has 2 diories
     And images folder has 1 image
     And content folder has 0 file
@@ -62,8 +61,7 @@ Feature: Room
     And last connection has 0 contentUrls
 
   Scenario: Import diory with content
-    When I add connection to DioryContent
-    And I call importDiory with content
+    When I call importDiory with content
     Then diograph.json has 2 diories
     And images folder has 1 image
     And content folder has 1 file
@@ -72,7 +70,6 @@ Feature: Room
     And last diory has dioryId as image
     And last diory has dioryId as contentUrl
     And last diory has image/jpeg as encodingFormat
-    And I call listClientContents operation
 
   # Scenario: Delete diory with content
   #   When I call importDiory with content
