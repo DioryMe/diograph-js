@@ -11,10 +11,6 @@ if (!existsSync(appDataFolderPath)) {
   mkdirSync(appDataFolderPath)
 }
 const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
-const CACHE_PATH = join(appDataFolderPath, 'connection-cache-room')
-if (!existsSync(CACHE_PATH)) {
-  mkdirSync(CACHE_PATH)
-}
 
 interface RoomData {
   address: string
@@ -84,7 +80,7 @@ class App {
       this.rooms.push(room)
     }
     this.connections = room.connectionData.map((connectionData: ConnectionObject) => {
-      const connection = new Connection(connectionData, CACHE_PATH)
+      const connection = new Connection(connectionData)
       room.addConnection(connection)
       return connection
     })
@@ -146,7 +142,7 @@ class App {
 
     if (command === 'addConnection') {
       const connectionAddress = arg1 || process.cwd()
-      const connection = new Connection({ address: connectionAddress, type: 'local' }, CACHE_PATH)
+      const connection = new Connection({ address: connectionAddress, type: 'local' })
       this.connections.push(connection)
       room.addConnection(connection)
       await room.saveRoom()

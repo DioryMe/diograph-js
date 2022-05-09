@@ -63,10 +63,10 @@ class Room {
 
     await this.roomClient.initiateRoom(defaultRoomJson, defaultDiograph)
 
-    const connection = new Connection(
-      { address: join(this.address, 'Diory Content'), type: 'local' },
-      '/tmp',
-    )
+    const connection = new Connection({
+      address: join(this.address, 'Diory Content'),
+      type: 'local',
+    })
     this.addConnection(connection)
     await this.loadRoom()
   }

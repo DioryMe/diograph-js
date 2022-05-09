@@ -11,26 +11,14 @@ class Connection {
   address: string
   type: string
   contentUrls: ContentUrlObject
-  cacheRoom: Room
 
-  constructor({ address, type, contentUrls }: ConnectionObject, cachePath: string) {
+  constructor({ address, type, contentUrls }: ConnectionObject) {
     this.address = address
     this.type = type
     this.contentUrls = contentUrls || {}
-    this.cacheRoom = new Room(join(cachePath), new LocalRoomClient({ address: cachePath }))
   }
 
-  load = async () => {
-    return this.cacheRoom.loadOrInitiateRoom()
-  }
-
-  cacheDiograph = async (diographObject: DiographObject) => {
-    if (!this.cacheRoom.diograph) {
-      throw new Error("Can't cacheDiograph: diograph/room is not loaded")
-    }
-    this.cacheRoom.diograph.mergeDiograph(diographObject)
-    return this.cacheRoom.diograph.saveDiograph()
-  }
+  load = async () => {}
 
   addContentUrl = (contentUrl: string, internalPath: string) => {
     this.contentUrls[contentUrl] = internalPath
