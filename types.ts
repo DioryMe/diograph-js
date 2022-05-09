@@ -1,3 +1,5 @@
+import { ContentUrlObject } from './connection'
+
 export interface DiographObject {
   [key: string]: DioryObject
 }
@@ -33,7 +35,7 @@ export interface DioryLinkObject {
 export interface ConnectionObject {
   address: string
   type: string
-  contentUrls?: string[]
+  contentUrls?: ContentUrlObject
 }
 
 export interface DioryGeneratorData {

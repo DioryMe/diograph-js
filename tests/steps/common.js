@@ -154,3 +154,13 @@ Then('last diory has {word} as {word}', (value, property) => {
     assert.equal(lastDiory.data[0].encodingFormat, value)
   }
 })
+
+Then('last connection has {int} contentUrls', (value) => {
+  const roomJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'room.json'), {
+    encoding: 'utf8',
+  })
+  const roomJson = JSON.parse(roomJsonContents)
+  const lastConnection = roomJson.connections[roomJson.connections.length - 1]
+
+  assert.equal(Object.values(lastConnection.contentUrls).length, value)
+})
