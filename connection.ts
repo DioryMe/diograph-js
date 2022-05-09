@@ -3,8 +3,13 @@ import { ConnectionObject, DiographObject } from './types'
 import { Room } from '.'
 import { LocalRoomClient } from './roomClients'
 
+export interface ContentUrlPayload {
+  diory: object
+  internalPath: string
+}
+
 export interface ContentUrlObject {
-  [key: string]: string
+  [key: string]: ContentUrlPayload
 }
 
 class Connection {
@@ -20,8 +25,8 @@ class Connection {
 
   load = async () => {}
 
-  addContentUrl = (contentUrl: string, internalPath: string) => {
-    this.contentUrls[contentUrl] = internalPath
+  addContentUrl = (contentUrl: string, internalPath: string, diory: object) => {
+    this.contentUrls[contentUrl] = { diory, internalPath }
   }
 
   toConnectionObject = (): ConnectionObject => {

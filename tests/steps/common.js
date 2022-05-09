@@ -101,9 +101,7 @@ Then('last connection contentUrls has {int} diories', (dioryCount) => {
   const roomJson = JSON.parse(roomJsonContents)
   const lastConnection = roomJson.connections[roomJson.connections.length - 1]
 
-  const diories = Object.values(lastConnection.contentUrls).map(
-    (contentUrlObject) => contentUrlObject.diory,
-  )
+  const diories = Object.values(lastConnection.contentUrls)
   console.log(diories)
   assert.equal(diories.length, dioryCount)
 })

@@ -90,7 +90,7 @@ class LocalRoomClient extends RoomClient {
     await this.writeItem(filePath, fileContent)
 
     const contentUrl = makeRelative(filePath, this.address)
-    this.connection?.addContentUrl(contentUrl, contentUrl)
+    this.connection?.addContentUrl(contentUrl, contentUrl, {})
 
     return contentUrl
   }
@@ -136,11 +136,12 @@ class LocalRoomClient extends RoomClient {
       throw new Error("Can't do 'list': no connection provided")
     }
     const generatedDiories: Diory[] = await generateDiograph(join(this.connection.address, path))
-    // generatedDiories.forEach((generatedDiory) =>
-    //   this.connection?.cacheRoom.diograph?.addDiory(generatedDiory),
-    // )
-    // await this.connection.cacheRoom.diograph?.saveDiograph()
-    // return this.connection.cacheRoom.diograph?.diories.map((diory: any) => diory.text)
+
+    generatedDiories.forEach((generatedDiory) => {
+      this.connection?.addContentUrl(generatedDiory.id, '123abc', generatedDiory.toDioryObject())
+    })
+
+    return generatedDiories.map((diory: any) => diory.text)
   }
 }
 
