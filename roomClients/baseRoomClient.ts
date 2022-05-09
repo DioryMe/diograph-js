@@ -79,7 +79,7 @@ class RoomClient {
     // return this.readItem(contentUrl)
   }
 
-  writeContent = async (sourceFileContent: Buffer, diory?: string) => {
+  addContent = async (sourceFileContent: Buffer, diory?: string) => {
     // Not implemented
     return 'Not implemented'
   }

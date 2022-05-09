@@ -1,4 +1,4 @@
-import { Room, LocalRoomClient, LocalClient } from '..'
+import { Room, LocalRoomClient } from '..'
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
@@ -202,8 +202,7 @@ class App {
       if (copyContent) {
         const sourceFileContent = await readFile(filePath)
         const client = this.getClient(room.connections[0])
-        const contentUrl = await client.writeContent(sourceFileContent, diory.id)
-        room.connections[0].addContentUrl(contentUrl, contentUrl)
+        const contentUrl = await client.addContent(sourceFileContent, diory.id)
         diory.changeContentUrl(contentUrl)
       }
       await room.diograph.addDiory(diory)

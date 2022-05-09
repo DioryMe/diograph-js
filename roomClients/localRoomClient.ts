@@ -75,7 +75,7 @@ class LocalRoomClient extends RoomClient {
     return join(this.contentFolderPath, diory)
   }
 
-  writeContent = async (fileContent: Buffer | string, diory?: string) => {
+  addContent = async (fileContent: Buffer | string, diory?: string) => {
     let filePath
     if (diory) {
       filePath = this.getContentUrl(diory)
@@ -87,9 +87,12 @@ class LocalRoomClient extends RoomClient {
       filePath = this.getContentUrl(Date.now().toString())
     }
 
-    await writeFile(filePath, fileContent)
+    await this.writeItem(filePath, fileContent)
 
-    return makeRelative(filePath, this.address)
+    const contentUrl = makeRelative(filePath, this.address)
+    this.connection?.addContentUrl(contentUrl, contentUrl)
+
+    return contentUrl
   }
 
   writeThumbnail = async (url: string, fileContent: Buffer | string) => {
