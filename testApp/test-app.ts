@@ -201,9 +201,9 @@ class App {
       const diory = await generateDioryFromFile(filePath)
       if (copyContent) {
         const sourceFileContent = await readFile(filePath)
-        const contentUrl = await room.roomClient.writeContent(sourceFileContent, diory.id)
-        // const client = this.getClient(room.connections[0])
-        // const contentUrl = await client.writeContent(sourceFileContent, diory.id)
+        const client = this.getClient(room.connections[0])
+        console.log(room.connections[0])
+        const contentUrl = await client.writeContent(sourceFileContent, diory.id)
         diory.changeContentUrl(contentUrl)
       }
       await room.diograph.addDiory(diory)

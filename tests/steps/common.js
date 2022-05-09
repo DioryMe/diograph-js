@@ -42,6 +42,9 @@ When('I add connection to {word}', async (destination) => {
     case 'content-source-folder':
       connectionAddress = CONTENT_SOURCE_FOLDER
       break
+    case 'DioryContent':
+      connectionAddress = CONTENT_FOLDER_PATH
+      break
     default:
       break
   }
