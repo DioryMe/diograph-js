@@ -26,7 +26,7 @@ Feature: Room
   Scenario: Content source contents list
     When I add connection to content-source-folder
     And I call listClientContents operation
-    Then Content source diograph.json has 6 diories
+    Then last connection contentUrls has 6 diories
     # And images folder is not empty in application support room
     And room.json has 2 connections
     # And room.json connection has 123 contentUrls
@@ -34,7 +34,7 @@ Feature: Room
   Scenario: Content source contents list 2
     When I add connection to content-source-folder
     And I call listClientContents2 operation
-    Then Content source diograph.json has 3 diories
+    Then last connection contentUrls has 3 diories
     # And images folder is not empty in application support room
     And room.json has 2 connections
 
@@ -42,7 +42,7 @@ Feature: Room
     When I add connection to content-source-folder
     And I call listClientContents operation
     And I call listClientContents2 operation
-    Then Content source diograph.json has 8 diories
+    Then last connection contentUrls has 8 diories
     # And images folder is not empty in application support room
     And room.json has 2 connections
 

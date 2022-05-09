@@ -94,12 +94,18 @@ Then('appData has {word} room(s)', (count) => {
   assert.equal(appData.rooms.length, parseInt(count, 10))
 })
 
-Then('Content source diograph.json has {int} diories', (dioryCount) => {
-  // const contentSourceDiographJsonContents = readFileSync(join(CACHE_PATH, 'diograph.json'), {
-  //   encoding: 'utf8',
-  // })
-  // const diograph = JSON.parse(contentSourceDiographJsonContents)
-  // assert.equal(Object.keys(diograph.diograph).length, dioryCount)
+Then('last connection contentUrls has {int} diories', (dioryCount) => {
+  const roomJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'room.json'), {
+    encoding: 'utf8',
+  })
+  const roomJson = JSON.parse(roomJsonContents)
+  const lastConnection = roomJson.connections[roomJson.connections.length - 1]
+
+  const diories = Object.values(lastConnection.contentUrls).map(
+    (contentUrlObject) => contentUrlObject.diory,
+  )
+  console.log(diories)
+  assert.equal(diories.length, dioryCount)
 })
 
 Then('images folder has {int} image', (count) => {
