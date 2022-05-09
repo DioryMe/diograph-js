@@ -36,11 +36,20 @@ When('I delete room', async () => {
   await testApp.run('deleteRoom')
 })
 
-When('I add connection to room', async () => {
-  if (!existsSync(CONTENT_SOURCE_FOLDER)) {
-    throw new Error(`ERROR: content-source-folder not found ${CONTENT_SOURCE_FOLDER}`)
+When('I add connection to {word}', async (destination) => {
+  let connectionAddress
+  switch (destination) {
+    case 'content-source-folder':
+      connectionAddress = CONTENT_SOURCE_FOLDER
+      break
+    default:
+      break
   }
-  await testApp.run('addConnection', CONTENT_SOURCE_FOLDER)
+
+  if (!existsSync(connectionAddress)) {
+    throw new Error(`ERROR: connectionAddress not found ${connectionAddress}`)
+  }
+  await testApp.run('addConnection', connectionAddress)
 })
 
 When('I call importDiory', async () => {

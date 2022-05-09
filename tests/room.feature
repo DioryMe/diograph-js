@@ -19,25 +19,25 @@ Feature: Room
     # And images folder not exists
 
   Scenario: Add connection to room
-    When I add connection to room
+    When I add connection to content-source-folder
     Then room.json has 1 connection
 
   Scenario: Content source contents list
-    When I add connection to room
+    When I add connection to content-source-folder
     And I call listClientContents operation
     Then Content source diograph.json has 6 diories
     # And images folder is not empty in application support room
     And room.json has 1 connection
 
   Scenario: Content source contents list 2
-    When I add connection to room
+    When I add connection to content-source-folder
     And I call listClientContents2 operation
     Then Content source diograph.json has 3 diories
     # And images folder is not empty in application support room
     And room.json has 1 connection
 
   Scenario: Content source contents list for both
-    When I add connection to room
+    When I add connection to content-source-folder
     And I call listClientContents operation
     And I call listClientContents2 operation
     Then Content source diograph.json has 8 diories
@@ -45,12 +45,13 @@ Feature: Room
     And room.json has 1 connection
 
   # Scenario: Add diory from content source
-  #   When I add connection to room
+  #   When I add connection to content-source-folder
   #   And I call import operation for client
   #   Then diograph.json has two diories
   #   And images folder has one image
 
   Scenario: Import diory
+    # When I add connection to content-source-folder
     When I call importDiory
     Then diograph.json has 2 diories
     And images folder has 1 image
@@ -58,6 +59,7 @@ Feature: Room
     And room.json has 0 connection
 
   Scenario: Import diory with content
+    # When I add connection to content-source-folder
     When I call importDiory with content
     Then diograph.json has 2 diories
     And images folder has 1 image
@@ -65,7 +67,7 @@ Feature: Room
     And last diory has dioryId as image
     And last diory has dioryId as contentUrl
     And last diory has image/jpeg as encodingFormat
-    And room.json has 1 connection
+    And room.json has 0 connection
 
   # Scenario: Delete diory with content
   #   When I call importDiory with content
