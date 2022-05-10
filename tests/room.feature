@@ -71,6 +71,10 @@ Feature: Room
     And last diory has dioryId as contentUrl
     And last diory has image/jpeg as encodingFormat
 
+  Scenario: Get content
+    When I call importDiory with content
+    Then I can call getPathFromContentUrl
+
   # Scenario: Delete diory with content
   #   When I call importDiory with content
   #   And I call deleteDiory with content for last diory

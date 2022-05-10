@@ -210,6 +210,12 @@ class App {
       return
     }
 
+    if (command === 'getPathFromContentUrl' && room.diograph) {
+      const contentUrl = arg1
+      const contentPath = await room.getContent(contentUrl)
+      return contentPath
+    }
+
     if (command === 'dryRun') {
       console.log('Dry run completed.')
     }

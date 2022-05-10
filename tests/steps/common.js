@@ -65,11 +65,6 @@ When('I call {word} operation', async (operation) => {
   await testApp.run(operation)
 })
 
-When('I call {word} for diograph', async (apiAction) => {
-  const testApp = new App()
-  await testApp.run(apiAction)
-})
-
 // THEN
 
 Then('{word} {word} exists', (fileName, doesOrNot) => {
@@ -163,4 +158,17 @@ Then('last connection has {int} contentUrls', (value) => {
   const lastConnection = roomJson.connections[roomJson.connections.length - 1]
 
   assert.equal(Object.values(lastConnection.contentUrls).length, value)
+})
+
+Then('I can call getPathFromContentUrl', async () => {
+  const roomJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'room.json'), {
+    encoding: 'utf8',
+  })
+  const roomJson = JSON.parse(roomJsonContents)
+  const lastConnection = roomJson.connections[roomJson.connections.length - 1]
+
+  const contentUrls = Object.keys(lastConnection.contentUrls)
+
+  const contentUrl = await testApp.run('getPathFromContentUrl', contentUrls[0])
+  assert.equal(contentUrl, join(TEMP_ROOM_PATH, 'Diory Content', contentUrls[0]))
 })

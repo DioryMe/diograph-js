@@ -82,6 +82,10 @@ class Room {
     return existingConnection
   }
 
+  getContent = (contentUrl: string) => {
+    return contentUrl
+  }
+
   toRoomObject = () => {
     return {
       diographUrl: this.address,

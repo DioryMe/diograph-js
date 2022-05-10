@@ -7,11 +7,11 @@ Feature: Diograph
     And room.json has 1 connection
 
   Scenario: Get diory
-    When I call getDiory for diograph
+    When I call getDiory operation
     Then I receive a diory
 
   Scenario: Create diory
-    When I call createDiory for diograph
+    When I call createDiory operation
     Then diograph.json has 2 diories
 
   # Scenario: Update diory
