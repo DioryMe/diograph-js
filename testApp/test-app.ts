@@ -212,7 +212,7 @@ class App {
 
     if (command === 'getPathFromContentUrl' && room.diograph) {
       const contentUrl = arg1
-      const contentPath = await room.getContent(contentUrl)
+      const contentPath = room.getContent(contentUrl)
       return contentPath
     }
 

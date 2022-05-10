@@ -83,7 +83,12 @@ class Room {
   }
 
   getContent = (contentUrl: string) => {
-    return contentUrl
+    for (let i = 0; ; i++) {
+      const connection = this.connections[i]
+      if (connection.contentUrls[contentUrl]) {
+        return join(connection.address, connection.contentUrls[contentUrl].internalPath)
+      }
+    }
   }
 
   toRoomObject = () => {
