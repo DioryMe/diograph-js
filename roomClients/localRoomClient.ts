@@ -72,7 +72,7 @@ class LocalRoomClient extends RoomClient {
 
   getContentUrl = (diory: string) => {
     // TODO: Derive contentUrl from diory
-    return join(this.contentFolderPath, diory)
+    return join(this.address, diory)
   }
 
   addContent = async (fileContent: Buffer | string, diory?: string) => {
