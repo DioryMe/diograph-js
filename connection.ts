@@ -28,10 +28,16 @@ class Connection {
   }
 
   toConnectionObject = (): ConnectionObject => {
+    const contentUrls: any = this.contentUrls
+    Object.values(contentUrls).forEach((contentUrl: any) => {
+      if (contentUrl.diory.toDioryObject) {
+        contentUrl.diory = contentUrl.diory.toDioryObject()
+      }
+    })
     return {
       address: this.address,
       type: this.type,
-      contentUrls: this.contentUrls,
+      contentUrls,
     }
   }
 }

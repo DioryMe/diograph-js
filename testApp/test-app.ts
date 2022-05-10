@@ -146,7 +146,7 @@ class App {
       this.connections.push(connection)
       room.addConnection(connection)
       await room.saveRoom()
-      console.log('Client added.')
+      console.log('Connection added.')
       return
     }
 

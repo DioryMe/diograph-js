@@ -100,19 +100,6 @@ class Room {
   }
 
   saveRoom = async () => {
-    // TODO: Make RoomJson an object with .toJson()
-    // Room.json
-    await this.roomClient.writeTextItem(
-      this.roomClient.roomJsonPath,
-      JSON.stringify(this.toRoomObject(), null, 2),
-    )
-
-    // Diograph.json
-    if (!this.diograph) {
-      throw new Error("Can't saveRoom: no this.diograph")
-    }
-    await this.diograph.saveDiograph()
-
     // Connection contentUrls
     const diories: Diory[] = []
 
@@ -130,6 +117,18 @@ class Room {
         }
       }),
     )
+
+    // Room.json
+    await this.roomClient.writeTextItem(
+      this.roomClient.roomJsonPath,
+      JSON.stringify(this.toRoomObject(), null, 2),
+    )
+
+    // Diograph.json
+    if (!this.diograph) {
+      throw new Error("Can't saveRoom: no this.diograph")
+    }
+    await this.diograph.saveDiograph()
   }
 
   deleteRoom = async () => {
