@@ -205,8 +205,6 @@ class App {
       }
       await room.diograph.addDiory(diory)
       await room.saveRoom()
-      console.log(room.toRoomObject())
-      // console.log(await room.diograph.getDiory(diory.id))
       return
     }
 

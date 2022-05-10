@@ -3,6 +3,7 @@ import { Diograph } from '.'
 import { ConnectionObject } from './types'
 import { Connection } from './connection'
 import { join } from 'path'
+import { Diory } from './diory'
 
 export interface ContentUrls {
   [key: string]: string
@@ -111,6 +112,24 @@ class Room {
       throw new Error("Can't saveRoom: no this.diograph")
     }
     await this.diograph.saveDiograph()
+
+    // Connection contentUrls
+    const diories: Diory[] = []
+
+    this.connections.forEach((connection) => {
+      Object.values(connection.contentUrls).forEach((contentUrl) => diories.push(contentUrl.diory))
+    })
+
+    const dioriesWithThumbnails = diories.filter((diory: any) => diory.thumbnailBuffer)
+
+    await Promise.all(
+      dioriesWithThumbnails.map(async (diory: any) => {
+        if (diory.thumbnailBuffer) {
+          const thumbnailPath = await this.roomClient.addThumbnail(diory.thumbnailBuffer, diory.id)
+          diory.image = thumbnailPath
+        }
+      }),
+    )
   }
 
   deleteRoom = async () => {

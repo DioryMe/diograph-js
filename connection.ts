@@ -1,10 +1,8 @@
-import { join } from 'path'
-import { ConnectionObject, DiographObject } from './types'
-import { Room } from '.'
-import { LocalRoomClient } from './roomClients'
+import { ConnectionObject } from './types'
+import { Diory } from './diory'
 
 export interface ContentUrlPayload {
-  diory: object
+  diory: Diory
   internalPath: string
 }
 
@@ -25,7 +23,7 @@ class Connection {
 
   load = async () => {}
 
-  addContentUrl = (contentUrl: string, internalPath: string, diory: object) => {
+  addContentUrl = (contentUrl: string, internalPath: string, diory: Diory) => {
     this.contentUrls[contentUrl] = { diory, internalPath }
   }
 

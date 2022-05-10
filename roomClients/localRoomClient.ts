@@ -90,7 +90,7 @@ class LocalRoomClient extends RoomClient {
     await this.writeItem(filePath, fileContent)
 
     const contentUrl = makeRelative(filePath, this.address)
-    this.connection?.addContentUrl(contentUrl, contentUrl, {})
+    this.connection?.addContentUrl(contentUrl, contentUrl, new Diory({ id: '123' }))
 
     return contentUrl
   }
@@ -138,10 +138,16 @@ class LocalRoomClient extends RoomClient {
     const generatedDiories: Diory[] = await generateDiograph(join(this.connection.address, path))
 
     generatedDiories.forEach((generatedDiory) => {
-      this.connection?.addContentUrl(generatedDiory.id, '123abc', generatedDiory.toDioryObject())
+      this.connection?.addContentUrl(generatedDiory.id, '123abc', generatedDiory)
     })
 
-    return generatedDiories.map((diory: any) => diory.text)
+    return this.toDiograph(generatedDiories)
+  }
+
+  toDiograph = (diories: Diory[]) => {
+    const diograph: any = {}
+    diories.forEach((diory: Diory) => (diograph[diory.id] = diory.toDioryObject()))
+    return diograph
   }
 }
 
