@@ -1,69 +1,16 @@
 import { mkdirSync, existsSync, lstatSync } from 'fs'
 import { readFile, writeFile, rm, readdir } from 'fs/promises'
-import { RoomClient } from './baseRoomClient'
+import { ContentSourceClient } from '../baseContentSourceClient'
 import { join } from 'path'
-import { Diograph } from '..'
 import { dirname } from 'path/posix'
-import { makeRelative } from '../roomClients/makeRelative'
-import { Connection } from '../connection'
-import { Diory } from '../diory'
+import { makeRelative } from './makeRelative'
+import { Connection } from '../../connection'
+import { Diory } from '../../diory'
 import { getPath, isFile, isFolder, isValid } from './dirent-utils'
 
-class LocalRoomClient extends RoomClient {
+class LocalContentSourceClient extends ContentSourceClient {
   constructor(config: any, connection?: Connection) {
     super(config, connection)
-  }
-
-  verifyAndConnect = async () => {
-    if (
-      existsSync(this.roomJsonPath) &&
-      existsSync(this.diographPath) &&
-      existsSync(this.imageFolderPath) &&
-      existsSync(this.contentFolderPath)
-    ) {
-      return true
-    }
-    throw new Error("No room or invalid room, can't connect!")
-  }
-
-  initiateRoom = async (roomJsonContents: string, diographContents: Diograph) => {
-    // room.json
-    if (!existsSync(this.roomJsonPath)) {
-      await this.writeTextItem(this.roomJsonPath, roomJsonContents)
-    }
-    // diograph.json
-    if (!existsSync(this.diographPath)) {
-      await this.writeTextItem(this.diographPath, diographContents.toJson())
-    }
-    // images/ folder
-    if (!existsSync(this.imageFolderPath)) {
-      mkdirSync(this.imageFolderPath)
-    }
-    // Diory Content/ folder
-    if (!existsSync(this.contentFolderPath)) {
-      mkdirSync(this.contentFolderPath)
-    }
-    return true
-  }
-
-  loadRoom = async () => {
-    return this.readTextItem(this.roomJsonPath)
-  }
-
-  readDiograph = async () => {
-    return this.readTextItem(this.diographPath)
-  }
-
-  saveDiograph = async (diographFileContents: string) => {
-    return this.writeTextItem(this.diographPath, diographFileContents)
-  }
-
-  readTextItem = async (url: string) => {
-    return readFile(url, { encoding: 'utf8' })
-  }
-
-  writeTextItem = async (url: string, fileContent: string) => {
-    return this.writeItem(url, fileContent)
   }
 
   getFilePath = (contentUrl: string) => {
@@ -95,10 +42,6 @@ class LocalRoomClient extends RoomClient {
     return contentUrl
   }
 
-  writeThumbnail = async (url: string, fileContent: Buffer | string) => {
-    return this.writeItem(url, fileContent)
-  }
-
   writeItem = async (url: string, fileContent: Buffer | string) => {
     return writeFile(url, fileContent)
   }
@@ -113,22 +56,11 @@ class LocalRoomClient extends RoomClient {
 
   deleteContent = async (contentUrl: string) => {
     const filePath: string = this.getFilePath(contentUrl)
-    return rm(filePath)
+    return this.deleteItem(filePath)
   }
 
   deleteItem = async (url: string) => {
     return rm(url)
-  }
-
-  addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
-    // Writes thumbnail image file to absolute path
-    console.log('Thumbnail written to:', join(this.imageFolderPath, thumbnailContentUrl))
-    await this.writeThumbnail(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
-    return `images/${thumbnailContentUrl}`
-  }
-
-  deleteThumbnail = async (thumbnailContentUrl: string) => {
-    return this.deleteItem(join(this.imageFolderPath, thumbnailContentUrl))
   }
 
   getFileAndSubfolderPaths = async (folderPath: string) => {
@@ -157,4 +89,4 @@ class LocalRoomClient extends RoomClient {
   }
 }
 
-export { LocalRoomClient }
+export { LocalContentSourceClient }

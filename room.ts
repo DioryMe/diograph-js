@@ -1,4 +1,4 @@
-import { RoomClient } from './roomClients'
+import { RoomClient } from './clients'
 import { Diograph } from '.'
 import { ConnectionObject } from './types'
 import { Connection } from './connection'

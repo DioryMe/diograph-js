@@ -7,6 +7,7 @@ import { Connection } from '../connection'
 import { generateDioryFromFile } from '../generators'
 import { Diory } from '../diory'
 import { generateDioryFromFolder } from '../generators/folder'
+import { LocalContentSourceClient } from '../clients'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -16,10 +17,6 @@ const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
 
 interface RoomData {
   address: string
-}
-
-interface ContentUrls {
-  [key: string]: string
 }
 
 interface AppData {
@@ -38,7 +35,7 @@ class App {
   getClient = (connection: Connection) => {
     switch (connection.type) {
       case 'local':
-        return new LocalRoomClient({ address: connection.address }, connection)
+        return new LocalContentSourceClient({ address: connection.address }, connection)
       default:
         throw new Error(`Couldn't get Client for Connection type: ${connection.type}`)
         break

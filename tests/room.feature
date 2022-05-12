@@ -56,7 +56,6 @@ Feature: Room
     When I call importDiory
     Then diograph.json has 2 diories
     And images folder has 1 image
-    And content folder has 0 file
     And room.json has 1 connection
     And last connection has 0 contentUrls
 
