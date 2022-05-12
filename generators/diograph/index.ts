@@ -5,17 +5,6 @@ import { Diory } from '../../diory'
 import { generateDioryFromFolder } from '../folder'
 import { getPath, isFile, isFolder, isValid } from './dirent-utils'
 
-async function getFileAndSubfolderPaths(folderPath: string) {
-  if (!(existsSync(folderPath) && lstatSync(folderPath).isDirectory())) {
-    throw new Error(`Path is not folder ${folderPath}`)
-  }
-  const dirents = await readdir(folderPath, { withFileTypes: true })
-  return {
-    filePaths: dirents.filter(isFile).filter(isValid).map(getPath(folderPath)),
-    subfolderPaths: dirents.filter(isFolder).filter(isValid).map(getPath(folderPath)),
-  }
-}
-
 async function generateDioriesFromPaths(filePaths: string[], subfolderPaths: string[]) {
   const subfolderDiories: Diory[] = await Promise.all(
     subfolderPaths.map((subfolderPath) => generateDioryFromFolder(subfolderPath)),
@@ -26,9 +15,11 @@ async function generateDioriesFromPaths(filePaths: string[], subfolderPaths: str
   return subfolderDiories.concat(fileDiories)
 }
 
-async function generateDiograph(folderPath: string) {
-  const { filePaths = [], subfolderPaths = [] } = (await getFileAndSubfolderPaths(folderPath)) || {}
-
+async function generateDiograph(
+  folderPath: string,
+  filePaths: string[] = [],
+  subfolderPaths: string[] = [],
+) {
   const diories = await generateDioriesFromPaths(filePaths, subfolderPaths)
   const rootDiory = generateDioryFromFolder(folderPath)
 

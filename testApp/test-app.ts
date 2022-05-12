@@ -5,6 +5,8 @@ import { join } from 'path'
 import { ConnectionObject } from '../types'
 import { Connection } from '../connection'
 import { generateDioryFromFile } from '../generators'
+import { generateDiograph } from '../generators/diograph'
+import { Diory } from '../diory'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -41,6 +43,31 @@ class App {
         throw new Error(`Couldn't get Client for Connection type: ${connection.type}`)
         break
     }
+  }
+
+  toDiograph = (diories: Diory[]) => {
+    const diograph: any = {}
+    diories.forEach((diory: Diory) => (diograph[diory.id] = diory.toDioryObject()))
+    return diograph
+  }
+
+  list = async (folderPath: string, room: Room) => {
+    const connection = room.connections[1]
+    const client = this.getClient(connection)
+
+    const { absolutePath, filePaths, subfolderPaths } = await client.list(folderPath)
+
+    const generatedDiories: Diory[] = await generateDiograph(
+      absolutePath,
+      filePaths,
+      subfolderPaths,
+    )
+
+    generatedDiories.forEach((generatedDiory) => {
+      connection.addContentUrl(generatedDiory.id, '123abc', generatedDiory)
+    })
+
+    return this.toDiograph(generatedDiories)
   }
 
   initiateAppData = async () => {
@@ -156,15 +183,13 @@ class App {
     }
 
     if (command === 'listClientContents') {
-      const client = this.getClient(room.connections[1])
-      const list = await client.list('/')
+      const list = await this.list('/', room)
       await room.saveRoom()
       return list
     }
 
     if (command === 'listClientContents2') {
-      const client = this.getClient(room.connections[1])
-      const list = await client.list('subfolder')
+      const list = await this.list('subfolder', room)
       await room.saveRoom()
       return list
     }

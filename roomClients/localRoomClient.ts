@@ -1,5 +1,5 @@
-import { mkdirSync, existsSync } from 'fs'
-import { readFile, writeFile, rm } from 'fs/promises'
+import { mkdirSync, existsSync, lstatSync } from 'fs'
+import { readFile, writeFile, rm, readdir } from 'fs/promises'
 import { RoomClient } from './baseRoomClient'
 import { join } from 'path'
 import { Diograph } from '..'
@@ -8,6 +8,7 @@ import { makeRelative } from '../roomClients/makeRelative'
 import { Connection } from '../connection'
 import { Diory } from '../diory'
 import { generateDiograph } from '../generators/diograph'
+import { getPath, isFile, isFolder, isValid } from '../generators/diograph/dirent-utils'
 
 class LocalRoomClient extends RoomClient {
   constructor(config: any, connection?: Connection) {
@@ -131,23 +132,29 @@ class LocalRoomClient extends RoomClient {
     return this.deleteItem(join(this.imageFolderPath, thumbnailContentUrl))
   }
 
+  getFileAndSubfolderPaths = async (folderPath: string) => {
+    if (!(existsSync(folderPath) && lstatSync(folderPath).isDirectory())) {
+      throw new Error(`Path is not folder ${folderPath}`)
+    }
+    const dirents = await readdir(folderPath, { withFileTypes: true })
+    return {
+      filePaths: dirents.filter(isFile).filter(isValid).map(getPath(folderPath)),
+      subfolderPaths: dirents.filter(isFolder).filter(isValid).map(getPath(folderPath)),
+    }
+  }
+
   list = async (path: string) => {
     if (!this.connection) {
       throw new Error("Can't do 'list': no connection provided")
     }
-    const generatedDiories: Diory[] = await generateDiograph(join(this.connection.address, path))
+    const absolutePath = join(this.connection.address, path)
+    const { filePaths, subfolderPaths } = (await this.getFileAndSubfolderPaths(absolutePath)) || {}
 
-    generatedDiories.forEach((generatedDiory) => {
-      this.connection?.addContentUrl(generatedDiory.id, '123abc', generatedDiory)
-    })
-
-    return this.toDiograph(generatedDiories)
-  }
-
-  toDiograph = (diories: Diory[]) => {
-    const diograph: any = {}
-    diories.forEach((diory: Diory) => (diograph[diory.id] = diory.toDioryObject()))
-    return diograph
+    return {
+      filePaths,
+      subfolderPaths,
+      absolutePath,
+    }
   }
 }
 
