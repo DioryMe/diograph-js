@@ -45,6 +45,8 @@ class App {
     }
   }
 
+  // ==========================0 ==============================
+  // This is localClient specific and should be extracted away...
   generateDioriesFromPaths = async (filePaths: string[], subfolderPaths: string[]) => {
     const subfolderDiories: Diory[] = await Promise.all(
       subfolderPaths.map((subfolderPath) => generateDioryFromFolder(subfolderPath)),
@@ -65,17 +67,25 @@ class App {
 
     return diories.concat([rootDiory])
   }
+  // ==========================0 ==============================
 
-  toDiograph = (diories: Diory[]) => {
-    const diograph: any = {}
-    diories.forEach((diory: Diory) => (diograph[diory.id] = diory.toDioryObject()))
-    return diograph
-  }
-
+  // list() should be connection specific => choose tool according to connection type!
+  //  - 1. app gets tool according to connection
+  //  - 2. app calls list with the tool (and gives connection to it)
+  //        - tool knows which client to use
+  //  - 3. tool's list()
+  //      a. generates diories according to given argument (e.g. path for localClient)
+  //      b. returns diograph of the content-source contents
+  //      c. saves (cached) diories to connection
   list = async (folderPath: string, room: Room) => {
     const connection = room.connections[1]
     const client = this.getClient(connection)
+    // => should we call for "localFolder tool" to get generated diories?
+    //    - getTool instead of getClient?
+    //    - localFolder tool has client
 
+    // ==========================0 ==============================
+    // This is localClient specific and should be extracted away...
     const { absolutePath, filePaths, subfolderPaths } = await client.list(folderPath)
 
     const generatedDiories: Diory[] = await this.generateDiograph(
@@ -83,12 +93,19 @@ class App {
       filePaths,
       subfolderPaths,
     )
+    // ==========================0 ==============================
 
     generatedDiories.forEach((generatedDiory) => {
       connection.addContentUrl(generatedDiory.id, '123abc', generatedDiory)
     })
 
     return this.toDiograph(generatedDiories)
+  }
+
+  toDiograph = (diories: Diory[]) => {
+    const diograph: any = {}
+    diories.forEach((diory: Diory) => (diograph[diory.id] = diory.toDioryObject()))
+    return diograph
   }
 
   initiateAppData = async () => {
