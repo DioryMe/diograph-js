@@ -5,8 +5,8 @@ import { join } from 'path'
 import { ConnectionObject } from '../types'
 import { Connection } from '../connection'
 import { generateDioryFromFile } from '../generators'
-import { generateDiograph } from '../generators/diograph'
 import { Diory } from '../diory'
+import { generateDioryFromFolder } from '../generators/folder'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -45,6 +45,27 @@ class App {
     }
   }
 
+  generateDioriesFromPaths = async (filePaths: string[], subfolderPaths: string[]) => {
+    const subfolderDiories: Diory[] = await Promise.all(
+      subfolderPaths.map((subfolderPath) => generateDioryFromFolder(subfolderPath)),
+    )
+    const fileDiories: Diory[] = await Promise.all(
+      filePaths.map((filePath) => generateDioryFromFile(filePath)),
+    )
+    return subfolderDiories.concat(fileDiories)
+  }
+
+  generateDiograph = async (
+    folderPath: string,
+    filePaths: string[] = [],
+    subfolderPaths: string[] = [],
+  ) => {
+    const diories = await this.generateDioriesFromPaths(filePaths, subfolderPaths)
+    const rootDiory = generateDioryFromFolder(folderPath)
+
+    return diories.concat([rootDiory])
+  }
+
   toDiograph = (diories: Diory[]) => {
     const diograph: any = {}
     diories.forEach((diory: Diory) => (diograph[diory.id] = diory.toDioryObject()))
@@ -57,7 +78,7 @@ class App {
 
     const { absolutePath, filePaths, subfolderPaths } = await client.list(folderPath)
 
-    const generatedDiories: Diory[] = await generateDiograph(
+    const generatedDiories: Diory[] = await this.generateDiograph(
       absolutePath,
       filePaths,
       subfolderPaths,

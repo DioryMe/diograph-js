@@ -7,8 +7,7 @@ import { dirname } from 'path/posix'
 import { makeRelative } from '../roomClients/makeRelative'
 import { Connection } from '../connection'
 import { Diory } from '../diory'
-import { generateDiograph } from '../generators/diograph'
-import { getPath, isFile, isFolder, isValid } from '../generators/diograph/dirent-utils'
+import { getPath, isFile, isFolder, isValid } from './dirent-utils'
 
 class LocalRoomClient extends RoomClient {
   constructor(config: any, connection?: Connection) {
