@@ -6,8 +6,7 @@ import { ConnectionObject } from '../types'
 import { Connection } from '../connection'
 import { generateDioryFromFile } from '../generators'
 import { Diory } from '../diory'
-import { generateDioryFromFolder } from '../generators/folder'
-import { LocalContentSourceClient } from '../clients'
+import { LocalFolderTool } from './tools/localFolderTool'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -32,39 +31,16 @@ class App {
 
   constructor() {}
 
-  getClient = (connection: Connection) => {
+  getTool = (connection: Connection) => {
     switch (connection.type) {
       case 'local':
-        return new LocalContentSourceClient({ address: connection.address }, connection)
+        return new LocalFolderTool(connection)
+      // return new LocalContentSourceClient({ address: connection.address }, connection)
       default:
         throw new Error(`Couldn't get Client for Connection type: ${connection.type}`)
         break
     }
   }
-
-  // ==========================0 ==============================
-  // This is localClient specific and should be extracted away...
-  generateDioriesFromPaths = async (filePaths: string[], subfolderPaths: string[]) => {
-    const subfolderDiories: Diory[] = await Promise.all(
-      subfolderPaths.map((subfolderPath) => generateDioryFromFolder(subfolderPath)),
-    )
-    const fileDiories: Diory[] = await Promise.all(
-      filePaths.map((filePath) => generateDioryFromFile(filePath)),
-    )
-    return subfolderDiories.concat(fileDiories)
-  }
-
-  generateDiograph = async (
-    folderPath: string,
-    filePaths: string[] = [],
-    subfolderPaths: string[] = [],
-  ) => {
-    const diories = await this.generateDioriesFromPaths(filePaths, subfolderPaths)
-    const rootDiory = generateDioryFromFolder(folderPath)
-
-    return diories.concat([rootDiory])
-  }
-  // ==========================0 ==============================
 
   // list() should be connection specific => choose tool according to connection type!
   //  - 1. app gets tool according to connection
@@ -76,27 +52,14 @@ class App {
   //      c. saves (cached) diories to connection
   list = async (folderPath: string, room: Room) => {
     const connection = room.connections[1]
-    const client = this.getClient(connection)
-    // => should we call for "localFolder tool" to get generated diories?
-    //    - getTool instead of getClient?
-    //    - localFolder tool has client
+    const tool = this.getTool(connection)
+    const dioryList: Diory[] = await tool.list(folderPath)
 
-    // ==========================0 ==============================
-    // This is localClient specific and should be extracted away...
-    const { absolutePath, filePaths, subfolderPaths } = await client.list(folderPath)
-
-    const generatedDiories: Diory[] = await this.generateDiograph(
-      absolutePath,
-      filePaths,
-      subfolderPaths,
-    )
-    // ==========================0 ==============================
-
-    generatedDiories.forEach((generatedDiory) => {
+    dioryList.forEach((generatedDiory) => {
       connection.addContentUrl(generatedDiory.id, '123abc', generatedDiory)
     })
 
-    return this.toDiograph(generatedDiories)
+    return this.toDiograph(dioryList)
   }
 
   toDiograph = (diories: Diory[]) => {
@@ -259,8 +222,8 @@ class App {
       const diory = await generateDioryFromFile(filePath)
       if (copyContent) {
         const sourceFileContent = await readFile(filePath)
-        const client = this.getClient(room.connections[0])
-        const contentUrl = await client.addContent(sourceFileContent, diory.id)
+        const tool = this.getTool(room.connections[0])
+        const contentUrl = await tool.addContent(sourceFileContent, diory.id)
         diory.changeContentUrl(contentUrl)
       }
       await room.diograph.addDiory(diory)
