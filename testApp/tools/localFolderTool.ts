@@ -6,8 +6,10 @@ import { generateDioryFromFile } from '../../generators'
 
 class LocalFolderTool {
   client: LocalContentSourceClient
+  connection: Connection
 
   constructor(connection: Connection) {
+    this.connection = connection
     this.client = new LocalContentSourceClient({ address: connection.address }, connection)
   }
 
@@ -15,9 +17,25 @@ class LocalFolderTool {
     return this.client.addContent(sourceFileContent, id)
   }
 
-  // ==========================0 ==============================
-  // This is localClient specific and should be extracted away...
-  generateDioriesFromPaths = async (filePaths: string[], subfolderPaths: string[]) => {
+  list = async (path: string) => {
+    const { absolutePath, filePaths, subfolderPaths } = await this.client.list(path)
+
+    const dioryList: Diory[] = await this.generateDiograph(absolutePath, filePaths, subfolderPaths)
+
+    this.addContentUrlsToConnection(dioryList)
+
+    return this.toDiograph(dioryList)
+  }
+
+  // ---- Private methods
+
+  private addContentUrlsToConnection = (dioryList: Diory[]) => {
+    dioryList.forEach((diory) => {
+      this.connection.addContentUrl(diory.id, '123abc', diory)
+    })
+  }
+
+  private generateDioriesFromPaths = async (filePaths: string[], subfolderPaths: string[]) => {
     const subfolderDiories: Diory[] = await Promise.all(
       subfolderPaths.map((subfolderPath) => generateDioryFromFolder(subfolderPath)),
     )
@@ -27,7 +45,7 @@ class LocalFolderTool {
     return subfolderDiories.concat(fileDiories)
   }
 
-  generateDiograph = async (
+  private generateDiograph = async (
     folderPath: string,
     filePaths: string[] = [],
     subfolderPaths: string[] = [],
@@ -37,25 +55,11 @@ class LocalFolderTool {
 
     return diories.concat([rootDiory])
   }
-  // ==========================0 ==============================
 
-  list = async (path: string) => {
-    // => should we call for "localFolder tool" to get generated diories?
-    //    - getTool instead of getClient?
-    //    - localFolder tool has client
-
-    // ==========================0 ==============================
-    // This is localClient specific and should be extracted away...
-    const { absolutePath, filePaths, subfolderPaths } = await this.client.list(path)
-
-    const generatedDiories: Diory[] = await this.generateDiograph(
-      absolutePath,
-      filePaths,
-      subfolderPaths,
-    )
-    // ==========================0 ==============================
-
-    return generatedDiories
+  private toDiograph = (diories: Diory[]) => {
+    const diograph: any = {}
+    diories.forEach((diory: Diory) => (diograph[diory.id] = diory.toDioryObject()))
+    return diograph
   }
 }
 

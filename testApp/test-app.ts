@@ -5,7 +5,6 @@ import { join } from 'path'
 import { ConnectionObject } from '../types'
 import { Connection } from '../connection'
 import { generateDioryFromFile } from '../generators'
-import { Diory } from '../diory'
 import { LocalFolderTool } from './tools/localFolderTool'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
@@ -35,37 +34,10 @@ class App {
     switch (connection.type) {
       case 'local':
         return new LocalFolderTool(connection)
-      // return new LocalContentSourceClient({ address: connection.address }, connection)
       default:
         throw new Error(`Couldn't get Client for Connection type: ${connection.type}`)
         break
     }
-  }
-
-  // list() should be connection specific => choose tool according to connection type!
-  //  - 1. app gets tool according to connection
-  //  - 2. app calls list with the tool (and gives connection to it)
-  //        - tool knows which client to use
-  //  - 3. tool's list()
-  //      a. generates diories according to given argument (e.g. path for localClient)
-  //      b. returns diograph of the content-source contents
-  //      c. saves (cached) diories to connection
-  list = async (folderPath: string, room: Room) => {
-    const connection = room.connections[1]
-    const tool = this.getTool(connection)
-    const dioryList: Diory[] = await tool.list(folderPath)
-
-    dioryList.forEach((generatedDiory) => {
-      connection.addContentUrl(generatedDiory.id, '123abc', generatedDiory)
-    })
-
-    return this.toDiograph(dioryList)
-  }
-
-  toDiograph = (diories: Diory[]) => {
-    const diograph: any = {}
-    diories.forEach((diory: Diory) => (diograph[diory.id] = diory.toDioryObject()))
-    return diograph
   }
 
   initiateAppData = async () => {
@@ -181,13 +153,19 @@ class App {
     }
 
     if (command === 'listClientContents') {
-      const list = await this.list('/', room)
+      const connection = room.connections[1]
+      const tool = this.getTool(connection)
+      const list = await tool.list('/')
+
       await room.saveRoom()
       return list
     }
 
     if (command === 'listClientContents2') {
-      const list = await this.list('subfolder', room)
+      const connection = room.connections[1]
+      const tool = this.getTool(connection)
+      const list = await tool.list('subfolder')
+
       await room.saveRoom()
       return list
     }
