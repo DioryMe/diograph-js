@@ -10,6 +10,9 @@ function update(this: Diograph, id: string, payload: DioryAttributes): Diory {
   })
 
   const diory = this.getDiory(id)
+  if (!diory) {
+    throw new Error('Diory not found!')
+  }
   diory.dioryAttributes = { ...diory.dioryAttributes, ...payload }
   diory.extractDioryAttributes(diory.dioryAttributes)
   return this.getDiory(id)
