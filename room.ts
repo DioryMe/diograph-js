@@ -119,7 +119,7 @@ class Room {
     )
 
     // Room.json
-    await this.roomClient.writeTextItem(
+    await this.roomClient.client.writeItem(
       this.roomClient.roomJsonPath,
       JSON.stringify(this.toRoomObject(), null, 2),
     )
@@ -132,8 +132,8 @@ class Room {
   }
 
   deleteRoom = async () => {
-    await this.roomClient.deleteItem(this.roomClient.roomJsonPath)
-    await this.roomClient.deleteItem(this.roomClient.diographPath)
+    await this.roomClient.deleteRoomJson()
+    await this.roomClient.deleteDiographJson()
     // this.roomClient.deleteItem(this.roomClient.imageFolderPath)
   }
 }

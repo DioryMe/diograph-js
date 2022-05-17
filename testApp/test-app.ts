@@ -1,4 +1,4 @@
-import { Room, LocalRoomClient } from '..'
+import { Room, RoomClient } from '..'
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
@@ -56,7 +56,7 @@ class App {
         if (!existsSync(roomData.address)) {
           throw new Error('Invalid room address in app-data.json')
         }
-        const client = new LocalRoomClient({ address: roomData.address })
+        const client = new RoomClient({ address: roomData.address })
         const room = new Room(roomData.address, client)
         await this.addAndLoadRoom(room)
       }),
@@ -105,7 +105,7 @@ class App {
       if (!existsSync(roomPath)) {
         mkdirSync(roomPath)
       }
-      const client = new LocalRoomClient({ address: roomPath })
+      const client = new RoomClient({ address: roomPath })
       const room = new Room(roomPath, client)
       await this.addAndLoadRoom(room)
       await this.saveAppData()

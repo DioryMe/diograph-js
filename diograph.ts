@@ -62,7 +62,7 @@ class Diograph {
     )
 
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    return this.room.roomClient.writeTextItem(this.room.roomClient.diographPath, this.toJson())
+    return this.room.roomClient.client.writeItem(this.room.roomClient.diographPath, this.toJson())
   }
 
   addDiory = (diory: Diory) => {

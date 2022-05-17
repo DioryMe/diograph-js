@@ -1,16 +1,16 @@
 import { Connection } from '../../connection'
-import { LocalContentSourceClient } from '../../clients'
+import { ContentSourceClient } from '../../clients'
 import { Diory } from '../../diory'
 import { generateDioryFromFolder } from '../../generators/folder'
 import { generateDioryFromFile } from '../../generators'
 
 class LocalFolderTool {
-  client: LocalContentSourceClient
+  client: ContentSourceClient
   connection: Connection
 
   constructor(connection: Connection) {
     this.connection = connection
-    this.client = new LocalContentSourceClient({ address: connection.address }, connection)
+    this.client = new ContentSourceClient({ address: connection.address }, connection)
   }
 
   addContent = (sourceFileContent: Buffer, id: string) => {

@@ -1,16 +1,25 @@
 import { mkdirSync, existsSync, lstatSync } from 'fs'
 import { readFile, writeFile, rm, readdir } from 'fs/promises'
-import { ContentSourceClient } from '../baseContentSourceClient'
 import { join } from 'path'
 import { dirname } from 'path/posix'
-import { makeRelative } from './makeRelative'
-import { Connection } from '../../connection'
-import { Diory } from '../../diory'
-import { getPath, isFile, isFolder, isValid } from './dirent-utils'
+import { makeRelative } from './local/makeRelative'
+import { Connection } from '../connection'
+import { Diory } from '../diory'
+import { getPath, isFile, isFolder, isValid } from './local/dirent-utils'
+import { LocalClient } from './local/localClient'
 
-class LocalContentSourceClient extends ContentSourceClient {
-  constructor(config: any, connection?: Connection) {
-    super(config, connection)
+class ContentSourceClient {
+  address: string
+  connection?: Connection
+  client: LocalClient
+
+  constructor(config: any, connection?: Connection, client?: LocalClient) {
+    if (!config.address) {
+      throw new Error('No address given to room')
+    }
+    this.address = config.address
+    this.connection = connection
+    this.client = client || new LocalClient()
   }
 
   getFilePath = (contentUrl: string) => {
@@ -26,15 +35,11 @@ class LocalContentSourceClient extends ContentSourceClient {
     let filePath
     if (diory) {
       filePath = this.getContentUrl(diory)
-      const dirPath = dirname(filePath)
-      if (!existsSync(dirPath)) {
-        mkdirSync(dirPath, { recursive: true })
-      }
     } else {
       filePath = this.getContentUrl(Date.now().toString())
     }
 
-    await this.writeItem(filePath, fileContent)
+    await this.client.writeItem(filePath, fileContent)
 
     const contentUrl = makeRelative(filePath, this.address)
     this.connection?.addContentUrl(contentUrl, contentUrl, new Diory({ id: '123' }))
@@ -42,16 +47,12 @@ class LocalContentSourceClient extends ContentSourceClient {
     return contentUrl
   }
 
-  writeItem = async (url: string, fileContent: Buffer | string) => {
-    return writeFile(url, fileContent)
-  }
-
   readContent = async (contentUrl: string) => {
     const filePath: string = this.getFilePath(contentUrl)
     if (!filePath) {
       throw new Error('Nothing found with that contentUrl!')
     }
-    return readFile(this.getFilePath(contentUrl))
+    return this.client.readItem(filePath)
   }
 
   deleteContent = async (contentUrl: string) => {
@@ -89,4 +90,4 @@ class LocalContentSourceClient extends ContentSourceClient {
   }
 }
 
-export { LocalContentSourceClient }
+export { ContentSourceClient }

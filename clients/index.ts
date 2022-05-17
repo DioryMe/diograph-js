@@ -1,6 +1,4 @@
-import { LocalRoomClient } from './local/localRoomClient'
-import { RoomClient } from './baseRoomClient'
-import { ContentSourceClient } from './baseContentSourceClient'
-import { LocalContentSourceClient } from './local/localContentSourceClient'
+import { RoomClient } from './roomClient'
+import { ContentSourceClient } from './contentSourceClient'
 
-export { RoomClient, LocalRoomClient, ContentSourceClient, LocalContentSourceClient }
+export { RoomClient, ContentSourceClient }

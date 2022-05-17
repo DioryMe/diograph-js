@@ -11,11 +11,11 @@ yarn install diograph-js
 Example:
 
 ```js
-import { Room, LocalRoomClient } from 'diograph-js'
+import { Room, RoomClient } from 'diograph-js'
 
-// Connect to room using LocalRoomClient
+// Connect to room using RoomClient
 const roomAddress = join(__dirname)
-const roomClient = new LocalRoomClient({ address: roomAddress })
+const roomClient = new RoomClient({ address: roomAddress })
 const room = new Room(roomAddress, roomClient)
 await room.loadOrInitiateRoom()
 
