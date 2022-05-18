@@ -1,8 +1,6 @@
-import { RoomClient } from './clients'
 import { Diograph } from '.'
 import { ConnectionObject } from './types'
 import { Connection } from './connection'
-import { join } from 'path'
 import { Diory } from './diory'
 
 export interface ContentUrls {
@@ -14,11 +12,11 @@ class Room {
   connected: boolean
   connections: Connection[] = []
   connectionData: ConnectionObject[] = []
-  roomClient: RoomClient
+  roomClient: any
   diograph?: Diograph
   contentUrls: ContentUrls = {}
 
-  constructor(address: string, roomClient: RoomClient) {
+  constructor(address: string, roomClient: any) {
     this.address = address
     this.connected = false
     this.roomClient = roomClient
@@ -65,7 +63,7 @@ class Room {
     await this.roomClient.initiateRoom(defaultRoomJson, defaultDiograph)
 
     const connection = new Connection({
-      address: join(this.address, 'Diory Content'),
+      address: [this.address, 'Diory Content'].join('/'),
       type: 'local',
     })
     this.addConnection(connection)
@@ -87,7 +85,7 @@ class Room {
     for (let i = 0; ; i++) {
       const connection = this.connections[i]
       if (connection.contentUrls[contentUrl]) {
-        return join(connection.address, connection.contentUrls[contentUrl].internalPath)
+        return [connection.address, connection.contentUrls[contentUrl].internalPath].join('/')
       }
     }
   }
