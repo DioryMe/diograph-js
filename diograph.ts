@@ -38,7 +38,6 @@ class Diograph {
     const diographContents = await this.room.roomClient.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographContents)
-
     this.setDiograph(diograph, rootId)
   }
 

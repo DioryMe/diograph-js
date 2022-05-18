@@ -1,6 +1,8 @@
+import { RoomClient } from './clients/roomClient'
 import { Diograph } from '.'
 import { ConnectionObject } from './types'
 import { Connection } from './connection'
+import { join } from 'path'
 import { Diory } from './diory'
 
 export interface ContentUrls {
@@ -9,34 +11,18 @@ export interface ContentUrls {
 
 class Room {
   address: string
-  connected: boolean
   connections: Connection[] = []
   connectionData: ConnectionObject[] = []
-  roomClient: any
+  roomClient: RoomClient
   diograph?: Diograph
   contentUrls: ContentUrls = {}
 
-  constructor(address: string, roomClient: any) {
+  constructor(address: string, roomClient: RoomClient) {
     this.address = address
-    this.connected = false
     this.roomClient = roomClient
   }
 
-  loadOrInitiateRoom = async () => {
-    try {
-      await this.roomClient.verifyAndConnect()
-      this.connected = true
-      await this.loadRoom()
-    } catch (e) {
-      await this.initiateRoom()
-    }
-  }
-
   loadRoom = async () => {
-    this.connected = await this.roomClient.verifyAndConnect()
-    if (!this.connected) {
-      throw new Error("Can't load room before it's connected!")
-    }
     const roomJsonContents = await this.roomClient.loadRoom()
     const { diographUrl, contentUrls, connections } = JSON.parse(roomJsonContents)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
@@ -44,30 +30,6 @@ class Room {
     this.connectionData = connections
     this.diograph = new Diograph(diographUrl, this)
     await this.diograph.loadDiograph()
-  }
-
-  initiateRoom = async () => {
-    const defaultRoomJson = JSON.stringify({
-      diographUrl: 'diograph.json',
-      connections: [],
-    })
-
-    const defaultDiograph = new Diograph()
-    defaultDiograph.setDiograph({
-      'some-diory-id': {
-        id: 'some-diory-id',
-        text: 'Root diory',
-      },
-    })
-
-    await this.roomClient.initiateRoom(defaultRoomJson, defaultDiograph)
-
-    const connection = new Connection({
-      address: [this.address, 'Diory Content'].join('/'),
-      type: 'local',
-    })
-    this.addConnection(connection)
-    await this.loadRoom()
   }
 
   addConnection = (connection: Connection) => {
@@ -85,7 +47,7 @@ class Room {
     for (let i = 0; ; i++) {
       const connection = this.connections[i]
       if (connection.contentUrls[contentUrl]) {
-        return [connection.address, connection.contentUrls[contentUrl].internalPath].join('/')
+        return join(connection.address, connection.contentUrls[contentUrl].internalPath)
       }
     }
   }
