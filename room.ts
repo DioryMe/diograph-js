@@ -12,22 +12,29 @@ export interface ContentUrls {
 class Room {
   address: string
   connections: Connection[] = []
-  connectionData: ConnectionObject[] = []
   roomClient: RoomClient
   diograph?: Diograph
   contentUrls: ContentUrls = {}
 
-  constructor(address: string, roomClient: RoomClient) {
-    this.address = address
+  constructor(roomClient: RoomClient) {
+    this.address = roomClient.address
     this.roomClient = roomClient
   }
 
   loadRoom = async () => {
     const roomJsonContents = await this.roomClient.loadRoom()
     const { diographUrl, contentUrls, connections } = JSON.parse(roomJsonContents)
+    console.log('connections', connections)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
-    this.connectionData = connections
+    connections.forEach((connectionData: ConnectionObject) => {
+      const connection = new Connection({
+        id: connectionData.id,
+        address: connectionData.address,
+        type: connectionData.type,
+      })
+      this.addConnection(connection)
+    })
     this.diograph = new Diograph(diographUrl, this)
     await this.diograph.loadDiograph()
   }
@@ -54,7 +61,7 @@ class Room {
 
   toRoomObject = () => {
     return {
-      diographUrl: this.address,
+      diographUrl: this.diograph?.diographUrl,
       connections: this.connections.map((connection) => connection.toConnectionObject()),
     }
   }

@@ -31,6 +31,7 @@ export interface DioryLinkObject {
 }
 
 export interface ConnectionObject {
+  id: string
   address: string
   type: string
   contentUrls?: any

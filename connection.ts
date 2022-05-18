@@ -11,11 +11,13 @@ export interface ContentUrlObject {
 }
 
 class Connection {
+  id: string
   address: string
   type: string
   contentUrls: ContentUrlObject
 
-  constructor({ address, type, contentUrls }: ConnectionObject) {
+  constructor({ id, address, type, contentUrls }: ConnectionObject) {
+    this.id = id
     this.address = address
     this.type = type
     this.contentUrls = contentUrls || {}
@@ -35,6 +37,7 @@ class Connection {
       }
     })
     return {
+      id: this.id,
       address: this.address,
       type: this.type,
       contentUrls,
