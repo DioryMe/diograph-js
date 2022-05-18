@@ -2,6 +2,10 @@ import { existsSync, mkdirSync } from 'fs'
 import { readFile, rm, writeFile } from 'fs/promises'
 import { dirname } from 'path'
 
+// TODO: Make alternative to this which uses Electron Local API actions
+// - requires bare bones app with Electron Local API backend to work
+// => skeleton for any diograph-js Electron app
+
 class LocalClient {
   constructor() {}
 
