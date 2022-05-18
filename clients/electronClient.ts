@@ -5,38 +5,17 @@
 import { Diory } from '..'
 import { Diograph } from '../diograph'
 
+declare global {
+  interface Window {
+    channelsApi: any
+  }
+}
+
 class ElectronClient {
   constructor() {}
 
   readTextItem = async (url: string) => {
-    const diory = new Diory({
-      id: 'some-id',
-      image: 'images/some-id.jpg',
-      links: {
-        'some-other-id': {
-          id: 'some-other-id',
-        },
-      },
-    })
-    const diory2 = new Diory({
-      id: 'some-other-id',
-    })
-    const diory3 = new Diory({
-      id: 'some-else-id',
-      links: {
-        'some-id': {
-          id: 'some-id',
-        },
-      },
-    })
-    const diograph = new Diograph('some-path/diograph.json')
-    diograph.setDiograph({
-      'some-id': diory,
-      'some-other-id': diory2,
-      'some-else-id': diory3,
-    })
-
-    return JSON.stringify({ diograph: diograph.toDiographObject(), rootId: 'roottiidee')
+    return window.channelsApi['readTextFile'](url)
   }
 
   readItem = async (url: string) => {
