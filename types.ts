@@ -1,5 +1,3 @@
-import { ContentUrlObject } from './connection'
-
 export interface DiographObject {
   [key: string]: DioryObject
 }
