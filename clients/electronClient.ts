@@ -19,17 +19,11 @@ class ElectronClient {
   }
 
   readItem = async (url: string) => {
-    console.log('readItem')
-    // return readFile(url)
+    return window.channelsApi['readItem'](url)
   }
 
   writeItem = async (url: string, fileContent: Buffer | string) => {
-    console.log('writeItem')
-    // const dirPath = dirname(url)
-    // if (!existsSync(dirPath)) {
-    //   mkdirSync(dirPath, { recursive: true })
-    // }
-    // return writeFile(url, fileContent)
+    return window.channelsApi['writeItem'](url, fileContent)
   }
 
   deleteItem = async (url: string) => {
