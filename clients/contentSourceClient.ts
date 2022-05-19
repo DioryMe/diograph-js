@@ -5,11 +5,11 @@ import { ElectronClient } from './electronClient'
 
 class ContentSourceClient {
   address: string
-  connection?: Connection
+  connection: Connection
   client: ElectronClient
 
-  constructor(config: any, connection?: Connection, client?: ElectronClient) {
-    this.address = config.address
+  constructor(connection: Connection, client?: ElectronClient) {
+    this.address = connection.address
     this.connection = connection
     this.client = client || new ElectronClient()
   }
