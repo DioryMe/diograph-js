@@ -19,12 +19,12 @@ class Room {
   constructor(roomClient: RoomClient) {
     this.address = roomClient.address
     this.roomClient = roomClient
+    this.diograph = new Diograph(undefined, this)
   }
 
   loadRoom = async () => {
     const roomJsonContents = await this.roomClient.loadRoom()
     const { diographUrl, contentUrls, connections } = JSON.parse(roomJsonContents)
-    console.log('connections', connections)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
     connections.forEach((connectionData: ConnectionObject) => {
@@ -32,6 +32,7 @@ class Room {
         id: connectionData.id,
         address: connectionData.address,
         type: connectionData.type,
+        contentUrls: connectionData.contentUrls,
       })
       this.addConnection(connection)
     })

@@ -2,13 +2,14 @@ import { join } from 'path'
 import { Connection } from '../connection'
 import { Diory } from '../diory'
 import { ElectronClient } from './electronClient'
+import { ElectronClientMock } from './electronClientMock'
 
 class ContentSourceClient {
   address: string
   connection: Connection
   client: ElectronClient
 
-  constructor(connection: Connection, client?: ElectronClient) {
+  constructor(connection: Connection, client?: ElectronClient | ElectronClientMock) {
     this.address = connection.address
     this.connection = connection
     this.client = client || new ElectronClient()

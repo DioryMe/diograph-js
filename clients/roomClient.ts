@@ -1,6 +1,7 @@
 import { join } from 'path'
 import { Connection } from '../connection'
 import { ElectronClient } from './electronClient'
+import { ElectronClientMock } from './electronClientMock'
 
 class RoomClient {
   address: string
@@ -10,7 +11,7 @@ class RoomClient {
   connection?: Connection
   client: ElectronClient
 
-  constructor(config: any, connection?: Connection, client?: ElectronClient) {
+  constructor(config: any, connection?: Connection, client?: ElectronClient | ElectronClientMock) {
     if (!config.address) {
       throw new Error('No address given to room')
     }
