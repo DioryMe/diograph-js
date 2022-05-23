@@ -26,6 +26,15 @@ class ElectronClientMock {
                 },
                 internalPath: 'test-image.jpg',
               },
+              'test-image-jpg-content-url': {
+                diory: {
+                  id: 'test-image-jpg-content-url',
+                  text: 'test-image.jpg',
+                  image:
+                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8c43hPwAHewLTbrmJlAAAAABJRU5ErkJggg==',
+                },
+                internalPath: 'test-image.jpg',
+              },
             },
           },
         ],
@@ -34,14 +43,14 @@ class ElectronClientMock {
 
     if (url.split('/')[url.split('/').length - 1] === 'diograph.json') {
       return JSON.stringify({
-        rootId: 'dio',
+        rootId: 'uuid-1',
         diograph: {
-          dio: {
-            id: 'dio',
-            text: 'text',
-            image: '/thumbnail.jpg',
-            data: [{ contentUrl: 'test-image.jpg' }],
-            // image: 'file:///Users/Jouni/Code/electron-diograph-js/test-image.jpg',
+          'uuid-1': {
+            id: 'uuid-1',
+            text: 'test-image.jpg',
+            image:
+              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8c43hPwAHewLTbrmJlAAAAABJRU5ErkJggg==',
+            data: [{ contentUrl: 'test-image-jpg-content-url' }],
           },
         },
       })
