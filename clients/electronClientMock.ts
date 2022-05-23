@@ -21,6 +21,8 @@ class ElectronClientMock {
                 diory: {
                   id: '987-def', // <-- should this be CID?
                   text: 'test-image.jpg',
+                  image:
+                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8c43hPwAHewLTbrmJlAAAAABJRU5ErkJggg==',
                 },
                 internalPath: 'test-image.jpg',
               },
@@ -37,6 +39,8 @@ class ElectronClientMock {
           dio: {
             id: 'dio',
             text: 'text',
+            image: '/thumbnail.jpg',
+            // image: 'file:///Users/Jouni/Code/electron-diograph-js/test-image.jpg',
           },
         },
       })
