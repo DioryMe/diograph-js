@@ -40,6 +40,7 @@ class ElectronClientMock {
             id: 'dio',
             text: 'text',
             image: '/thumbnail.jpg',
+            data: [{ contentUrl: 'test-image.jpg' }],
             // image: 'file:///Users/Jouni/Code/electron-diograph-js/test-image.jpg',
           },
         },
