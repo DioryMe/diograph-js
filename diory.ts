@@ -56,8 +56,8 @@ class Diory {
     return { text, image, latlng, date, data, style, created, modified }
   }
 
-  toDioryObject = () => {
-    return {
+  toDioryObject = (includeData: boolean = true) => {
+    const dioryObject: any = {
       id: this.id,
       links: this.links,
       // TODO: Make test and try if this could be just:
@@ -66,11 +66,14 @@ class Diory {
       image: this.image,
       latlng: this.latlng,
       date: this.date,
-      data: this.data,
       style: this.style,
       created: this.created,
       modified: this.modified,
     }
+    if (includeData) {
+      dioryObject.data = this.data
+    }
+    return dioryObject
   }
 }
 

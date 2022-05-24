@@ -34,7 +34,7 @@ class Connection {
     const contentUrls: any = this.contentUrls
     Object.values(contentUrls).forEach((contentUrl: any) => {
       if (contentUrl.diory.toDioryObject) {
-        contentUrl.diory = contentUrl.diory.toDioryObject()
+        contentUrl.diory = contentUrl.diory.toDioryObject(false)
       }
     })
     return {
