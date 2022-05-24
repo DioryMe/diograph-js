@@ -7,7 +7,7 @@ import DioryStoryMemories from './DioryStoryMemories'
 const DioryStory = ({ story, memories, onStoryClick, onMemoryClick }) => {
   return (
     <DioryStoryBackground story={story} onClick={onStoryClick}>
-      <DioryStoryMemories memories={memories} onClick={onMemoryClick} />
+      <DioryStoryMemories memories={memories} onClick={({ diory }) => onMemoryClick(diory.id)} />
     </DioryStoryBackground>
   )
 }

@@ -11,7 +11,7 @@ function getStyle(imageUrl, imageStyles) {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
-    backgroundImage: `url("${imageUrl}")`,
+    backgroundImage: `url("/${imageUrl}")`,
     ...imageStyles,
   }
 }
