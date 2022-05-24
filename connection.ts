@@ -1,5 +1,6 @@
 import { ConnectionObject } from './types'
 import { Diory } from './diory'
+import { makeRelative } from './utils/makeRelative'
 
 export interface ContentUrlPayload {
   diory: Diory
@@ -29,7 +30,7 @@ class Connection {
     this.contentUrls[contentUrl] = { diory, internalPath }
   }
 
-  toConnectionObject = (): ConnectionObject => {
+  toConnectionObject = (roomAddress?: string): ConnectionObject => {
     const contentUrls: any = this.contentUrls
     Object.values(contentUrls).forEach((contentUrl: any) => {
       if (contentUrl.diory.toDioryObject) {
@@ -38,7 +39,7 @@ class Connection {
     })
     return {
       id: this.id,
-      address: this.address,
+      address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
       type: this.type,
       contentUrls,
     }

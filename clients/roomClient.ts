@@ -9,18 +9,15 @@ class RoomClient {
   diographPath: string
   imageFolderPath: string
   connection?: Connection
-  client: ElectronClient
+  client: ElectronClient | ElectronClientMock
 
   constructor(config: any, connection?: Connection, client?: ElectronClient | ElectronClientMock) {
-    if (!config.address) {
-      throw new Error('No address given to room')
-    }
-    this.address = config.address
+    this.client = client || new ElectronClient()
+    this.address = this.client.address
     this.roomJsonPath = join(this.address, 'room.json')
     this.diographPath = join(this.address, 'diograph.json')
     this.imageFolderPath = join(this.address, 'images')
     this.connection = connection
-    this.client = client || new ElectronClient()
   }
 
   loadRoom = async () => {

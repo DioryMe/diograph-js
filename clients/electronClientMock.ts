@@ -5,7 +5,11 @@ declare global {
 }
 
 class ElectronClientMock {
-  constructor() {}
+  address: string
+
+  constructor() {
+    this.address = 'NO PATH FOR MOCK CLIENT'
+  }
 
   readTextItem = async (url: string) => {
     if (url.split('/')[url.split('/').length - 1] === 'room.json') {

@@ -24,18 +24,14 @@ class ContentSourceClient {
     return join(this.address, diory)
   }
 
-  addContent = async (fileContent: Buffer | string, diory?: string) => {
-    let filePath
-    if (diory) {
-      filePath = this.getContentUrl(diory)
-    } else {
-      filePath = this.getContentUrl(Date.now().toString())
-    }
+  addContent = async (fileContent: Buffer | string, diory: Diory) => {
+    const contentUrl = Date.now().toString()
+    const filePath = this.getFilePath(contentUrl)
 
     await this.client.writeItem(filePath, fileContent)
 
-    const contentUrl = filePath // makeRelative(filePath, this.address)
-    this.connection?.addContentUrl(contentUrl, contentUrl, new Diory({ id: '123' }))
+    // const contentUrl = filePath // makeRelative(filePath, this.address)
+    this.connection?.addContentUrl(contentUrl, contentUrl, diory)
 
     return contentUrl
   }

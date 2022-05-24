@@ -30,7 +30,7 @@ class Room {
     connections.forEach((connectionData: ConnectionObject) => {
       const connection = new Connection({
         id: connectionData.id,
-        address: connectionData.address,
+        address: join(this.address, connectionData.address),
         type: connectionData.type,
         contentUrls: connectionData.contentUrls,
       })
@@ -52,7 +52,7 @@ class Room {
   }
 
   getContent = (contentUrl: string) => {
-    for (let i = 0; ; i++) {
+    for (let i = 0; i < this.connections.length; i++) {
       const connection = this.connections[i]
       if (connection.contentUrls[contentUrl]) {
         return join(connection.address, connection.contentUrls[contentUrl].internalPath)
@@ -63,7 +63,9 @@ class Room {
   toRoomObject = () => {
     return {
       diographUrl: this.diograph?.diographUrl,
-      connections: this.connections.map((connection) => connection.toConnectionObject()),
+      connections: this.connections.map((connection) =>
+        connection.toConnectionObject(this.address),
+      ),
     }
   }
 

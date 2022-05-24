@@ -1,3 +1,5 @@
+import { join } from 'path'
+
 declare global {
   interface Window {
     channelsApi: any
@@ -5,7 +7,11 @@ declare global {
 }
 
 class ElectronClient {
-  constructor() {}
+  address: string
+
+  constructor() {
+    this.address = window.channelsApi['getPath']()
+  }
 
   readTextItem = async (url: string) => {
     return window.channelsApi['readTextFile'](url)
