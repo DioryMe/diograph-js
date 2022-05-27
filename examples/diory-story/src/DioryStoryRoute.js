@@ -8,13 +8,8 @@ import { Diograph } from './diograph-js'
 
 import DioryStory from './components/DioryStory'
 
-const diograph = new Diograph({
-  rootId: 'welcome',
-  welcome: {
-    id: 'welcome',
-    text: 'Welcome to Diory!'
-  }
-})
+import diographJson from './diograph.json'
+const diograph = new Diograph(diographJson)
 
 const useRoute = () => {
   const navigate = useNavigate()
@@ -28,7 +23,7 @@ const useRoute = () => {
 
 const DioryStoryRoute = () => {
   const { storyId, setStoryId } = useRoute()
-  const { story, memories } = diograph.getDioryStory(storyId)
+  const [story, ...memories] = diograph.getDiories(storyId)
 
   return (
     <DioryStory story={story} memories={memories} onMemoryClick={setStoryId} />

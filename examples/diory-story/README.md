@@ -1,3 +1,29 @@
+```
+import React from 'react'
+
+import { Diograph } from './diograph-js'
+import DioryStory from './components/DioryStory'
+
+const diograph = new Diograph({
+  rootId: 'welcome',
+  welcome: {
+    id: 'welcome',
+    text: 'Welcome to Diory!'
+  }
+})
+
+const DioryStoryRoute = () => {
+  const [story, ...memories] = diograph.getDiories()
+
+  return (
+    <DioryStory story={story} memories={memories} onMemoryClick={setStoryId} />
+  )
+}
+
+export default DioryStoryRoute
+```
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

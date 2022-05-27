@@ -1,4 +1,4 @@
-import { getDioryStory } from './getDioryStory'
+import { getDiories } from './getDiories'
 
 class Diograph {
   diograph
@@ -7,8 +7,8 @@ class Diograph {
     this.diograph = diograph
   }
 
-  getDioryStory(dioryId) {
-    return getDioryStory(this.diograph, dioryId || this.diograph.rootId)
+  getDiories(dioryId) {
+    return getDiories(this.diograph, dioryId || this.diograph.rootId)
   }
 }
 
