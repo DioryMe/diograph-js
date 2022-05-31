@@ -15,6 +15,7 @@ class Room {
   roomClient: RoomClient
   diograph?: Diograph
   contentUrls: ContentUrls = {}
+  loaded: Boolean = false
 
   constructor(roomClient: RoomClient) {
     this.address = roomClient.address
@@ -38,6 +39,7 @@ class Room {
     })
     this.diograph = new Diograph(diographUrl, this)
     await this.diograph.loadDiograph()
+    this.loaded = true
   }
 
   addConnection = (connection: Connection) => {
@@ -61,6 +63,9 @@ class Room {
   }
 
   toRoomObject = () => {
+    if (!this.loaded) {
+      return {}
+    }
     return {
       diographUrl: this.diograph?.diographUrl,
       connections: this.connections.map((connection) =>
