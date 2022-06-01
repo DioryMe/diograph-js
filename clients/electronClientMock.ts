@@ -13,51 +13,11 @@ class ElectronClientMock {
 
   readTextItem = async (url: string) => {
     if (url.split('/')[url.split('/').length - 1] === 'room.json') {
-      return JSON.stringify({
-        diographUrl: 'diograph.json',
-        connections: [
-          {
-            id: 'native-connection',
-            address: './Diory Content',
-            type: 'local',
-            contentUrls: {
-              'this-is-CID': {
-                diory: {
-                  id: '987-def', // <-- should this be CID?
-                  text: 'test-image.jpg',
-                  image:
-                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8c43hPwAHewLTbrmJlAAAAABJRU5ErkJggg==',
-                },
-                internalPath: 'test-image.jpg',
-              },
-              'test-image-jpg-content-url': {
-                diory: {
-                  id: 'test-image-jpg-content-url',
-                  text: 'test-image.jpg',
-                  image:
-                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8c43hPwAHewLTbrmJlAAAAABJRU5ErkJggg==',
-                },
-                internalPath: 'test-image.jpg',
-              },
-            },
-          },
-        ],
-      })
+      return fetch('/demo-content-room/room.json').then((response) => response.text())
     }
 
     if (url.split('/')[url.split('/').length - 1] === 'diograph.json') {
-      return JSON.stringify({
-        rootId: 'uuid-1',
-        diograph: {
-          'uuid-1': {
-            id: 'uuid-1',
-            text: 'test-image.jpg',
-            image:
-              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8c43hPwAHewLTbrmJlAAAAABJRU5ErkJggg==',
-            data: [{ contentUrl: 'test-image-jpg-content-url' }],
-          },
-        },
-      })
+      return fetch('/demo-content-room/diograph.json').then((response) => response.text())
     }
 
     throw new Error(`ElectronClientMock#readTextItem couldnt return ${url}`)
