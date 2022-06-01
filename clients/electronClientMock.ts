@@ -8,7 +8,7 @@ class ElectronClientMock {
   address: string
 
   constructor() {
-    this.address = 'NO PATH FOR MOCK CLIENT'
+    this.address = 'demo-content-room'
   }
 
   readTextItem = async (url: string) => {
