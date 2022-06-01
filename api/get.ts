@@ -12,7 +12,11 @@ const DEFAULT_OPTIONS: GetOptions = {
 }
 
 function getDiory(this: Diograph, id: string): Diory {
-  return this.diories.filter((diory) => diory.id === id)[0]
+  const foundDiories = this.diories.filter((diory) => diory.id === id)
+  if (!foundDiories.length) {
+    throw new Error(`getDiory failed: no diory find with id ${id}`)
+  }
+  return foundDiories[0]
 }
 
 function getDioryWithLinks(this: Diograph, id: string, opts: object = {}): Diory[] {
