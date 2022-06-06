@@ -1,5 +1,3 @@
-import { join } from 'path'
-
 declare global {
   interface Window {
     channelsApi: any
