@@ -23,6 +23,13 @@ class Room {
     this.diograph = new Diograph(undefined, this)
   }
 
+  retrieveContent = (diory: any) => {
+    const contentId = ((diory.data && diory.data[0]) || {}).contentUrl
+    const dioryDup = new Diory(diory.toDioryObject())
+    dioryDup.contentUrl = this.getContent(contentId)
+    return dioryDup
+  }
+
   loadRoom = async () => {
     const roomJsonContents = await this.roomClient.loadRoom()
     const { diographUrl, contentUrls, connections } = JSON.parse(roomJsonContents)

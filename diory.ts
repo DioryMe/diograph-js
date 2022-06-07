@@ -16,6 +16,7 @@ class Diory {
   style?: object
   created?: string
   modified?: string
+  contentUrl?: string
 
   constructor(dioryObject: DioryObject, thumbnailBuffer?: Buffer) {
     const keys = Object.keys(dioryObject)
