@@ -7,6 +7,7 @@ import { ElectronServer } from './clients/electronServer'
 import { ElectronClientMock } from './clients/electronClientMock'
 import { ContentSourceClient } from './clients/contentSourceClient'
 import { Connection } from './connection'
+// import { Generator } from './generators'
 
 export {
   Diograph,
@@ -18,4 +19,5 @@ export {
   ElectronClient,
   ElectronServer,
   ElectronClientMock,
+  // Generator,
 }
