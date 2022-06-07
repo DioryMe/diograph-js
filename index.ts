@@ -7,6 +7,7 @@ import { ElectronServer } from './clients/electronServer'
 import { ElectronClientMock } from './clients/electronClientMock'
 import { ContentSourceClient } from './clients/contentSourceClient'
 import { Connection } from './connection'
+import { DioryAttributes, DioryGeneratorData, DioryObject, DioryLinkObject } from './types'
 
 export {
   Diograph,
@@ -18,4 +19,8 @@ export {
   ElectronClient,
   ElectronServer,
   ElectronClientMock,
+  DioryAttributes,
+  DioryGeneratorData,
+  DioryObject,
+  DioryLinkObject,
 }
