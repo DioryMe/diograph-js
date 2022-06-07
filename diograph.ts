@@ -21,14 +21,19 @@ class Diograph {
     this.room = room
   }
 
-  setDiograph = (diograph: DiographObject, rootId?: string) => {
-    this.diories = Object.values(diograph).map((dioryObject) => new Diory(dioryObject))
-    this.rootId = rootId ? rootId : Object.values(diograph)[0].id
+  fromDiographObjectToDiories = (diograph: DiographObject) => {
+    return Object.values(diograph)
+      .map((dioryObject) => new Diory(dioryObject))
+      .map((diory) => this.room?.retrieveContent(diory))
   }
 
-  mergeDiograph = (diograph: DiographObject) => {
-    Object.values(diograph).forEach((dioryObject) => this.addDiory(new Diory(dioryObject)))
+  mergeDiograph = (diograph: DiographObject, rootId?: string) => {
+    this.fromDiographObjectToDiories(diograph).forEach((diory) => diory && this.addDiory(diory))
+    this.rootId = rootId ? rootId : Object.values(diograph)[0].id
   }
+  // TODO: Replace setDiograph stuff with mergeDiograph
+  // => remove this alias
+  setDiograph = this.mergeDiograph
 
   loadDiograph = async () => {
     if (!this.room || !this.room.roomClient) {
