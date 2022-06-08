@@ -24,7 +24,7 @@ class Diograph {
   fromDiographObjectToDiories = (diograph: DiographObject) => {
     return Object.values(diograph)
       .map((dioryObject) => new Diory(dioryObject))
-      .map((diory) => this.room?.retrieveContent(diory))
+      .map((diory) => (this.room ? this.room.retrieveContent(diory) : diory))
   }
 
   mergeDiograph = (diograph: DiographObject, rootId?: string) => {

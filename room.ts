@@ -24,7 +24,10 @@ class Room {
   }
 
   retrieveContent = (diory: any) => {
-    const contentId = ((diory.data && diory.data[0]) || {}).contentUrl
+    if (!(diory.data && diory.data[0])) {
+      return diory
+    }
+    const contentId = diory.data[0].contentUrl
     const dioryDup = new Diory(diory.toDioryObject())
     dioryDup.contentUrl = this.getContent(contentId)
     return dioryDup
