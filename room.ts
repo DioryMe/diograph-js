@@ -52,6 +52,23 @@ class Room {
     this.loaded = true
   }
 
+  initiateRoom = async () => {
+    const diographUrl = 'diograph.json'
+
+    const defaultDiographJson = {
+      'some-diory-id': {
+        id: 'some-diory-id',
+        text: 'Root diory',
+      },
+    }
+
+    this.diograph = new Diograph(diographUrl, this)
+    this.diograph.mergeDiograph(defaultDiographJson, 'some-diory-id')
+
+    this.loaded = true
+    await this.saveRoom()
+  }
+
   addConnection = (connection: Connection) => {
     const existingConnection = this.connections.find(
       (existingConnection) => existingConnection.address === connection.address,

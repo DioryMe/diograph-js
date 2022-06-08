@@ -11,8 +11,7 @@ class ElectronServer {
     }
   }
 
-  getPath = () =>
-    '/Users/Jouni/Code/electron-diograph-js/demo-content-room' || join(__dirname, 'test-folder')
+  getPath = () => '/Users/Jouni/EmptyRoom' || join(__dirname, 'test-folder')
 
   // Client read & write
   writeItem = (url: string, fileContentArrayBuffer: ArrayBuffer) => {
