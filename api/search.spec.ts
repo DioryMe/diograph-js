@@ -12,7 +12,7 @@ describe('search', () => {
     }).then((data) => {
       return JSON.parse(data)
     })
-    diograph.setDiograph(diographFixture.diograph)
+    diograph.mergeDiograph(diographFixture.diograph)
   })
 
   it('text search works', () => {

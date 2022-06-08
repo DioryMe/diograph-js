@@ -31,9 +31,6 @@ class Diograph {
     this.fromDiographObjectToDiories(diograph).forEach((diory) => diory && this.addDiory(diory))
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
   }
-  // TODO: Replace setDiograph stuff with mergeDiograph
-  // => remove this alias
-  setDiograph = this.mergeDiograph
 
   loadDiograph = async () => {
     if (!this.room || !this.room.roomClient) {
@@ -43,7 +40,7 @@ class Diograph {
     const diographContents = await this.room.roomClient.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographContents)
-    this.setDiograph(diograph, rootId)
+    this.mergeDiograph(diograph, rootId)
   }
 
   saveDiograph = async () => {

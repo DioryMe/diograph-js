@@ -29,7 +29,7 @@ describe('getDiory', () => {
 
   beforeEach(() => {
     diograph = new Diograph('some-path/diograph.json')
-    diograph.setDiograph({
+    diograph.mergeDiograph({
       'some-id': diory,
       'some-other-id': diory2,
       'some-else-id': diory3,

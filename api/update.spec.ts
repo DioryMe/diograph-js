@@ -5,7 +5,7 @@ describe('update', () => {
 
   beforeEach(() => {
     diograph = new Diograph('some-path/diograph.json')
-    diograph.setDiograph({
+    diograph.mergeDiograph({
       'some-id': {
         id: 'some-id',
         text: 'some-text',
