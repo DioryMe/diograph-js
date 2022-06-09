@@ -17,7 +17,7 @@ class ElectronClientMock {
     }
 
     if (url.split('/')[url.split('/').length - 1] === 'diograph.json') {
-      return fetch('/demo-content-room/diograph.json').then((response) => response.text())
+      return fetch('/demo-content-room/diograph2.json').then((response) => response.text())
     }
 
     throw new Error(`ElectronClientMock#readTextItem couldnt return ${url}`)
