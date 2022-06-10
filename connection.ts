@@ -1,9 +1,10 @@
 import { ConnectionObject } from './types'
 import { Diory } from './diory'
 import { makeRelative } from './utils/makeRelative'
+import { Diograph } from './diograph'
 
 export interface ContentUrlPayload {
-  diory: Diory
+  diory: any
   internalPath: string
 }
 
@@ -28,6 +29,15 @@ class Connection {
 
   addContentUrl = (contentUrl: string, internalPath: string, diory: Diory) => {
     this.contentUrls[contentUrl] = { diory, internalPath }
+  }
+
+  toDiograph = () => {
+    const diograph = new Diograph()
+    const dioryArray = Object.entries(this.contentUrls).map(([key, { diory, internalPath }]) => ({
+      [diory.id]: { contentUrl: internalPath, ...diory },
+    }))
+    diograph.mergeDiograph(dioryArray.reduce((cum, current) => ({ ...current, ...cum }), {}))
+    return diograph
   }
 
   toConnectionObject = (roomAddress?: string): ConnectionObject => {

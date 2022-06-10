@@ -83,8 +83,10 @@ class Room {
   }
 
   getContent = (contentUrl: string) => {
+    console.log('getting some content', contentUrl)
     for (let i = 0; i < this.connections.length; i++) {
       const connection = this.connections[i]
+      console.log('conn', connection)
       if (connection.contentUrls[contentUrl]) {
         return join(connection.address, connection.contentUrls[contentUrl].internalPath)
       }
