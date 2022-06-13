@@ -31,7 +31,7 @@ class ContentSourceClient {
     await this.client.writeItem(filePath, fileContent)
 
     // const contentUrl = filePath // makeRelative(filePath, this.address)
-    this.connection?.addContentUrl(contentUrl, contentUrl, diory)
+    this.connection?.addContentUrl(contentUrl, contentUrl)
 
     return contentUrl
   }

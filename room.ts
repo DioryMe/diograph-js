@@ -85,10 +85,7 @@ class Room {
 
   getContent = (contentUrl: string) => {
     for (let i = 0; i < this.connections.length; i++) {
-      const connection = this.connections[i]
-      if (connection.contentUrls[contentUrl]) {
-        return join(connection.address, connection.contentUrls[contentUrl].internalPath)
-      }
+      return this.connections[i].getContent(contentUrl)
     }
   }
 
@@ -105,24 +102,6 @@ class Room {
   }
 
   saveRoom = async () => {
-    // Connection contentUrls
-    const diories: Diory[] = []
-
-    this.connections.forEach((connection) => {
-      Object.values(connection.contentUrls).forEach((contentUrl) => diories.push(contentUrl.diory))
-    })
-
-    const dioriesWithThumbnails = diories.filter((diory: any) => diory.thumbnailBuffer)
-
-    await Promise.all(
-      dioriesWithThumbnails.map(async (diory: any) => {
-        if (diory.thumbnailBuffer) {
-          const thumbnailPath = await this.roomClient.addThumbnail(diory.thumbnailBuffer, diory.id)
-          diory.image = thumbnailPath
-        }
-      }),
-    )
-
     // Room.json
     await this.roomClient.client.writeItem(
       this.roomClient.roomJsonPath,

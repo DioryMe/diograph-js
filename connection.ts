@@ -2,14 +2,11 @@ import { ConnectionObject } from './types'
 import { Diory } from './diory'
 import { makeRelative } from './utils/makeRelative'
 import { Diograph } from './diograph'
-
-export interface ContentUrlPayload {
-  diory: any
-  internalPath: string
-}
+import { join } from 'path'
 
 export interface ContentUrlObject {
-  [key: string]: ContentUrlPayload
+  // "CID <-> internalPath" pairs
+  [key: string]: string
 }
 
 class Connection {
@@ -30,27 +27,23 @@ class Connection {
     }
   }
 
-  load = async () => {}
-
-  addContentUrl = (contentUrl: string, internalPath: string, diory: Diory) => {
-    this.contentUrls[contentUrl] = { diory, internalPath }
-  }
-
-  toConnectionObject = (roomAddress?: string): ConnectionObject => {
-    const contentUrls: any = this.contentUrls
-    Object.values(contentUrls).forEach((contentUrl: any) => {
-      if (contentUrl.diory.toDioryObject) {
-        contentUrl.diory = contentUrl.diory.toDioryObject(false)
-      }
-    })
-    return {
-      id: this.id,
-      address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
-      contentClient: this.contentClient,
-      contentUrls,
-      diograph: this.diograph.toDiographObject(),
+  getContent = (contentUrl: string) => {
+    if (this.contentUrls[contentUrl]) {
+      return join(this.address, this.contentUrls[contentUrl])
     }
   }
+
+  addContentUrl = (CID: string, internalPath: string) => {
+    this.contentUrls[CID] = internalPath
+  }
+
+  toConnectionObject = (roomAddress?: string): ConnectionObject => ({
+    id: this.id,
+    address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
+    contentClient: this.contentClient,
+    contentUrls: this.contentUrls,
+    diograph: this.diograph.toDiographObject(),
+  })
 }
 
 export { Connection }
