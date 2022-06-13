@@ -48,20 +48,6 @@ class Diograph {
       throw new Error("Client missing, can't save diograph")
     }
 
-    const dioriesWithThumbnails = this.diories.filter((diory) => diory.thumbnailBuffer)
-
-    await Promise.all(
-      dioriesWithThumbnails.map(async (diory) => {
-        if (diory.thumbnailBuffer && this.room) {
-          const thumbnailPath = await this.room.roomClient.addThumbnail(
-            diory.thumbnailBuffer,
-            diory.id,
-          )
-          diory.image = thumbnailPath
-        }
-      }),
-    )
-
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     return this.room.roomClient.client.writeItem(this.room.roomClient.diographPath, this.toJson())
   }

@@ -7,7 +7,6 @@ class RoomClient {
   address: string
   roomJsonPath: string
   diographPath: string
-  imageFolderPath: string
   connection?: Connection
   client: ElectronClient | ElectronClientMock
 
@@ -16,7 +15,6 @@ class RoomClient {
     this.address = this.client.address
     this.roomJsonPath = join(this.address, 'room.json')
     this.diographPath = join(this.address, 'diograph.json')
-    this.imageFolderPath = join(this.address, 'images')
     this.connection = connection
   }
 
@@ -30,21 +28,6 @@ class RoomClient {
 
   saveDiograph = async (diographFileContents: string) => {
     return this.client.writeItem(this.diographPath, diographFileContents)
-  }
-
-  writeThumbnail = async (url: string, fileContent: Buffer | string) => {
-    return this.client.writeItem(url, fileContent)
-  }
-
-  addThumbnail = async (thumbnailBuffer: Buffer, thumbnailContentUrl: string) => {
-    // Writes thumbnail image file to absolute path
-    console.log('Thumbnail written to:', join(this.imageFolderPath, thumbnailContentUrl))
-    await this.writeThumbnail(join(this.imageFolderPath, thumbnailContentUrl), thumbnailBuffer)
-    return `images/${thumbnailContentUrl}`
-  }
-
-  deleteThumbnail = async (thumbnailContentUrl: string) => {
-    return this.client.deleteItem(join(this.imageFolderPath, thumbnailContentUrl))
   }
 
   deleteRoomJson = async () => {

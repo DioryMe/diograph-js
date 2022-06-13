@@ -35,12 +35,6 @@ async function deleteDiory(this: Diograph, id: string, opts: object = {}): Promi
     await Promise.all(
       dioriesToBeDeleted.map(async (dioryToBeDeleted) => {
         this.diories = this.diories.filter((diory) => diory.id !== dioryToBeDeleted.id)
-        if (optsWithDefaults.deleteThumbnail) {
-          if (!this.room || !this.room.roomClient) {
-            throw new Error("Client missing, can't delete thumbnail")
-          }
-          await this.room.roomClient.deleteThumbnail(dioryToBeDeleted.id)
-        }
         return dioryToBeDeleted
       }),
     )

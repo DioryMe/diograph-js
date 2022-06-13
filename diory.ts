@@ -6,7 +6,6 @@ class Diory {
   dioryAttributes: DioryAttributes
   links?: DioryLinkObject
   room?: Room
-  thumbnailBuffer?: Buffer
 
   text?: string
   image?: string
@@ -18,7 +17,7 @@ class Diory {
   modified?: string
   contentUrl?: string
 
-  constructor(dioryObject: DioryObject, thumbnailBuffer?: Buffer) {
+  constructor(dioryObject: DioryObject) {
     const keys = Object.keys(dioryObject)
     if (keys.includes('rootId') || keys.includes('diograph') || keys.includes('linkKey')) {
       throw new Error('Invalid dioryObject: includes rootId, diograph or linkKey key!!')
@@ -26,7 +25,6 @@ class Diory {
     this.id = dioryObject.id
     this.links = dioryObject.links
     this.dioryAttributes = this.extractDioryAttributes(dioryObject)
-    this.thumbnailBuffer = thumbnailBuffer
   }
 
   changeContentUrl = (contentUrl: string) => {
