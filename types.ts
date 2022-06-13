@@ -33,8 +33,9 @@ export interface DioryLinkObject {
 export interface ConnectionObject {
   id: string
   address: string
-  type: string
+  contentClient: string
   contentUrls?: any
+  diograph: DiographObject
 }
 
 export interface DioryGeneratorData {

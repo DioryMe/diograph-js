@@ -15,29 +15,25 @@ export interface ContentUrlObject {
 class Connection {
   id: string
   address: string
-  type: string
+  contentClient: string
   contentUrls: ContentUrlObject
+  diograph: Diograph
 
-  constructor({ id, address, type, contentUrls }: ConnectionObject) {
+  constructor({ id, address, contentClient, contentUrls, diograph }: ConnectionObject) {
     this.id = id
     this.address = address
-    this.type = type
+    this.contentClient = contentClient
     this.contentUrls = contentUrls || {}
+    this.diograph = new Diograph()
+    if (diograph) {
+      this.diograph.mergeDiograph(diograph)
+    }
   }
 
   load = async () => {}
 
   addContentUrl = (contentUrl: string, internalPath: string, diory: Diory) => {
     this.contentUrls[contentUrl] = { diory, internalPath }
-  }
-
-  toDiograph = () => {
-    const diograph = new Diograph()
-    const dioryArray = Object.entries(this.contentUrls).map(([key, { diory, internalPath }]) => ({
-      [diory.id]: { contentUrl: internalPath, ...diory },
-    }))
-    diograph.mergeDiograph(dioryArray.reduce((cum, current) => ({ ...current, ...cum }), {}))
-    return diograph
   }
 
   toConnectionObject = (roomAddress?: string): ConnectionObject => {
@@ -50,8 +46,9 @@ class Connection {
     return {
       id: this.id,
       address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
-      type: this.type,
+      contentClient: this.contentClient,
       contentUrls,
+      diograph: this.diograph.toDiographObject(),
     }
   }
 }
