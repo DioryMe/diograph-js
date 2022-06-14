@@ -15,10 +15,6 @@ class ContentSourceClient {
     this.client = client || new ElectronClient()
   }
 
-  getFilePath = (contentUrl: string) => {
-    return join(this.address, contentUrl)
-  }
-
   getContentUrl = (diory: string) => {
     // TODO: Derive contentUrl from diory
     return join(this.address, diory)

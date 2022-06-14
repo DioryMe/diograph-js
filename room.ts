@@ -89,6 +89,10 @@ class Room {
     }
   }
 
+  addContent = async (fileContent: Buffer | string, contentId: string) => {
+    return this.connections[0].addContent(fileContent, contentId)
+  }
+
   toRoomObject = () => {
     // if (!this.loaded) {
     //   return {}
@@ -118,7 +122,6 @@ class Room {
   deleteRoom = async () => {
     await this.roomClient.deleteRoomJson()
     await this.roomClient.deleteDiographJson()
-    // this.roomClient.deleteItem(this.roomClient.imageFolderPath)
   }
 }
 

@@ -3,6 +3,8 @@ import { makeRelative } from './utils/makeRelative'
 import { Diograph } from './diograph'
 import { join } from 'path'
 import { v4 as uuidv4 } from 'uuid'
+import { LocalClient } from '@diograph/local-client'
+import { ElectronClient } from './clients/electronClient'
 
 export interface ContentUrlObject {
   // "CID <-> internalPath" pairs
@@ -22,7 +24,7 @@ class Connection {
     this.contentClient = contentClient
     this.contentUrls = contentUrls || {}
     this.diograph = new Diograph()
-    if (diograph) {
+    if (diograph && Object.keys(diograph).length) {
       this.diograph.mergeDiograph(diograph)
     }
   }
@@ -35,6 +37,18 @@ class Connection {
 
   addContentUrl = (CID: string, internalPath: string) => {
     this.contentUrls[CID] = internalPath
+  }
+
+  addContent = async (fileContent: Buffer | string, contentId: string) => {
+    const client =
+      this.contentClient === 'local' ? new LocalClient(this.address) : new ElectronClient()
+    const internalPath = join(this.address, contentId)
+    await client.writeItem(internalPath, fileContent)
+
+    // const contentUrl = filePath // makeRelative(filePath, this.address)
+    this.addContentUrl(contentId, internalPath)
+
+    return contentId
   }
 
   toConnectionObject = (roomAddress?: string): ConnectionObject => ({
