@@ -1,17 +1,15 @@
 import { join } from 'path'
 import { Connection } from '../connection'
-import { ElectronClient } from './electronClient'
-import { ElectronClientMock } from './electronClientMock'
 
 class RoomClient {
   address: string
   roomJsonPath: string
   diographPath: string
   connection?: Connection
-  client: ElectronClient | ElectronClientMock
+  client: any // TODO: Define baseClient
 
-  constructor(config: any, connection?: Connection, client?: ElectronClient | ElectronClientMock) {
-    this.client = client || new ElectronClient()
+  constructor(connection?: Connection, client?: any) {
+    this.client = client
     this.address = this.client.address
     this.roomJsonPath = join(this.address, 'room.json')
     this.diographPath = join(this.address, 'diograph.json')

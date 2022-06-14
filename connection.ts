@@ -2,6 +2,7 @@ import { ConnectionObject } from './types'
 import { makeRelative } from './utils/makeRelative'
 import { Diograph } from './diograph'
 import { join } from 'path'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface ContentUrlObject {
   // "CID <-> internalPath" pairs
@@ -16,7 +17,7 @@ class Connection {
   diograph: Diograph
 
   constructor({ id, address, contentClient, contentUrls, diograph }: ConnectionObject) {
-    this.id = id
+    this.id = id || uuidv4()
     this.address = address
     this.contentClient = contentClient
     this.contentUrls = contentUrls || {}

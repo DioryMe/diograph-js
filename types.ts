@@ -31,11 +31,11 @@ export interface DioryLinkObject {
 }
 
 export interface ConnectionObject {
-  id: string
+  id?: string
   address: string
   contentClient: string
   contentUrls?: any
-  diograph: DiographObject
+  diograph?: DiographObject
 }
 
 export interface DioryGeneratorData {
