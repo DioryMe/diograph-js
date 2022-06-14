@@ -90,9 +90,9 @@ class Room {
   }
 
   toRoomObject = () => {
-    if (!this.loaded) {
-      return {}
-    }
+    // if (!this.loaded) {
+    //   return {}
+    // }
     return {
       diographUrl: this.diograph?.diographUrl,
       connections: this.connections.map((connection) =>
