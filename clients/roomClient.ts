@@ -13,7 +13,7 @@ class RoomClient {
     this.address = this.client.address
     this.roomJsonPath = join(this.address, 'room.json')
     this.diographPath = join(this.address, 'diograph.json')
-    this.connection = connection
+    this.connection = connection // Why? Remove?
   }
 
   loadRoom = async () => {

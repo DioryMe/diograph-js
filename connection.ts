@@ -29,26 +29,42 @@ class Connection {
     }
   }
 
-  getContent = (contentUrl: string) => {
-    if (this.contentUrls[contentUrl]) {
-      return join(this.address, this.contentUrls[contentUrl])
-    }
+  getClient = () => {
+    return this.contentClient === 'local' ? new LocalClient(this.address) : new ElectronClient()
   }
 
   addContentUrl = (CID: string, internalPath: string) => {
     this.contentUrls[CID] = internalPath
   }
 
-  addContent = async (fileContent: Buffer | string, contentId: string) => {
-    const client =
-      this.contentClient === 'local' ? new LocalClient(this.address) : new ElectronClient()
-    const internalPath = join(this.address, contentId)
-    await client.writeItem(internalPath, fileContent)
+  getContent = (contentUrl: string) => {
+    if (this.contentUrls[contentUrl]) {
+      return join(this.address, this.contentUrls[contentUrl])
+    }
+  }
 
-    // const contentUrl = filePath // makeRelative(filePath, this.address)
+  readContent = async (contentUrl: string) => {
+    const filePath: string | undefined = this.getContent(contentUrl)
+    if (!filePath) {
+      throw new Error('Nothing found with that contentUrl!')
+    }
+    return this.getClient().readItem(filePath)
+  }
+
+  addContent = async (fileContent: Buffer | string, contentId: string) => {
+    const internalPath = join(this.address, contentId)
+    await this.getClient().writeItem(internalPath, fileContent)
     this.addContentUrl(contentId, internalPath)
 
     return contentId
+  }
+
+  deleteContent = async (contentUrl: string) => {
+    const filePath: string | undefined = this.getContent(contentUrl)
+    if (!filePath) {
+      throw new Error('Nothing found with that contentUrl!')
+    }
+    return this.getClient().deleteItem(filePath)
   }
 
   toConnectionObject = (roomAddress?: string): ConnectionObject => ({
