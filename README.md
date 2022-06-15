@@ -12,20 +12,19 @@ Example:
 
 ```js
 import { Room, RoomClient } from 'diograph-js'
+import { LocalClient } from '@diograph/local-client'
 
 // Connect to room using RoomClient
-const roomAddress = join(__dirname)
-const roomClient = new RoomClient({ address: roomAddress })
+const client = new LocalClient({ address: roomAddress })
+const roomClient = new RoomClient(client)
 const room = new Room(roomAddress, roomClient)
-await room.loadOrInitiateRoom()
 
-// Load diograph and do stuff with it!
-const diograph = room.diograph
-diograph.loadDiograph().then(() => {
-  const diory = diograph.getDiory('id-of-my-diory')
-  diograph.update(diory.id, { text: 'New name' })
-  diograph.saveDiograph()
-})
+await room.loadRoom()
+
+// Do stuff with diograph
+const diory = room.diograph.getDiory('id-of-my-diory')
+diograph.update(diory.id, { text: 'New name' })
+room.saveRoom()
 ```
 
 # API
