@@ -1,19 +1,16 @@
 import { join } from 'path'
-import { Connection } from '../connection'
 
 class RoomClient {
   address: string
   roomJsonPath: string
   diographPath: string
-  connection?: Connection
   client: any // TODO: Define baseClient
 
-  constructor(connection?: Connection, client?: any) {
+  constructor(client: any) {
     this.client = client
     this.address = this.client.address
     this.roomJsonPath = join(this.address, 'room.json')
     this.diographPath = join(this.address, 'diograph.json')
-    this.connection = connection // Why? Remove?
   }
 
   loadRoom = async () => {
