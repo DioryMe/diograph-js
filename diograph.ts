@@ -7,7 +7,6 @@ class Diograph {
   rootId: string = ''
   diories: Diory[] = []
   diographUrl?: string
-  room?: Room
 
   createDiory = createDiory
   getDiory = getDiory
@@ -18,13 +17,10 @@ class Diograph {
 
   constructor(diographUrl?: string, room?: Room) {
     this.diographUrl = diographUrl
-    this.room = room
   }
 
   fromDiographObjectToDiories = (diograph: DiographObject) => {
-    return Object.values(diograph)
-      .map((dioryObject) => new Diory(dioryObject))
-      .map((diory) => (this.room ? this.room.retrieveContent(diory) : diory))
+    return Object.values(diograph).map((dioryObject) => new Diory(dioryObject))
   }
 
   mergeDiograph = (diograph: DiographObject, rootId?: string) => {
@@ -32,26 +28,13 @@ class Diograph {
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
   }
 
-  loadDiograph = async () => {
-    if (!this.room || !this.room.roomClient) {
-      throw new Error("Client missing, can't load diograph")
-    }
-
-    const diographContents = await this.room.roomClient.readDiograph()
+  loadDiograph = async (roomClient: any) => {
+    const diographContents = await roomClient.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographContents)
     if (diograph && Object.keys(diograph).length) {
       this.mergeDiograph(diograph, rootId)
     }
-  }
-
-  saveDiograph = async () => {
-    if (!this.room || !this.room.roomClient) {
-      throw new Error("Client missing, can't save diograph")
-    }
-
-    // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    return this.room.roomClient.client.writeItem(this.room.roomClient.diographPath, this.toJson())
   }
 
   addDiory = (diory: Diory) => {

@@ -49,7 +49,7 @@ class Room {
       this.addConnection(connection)
     })
     this.diograph = new Diograph(diographUrl, this)
-    await this.diograph.loadDiograph()
+    await this.diograph.loadDiograph(this.roomClient)
     this.loaded = true
   }
 
@@ -116,7 +116,7 @@ class Room {
     if (!this.diograph) {
       throw new Error("Can't saveRoom: no this.diograph")
     }
-    await this.diograph.saveDiograph()
+    await this.roomClient.saveDiograph(this.diograph.toJson())
   }
 
   deleteRoom = async () => {
