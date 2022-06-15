@@ -2,7 +2,6 @@ import { ConnectionObject } from './types'
 import { makeRelative } from './utils/makeRelative'
 import { Diograph } from './diograph'
 import { join } from 'path'
-import { v4 as uuidv4 } from 'uuid'
 import { LocalClient } from '@diograph/local-client'
 import { ElectronClient } from './clients/electronClient'
 
@@ -12,14 +11,12 @@ export interface ContentUrlObject {
 }
 
 class Connection {
-  id: string
   address: string
   contentClient: string
   contentUrls: ContentUrlObject
   diograph: Diograph
 
-  constructor({ id, address, contentClient, contentUrls, diograph }: ConnectionObject) {
-    this.id = id || uuidv4()
+  constructor({ address, contentClient, contentUrls, diograph }: ConnectionObject) {
     this.address = address
     this.contentClient = contentClient
     this.contentUrls = contentUrls || {}
@@ -68,7 +65,6 @@ class Connection {
   }
 
   toConnectionObject = (roomAddress?: string): ConnectionObject => ({
-    id: this.id,
     address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
     contentClient: this.contentClient,
     contentUrls: this.contentUrls,

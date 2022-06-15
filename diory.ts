@@ -31,6 +31,7 @@ class Diory {
     if (this.data) {
       const data: DataAttributes = this.data[0]
       data.contentUrl = contentUrl
+      data.cid = contentUrl
     }
   }
 
