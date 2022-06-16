@@ -49,11 +49,14 @@ class Connection {
   }
 
   addContent = async (fileContent: Buffer | string, contentId: string) => {
-    const internalPath = join(this.address, contentId)
-    await this.getClient().writeItem(internalPath, fileContent)
-    this.addContentUrl(contentId, internalPath)
+    const relativeInternalPath = contentId
+    const absoluteInternalPath = join(this.address, contentId)
 
-    return contentId
+    await this.getClient().writeItem(absoluteInternalPath, fileContent)
+
+    this.addContentUrl(contentId, relativeInternalPath)
+
+    return relativeInternalPath
   }
 
   deleteContent = async (contentUrl: string) => {
