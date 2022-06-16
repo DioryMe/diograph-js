@@ -65,7 +65,9 @@ class Connection {
   }
 
   toConnectionObject = (roomAddress?: string): ConnectionObject => ({
-    address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
+    // TODO: Make some kind of exception for relative paths (for demo-content-room which can't have absolute paths...)
+    // address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
+    address: this.address,
     contentClient: this.contentClient,
     contentUrls: this.contentUrls,
     diograph: this.diograph.toDiographObject(),

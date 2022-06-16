@@ -40,7 +40,7 @@ class Room {
     this.contentUrls = contentUrls
     connections.forEach((connectionData: ConnectionObject) => {
       const connection = new Connection({
-        address: join(this.address, connectionData.address),
+        address: connectionData.address,
         contentClient: connectionData.contentClient,
         contentUrls: connectionData.contentUrls,
         diograph: connectionData.diograph,
