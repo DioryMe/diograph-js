@@ -84,7 +84,10 @@ class Room {
 
   getContent = (contentUrl: string) => {
     for (let i = 0; i < this.connections.length; i++) {
-      return this.connections[i].getContent(contentUrl)
+      const found = this.connections[i].getContent(contentUrl)
+      if (found) {
+        return found
+      }
     }
   }
 
