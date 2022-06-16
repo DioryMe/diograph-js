@@ -35,6 +35,13 @@ class Diory {
     }
   }
 
+  getContentUrl = () => {
+    if (this.data) {
+      const data: DataAttributes = this.data[0]
+      return data.contentUrl
+    }
+  }
+
   extractDioryAttributes = ({
     text,
     image,
