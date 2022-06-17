@@ -27,6 +27,23 @@ diograph.update(diory.id, { text: 'New name' })
 room.saveRoom()
 ```
 
+Example2:
+
+```js
+import { Diograph } from 'diograph-js'
+import diographObject from './diograph.json'
+
+const diograph = new Diograph()
+diograph.mergeDiograph(diographObject)
+
+const newDiory = diograph.createDiory({ text: 'New Diory' })
+diograph.updateDiory(diory.id, { text: 'New name' })
+
+dispatch(diograph.toDiographObject())
+writeFile('diograph.json', diograph.toDiographObject())
+newDiory.toDioryObject()
+```
+
 # API
 
 ## RoomClient
