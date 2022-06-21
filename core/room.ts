@@ -28,6 +28,11 @@ class Room {
     this.contentUrls = contentUrls
     connections.forEach((connectionData: ConnectionObject) => {
       const { address, contentClient, contentUrls, diograph } = connectionData
+      if (!address || !contentClient || !contentUrls || !diograph) {
+        throw new Error(
+          `Invalid connectionData: address: ${address}, contentClient: ${contentClient}, contentUrls: : ${contentUrls}, diograph: ${diograph}`,
+        )
+      }
       const connection = new Connection({
         address,
         contentClient,

@@ -4,6 +4,8 @@ const roomJsonContents = JSON.stringify({
   diographUrl: 'diograph.json',
   connections: [
     {
+      address: 'some-address',
+      contentClient: 'local',
       contentUrls: {
         bafkreifhhmoftoo26lc223k5riwflm6uvgrizwakg5z7n7yruj7gty27ji:
           '/Generic content/some-video.mov',
