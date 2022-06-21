@@ -27,11 +27,12 @@ class Room {
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
     connections.forEach((connectionData: ConnectionObject) => {
+      const { address, contentClient, contentUrls, diograph } = connectionData
       const connection = new Connection({
-        address: connectionData.address,
-        contentClient: connectionData.contentClient,
-        contentUrls: connectionData.contentUrls,
-        diograph: connectionData.diograph,
+        address,
+        contentClient,
+        contentUrls,
+        diograph,
       })
       this.addConnection(connection)
     })
