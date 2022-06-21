@@ -2,8 +2,6 @@ import { RoomClient } from '../clients/roomClient'
 import { Diograph } from './diograph'
 import { ConnectionObject } from '../types'
 import { Connection } from './connection'
-import { join } from 'path'
-import { Diory } from './diory'
 
 export interface ContentUrls {
   [key: string]: string
