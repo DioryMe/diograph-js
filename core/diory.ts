@@ -1,11 +1,9 @@
-import { Room } from './room'
 import { DioryObject, DioryLinkObject, DioryAttributes, DataAttributes } from '../types'
 
 class Diory {
   id: string
   dioryAttributes: DioryAttributes
   links?: DioryLinkObject
-  room?: Room
 
   text?: string
   image?: string
@@ -15,7 +13,6 @@ class Diory {
   style?: object
   created?: string
   modified?: string
-  contentUrl?: string
 
   constructor(dioryObject: DioryObject) {
     const keys = Object.keys(dioryObject)

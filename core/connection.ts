@@ -1,5 +1,5 @@
 import { ConnectionObject } from '../types'
-import { makeRelative } from '../utils/makeRelative'
+// import { makeRelative } from '../utils/makeRelative'
 import { Diograph } from './diograph'
 import { join } from 'path'
 // import { LocalClient } from '@diograph/local-client'
