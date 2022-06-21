@@ -1,26 +1,5 @@
 import { DiographObject } from '../types'
 import { Diograph } from './diograph'
-import { Room } from './room'
-
-const roomJsonContents = JSON.stringify({
-  diographUrl: 'diograph.json',
-  connections: [
-    {
-      address: 'some-address',
-      contentClient: 'local',
-      contentUrls: {
-        bafkreifhhmoftoo26lc223k5riwflm6uvgrizwakg5z7n7yruj7gty27ji:
-          '/Generic content/some-video.mov',
-      },
-      diograph: {
-        'some-id': {
-          id: 'some-id',
-          text: 'some-diory',
-        },
-      },
-    },
-  ],
-})
 
 const diographContents = JSON.stringify({
   rootId: 'some-id',
@@ -36,13 +15,8 @@ describe('Diograph', () => {
   let diograph: Diograph
 
   beforeEach(async () => {
-    const mockRoomClient: any = {
-      loadRoom: () => roomJsonContents,
-      readDiograph: () => diographContents,
-    }
-    const room = new Room(mockRoomClient)
-    await room.loadRoom()
-    diograph = room.diograph
+    diograph = new Diograph()
+    diograph.mergeDiograph(JSON.parse(diographContents).diograph)
     expect(diograph.diories.length).toEqual(1)
   })
 
