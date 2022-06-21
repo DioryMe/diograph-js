@@ -1,5 +1,5 @@
-import { Diograph } from '../diograph'
-import { Diory } from '../diory'
+import { Diograph } from '../core/diograph'
+import { Diory } from '../core/diory'
 
 interface DeleteOptions {
   linkedDiories: boolean

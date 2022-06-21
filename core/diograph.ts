@@ -1,7 +1,7 @@
-import { DiographObject } from './types'
+import { DiographObject } from '../types'
 import { Diory } from './diory'
-import { createDiory, getDiory, getDioryWithLinks, search, update, deleteDiory } from './api'
-import { Room } from '.'
+import { createDiory, getDiory, getDioryWithLinks, search, update, deleteDiory } from '../api'
+import { Room } from './room'
 
 class Diograph {
   rootId: string = ''

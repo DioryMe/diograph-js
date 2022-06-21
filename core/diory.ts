@@ -1,5 +1,5 @@
 import { Room } from './room'
-import { DioryObject, DioryLinkObject, DioryAttributes, DataAttributes } from './types'
+import { DioryObject, DioryLinkObject, DioryAttributes, DataAttributes } from '../types'
 
 class Diory {
   id: string

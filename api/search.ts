@@ -1,5 +1,5 @@
-import { Diograph } from '../diograph'
-import { Diory } from '../diory'
+import { Diograph } from '../core/diograph'
+import { Diory } from '../core/diory'
 
 function search(this: Diograph, query: string, field: 'text' | 'data'): Diory[] {
   const diories: Diory[] = Object.values(this.diories)

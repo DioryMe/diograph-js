@@ -1,6 +1,6 @@
-import { Diograph } from '../diograph'
+import { Diograph } from '../core/diograph'
 import { DioryAttributes } from '../types'
-import { Diory } from '../diory'
+import { Diory } from '../core/diory'
 
 function update(this: Diograph, id: string, payload: DioryAttributes): Diory {
   // Check that only valid keys are given

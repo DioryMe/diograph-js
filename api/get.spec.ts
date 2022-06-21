@@ -1,5 +1,5 @@
-import { Diory } from '../diory'
-import { Diograph } from '../diograph'
+import { Diory } from '../core/diory'
+import { Diograph } from '../core/diograph'
 
 const diory = new Diory({
   id: 'some-id',

@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises'
-import { Diograph } from '../diograph'
+import { Diograph } from '../core/diograph'
 
 describe('search', () => {
   let diograph: Diograph

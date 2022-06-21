@@ -1,4 +1,4 @@
-import { Diograph } from '../diograph'
+import { Diograph } from '../core/diograph'
 
 describe('update', () => {
   let diograph: Diograph

@@ -1,7 +1,7 @@
 import { DioryAttributes } from '../types'
 import { v4 as uuidv4 } from 'uuid'
 import { Diograph } from '..'
-import { Diory } from '../diory'
+import { Diory } from '../core/diory'
 
 function createDiory(
   this: Diograph,
