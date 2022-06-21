@@ -38,6 +38,10 @@ class Diograph {
   }
 
   addDiory = (diory: Diory) => {
+    const existingWithSameId = this.diories.filter((diographDiory) => diographDiory.id === diory.id)
+    if (existingWithSameId.length) {
+      return
+    }
     this.diories.push(diory)
   }
 

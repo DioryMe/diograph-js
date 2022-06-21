@@ -11,7 +11,7 @@ class Room {
   address: string
   connections: Connection[] = []
   roomClient: RoomClient
-  diograph?: Diograph
+  diograph: Diograph
   contentUrls: ContentUrls = {}
   loaded: Boolean = false
 
