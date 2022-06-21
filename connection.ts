@@ -2,7 +2,7 @@ import { ConnectionObject } from './types'
 import { makeRelative } from './utils/makeRelative'
 import { Diograph } from './diograph'
 import { join } from 'path'
-import { LocalClient } from '@diograph/local-client'
+// import { LocalClient } from '@diograph/local-client'
 import { ElectronClient } from './clients/electronClient'
 
 export interface ContentUrlObject {
@@ -27,7 +27,7 @@ class Connection {
   }
 
   getClient = () => {
-    return this.contentClient === 'local' ? new LocalClient(this.address) : new ElectronClient()
+    return new ElectronClient()
   }
 
   addContentUrl = (CID: string, internalPath: string) => {
