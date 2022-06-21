@@ -24,6 +24,9 @@ class Diograph {
   }
 
   mergeDiograph = (diograph: DiographObject, rootId?: string) => {
+    if (diograph.rootId) {
+      throw new Error('Invalid DiographObject: includes rootId')
+    }
     this.fromDiographObjectToDiories(diograph).forEach((diory) => diory && this.addDiory(diory))
     this.rootId = rootId ? rootId : Object.values(diograph)[0].id
   }

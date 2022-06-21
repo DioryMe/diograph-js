@@ -83,4 +83,22 @@ describe('Diograph', () => {
       })
     })
   })
+
+  describe('toJson', () => {
+    let diographJson: string
+    beforeEach(() => {
+      diographJson = diograph.toJson()
+    })
+    it('includes rootId', async () => {
+      expect(JSON.parse(diographJson).rootId).toEqual('some-id')
+    })
+    it('includes diograph', async () => {
+      expect(JSON.parse(diographJson).diograph).toEqual({
+        'some-id': {
+          id: 'some-id',
+          text: 'some-diory',
+        },
+      })
+    })
+  })
 })
