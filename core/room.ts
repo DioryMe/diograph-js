@@ -18,12 +18,12 @@ class Room {
   constructor(roomClient: RoomClient) {
     this.address = roomClient.address
     this.roomClient = roomClient
-    this.diograph = new Diograph(undefined, this)
+    this.diograph = new Diograph()
   }
 
   loadRoom = async () => {
     const roomJsonContents = await this.roomClient.loadRoom()
-    const { diographUrl, contentUrls, connections } = JSON.parse(roomJsonContents)
+    const { contentUrls, connections } = JSON.parse(roomJsonContents)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
     connections.forEach((connectionData: ConnectionObject) => {
@@ -41,14 +41,12 @@ class Room {
       })
       this.addConnection(connection)
     })
-    this.diograph = new Diograph(diographUrl, this)
+    this.diograph = new Diograph()
     await this.diograph.loadDiograph(this.roomClient)
     this.loaded = true
   }
 
   initiateRoom = async () => {
-    const diographUrl = 'diograph.json'
-
     const defaultDiographJson = {
       '/': {
         id: '/',
@@ -58,7 +56,7 @@ class Room {
       },
     }
 
-    this.diograph = new Diograph(diographUrl, this)
+    this.diograph = new Diograph()
     this.diograph.mergeDiograph(defaultDiographJson, '/')
 
     this.loaded = true
@@ -94,7 +92,6 @@ class Room {
     //   return {}
     // }
     return {
-      diographUrl: this.diograph?.diographUrl,
       connections: this.connections.map((connection) =>
         connection.toConnectionObject(this.address),
       ),

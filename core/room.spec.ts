@@ -1,7 +1,6 @@
 import { Room } from './room'
 
 const roomJsonContents = JSON.stringify({
-  diographUrl: 'diograph.json',
   connections: [
     {
       address: 'some-address',

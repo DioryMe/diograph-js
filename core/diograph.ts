@@ -1,12 +1,10 @@
 import { DiographObject } from '../types'
 import { Diory } from './diory'
 import { createDiory, getDiory, getDioryWithLinks, search, update, deleteDiory } from '../api'
-import { Room } from './room'
 
 class Diograph {
   rootId: string = ''
   diories: Diory[] = []
-  diographUrl?: string
 
   createDiory = createDiory
   getDiory = getDiory
@@ -15,9 +13,7 @@ class Diograph {
   search = search
   deleteDiory = deleteDiory
 
-  constructor(diographUrl?: string, room?: Room) {
-    this.diographUrl = diographUrl
-  }
+  constructor() {}
 
   fromDiographObjectToDiories = (diograph: DiographObject) => {
     return Object.values(diograph).map((dioryObject) => new Diory(dioryObject))

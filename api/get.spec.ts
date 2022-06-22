@@ -28,7 +28,7 @@ describe('getDiory', () => {
   let diograph: Diograph
 
   beforeEach(() => {
-    diograph = new Diograph('some-path/diograph.json')
+    diograph = new Diograph()
     diograph.mergeDiograph({
       'some-id': diory,
       'some-other-id': diory2,

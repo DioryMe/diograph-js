@@ -3,7 +3,6 @@ import { Connection } from './connection'
 import { ConnectionObject } from '../types'
 
 const roomJsonContents = JSON.stringify({
-  diographUrl: 'diograph.json',
   connections: [
     {
       address: 'some-address',
