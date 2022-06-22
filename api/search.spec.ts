@@ -7,7 +7,7 @@ describe('search', () => {
   beforeEach(async () => {
     diograph = new Diograph()
     // TODO: Parse JSON with Diograph.parseJSON (=class method)
-    const diographFixture = await readFile('../demo-content-room/diograph.json', {
+    const diographFixture = await readFile('./demo-content-room/diograph.json', {
       encoding: 'utf-8',
     }).then((data) => {
       return JSON.parse(data)

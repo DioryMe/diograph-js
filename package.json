@@ -21,8 +21,7 @@
     "build-watch": "yarn build --watch",
     "prettier": "prettier --write .",
     "test": "jest .",
-    "test-watch": "yarn test --watch",
-    "test-e2e": "cucumber-js tests/ tests/steps"
+    "test-watch": "yarn test --watch"
   },
   "prettier": {
     "tabWidth": 2,
