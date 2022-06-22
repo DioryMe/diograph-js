@@ -1,8 +1,8 @@
 import { Room } from './room'
+import { ConnectionObject, RoomObject } from '../types'
 import { Connection } from './connection'
-import { ConnectionObject } from '../types'
 
-const roomJsonContents = JSON.stringify({
+const roomObject: RoomObject = {
   connections: [
     {
       address: 'some-address',
@@ -19,28 +19,14 @@ const roomJsonContents = JSON.stringify({
       },
     },
   ],
-})
-
-const diographContents = JSON.stringify({
-  rootId: 'some-id',
-  diograph: {
-    'some-id': {
-      id: 'some-id',
-      text: 'some-diory',
-    },
-  },
-})
+}
 
 describe('Connection', () => {
   let connection: Connection
 
   beforeEach(async () => {
-    const mockRoomClient: any = {
-      readRoomJson: () => roomJsonContents,
-      readDiograph: () => diographContents,
-    }
-    const room = new Room(mockRoomClient)
-    await room.loadRoom()
+    const room = new Room()
+    room.initiateRoom(roomObject)
     connection = room.connections[0]
   })
 
