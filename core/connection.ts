@@ -2,8 +2,6 @@ import { ConnectionObject } from '../types'
 // import { makeRelative } from '../utils/makeRelative'
 import { Diograph } from './diograph'
 import { join } from 'path'
-// import { LocalClient } from '@diograph/local-client'
-import { ElectronClient } from '../clients/electronClient'
 
 export interface ContentUrlObject {
   // "CID <-> internalPath" pairs
@@ -32,7 +30,20 @@ class Connection {
   }
 
   getClient = () => {
-    return new ElectronClient()
+    if (this.contentClient === 'local') {
+      try {
+        const { LocalClient } = require('@diograph/local-client')
+        return new LocalClient()
+      } catch (e) {
+        console.log(e)
+        console.log(
+          'Connection#getClient: LocalClient not available, falling back to ElectronClient',
+        )
+        const { ElectronClient } = require('../clients/electronClient')
+        return new ElectronClient()
+      }
+    }
+    throw new Error(`Connection#getClient: contentClient '${this.contentClient}' not available!`)
   }
 
   addContentUrl = (CID: string, internalPath: string) => {
