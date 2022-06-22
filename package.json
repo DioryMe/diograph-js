@@ -2,7 +2,7 @@
   "name": "diograph-js",
   "version": "0.0.2",
   "main": "dist/index.js",
-  "types": "index.d.ts",
+  "types": "dist/index.d.ts",
   "author": "Jouni Alanen <jouni@diory.me>",
   "license": "MIT",
   "dependencies": {},
