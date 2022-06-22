@@ -13,8 +13,12 @@ class RoomClient {
     this.diographPath = join(this.address, 'diograph.json')
   }
 
-  loadRoom = async () => {
+  readRoomJson = async () => {
     return this.client.readTextItem(this.roomJsonPath)
+  }
+
+  saveRoomJson = async (roomJsonContents: string) => {
+    return this.client.writeItem(this.roomJsonPath, roomJsonContents)
   }
 
   readDiograph = async () => {

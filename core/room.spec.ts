@@ -34,7 +34,7 @@ describe('Room', () => {
 
   beforeEach(async () => {
     const mockRoomClient: any = {
-      loadRoom: () => roomJsonContents,
+      readRoomJson: () => roomJsonContents,
       readDiograph: () => diographContents,
     }
     room = new Room(mockRoomClient)

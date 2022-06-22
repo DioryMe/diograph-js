@@ -36,7 +36,7 @@ describe('Connection', () => {
 
   beforeEach(async () => {
     const mockRoomClient: any = {
-      loadRoom: () => roomJsonContents,
+      readRoomJson: () => roomJsonContents,
       readDiograph: () => diographContents,
     }
     const room = new Room(mockRoomClient)

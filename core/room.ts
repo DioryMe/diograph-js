@@ -22,7 +22,7 @@ class Room {
   }
 
   loadRoom = async () => {
-    const roomJsonContents = await this.roomClient.loadRoom()
+    const roomJsonContents = await this.roomClient.readRoomJson()
     const { contentUrls, connections } = JSON.parse(roomJsonContents)
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     this.contentUrls = contentUrls
@@ -98,12 +98,13 @@ class Room {
     }
   }
 
+  toJson = () => {
+    return JSON.stringify(this.toRoomObject(), null, 2)
+  }
+
   saveRoom = async () => {
     // Room.json
-    await this.roomClient.client.writeItem(
-      this.roomClient.roomJsonPath,
-      JSON.stringify(this.toRoomObject(), null, 2),
-    )
+    await this.roomClient.saveRoomJson(this.toJson())
 
     // Diograph.json
     if (!this.diograph) {
