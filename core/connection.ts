@@ -16,7 +16,12 @@ class Connection {
   contentUrls: ContentUrlObject
   diograph: Diograph
 
-  constructor({ address, contentClient, contentUrls, diograph }: ConnectionObject) {
+  constructor({ address, contentClient, contentUrls = {}, diograph = {} }: ConnectionObject) {
+    if (!address || !contentClient) {
+      throw new Error(
+        `Invalid connectionData: address: ${address}, contentClient: ${contentClient}`,
+      )
+    }
     this.address = address
     this.contentClient = contentClient
     this.contentUrls = contentUrls || {}

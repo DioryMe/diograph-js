@@ -3,17 +3,11 @@ import { Diograph } from './diograph'
 import { ConnectionObject } from '../types'
 import { Connection } from './connection'
 
-export interface ContentUrls {
-  [key: string]: string
-}
-
 class Room {
-  address: string
   connections: Connection[] = []
   roomClient: RoomClient
   diograph: Diograph
-  contentUrls: ContentUrls = {}
-  loaded: Boolean = false
+  address: string
 
   constructor(roomClient: RoomClient) {
     this.address = roomClient.address
@@ -22,28 +16,21 @@ class Room {
   }
 
   loadRoom = async () => {
-    const roomJsonContents = await this.roomClient.readRoomJson()
-    const { contentUrls, connections } = JSON.parse(roomJsonContents)
+    // Room
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    this.contentUrls = contentUrls
+    const roomJsonContents = await this.roomClient.readRoomJson()
+    const { connections } = JSON.parse(roomJsonContents)
+
+    // Connections
+    this.connections = []
     connections.forEach((connectionData: ConnectionObject) => {
-      const { address, contentClient, contentUrls, diograph } = connectionData
-      if (!address || !contentClient || !contentUrls || !diograph) {
-        throw new Error(
-          `Invalid connectionData: address: ${address}, contentClient: ${contentClient}, contentUrls: : ${contentUrls}, diograph: ${diograph}`,
-        )
-      }
-      const connection = new Connection({
-        address,
-        contentClient,
-        contentUrls,
-        diograph,
-      })
+      const connection = new Connection(connectionData)
       this.addConnection(connection)
     })
+
+    // Diograph
     this.diograph = new Diograph()
     await this.diograph.loadDiograph(this.roomClient)
-    this.loaded = true
   }
 
   initiateRoom = async () => {
@@ -59,7 +46,6 @@ class Room {
     this.diograph = new Diograph()
     this.diograph.mergeDiograph(defaultDiographJson, '/')
 
-    this.loaded = true
     await this.saveRoom()
   }
 
@@ -88,9 +74,6 @@ class Room {
   }
 
   toObject = () => {
-    // if (!this.loaded) {
-    //   return {}
-    // }
     return {
       connections: this.connections.map((connection) => connection.toObject(this.address)),
     }
@@ -101,13 +84,7 @@ class Room {
   }
 
   saveRoom = async () => {
-    // Room.json
     await this.roomClient.saveRoomJson(this.toJson())
-
-    // Diograph.json
-    if (!this.diograph) {
-      throw new Error("Can't saveRoom: no this.diograph")
-    }
     await this.roomClient.saveDiograph(this.diograph.toJson())
   }
 

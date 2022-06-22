@@ -28,6 +28,7 @@ class Diograph {
   }
 
   loadDiograph = async (roomClient: any) => {
+    this.diories = []
     const diographContents = await roomClient.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographContents)

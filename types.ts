@@ -30,10 +30,14 @@ export interface DioryLinkObject {
   [key: string]: DioryLink
 }
 
+export interface ContentUrls {
+  [key: string]: string
+}
+
 export interface ConnectionObject {
   address: string
   contentClient: string
-  contentUrls?: any
+  contentUrls?: ContentUrls
   diograph?: DiographObject
 }
 
