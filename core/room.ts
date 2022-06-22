@@ -1,21 +1,31 @@
 import { RoomClient } from '../clients/roomClient'
 import { Diograph } from './diograph'
-import { ConnectionObject } from '../types'
+import { ConnectionObject, DiographObject, RoomObject } from '../types'
 import { Connection } from './connection'
 
 class Room {
-  connections: Connection[] = []
-  roomClient: RoomClient
   diograph: Diograph
-  address: string
+  connections: Connection[] = []
+  roomClient?: RoomClient
+  address?: string
 
-  constructor(roomClient: RoomClient) {
-    this.address = roomClient.address
-    this.roomClient = roomClient
+  constructor(roomClient?: RoomClient) {
+    if (roomClient) {
+      this.defineRoomClient(roomClient)
+    }
     this.diograph = new Diograph()
   }
 
+  defineRoomClient = (roomClient: RoomClient) => {
+    this.address = roomClient.address
+    this.roomClient = roomClient
+  }
+
   loadRoom = async () => {
+    if (!this.roomClient) {
+      throw new Error("Can't loadRoom: no roomClient defined, use defineRoomClient to define it")
+    }
+
     // Room
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const roomJsonContents = await this.roomClient.readRoomJson()
@@ -33,7 +43,18 @@ class Room {
     await this.diograph.loadDiograph(this.roomClient)
   }
 
-  initiateRoom = async () => {
+  initiateRoom = (roomObject?: RoomObject, diographObject?: DiographObject) => {
+    // Connections
+    if (roomObject && roomObject.connections) {
+      this.connections = []
+      roomObject.connections.forEach((connectionData: ConnectionObject) => {
+        const connection = new Connection(connectionData)
+        this.addConnection(connection)
+      })
+    }
+
+    // Diograph
+    // TODO: Move to a better place
     const defaultDiographJson = {
       '/': {
         id: '/',
@@ -44,9 +65,11 @@ class Room {
     }
 
     this.diograph = new Diograph()
-    this.diograph.mergeDiograph(defaultDiographJson, '/')
-
-    await this.saveRoom()
+    if (diographObject) {
+      this.diograph.mergeDiograph(diographObject)
+    } else {
+      this.diograph.mergeDiograph(defaultDiographJson, '/')
+    }
   }
 
   addConnection = (connection: Connection) => {
@@ -73,7 +96,7 @@ class Room {
     return this.connections[0].addContent(fileContent, contentId)
   }
 
-  toObject = () => {
+  toObject = (): RoomObject => {
     return {
       connections: this.connections.map((connection) => connection.toObject(this.address)),
     }
@@ -84,11 +107,19 @@ class Room {
   }
 
   saveRoom = async () => {
+    if (!this.roomClient) {
+      throw new Error("Can't saveRoom: no roomClient defined, use defineRoomClient to define it")
+    }
+
     await this.roomClient.saveRoomJson(this.toJson())
     await this.diograph.saveDiograph(this.roomClient)
   }
 
   deleteRoom = async () => {
+    if (!this.roomClient) {
+      throw new Error("Can't deleteRoom: no roomClient defined, use defineRoomClient to define it")
+    }
+
     await this.roomClient.deleteRoomJson()
     await this.roomClient.deleteDiographJson()
   }

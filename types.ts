@@ -1,3 +1,7 @@
+export interface RoomObject {
+  connections: ConnectionObject[]
+}
+
 export interface DiographObject {
   [key: string]: DioryObject
 }

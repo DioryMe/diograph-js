@@ -41,6 +41,15 @@ describe('Room', () => {
     await room.loadRoom()
   })
 
+  describe('constructor', () => {
+    it('builds from object', () => {
+      const duplicateRoom = new Room()
+      duplicateRoom.initiateRoom(room.toObject(), room.diograph.toObject())
+      expect(duplicateRoom.toObject()).toEqual(room.toObject())
+      expect(duplicateRoom.diograph.toObject()).toEqual(room.diograph.toObject())
+    })
+  })
+
   describe('loadRoom', () => {
     it('loads connections', async () => {
       expect(room.connections[0].contentUrls).toEqual({
