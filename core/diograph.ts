@@ -44,16 +44,16 @@ class Diograph {
     this.diories.push(diory)
   }
 
-  toDiographObject = (): DiographObject => {
+  toObject = (): DiographObject => {
     const diographObject: DiographObject = {}
     this.diories.forEach((diory) => {
-      diographObject[diory.id] = diory.toDioryObject()
+      diographObject[diory.id] = diory.toObject()
     })
     return diographObject
   }
 
   toJson = (): string => {
-    const diographJsonObject = { rootId: this.rootId, diograph: this.toDiographObject() }
+    const diographJsonObject = { rootId: this.rootId, diograph: this.toObject() }
     return JSON.stringify(diographJsonObject, null, 2)
   }
 }

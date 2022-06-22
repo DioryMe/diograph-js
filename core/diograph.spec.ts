@@ -36,14 +36,14 @@ describe('Diograph', () => {
       const identicalDiographObject = JSON.parse(diographContents).diograph
       diograph.mergeDiograph(identicalDiographObject)
       expect(diograph.diories.length).toEqual(1)
-      expect(diograph.toDiographObject()).toEqual(identicalDiographObject)
+      expect(diograph.toObject()).toEqual(identicalDiographObject)
     })
   })
 
-  describe('toDiographObject', () => {
+  describe('toObject', () => {
     let diographObject: DiographObject
     beforeEach(() => {
-      diographObject = diograph.toDiographObject()
+      diographObject = diograph.toObject()
     })
     it("doesn't include rootId", async () => {
       expect(diographObject.rootId).toBeUndefined()

@@ -60,7 +60,7 @@ class Diory {
     return { text, image, latlng, date, data, style, created, modified }
   }
 
-  toDioryObject = (includeData: boolean = true) => {
+  toObject = (includeData: boolean = true) => {
     const dioryObject: any = {
       id: this.id,
       links: this.links,

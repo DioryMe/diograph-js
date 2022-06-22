@@ -28,10 +28,10 @@ describe('Diory', () => {
     })
   })
 
-  describe('toDioryObject', () => {
+  describe('toObject', () => {
     let dioryObject: DioryObject
     beforeEach(() => {
-      dioryObject = diory.toDioryObject()
+      dioryObject = diory.toObject()
     })
     it('works', async () => {
       expect(dioryObject).toEqual({

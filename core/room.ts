@@ -87,19 +87,17 @@ class Room {
     return this.connections[0].addContent(fileContent, contentId)
   }
 
-  toRoomObject = () => {
+  toObject = () => {
     // if (!this.loaded) {
     //   return {}
     // }
     return {
-      connections: this.connections.map((connection) =>
-        connection.toConnectionObject(this.address),
-      ),
+      connections: this.connections.map((connection) => connection.toObject(this.address)),
     }
   }
 
   toJson = () => {
-    return JSON.stringify(this.toRoomObject(), null, 2)
+    return JSON.stringify(this.toObject(), null, 2)
   }
 
   saveRoom = async () => {

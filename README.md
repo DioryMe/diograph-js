@@ -39,9 +39,9 @@ diograph.mergeDiograph(diographObject)
 const newDiory = diograph.createDiory({ text: 'New Diory' })
 diograph.updateDiory(diory.id, { text: 'New name' })
 
-dispatch(diograph.toDiographObject())
-writeFile('diograph.json', diograph.toDiographObject())
-newDiory.toDioryObject()
+dispatch(diograph.toObject())
+writeFile('diograph.json', diograph.toObject())
+newDiory.toObject()
 ```
 
 # API

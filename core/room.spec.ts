@@ -50,9 +50,9 @@ describe('Room', () => {
     })
   })
 
-  describe('toRoomObject', () => {
+  describe('toObject', () => {
     it('includes connections', async () => {
-      expect(room.toRoomObject().connections[0].contentUrls).toEqual({
+      expect(room.toObject().connections[0].contentUrls).toEqual({
         bafkreifhhmoftoo26lc223k5riwflm6uvgrizwakg5z7n7yruj7gty27ji:
           '/Generic content/some-video.mov',
       })

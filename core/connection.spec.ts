@@ -44,10 +44,10 @@ describe('Connection', () => {
     connection = room.connections[0]
   })
 
-  describe('toConnectionObject', () => {
+  describe('toObject', () => {
     let connectionObject: ConnectionObject
     beforeEach(() => {
-      connectionObject = connection.toConnectionObject()
+      connectionObject = connection.toObject()
     })
     it('includes contentUrls', async () => {
       expect(connectionObject.contentUrls).toEqual({
