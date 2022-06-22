@@ -41,13 +41,11 @@ describe('Room', () => {
     await room.loadRoom()
   })
 
-  describe('constructor', () => {
-    it('builds from object', () => {
-      const duplicateRoom = new Room()
-      duplicateRoom.initiateRoom(room.toObject(), room.diograph.toObject())
-      expect(duplicateRoom.toObject()).toEqual(room.toObject())
-      expect(duplicateRoom.diograph.toObject()).toEqual(room.diograph.toObject())
-    })
+  it('builds from object', () => {
+    const duplicateRoom = new Room()
+    duplicateRoom.initiateRoom(room.toObject(), room.diograph.toObject())
+    expect(duplicateRoom.toObject()).toEqual(room.toObject())
+    expect(duplicateRoom.diograph.toObject()).toEqual(room.diograph.toObject())
   })
 
   describe('loadRoom', () => {

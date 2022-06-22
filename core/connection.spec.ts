@@ -30,6 +30,11 @@ describe('Connection', () => {
     connection = room.connections[0]
   })
 
+  it('builds from object', () => {
+    const duplicateConnection = new Connection(connection.toObject())
+    expect(duplicateConnection.toObject()).toEqual(connection.toObject())
+  })
+
   describe('toObject', () => {
     let connectionObject: ConnectionObject
     beforeEach(() => {

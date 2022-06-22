@@ -22,6 +22,11 @@ describe('Diory', () => {
     diory = diograph.diories[0]
   })
 
+  it('builds from object', () => {
+    const duplicateDiory = new Diory(diory.toObject())
+    expect(duplicateDiory.toObject()).toEqual(diory.toObject())
+  })
+
   describe('DioryAttributes', () => {
     it('access with dot notation', () => {
       expect(diory.text).toEqual('some-diory')
