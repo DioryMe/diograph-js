@@ -37,6 +37,10 @@ class Diograph {
     }
   }
 
+  saveDiograph = async (roomClient: any) => {
+    await roomClient.saveDiograph(this.toJson())
+  }
+
   addDiory = (diory: Diory) => {
     const existingWithSameId = this.diories.filter((diographDiory) => diographDiory.id === diory.id)
     if (existingWithSameId.length) {

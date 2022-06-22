@@ -85,7 +85,7 @@ class Room {
 
   saveRoom = async () => {
     await this.roomClient.saveRoomJson(this.toJson())
-    await this.roomClient.saveDiograph(this.diograph.toJson())
+    await this.diograph.saveDiograph(this.roomClient)
   }
 
   deleteRoom = async () => {
