@@ -1,7 +1,7 @@
-const path = require('path')
+const path = require('path-browserify')
 
 // Straight copy-paste from https://github.com/sindresorhus/file-url/blob/main/index.js
-// - couldn't use it directly because it uses "import path from 'path'" syntax internally
+// - couldn't use it directly because it uses "import path from 'path-browserify'" syntax internally
 function toFileUrl(filePath: string, options = { resolve: false }) {
   if (typeof filePath !== 'string') {
     throw new TypeError(`Expected a string, got ${typeof filePath}`)

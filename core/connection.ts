@@ -1,7 +1,7 @@
 import { ConnectionObject } from '../types'
 // import { makeRelative } from '../utils/makeRelative'
 import { Diograph } from './diograph'
-import { join } from 'path'
+import { join } from 'path-browserify'
 
 export interface ContentUrlObject {
   // "CID <-> internalPath" pairs

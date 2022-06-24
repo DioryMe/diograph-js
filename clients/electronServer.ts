@@ -1,5 +1,5 @@
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'fs'
-import { dirname, join } from 'path'
+import { dirname, join } from 'path-browserify'
 
 class ElectronServer {
   apiActions = () => {
