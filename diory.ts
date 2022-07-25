@@ -42,7 +42,17 @@ class Diory implements IDiory {
     return this
   }
 
+  private throwLinkAlreadyExistError = (method: string, linkedDioryObject: IDioryObject): void => {
+    if (!this.links || !this.links[linkedDioryObject.id]) {
+      return
+    }
+
+    throw new Error(`${method}: Linked diory not found ${JSON.stringify(linkedDioryObject, null, 2)}`)
+  }
+
   createLink(linkedDioryObject: IDioryObject) {
+    this.throwLinkAlreadyExistError('createLink', linkedDioryObject)
+
     const id = linkedDioryObject.id
     this.links = {
       ...this.links,
@@ -54,10 +64,19 @@ class Diory implements IDiory {
     return this
   }
 
-  deleteLink(linkedDioryObject: IDioryObject) {
-    const { [linkedDioryObject.id]: omit, ...links } = this.links || {}
+  private throwLinkNotFoundError = (method: string, linkedDioryObject: IDioryObject): void => {
+    if (this.links && this.links[linkedDioryObject.id]) {
+      return
+    }
 
-    this.links = links
+    throw new Error(`${method}: Linked diory not found ${JSON.stringify(linkedDioryObject, null, 2)}`)
+  }
+
+  deleteLink(linkedDioryObject: IDioryObject) {
+    this.throwLinkNotFoundError('deleteLink', linkedDioryObject)
+
+    const { [linkedDioryObject.id]: omit, ...links } = this.links || {}
+    this.links = Object.keys(links).length? links : undefined
 
     this.modified = new Date().toISOString()
 
@@ -65,7 +84,7 @@ class Diory implements IDiory {
   }
 
   toObject = (): IDioryObject => {
-    const dioryObject: any = {}
+    const dioryObject: IDioryObject = { id: this.id }
     Object.getOwnPropertyNames(this).forEach((prop) => {
       // @ts-ignore
       const value: any = this[prop]

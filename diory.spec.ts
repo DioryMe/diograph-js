@@ -19,37 +19,30 @@ describe('diory', () => {
     jest.useRealTimers()
   })
 
-  describe('constructor(dioryObject)', () => {
+  describe('when new Diory(dioryObject)', () => {
     let dioryObject: IDioryObject
 
-    describe('given id', () => {
+    describe('given diory object with id', () => {
       beforeEach(() => {
         dioryObject = {
           id: 'some-id'
         }
+        diory = new Diory(dioryObject)
       })
 
       it('adds id to diory', () => {
-        diory = new Diory(dioryObject)
-
         expect(diory.id).toBe('some-id')
       })
 
       it('adds default image to diory', () => {
-        diory = new Diory(dioryObject)
-
         expect(diory.image).toBe('some-defaultImage')
       })
 
       it('adds created ISO date to diory', () => {
-        diory = new Diory(dioryObject)
-
         expect(diory.created).toBe(someNewDate)
       })
 
       it('adds modified ISO date to diory', () => {
-        diory = new Diory(dioryObject)
-
         expect(diory.modified).toBe(someNewDate)
       })
 
@@ -197,7 +190,8 @@ describe('diory', () => {
 
       describe('given other prop', () => {
         it('does not add other prop to diory', () => {
-          jest.spyOn(console, 'error').mockImplementation(() => {});
+          jest.spyOn(console, 'error').mockImplementation(() => {
+          });
           dioryObject.other = 'prop'
 
           diory = new Diory(dioryObject)
@@ -206,112 +200,135 @@ describe('diory', () => {
           expect(diory.other).not.toBe('prop')
         })
       })
-    })
-  })
 
-  describe('update(dioryProps)', () => {
-    let dioryProps: IDioryProps
+      describe('when update(dioryProps)', () => {
+        let dioryProps: IDioryProps
 
-    describe('given diory with id', () => {
-      let diory: IDiory
-      beforeEach(() => {
-        dioryProps = {}
-        diory = new Diory({ id: 'some-id' })
-      })
+        beforeEach(() => {
+          dioryProps = {}
+        })
 
-      it('does not update created ISO date to diory', () => {
-        diory.update({})
+        it('does not update created ISO date to diory', () => {
+          diory.update({})
 
-        expect(diory.created).toBe(someNewDate)
-      })
+          expect(diory.created).toBe(someNewDate)
+        })
 
-      it('updates modified ISO date to diory', () => {
-        jest.setSystemTime(new Date('2022-01-02T00:00:00.000Z'))
+        it('updates modified ISO date to diory', () => {
+          jest.setSystemTime(new Date('2022-01-02T00:00:00.000Z'))
 
-        diory.update({})
+          diory.update({})
 
-        expect(diory.modified).toBe('2022-01-02T00:00:00.000Z')
-      })
+          expect(diory.modified).toBe('2022-01-02T00:00:00.000Z')
+        })
 
-      describe('given text', () => {
-        it('adds text to diory', () => {
-          dioryProps.text = 'some-text'
+        describe('given text', () => {
+          it('adds text to diory', () => {
+            dioryProps.text = 'some-text'
 
-          diory.update(dioryProps)
+            diory.update(dioryProps)
 
-          expect(diory.text).toBe('some-text')
+            expect(diory.text).toBe('some-text')
+          })
+        })
+
+        describe('given image', () => {
+          it('adds image to diory', () => {
+            dioryProps.image = 'some-image'
+
+            diory.update(dioryProps)
+
+            expect(diory.image).toBe('some-image')
+          })
+        })
+
+        describe('given latlng', () => {
+          it('adds latlng to diory', () => {
+            dioryProps.latlng = 'some-latlng'
+
+            diory.update(dioryProps)
+
+            expect(diory.latlng).toBe('some-latlng')
+          })
+        })
+
+        describe('given date', () => {
+          it('adds date to diory', () => {
+            dioryProps.date = 'some-date'
+
+            diory.update(dioryProps)
+
+            expect(diory.date).toBe('some-date')
+          })
+        })
+
+        describe('given data', () => {
+          it('adds data to diory', () => {
+            dioryProps.data = ['some-data']
+
+            diory.update(dioryProps)
+
+            expect(diory.data).toStrictEqual(['some-data'])
+          })
+        })
+
+        describe('given links', () => {
+          it('adds links to diory', () => {
+            dioryProps.links = { some: 'link' }
+
+            diory.update(dioryProps)
+
+            expect(diory.links).toStrictEqual({ some: 'link' })
+          })
+        })
+
+        describe('given other id', () => {
+          it('does not add id to diory', () => {
+            dioryProps.id = 'other-id'
+
+            diory.update(dioryProps)
+
+            expect(diory.id).not.toBe('other-id')
+          })
+        })
+
+        describe('given other prop', () => {
+          it('does not add other prop to diory', () => {
+            jest.spyOn(console, 'error').mockImplementation(() => {
+            });
+            dioryProps.other = 'prop'
+
+            diory.update(dioryProps)
+
+            expect(console.error).toHaveBeenCalledWith(expect.anything(), 'other')
+            expect(diory.other).not.toBe('prop')
+          })
         })
       })
 
-      describe('given image', () => {
-        it('adds image to diory', () => {
-          dioryProps.image = 'some-image'
-
-          diory.update(dioryProps)
-
-          expect(diory.image).toBe('some-image')
+      describe('when createLink() with existing linked diory', () => {
+        beforeEach(() => {
+          diory.createLink({ id: 'linked-id' })
         })
-      })
 
-      describe('given latlng', () => {
-        it('adds latlng to diory', () => {
-          dioryProps.latlng = 'some-latlng'
-
-          diory.update(dioryProps)
-
-          expect(diory.latlng).toBe('some-latlng')
+        it('creates link to diory', () => {
+          expect(diory.links).toStrictEqual({ 'linked-id': { id: 'linked-id' } })
         })
-      })
 
-      describe('given date', () => {
-        it('adds date to diory', () => {
-          dioryProps.date = 'some-date'
+        describe('when deleteLink() with existing linked diory', () => {
+          it('deletes link from diory', () => {
+            diory.deleteLink({ id: 'linked-id' })
 
-          diory.update(dioryProps)
-
-          expect(diory.date).toBe('some-date')
+            expect(diory.links).toBe(undefined)
+          })
         })
-      })
 
-      describe('given data', () => {
-        it('adds data to diory', () => {
-          dioryProps.data = ['some-data']
-
-          diory.update(dioryProps)
-
-          expect(diory.data).toStrictEqual(['some-data'])
-        })
-      })
-
-      describe('given links', () => {
-        it('adds links to diory', () => {
-          dioryProps.links = { some: 'link' }
-
-          diory.update(dioryProps)
-
-          expect(diory.links).toStrictEqual({ some: 'link' })
-        })
-      })
-
-      describe('given other id', () => {
-        it('does not add id to diory', () => {
-          dioryProps.id = 'other-id'
-
-          diory.update(dioryProps)
-
-          expect(diory.id).not.toBe('other-id')
-        })
-      })
-
-      describe('given other prop', () => {
-        it('does not add other prop to diory', () => {
-          jest.spyOn(console, 'error').mockImplementation(() => {});
-          dioryProps.other = 'prop'
-
-          diory.update(dioryProps)
-
-          expect(console.error).toHaveBeenCalledWith(expect.anything(), 'other')
-          expect(diory.other).not.toBe('prop')
+        describe('when deleteLink() without existing linked diory', () => {
+          it('throws error', () => {
+            expect(() => {
+              diory.deleteLink({ id: 'not-existing-id' })
+            }).toThrow()
+          })
         })
       })
     })
