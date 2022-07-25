@@ -1,78 +1,82 @@
-import { DioryObject, DioryLinkObject, DioryAttributes, DataAttributes } from './types'
+import { getDefaultImage } from './getDefaultImage'
+import { propIsValid, valueIsValid, valueExists } from './validators'
+import { IDiory, IDioryObject, IDioryProps } from './types'
 
-class Diory {
+class Diory implements IDiory {
   id: string
-  dioryAttributes: DioryAttributes
-  links?: DioryLinkObject
-  thumbnailBuffer?: Buffer
+  text?: string = undefined
+  image?: string = undefined
+  latlng?: string = undefined
+  date?: string = undefined
+  data?: any[] = undefined
+  links?: { [index: string]: any } = undefined
+  created?: string = undefined
+  modified?: string = undefined
 
-  text?: string
-  image?: string
-  latlng?: string
-  date?: string
-  data?: DataAttributes[]
-  style?: object
-  created?: string
-  modified?: string
-
-  constructor(dioryObject: DioryObject, thumbnailBuffer?: Buffer) {
-    const keys = Object.keys(dioryObject)
-    if (keys.includes('rootId') || keys.includes('diograph') || keys.includes('linkKey')) {
-      throw new Error('Invalid dioryObject: includes rootId, diograph or linkKey key!!')
-    }
+  constructor(dioryObject: IDioryObject) {
     this.id = dioryObject.id
-    this.links = dioryObject.links
-    this.dioryAttributes = this.extractDioryAttributes(dioryObject)
-    this.thumbnailBuffer = thumbnailBuffer
+    this.update(dioryObject)
   }
 
-  changeContentUrl = (contentUrl: string) => {
-    if (this.data) {
-      const data: DataAttributes = this.data[0]
-      data.contentUrl = contentUrl
+  update = (dioryProps: IDioryProps): IDiory => {
+    Object.entries(dioryProps).forEach(([prop, value]) => {
+      // @ts-ignore
+      if (!propIsValid(this, prop) || !valueIsValid(value)) {
+        return
+      }
+
+      // @ts-ignore
+      this[prop] = value
+    })
+
+    if (!this.image) {
+      this.image = getDefaultImage()
     }
+
+    if (!this.created) {
+      this.created = new Date().toISOString()
+    }
+
+    this.modified = new Date().toISOString()
+
+    return this
   }
 
-  extractDioryAttributes = ({
-    text,
-    image,
-    latlng,
-    date,
-    data,
-    style,
-    created,
-    modified,
-  }: DioryAttributes): DioryAttributes => {
-    this.text = text
-    this.image = image
-    this.latlng = latlng
-    this.date = date
-    this.data = data
-    this.style = style
-    this.created = created
-    this.modified = modified
-    return { text, image, latlng, date, data, style, created, modified }
+  createLink(linkedDioryObject: IDioryObject) {
+    const id = linkedDioryObject.id
+    this.links = {
+      ...this.links,
+      [id]: { id }
+    }
+
+    this.modified = new Date().toISOString()
+
+    return this
   }
 
-  toDioryObject = (includeData: boolean = true) => {
-    const dioryObject: any = {
-      id: this.id,
-      links: this.links,
-      // TODO: Make test and try if this could be just:
-      // ...this.dioryAttributes,
-      text: this.text,
-      image: this.image,
-      latlng: this.latlng,
-      date: this.date,
-      style: this.style,
-      created: this.created,
-      modified: this.modified,
-    }
-    if (includeData) {
-      dioryObject.data = this.data
-    }
+  deleteLink(linkedDioryObject: IDioryObject) {
+    const { [linkedDioryObject.id]: omit, ...links } = this.links || {}
+
+    this.links = links
+
+    this.modified = new Date().toISOString()
+
+    return this
+  }
+
+  toObject = (): IDioryObject => {
+    const dioryObject: any = {}
+    Object.getOwnPropertyNames(this).forEach((prop) => {
+      // @ts-ignore
+      const value: any = this[prop]
+      if (valueIsValid(value) && valueExists(value)) {
+        dioryObject[prop] = value
+      }
+    })
     return dioryObject
   }
+
+  toJson = (): string => JSON.stringify(this.toObject(), null, 2)
 }
 
 export { Diory }
