@@ -1,7 +1,9 @@
 import { IDiograph, IDiographObject, IDiory, IDioryObject } from './types'
+import { v4 as uuid } from 'uuid'
 
 import { Diograph } from './diograph'
 
+// Mocks
 jest.mock('./diory', () => ({
   Diory: function(dioryObject: IDioryObject) {
     return {
@@ -10,6 +12,7 @@ jest.mock('./diory', () => ({
     }
   }
 }))
+jest.mock('uuid')
 
 describe('diograph', () => {
   let diograph: IDiograph
@@ -107,6 +110,27 @@ describe('diograph', () => {
 
         it('returns diory', () => {
           expect(diory?.id).toBe('some-id')
+        })
+      })
+
+      describe('when createDiory()', () => {
+        let diory: IDiory | undefined
+        beforeEach(() => {
+          // @ts-ignore
+          uuid.mockReturnValue('some-uuid')
+          diory = diograph.createDiory({ text: 'created-text' })
+        })
+
+        it('creates id to diory', () => {
+          expect(uuid).toHaveBeenCalled()
+        })
+
+        it('adds diory to diograph', () => {
+          expect(diograph.diograph['some-uuid'].id).toBe('some-uuid')
+        })
+
+        it('returns created diory', () => {
+          expect(diory?.id).toBe('some-uuid')
         })
       })
     })
