@@ -42,6 +42,12 @@ class Diograph implements IDiograph {
     return new Diograph(diographObject)
   }
 
+  resetDiograph = (): IDiograph => {
+    this.diograph = {}
+
+    return this
+  }
+
   createDiory = (dioryProps: IDioryProps): IDiory | undefined => {
     const id = uuid()
     return this.addDioryWithId({ ...dioryProps, id })

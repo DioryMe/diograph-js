@@ -133,6 +133,14 @@ describe('diograph', () => {
           expect(diory?.id).toBe('some-uuid')
         })
       })
+
+      describe('when resetDiograph()', () => {
+        it('resets diograph to empty object', () => {
+          diograph.resetDiograph()
+
+          expect(diograph.diograph).toStrictEqual({})
+        })
+      })
     })
   })
 })
