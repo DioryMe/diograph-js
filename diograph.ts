@@ -78,6 +78,20 @@ class Diograph implements IDiograph {
     return delete this.diograph[dioryObject.id]
   }
 
+  createLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
+    this.throwDioryNotFoundError('createLink:diory', dioryObject)
+    this.throwDioryNotFoundError('createLink:link', linkedDioryObject)
+
+    return this.diograph[dioryObject.id].createLink(linkedDioryObject)
+  }
+
+  deleteLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
+    this.throwDioryNotFoundError('deleteLink:diory', dioryObject)
+    this.throwDioryNotFoundError('deleteLink:link', linkedDioryObject)
+
+    return this.diograph[dioryObject.id].deleteLink(linkedDioryObject)
+  }
+
   toObject = (): IDiographObject => {
     const diographObject: IDiographObject = {}
     Object.entries(this.diograph).forEach(([id, diory]) => {

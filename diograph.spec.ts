@@ -56,6 +56,59 @@ describe('diograph', () => {
               })
             })
           })
+
+          describe('when createLink()', () => {
+            let diory: IDiory
+            beforeEach(() => {
+              diory = diograph.createLink({ id: 'some-id' }, { id: 'other-id' })
+            })
+
+            it('creates link between diories', () => {
+              expect(diograph.diograph['some-id'].links).toStrictEqual({ 'other-id': { id: 'other-id' } })
+            })
+
+            describe('given diory does not exist', () => {
+              it('throws error', () => {
+                expect(() => {
+                  diory = diograph.createLink({ id: 'not-existing-id' }, { id: 'other-id' })
+                }).toThrow()
+              })
+            })
+
+            describe('given linked diory does not exist', () => {
+              it('throws error', () => {
+                expect(() => {
+                  diory = diograph.createLink({ id: 'some-id' }, { id: 'not-existing-id' })
+                }).toThrow()
+              })
+            })
+
+            describe('when deleteLink()', () => {
+              beforeEach(() => {
+                diory = diograph.deleteLink({ id: 'some-id' }, { id: 'other-id' })
+              })
+
+              it('deletes link between diories', () => {
+                expect(diograph.diograph['some-id'].links).toBe(undefined)
+              })
+
+              describe('given diory does not exist', () => {
+                it('throws error', () => {
+                  expect(() => {
+                    diory = diograph.deleteLink({ id: 'not-existing-id' }, { id: 'other-id' })
+                  }).toThrow()
+                })
+              })
+
+              describe('given linked diory does not exist', () => {
+                it('throws error', () => {
+                  expect(() => {
+                    diory = diograph.deleteLink({ id: 'some-id' }, { id: 'not-existing-id' })
+                  }).toThrow()
+                })
+              })
+            })
+          })
         })
 
         describe('given diograph with same diory', () => {
@@ -119,7 +172,7 @@ describe('diograph', () => {
       })
 
       describe('when getDiory() with id', () => {
-        let diory: IDiory | undefined
+        let diory: IDiory
         beforeEach(() => {
           diory = diograph.getDiory({ id: 'some-id' })
         })
@@ -137,8 +190,8 @@ describe('diograph', () => {
         })
       })
 
-      describe('when createDiory()', () => {
-        let diory: IDiory | undefined
+      describe('when createDiory() with text', () => {
+        let diory: IDiory
         beforeEach(() => {
           // @ts-ignore
           uuid.mockReturnValue('some-uuid')
@@ -149,12 +202,16 @@ describe('diograph', () => {
           expect(uuid).toHaveBeenCalled()
         })
 
-        it('adds diory to diograph', () => {
-          expect(diograph.diograph['some-uuid'].id).toBe('some-uuid')
+        it('adds id diory', () => {
+          expect(diory.id).toBe('some-uuid')
         })
 
-        it('returns created diory', () => {
-          expect(diory?.id).toBe('some-uuid')
+        it('adds text to diory', () => {
+          expect(diory.text).toBe('created-text')
+        })
+
+        it('adds diory to diograph', () => {
+          expect(diograph.diograph['some-uuid'].id).toBe('some-uuid')
         })
       })
 
@@ -167,7 +224,7 @@ describe('diograph', () => {
       })
 
       describe('when updateDiory() with text', () => {
-        let diory: IDiory | undefined
+        let diory: IDiory
         beforeEach(() => {
           diory = diograph.updateDiory({ id: 'some-id', text: 'updated-text' })
         })
