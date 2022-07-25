@@ -5,9 +5,7 @@ export function propIsValid(dioryObject: IDioryObject, prop: string): boolean {
     return false
   }
 
-  if (
-      Object.getOwnPropertyNames(dioryObject).includes(prop)
-  ) return true
+  if (Object.getOwnPropertyNames(dioryObject).includes(prop)) return true
 
   console.error('Diory prop is not valid:', prop)
   return false

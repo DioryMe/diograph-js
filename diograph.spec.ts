@@ -28,9 +28,9 @@ describe('diograph', () => {
 
       describe('when toObject()', () => {
         it('returns diograph object', () => {
-          expect(diograph.toObject()).toStrictEqual(expect.objectContaining({
+          expect(diograph.toObject()).toStrictEqual({
             'some-id': expect.anything(),
-          }))
+          })
         })
       })
 
@@ -50,11 +50,23 @@ describe('diograph', () => {
 
           describe('when toObject()', () => {
             it('returns diograph object', () => {
-              expect(diograph.toObject()).toStrictEqual(expect.objectContaining({
+              expect(diograph.toObject()).toStrictEqual({
                 'other-id': expect.anything(),
                 'some-id': expect.anything(),
-              }))
+              })
             })
+          })
+        })
+
+        describe('given diograph with same diory', () => {
+          it('throws error', () => {
+            expect(() => {
+              diograph.addDiograph({
+                'some-id': {
+                  id: 'some-id',
+                }
+              })
+            }).toThrow()
           })
         })
       })
@@ -69,7 +81,7 @@ describe('diograph', () => {
           })
         })
 
-        describe('when queryDiograph() with text query', () => {
+        describe('when queryDiograph() with matching text query', () => {
           let queryDiograph: IDiograph
           beforeEach(() => {
             queryDiograph = diograph.queryDiograph({ text: 'query' })
@@ -81,9 +93,26 @@ describe('diograph', () => {
 
           describe('when toObject()', () => {
             it('returns diograph object', () => {
-              expect(diograph.toObject()).toStrictEqual(expect.objectContaining({
+              expect(queryDiograph.toObject()).toStrictEqual({
                 'query-id': expect.anything(),
-              }))
+              })
+            })
+          })
+        })
+
+        describe('when queryDiograph() without matching text query', () => {
+          let queryDiograph: IDiograph
+          beforeEach(() => {
+            queryDiograph = diograph.queryDiograph({ text: 'other-query' })
+          })
+
+          it('returns empty diograph', () => {
+            expect(queryDiograph.diograph).toStrictEqual({})
+          })
+
+          describe('when toObject()', () => {
+            it('returns empty diograph object', () => {
+              expect(queryDiograph.toObject()).toStrictEqual({})
             })
           })
         })
@@ -97,6 +126,14 @@ describe('diograph', () => {
 
         it('returns diory', () => {
           expect(diory?.id).toBe('some-id')
+        })
+
+        describe('given diory does not exist', () => {
+          it('throws error', () => {
+            expect(() => {
+              diograph.getDiory({ id: 'other-id' })
+            }).toThrow()
+          })
         })
       })
 
@@ -142,6 +179,14 @@ describe('diograph', () => {
         it('returns updated diory', () => {
           expect(diory?.text).toBe('updated-text')
         })
+
+        describe('given diory does not exist', () => {
+          it('throws error', () => {
+            expect(() => {
+              diograph.getDiory({ id: 'other-id' })
+            }).toThrow()
+          })
+        })
       })
 
       describe('when deleteDiory() with id', () => {
@@ -157,6 +202,14 @@ describe('diograph', () => {
 
         it('returns true', () => {
           expect(result).toBe(true)
+        })
+
+        describe('given diory does not exist', () => {
+          it('throws error', () => {
+            expect(() => {
+              diograph.getDiory({ id: 'other-id' })
+            }).toThrow()
+          })
         })
       })
     })
