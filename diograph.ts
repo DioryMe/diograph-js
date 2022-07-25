@@ -1,5 +1,7 @@
+import { v4 as uuid } from 'uuid'
 import { Diory } from './diory'
 import { allKeysExist, allMatchToQuery } from './utils'
+
 import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from './types'
 
 class Diograph implements IDiograph {
@@ -38,6 +40,11 @@ class Diograph implements IDiograph {
       .reduce(this.reduceToDiographObject, {})
 
     return new Diograph(diographObject)
+  }
+
+  createDiory = (dioryProps: IDioryProps): IDiory | undefined => {
+    const id = uuid()
+    return this.addDioryWithId({ ...dioryProps, id })
   }
 
   getDiory = (dioryObject: IDioryObject): IDiory | undefined => {
