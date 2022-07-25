@@ -11,10 +11,9 @@ class Diograph implements IDiograph {
     this.addDiograph(diographObject)
   }
 
-  addDioryWithId = (dioryObject: IDioryObject): IDiory | undefined => {
-    if (!!this.getDiory(dioryObject)) {
-      console.error('createDiory: Diory already exist', dioryObject)
-      return
+  addDioryWithId = (dioryObject: IDioryObject): IDiory => {
+    if (!!this.diograph[dioryObject.id]) {
+      throw new Error(`createDiory: Diory already exist ${dioryObject}`)
     }
 
     return this.diograph[dioryObject.id] = new Diory(dioryObject)
@@ -48,34 +47,33 @@ class Diograph implements IDiograph {
     return this
   }
 
-  createDiory = (dioryProps: IDioryProps): IDiory | undefined => {
+  createDiory = (dioryProps: IDioryProps): IDiory => {
     const id = uuid()
     return this.addDioryWithId({ ...dioryProps, id })
   }
 
-  getDiory = (dioryObject: IDioryObject): IDiory | undefined => {
-    if (!dioryObject.id) {
-      console.error('getDiory: Diory id not found', dioryObject)
+  private throwDioryNotFoundError = (method: string, dioryObject: IDioryObject): void => {
+    if (this.diograph[dioryObject.id]) {
       return
     }
+
+    throw new Error(`${method}: Diory not found ${JSON.stringify(dioryObject, null, 2)}`)
+  }
+
+  getDiory = (dioryObject: IDioryObject): IDiory => {
+    this.throwDioryNotFoundError('getDiory', dioryObject)
 
     return this.diograph[dioryObject.id]
   }
 
-  updateDiory = (dioryObject: IDioryObject): IDiory | undefined => {
-    if (!this.getDiory(dioryObject)) {
-      console.error('updateDiory: Diory not found', dioryObject)
-      return
-    }
+  updateDiory = (dioryObject: IDioryObject): IDiory => {
+    this.throwDioryNotFoundError('updateDiory', dioryObject)
 
     return this.diograph[dioryObject.id].update(dioryObject)
   }
 
-  deleteDiory = (dioryObject: IDioryObject): boolean | undefined => {
-    if (!this.getDiory(dioryObject)) {
-      console.error('deleteDiory: Diory not found', dioryObject)
-      return
-    }
+  deleteDiory = (dioryObject: IDioryObject): boolean => {
+    this.throwDioryNotFoundError('deleteDiory', dioryObject)
 
     return delete this.diograph[dioryObject.id]
   }
