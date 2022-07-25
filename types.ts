@@ -1,44 +1,37 @@
-export interface DiographObject {
-  [key: string]: DioryObject
+interface Index {
+  [index: string]: any
 }
 
-export interface DioryObject extends DioryAttributes {
-  id: string
-  links?: DioryLinkObject
-}
-
-export interface DioryAttributes {
+export interface IDioryProps extends Index {
   text?: string
   image?: string
   latlng?: string
   date?: string
-  data?: DataAttributes[]
+  data?: any[]
+  links?: { [index: string]: any }
   style?: object
   created?: string
   modified?: string
 }
 
-export interface DataAttributes {
-  [key: string]: string
-}
-
-export interface DioryLink {
+export interface IDioryObject extends IDioryProps {
   id: string
 }
 
-export interface DioryLinkObject {
-  [key: string]: DioryLink
+export interface IDiograph {
+  diograph: { [index: string]: IDiory },
+  addDiograph: (diographObject: IDiographObject) => IDiograph,
+  queryDiograph: (dioryObject: IDioryProps) => IDiograph,
+  toObject: () => IDiographObject,
 }
 
-export interface ConnectionObject {
-  id: string
-  address: string
-  type: string
-  contentUrls?: any
+export interface IDiory extends IDioryObject{
+  update: (dioryProps: IDioryProps) => IDiory
+  createLink: (linkedDioryObject: IDioryObject) => IDiory
+  deleteLink: (linkedDioryObject: IDioryObject) => IDiory
+  toObject: () => IDioryObject
 }
 
-export interface DioryGeneratorData {
-  typeSpecificDiory: DioryAttributes
-  thumbnailBuffer?: Buffer
-  cid?: string
+export interface IDiographObject {
+  [index: string]: IDioryObject
 }
