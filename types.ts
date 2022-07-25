@@ -22,6 +22,13 @@ export interface IDiograph {
   diograph: { [index: string]: IDiory },
   addDiograph: (diographObject: IDiographObject) => IDiograph,
   queryDiograph: (dioryObject: IDioryProps) => IDiograph,
+  resetDiograph: () => IDiograph,
+  getDiory: (dioryObject: IDioryObject) => IDiory,
+  createDiory: (dioryProps: IDioryProps) => IDiory,
+  updateDiory: (dioryObject: IDioryObject) => IDiory,
+  deleteDiory: (dioryObject: IDioryObject) => boolean,
+  createLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory,
+  deleteLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory,
   toObject: () => IDiographObject,
 }
 
