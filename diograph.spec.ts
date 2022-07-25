@@ -143,6 +143,22 @@ describe('diograph', () => {
           expect(diory?.text).toBe('updated-text')
         })
       })
+
+      describe('when deleteDiory() with id', () => {
+        let result: boolean | undefined
+
+        beforeEach(() => {
+          result = diograph.deleteDiory({ id: 'some-id' })
+        })
+
+        it('deletes diory', () => {
+          expect(diograph.diograph['some-id']).toBe(undefined)
+        })
+
+        it('returns true', () => {
+          expect(result).toBe(true)
+        })
+      })
     })
   })
 })
