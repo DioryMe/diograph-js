@@ -62,6 +62,15 @@ class Diograph implements IDiograph {
     return this.diograph[dioryObject.id]
   }
 
+  updateDiory = (dioryObject: IDioryObject): IDiory | undefined => {
+    if (!this.getDiory(dioryObject)) {
+      console.error('updateDiory: Diory not found', dioryObject)
+      return
+    }
+
+    return this.diograph[dioryObject.id].update(dioryObject)
+  }
+
   toObject = (): IDiographObject => {
     const diographObject: IDiographObject = {}
     Object.entries(this.diograph).forEach(([id, diory]) => {

@@ -4,14 +4,6 @@ import { v4 as uuid } from 'uuid'
 import { Diograph } from './diograph'
 
 // Mocks
-jest.mock('./diory', () => ({
-  Diory: function(dioryObject: IDioryObject) {
-    return {
-      ...dioryObject,
-      toObject: () => dioryObject,
-    }
-  }
-}))
 jest.mock('uuid')
 
 describe('diograph', () => {
@@ -36,7 +28,9 @@ describe('diograph', () => {
 
       describe('when toObject()', () => {
         it('returns diograph object', () => {
-          expect(diograph.toObject()).toStrictEqual(diographObject)
+          expect(diograph.toObject()).toStrictEqual(expect.objectContaining({
+            'some-id': expect.anything(),
+          }))
         })
       })
 
@@ -56,14 +50,10 @@ describe('diograph', () => {
 
           describe('when toObject()', () => {
             it('returns diograph object', () => {
-              expect(diograph.toObject()).toStrictEqual({
-                'some-id': {
-                  id: 'some-id'
-                },
-                'other-id': {
-                  id: 'other-id'
-                },
-              })
+              expect(diograph.toObject()).toStrictEqual(expect.objectContaining({
+                'other-id': expect.anything(),
+                'some-id': expect.anything(),
+              }))
             })
           })
         })
@@ -91,12 +81,9 @@ describe('diograph', () => {
 
           describe('when toObject()', () => {
             it('returns diograph object', () => {
-              expect(queryDiograph.toObject()).toStrictEqual({
-                'query-id': {
-                  id: 'query-id',
-                  text: 'query-text',
-                },
-              })
+              expect(diograph.toObject()).toStrictEqual(expect.objectContaining({
+                'query-id': expect.anything(),
+              }))
             })
           })
         })
@@ -139,6 +126,21 @@ describe('diograph', () => {
           diograph.resetDiograph()
 
           expect(diograph.diograph).toStrictEqual({})
+        })
+      })
+
+      describe('when updateDiory() with text', () => {
+        let diory: IDiory | undefined
+        beforeEach(() => {
+          diory = diograph.updateDiory({ id: 'some-id', text: 'updated-text' })
+        })
+
+        it('updates diory text', () => {
+          expect(diograph.diograph['some-id'].text).toBe('updated-text')
+        })
+
+        it('returns updated diory', () => {
+          expect(diory?.text).toBe('updated-text')
         })
       })
     })
