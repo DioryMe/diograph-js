@@ -273,17 +273,71 @@ describe('diory', () => {
           })
         })
 
-        describe('given links', () => {
-          it('adds links to diory', () => {
-            dioryProps.links = { some: 'link' }
+        describe('given one link', () => {
+          beforeEach(() => {
+            dioryProps.links = {
+              some: {
+                id: 'link-id'
+              }
+            }
 
             diory.update(dioryProps)
+          })
 
-            expect(diory.links).toStrictEqual({ some: 'link' })
+          it('adds links to diory', () => {
+            expect(diory.links).toStrictEqual({ some: {
+                id: 'link-id'
+              }
+            })
+          })
+
+          describe('when deleteLink(linkedDiory)', () => {
+            it('deletes link from diory', () => {
+              diory.deleteLink({ id: 'link-id' })
+
+              expect(diory.links).toBe(undefined)
+            })
           })
         })
 
-        describe('given other id', () => {
+        describe('given two links', () => {
+          beforeEach(() => {
+            dioryProps.links = {
+              some: {
+                id: 'some-link-id'
+              },
+              other: {
+                id: 'other-link-id'
+              }
+            }
+
+            diory.update(dioryProps)
+          })
+
+          it('adds links to diory', () => {
+            expect(diory.links).toStrictEqual({
+              some: {
+                id: 'some-link-id'
+              },
+              other: {
+                id: 'other-link-id'
+              }
+            })
+          })
+
+          describe('when deleteLink(otherLinkedDiory)', () => {
+            it('deletes link from diory', () => {
+              diory.deleteLink({ id: 'other-link-id' })
+
+              expect(diory.links).toStrictEqual({ some: {
+                  id: 'some-link-id'
+                }
+              })
+            })
+          })
+        })
+
+        describe('given id', () => {
           it('does not add id to diory', () => {
             // @ts-ignore
             dioryProps.id = 'other-id'
