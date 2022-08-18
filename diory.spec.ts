@@ -188,16 +188,17 @@ describe('diory', () => {
         })
       })
 
-      describe('given other prop', () => {
+      describe('given any other prop', () => {
         it('does not add other prop to diory', () => {
-          jest.spyOn(console, 'error').mockImplementation(() => {
-          });
+          jest.spyOn(console, 'error').mockImplementation(() => {})
+          // @ts-ignore
           dioryObject.other = 'prop'
 
           diory = new Diory(dioryObject)
 
           expect(console.error).toHaveBeenCalledWith(expect.anything(), 'other')
-          expect(diory.other).not.toBe('prop')
+          // @ts-ignore
+          expect(diory.other).toBe(undefined)
         })
       })
 
@@ -284,6 +285,7 @@ describe('diory', () => {
 
         describe('given other id', () => {
           it('does not add id to diory', () => {
+            // @ts-ignore
             dioryProps.id = 'other-id'
 
             diory.update(dioryProps)
@@ -296,11 +298,13 @@ describe('diory', () => {
           it('does not add other prop to diory', () => {
             jest.spyOn(console, 'error').mockImplementation(() => {
             });
+            // @ts-ignore
             dioryProps.other = 'prop'
 
             diory.update(dioryProps)
 
             expect(console.error).toHaveBeenCalledWith(expect.anything(), 'other')
+            // @ts-ignore
             expect(diory.other).not.toBe('prop')
           })
         })

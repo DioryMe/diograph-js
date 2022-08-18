@@ -89,6 +89,7 @@ class Diory implements IDiory {
       // @ts-ignore
       const value: any = this[prop]
       if (valueIsValid(value) && valueExists(value)) {
+        // @ts-ignore
         dioryObject[prop] = value
       }
     })

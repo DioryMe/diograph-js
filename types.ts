@@ -1,8 +1,4 @@
-interface Index {
-  [index: string]: any
-}
-
-export interface IDioryProps extends Index {
+export interface IDioryProps {
   text?: string
   image?: string
   latlng?: string
