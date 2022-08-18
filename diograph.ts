@@ -80,7 +80,6 @@ class Diograph implements IDiograph {
 
   createLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
     this.throwDioryNotFoundError('createLink:diory', dioryObject)
-    this.throwDioryNotFoundError('createLink:link', linkedDioryObject)
 
     return this.diograph[dioryObject.id].createLink(linkedDioryObject)
   }

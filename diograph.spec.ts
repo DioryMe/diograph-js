@@ -75,14 +75,6 @@ describe('diograph', () => {
               })
             })
 
-            describe('given linked diory does not exist', () => {
-              it('throws error', () => {
-                expect(() => {
-                  diory = diograph.createLink({ id: 'some-id' }, { id: 'not-existing-id' })
-                }).toThrow()
-              })
-            })
-
             describe('when deleteLink()', () => {
               beforeEach(() => {
                 diory = diograph.deleteLink({ id: 'some-id' }, { id: 'other-id' })
