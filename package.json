@@ -20,7 +20,7 @@
     "build": "tsc",
     "build-watch": "yarn build --watch",
     "prettier": "prettier --write .",
-    "test": "jest .",
+    "test": "jest . --verbose",
     "test-watch": "yarn test --watch"
   },
   "prettier": {
