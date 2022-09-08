@@ -51,7 +51,9 @@ class Diory implements IDiory {
       return
     }
 
-    throw new Error(`${method}: Linked diory not found ${JSON.stringify(linkedDioryObject, null, 2)}`)
+    throw new Error(
+      `${method}: Linked diory not found ${JSON.stringify(linkedDioryObject, null, 2)}`,
+    )
   }
 
   createLink(linkedDioryObject: IDioryObject) {
@@ -60,7 +62,7 @@ class Diory implements IDiory {
     const id = linkedDioryObject.id
     this.links = {
       ...this.links,
-      [id]: { id }
+      [id]: { id },
     }
 
     this.modified = new Date().toISOString()
@@ -71,11 +73,13 @@ class Diory implements IDiory {
   deleteLink(linkedDioryObject: IDioryObject) {
     const linkId: string | undefined = this.findLinkId(linkedDioryObject)
     if (!linkId) {
-      throw new Error(`deleteLink: Linked diory not found ${JSON.stringify(linkedDioryObject, null, 2)}`)
+      throw new Error(
+        `deleteLink: Linked diory not found ${JSON.stringify(linkedDioryObject, null, 2)}`,
+      )
     }
 
     const { [linkId]: omit, ...links } = this.links || {}
-    this.links = Object.keys(links).length? links : undefined
+    this.links = Object.keys(links).length ? links : undefined
 
     this.modified = new Date().toISOString()
 

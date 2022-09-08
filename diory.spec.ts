@@ -20,7 +20,7 @@ describe('diory', () => {
     describe('given diory object with id', () => {
       beforeEach(() => {
         dioryObject = {
-          id: 'some-id'
+          id: 'some-id',
         }
         diory = new Diory(dioryObject)
       })
@@ -268,17 +268,18 @@ describe('diory', () => {
           beforeEach(() => {
             dioryProps.links = {
               some: {
-                id: 'link-id'
-              }
+                id: 'link-id',
+              },
             }
 
             diory.update(dioryProps)
           })
 
           it('adds links to diory', () => {
-            expect(diory.links).toStrictEqual({ some: {
-                id: 'link-id'
-              }
+            expect(diory.links).toStrictEqual({
+              some: {
+                id: 'link-id',
+              },
             })
           })
 
@@ -295,11 +296,11 @@ describe('diory', () => {
           beforeEach(() => {
             dioryProps.links = {
               some: {
-                id: 'some-link-id'
+                id: 'some-link-id',
               },
               other: {
-                id: 'other-link-id'
-              }
+                id: 'other-link-id',
+              },
             }
 
             diory.update(dioryProps)
@@ -308,11 +309,11 @@ describe('diory', () => {
           it('adds links to diory', () => {
             expect(diory.links).toStrictEqual({
               some: {
-                id: 'some-link-id'
+                id: 'some-link-id',
               },
               other: {
-                id: 'other-link-id'
-              }
+                id: 'other-link-id',
+              },
             })
           })
 
@@ -320,9 +321,10 @@ describe('diory', () => {
             it('deletes link from diory', () => {
               diory.deleteLink({ id: 'other-link-id' })
 
-              expect(diory.links).toStrictEqual({ some: {
-                  id: 'some-link-id'
-                }
+              expect(diory.links).toStrictEqual({
+                some: {
+                  id: 'some-link-id',
+                },
               })
             })
           })
@@ -341,8 +343,7 @@ describe('diory', () => {
 
         describe('given other prop', () => {
           it('does not add other prop to diory', () => {
-            jest.spyOn(console, 'error').mockImplementation(() => {
-            });
+            jest.spyOn(console, 'error').mockImplementation(() => {})
             // @ts-ignore
             dioryProps.other = 'prop'
 
@@ -383,4 +384,3 @@ describe('diory', () => {
     })
   })
 })
-

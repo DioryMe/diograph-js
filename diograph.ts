@@ -13,10 +13,10 @@ class Diograph implements IDiograph {
 
   addDioryWithId = (dioryObject: IDioryObject): IDiory => {
     if (!!this.diograph[dioryObject.id]) {
-      throw new Error(`createDiory: Diory already exist ${dioryObject}`)
+      console.error('createDiory: Diory already exists', dioryObject.id)
     }
 
-    return this.diograph[dioryObject.id] = new Diory(dioryObject)
+    return (this.diograph[dioryObject.id] = new Diory(dioryObject))
   }
 
   addDiograph = (diographObject: IDiographObject = {}): IDiograph => {
@@ -29,10 +29,10 @@ class Diograph implements IDiograph {
 
   reduceToDiographObject = (diograph: IDiographObject, diory: IDiory): IDiographObject => ({
     ...diograph,
-    [diory.id]: diory.toObject()
+    [diory.id]: diory.toObject(),
   })
 
-  queryDiograph = (queryDiory: IDioryProps): IDiograph  => {
+  queryDiograph = (queryDiory: IDioryProps): IDiograph => {
     const diographObject: IDiographObject = Object.values(this.diograph)
       .filter(allKeysExist(queryDiory))
       .filter(allMatchToQuery(queryDiory))
