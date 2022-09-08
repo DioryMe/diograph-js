@@ -1,4 +1,3 @@
-import { getDefaultImage } from './getDefaultImage'
 import { propIsValid, valueIsValid, valueExists } from './validators'
 import { IDiory, IDioryObject, IDioryProps } from './types'
 
@@ -28,10 +27,6 @@ class Diory implements IDiory {
       // @ts-ignore
       this[prop] = value
     })
-
-    if (!this.image) {
-      this.image = getDefaultImage()
-    }
 
     if (!this.created) {
       this.created = new Date().toISOString()
