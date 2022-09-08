@@ -1,11 +1,6 @@
 import { IDioryObject, IDiory, IDioryProps } from './types'
 import { Diory } from './diory'
 
-// Mocks
-jest.mock('./getDefaultImage', () => ({
-  getDefaultImage: jest.fn().mockReturnValue('some-defaultImage')
-}))
-
 describe('diory', () => {
   let diory: IDiory
 
@@ -32,10 +27,6 @@ describe('diory', () => {
 
       it('adds id to diory', () => {
         expect(diory.id).toBe('some-id')
-      })
-
-      it('adds default image to diory', () => {
-        expect(diory.image).toBe('some-defaultImage')
       })
 
       it('adds created ISO date to diory', () => {
