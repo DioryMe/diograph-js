@@ -92,5 +92,4 @@ newDiory.toObject()
 yarn
 yarn build-watch
 yarn test
-yarn test-e2e
 ```
