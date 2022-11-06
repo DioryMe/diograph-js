@@ -1,3 +1,5 @@
+import { join } from 'path-browserify'
+
 declare global {
   interface Window {
     channelsApi: any
@@ -6,25 +8,31 @@ declare global {
 
 class ElectronClient {
   address: string
+  type: string
 
-  constructor() {
+  constructor(address: string) {
     this.address = window.channelsApi['getPath']()
+    this.type = this.constructor.name
   }
 
   readTextItem = async (url: string) => {
-    return window.channelsApi['readTextFile'](url)
+    const filePath = join(this.address, url)
+    return window.channelsApi['readTextFile'](filePath)
   }
 
   readItem = async (url: string) => {
-    return window.channelsApi['readItem'](url)
+    const filePath = join(this.address, url)
+    return window.channelsApi['readItem'](filePath)
   }
 
   writeItem = async (url: string, fileContent: Buffer | string) => {
-    return window.channelsApi['writeItem'](url, fileContent)
+    const filePath = join(this.address, url)
+    return window.channelsApi['writeItem'](filePath, fileContent)
   }
 
   deleteItem = async (url: string) => {
-    // return rm(url)
+    const filePath = join(this.address, url)
+    // return window.channelsApi['deleteItem'](filePath, fileContent)
   }
 }
 

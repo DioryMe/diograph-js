@@ -15,7 +15,7 @@ import { Room, RoomClient } from 'diograph-js'
 import { LocalClient } from '@diograph/local-client'
 
 // Connect to room using RoomClient
-const client = new LocalClient({ address: roomAddress })
+const client = new LocalClient(roomAddress)
 const roomClient = new RoomClient(client)
 const room = new Room(roomAddress, roomClient)
 

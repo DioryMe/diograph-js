@@ -29,25 +29,32 @@ class Connection {
     }
   }
 
-  getClient = () => {
+  getClient = (address: string) => {
     if (this.contentClientType === 'LocalClient') {
       try {
         const { LocalClient } = require('@diograph/local-client')
-        return new LocalClient()
+        return new LocalClient(address)
       } catch (e) {
         console.log(e)
         console.log(
           'Connection#getClient: LocalClient not available, falling back to ElectronClient',
         )
-        const { ElectronClient } = require('../clients/electronClient')
-        return new ElectronClient()
+        try {
+          const { ElectronClient } = require('../clients/electronClient')
+          return new ElectronClient(address)
+        } catch (e) {
+          console.log(e)
+          throw new Error(
+            'Connection#getClient: ElectronClient not available, dont know what to do...',
+          )
+        }
       }
     }
 
     if (this.contentClientType === 'S3Client') {
       try {
         const { S3Client } = require('@diograph/s3-client')
-        return new S3Client()
+        return new S3Client(address)
       } catch (e) {
         console.log(e)
         throw new Error('Connection#getClient: S3Client not available, dont know what to do...')
@@ -74,14 +81,14 @@ class Connection {
     if (!filePath) {
       throw new Error('Nothing found with that contentUrl!')
     }
-    return this.getClient().readItem(filePath)
+    return this.getClient(this.address).readItem(filePath)
   }
 
   addContent = async (fileContent: Buffer | string, contentId: string) => {
     const relativeInternalPath = contentId
     const absoluteInternalPath = join(this.address, contentId)
 
-    await this.getClient().writeItem(absoluteInternalPath, fileContent)
+    await this.getClient(this.address).writeItem(absoluteInternalPath, fileContent)
 
     this.addContentUrl(contentId, relativeInternalPath)
 
@@ -93,7 +100,7 @@ class Connection {
     if (!filePath) {
       throw new Error('Nothing found with that contentUrl!')
     }
-    return this.getClient().deleteItem(filePath)
+    return this.getClient(this.address).deleteItem(filePath)
   }
 
   toObject = (roomAddress?: string): ConnectionObject => ({

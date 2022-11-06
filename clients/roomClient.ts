@@ -1,5 +1,3 @@
-import { join } from 'path-browserify'
-
 class RoomClient {
   address: string
   roomJsonPath: string
