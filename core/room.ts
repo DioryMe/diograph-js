@@ -44,6 +44,12 @@ class Room {
   }
 
   initiateRoom = (roomObject?: RoomObject, diographObject?: DiographObject) => {
+    // Default connection object
+    if (!roomObject && this.address) {
+      roomObject = {
+        connections: [{ address: this.address, contentClientType: this.roomClient?.client.type }],
+      }
+    }
     // Connections
     if (roomObject && roomObject.connections) {
       this.connections = []
@@ -53,7 +59,7 @@ class Room {
       })
     }
 
-    // Diograph
+    // Default diograph
     // TODO: Move to a better place
     const defaultDiographJson = {
       '/': {

@@ -9,8 +9,8 @@ class RoomClient {
   constructor(client: any) {
     this.client = client
     this.address = this.client.address
-    this.roomJsonPath = join(this.address, 'room.json')
-    this.diographPath = join(this.address, 'diograph.json')
+    this.roomJsonPath = 'room.json'
+    this.diographPath = 'diograph.json'
   }
 
   readRoomJson = async () => {
