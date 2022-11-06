@@ -44,6 +44,16 @@ class Connection {
       }
     }
 
+    if (this.contentClientType === 'S3Client') {
+      try {
+        const { S3Client } = require('@diograph/s3-client')
+        return new S3Client()
+      } catch (e) {
+        console.log(e)
+        throw new Error('Connection#getClient: S3Client not available, dont know what to do...')
+      }
+    }
+
     throw new Error(
       `Connection#getClient: contentClientType '${this.contentClientType}' not available!`,
     )
