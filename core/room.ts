@@ -2,6 +2,7 @@ import { RoomClient } from '../clients/roomClient'
 import { Diograph } from './diograph'
 import { ConnectionObject, DiographObject, RoomObject } from '../types'
 import { Connection } from './connection'
+import { join } from 'path-browserify'
 
 class Room {
   diograph: Diograph
@@ -47,7 +48,12 @@ class Room {
     // Default connection object
     if (!roomObject && this.address) {
       roomObject = {
-        connections: [{ address: this.address, contentClientType: this.roomClient?.client.type }],
+        connections: [
+          {
+            address: join(this.address, 'Diory Content'),
+            contentClientType: this.roomClient?.client.type,
+          },
+        ],
       }
     }
     // Connections
