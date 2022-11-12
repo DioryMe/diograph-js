@@ -50,7 +50,7 @@ class Room {
       roomObject = {
         connections: [
           {
-            address: join(this.address, 'Diory Content'),
+            address: join(this.address, 'DioryContent'),
             contentClientType: this.roomClient?.client.type,
           },
         ],
