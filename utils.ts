@@ -1,4 +1,4 @@
-import { IDioryProps, IDioryObject } from './types'
+import { IDioryProps, IDioryObject, IDiographObject, IDiory } from './types'
 
 export function allKeysExist(queryDiory: IDioryProps) {
   return (diory: IDioryObject): boolean =>
@@ -13,4 +13,11 @@ export function allMatchToQuery(queryDiory: IDioryProps) {
         // @ts-ignore
         !diory[prop].toLowerCase().includes(query.toLowerCase()),
     )
+}
+
+export function reduceToDiographObject(diograph: IDiographObject, diory: IDiory): IDiographObject {
+  return ({
+    ...diograph,
+    [diory.id]: diory.toObject(),
+  })
 }

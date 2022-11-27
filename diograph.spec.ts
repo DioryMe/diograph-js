@@ -112,7 +112,7 @@ describe('diograph', () => {
           },
         })
 
-        expect(console.error).toHaveBeenCalledWith(expect.anything(), 'some-id')
+        expect(console.error).toHaveBeenCalled()
       })
     })
 
