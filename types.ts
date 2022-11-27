@@ -1,10 +1,14 @@
+export interface IDioryLinks {
+  [index: string]: any
+}
+
 export interface IDioryProps {
   text?: string
   image?: string
   latlng?: string
   date?: string
   data?: any[]
-  links?: { [index: string]: any }
+  links?: IDioryLinks
   style?: object
   created?: string
   modified?: string

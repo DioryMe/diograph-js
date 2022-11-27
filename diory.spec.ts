@@ -10,6 +10,7 @@ describe('diory', () => {
     jest.useFakeTimers()
     jest.setSystemTime(new Date(someNewDate))
   })
+
   afterEach(() => {
     jest.useRealTimers()
   })
@@ -200,27 +201,44 @@ describe('diory', () => {
           dioryProps = {}
         })
 
-        it('does not update created ISO date to diory', () => {
-          diory.update({})
-
-          expect(diory.created).toBe(someNewDate)
-        })
-
-        it('updates modified ISO date to diory', () => {
-          jest.setSystemTime(new Date('2022-01-02T00:00:00.000Z'))
-
-          diory.update({})
-
-          expect(diory.modified).toBe('2022-01-02T00:00:00.000Z')
-        })
-
         describe('given text', () => {
-          it('adds text to diory', () => {
+          beforeEach(() => {
             dioryProps.text = 'some-text'
 
             diory.update(dioryProps)
+          })
 
+          it('adds text to diory', () => {
             expect(diory.text).toBe('some-text')
+          })
+
+          it('does not update created ISO date to diory', () => {
+            expect(diory.created).toBe(someNewDate)
+          })
+
+          it('updates modified ISO date to diory', () => {
+            expect(diory.modified).toBe(someNewDate)
+          })
+
+          describe('given undefined text', () => {
+            beforeEach(() => {
+              // @ts-ignore
+              dioryProps.text = undefined
+
+              diory.update(dioryProps)
+            })
+
+            it('set text undefined', () => {
+              expect(diory.text).toBe(undefined)
+            })
+
+            describe('when toObject()', () => {
+              it('does not include text key', () => {
+                const dioryObject = diory.toObject()
+
+                expect(Object.keys(dioryObject)).not.toContain('text')
+              })
+            })
           })
         })
 
