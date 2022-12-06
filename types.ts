@@ -20,7 +20,8 @@ export interface IDioryObject extends IDioryProps {
 
 export interface IDiograph {
   diograph: { [index: string]: IDiory }
-  addDiograph: (diographObject: IDiographObject) => IDiograph
+  rootId?: string
+  addDiograph: (diographObject: IDiographObject, rootId?: string) => IDiograph
   queryDiograph: (dioryObject: IDioryProps) => IDiograph
   resetDiograph: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory

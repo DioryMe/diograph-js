@@ -60,7 +60,7 @@ class Diory implements IDiory {
     return this
   }
 
-  createLink(linkedDioryObject: IDioryObject) {
+  createLink(linkedDioryObject: IDioryObject): IDiory {
     if (this.findLinkId(linkedDioryObject)) {
       this.throwError('createLink', 'Link already exists', linkedDioryObject)
     }
@@ -74,7 +74,7 @@ class Diory implements IDiory {
     return this.modifiedDiory()
   }
 
-  deleteLink(linkedDioryObject: IDioryObject) {
+  deleteLink(linkedDioryObject: IDioryObject): IDiory {
     if (!this.findLinkId(linkedDioryObject)) {
       this.throwError('deleteLink', 'Link not found', linkedDioryObject)
     }

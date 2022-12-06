@@ -4,12 +4,14 @@ import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from '.
 
 class Diograph implements IDiograph {
   diograph: { [index: string]: IDiory } = {}
+  rootId?: string
 
-  constructor(diographObject: IDiographObject) {
-    this.addDiograph(diographObject)
+  constructor(diographObject: IDiographObject, rootId?: string) {
+    this.addDiograph(diographObject, rootId)
   }
 
-  addDiograph = (diographObject: IDiographObject = {}): IDiograph => {
+  addDiograph = (diographObject: IDiographObject = {}, rootId?: string): IDiograph => {
+    this.rootId = rootId
     Object.entries(diographObject).forEach(([id, dioryObject]) => {
       try {
         this.addDiory({ ...dioryObject, id })
