@@ -13,7 +13,33 @@ yarn add diograph-js
 ```
 import { Diograph } from 'diograph-js'
 const diograph = new Diograph()
-console.log('Hello Diosphere!', diograph)
+diograph.createDiory({ text: 'Hello diory!' })
+console.log('Hello Diograph!', diograph)
+```
+
+## API
+```
+const diograph = new Diograph(diographObject, rootId)
+```
+
+### Diograph
+```
+diograph.addDiograph(diographObject)
+diograph.queryDiograph({ text: 'some-text' })
+diograph.resetDiograph()
+diograph.toObject()
+diograph.toJson()
+```
+
+### Diory
+```
+diograph.addDiory(someDiory)
+diograph.createDiory(someDiory)
+diograph.getDiory(someDiory)
+diograph.updateDiory(someDiory)
+diograph.deleteDiory(someDiory)
+diograph.createLink(someDiory, linkedDiory)
+diograph.deleteLink(someDiory, linkedDiory)
 ```
 
 ## Development
