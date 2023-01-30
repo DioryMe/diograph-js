@@ -1,6 +1,8 @@
 import { v4 as uuid } from 'uuid'
 import { propIsValid, valueIsValid, valueExists } from './validators'
-import { IDiory, IDioryObject, IDioryProps } from './types'
+import { throwErrorIfLinkAlreadyExists, throwErrorIfLinkNotFound } from './throwErrors'
+
+import { IDiory, IDioryObject, IDioryProps, ILinkObject } from './types'
 
 class Diory implements IDiory {
   id: string
@@ -9,36 +11,16 @@ class Diory implements IDiory {
   latlng?: string = undefined
   date?: string = undefined
   data?: any[] = undefined
-  links?: { [index: string]: any } = undefined
+  links?: ILinkObject[] = undefined
   created?: string = undefined
   modified?: string = undefined
 
   constructor(dioryObject: IDioryObject | IDioryProps) {
     this.id = 'id' in dioryObject? dioryObject.id : uuid()
-    this.update(dioryObject)
+    this.update(dioryObject, false)
   }
 
-  private findLinkId(linkedDioryObject: IDioryObject): string | undefined {
-    if (!this.links) {
-      return
-    }
-
-    const entry = Object.entries(this.links).find(([, { id }]) => id === linkedDioryObject.id)
-    return entry && entry[0]
-  }
-
-  private throwError = (method: string, message: string, linkedDioryObject: IDioryObject): void => {
-    throw new Error(
-      `${method}: ${message} ${JSON.stringify(linkedDioryObject, null, 2)}`,
-    )
-  }
-
-  private modifiedDiory = (): IDiory => {
-    this.modified = new Date().toISOString()
-    return this
-  }
-
-  update = (dioryProps: IDioryProps): IDiory => {
+  update = (dioryProps: IDioryProps, modify = true): IDiory => {
     Object.entries(dioryProps).forEach(([prop, value]) => {
       // @ts-ignore
       if (!propIsValid(this, prop) || !valueIsValid(value)) {
@@ -53,39 +35,32 @@ class Diory implements IDiory {
       this.created = new Date().toISOString()
     }
 
-    if (!this.modified) {
+    if (modify || !this.modified) {
       this.modified = new Date().toISOString()
     }
 
     return this
   }
 
-  createLink(linkedDioryObject: IDioryObject): IDiory {
-    if (this.findLinkId(linkedDioryObject)) {
-      this.throwError('createLink', 'Link already exists', linkedDioryObject)
-    }
+  createLink(linkObject: ILinkObject): IDiory {
+    throwErrorIfLinkAlreadyExists('createLink', linkObject, this.links)
 
-    const linkId: string = linkedDioryObject.id
-    this.links = {
-      ...this.links,
-      [linkId]: { id: linkId },
+    const newLinkObject: ILinkObject = { id: linkObject.id }
+    if (linkObject.path) {
+      newLinkObject.path = linkObject.path
     }
+    const links: ILinkObject[] = (this.links || []).concat(newLinkObject)
 
-    return this.modifiedDiory()
+    return this.update({ links })
   }
 
-  deleteLink(linkedDioryObject: IDioryObject): IDiory {
-    if (!this.findLinkId(linkedDioryObject)) {
-      this.throwError('deleteLink', 'Link not found', linkedDioryObject)
-    }
+  deleteLink(linkObject: ILinkObject): IDiory {
+    throwErrorIfLinkNotFound('deleteLink', linkObject, this.links)
 
-    // @ts-ignore
-    const linkId: string = this.findLinkId(linkedDioryObject)
+    const newLinks = this.links?.filter((link) => link.id !== linkObject.id)
+    const links = newLinks?.length ? newLinks : undefined
 
-    const { [linkId]: omit, ...links } = this.links || {}
-    this.links = Object.keys(links).length ? links : undefined
-
-    return this.modifiedDiory()
+    return this.update({ links })
   }
 
   toObject = (): IDioryObject => {

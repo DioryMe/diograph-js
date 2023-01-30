@@ -1,14 +1,18 @@
-import { IDioryObject, IDiory, IDioryProps } from './types'
+import { IDiory, IDioryProps } from './types'
 import { Diory } from './diory'
 
-describe('diory', () => {
+jest.mock('uuid', () => ({
+  v4: () => 'some-uuid'
+}))
+
+describe('Diory', () => {
   let diory: IDiory
 
   // Mock new Date()
-  const someNewDate = '2022-01-01T00:00:00.000Z'
+  const someToday = '2022-01-01T00:00:00.000Z'
   beforeEach(() => {
     jest.useFakeTimers()
-    jest.setSystemTime(new Date(someNewDate))
+    jest.setSystemTime(new Date(someToday))
   })
 
   afterEach(() => {
@@ -16,387 +20,345 @@ describe('diory', () => {
   })
 
   describe('when new Diory(dioryObject)', () => {
-    let dioryObject: IDioryObject
+    let dioryProps: IDioryProps
 
-    describe('given diory object with id', () => {
+    beforeEach(() => {
+      dioryProps = {}
+    })
+
+    const validStringProps = ['id', 'text', 'image', 'latlng', 'date']
+    validStringProps.forEach((validProp) => {
+      describe(`given ${validProp}`, () => {
+        beforeEach(() => {
+          // @ts-ignore
+          dioryProps[validProp] = `some-${validProp}`
+
+          diory = new Diory(dioryProps)
+        })
+
+        it(`adds ${validProp} to diory ${validProp}`, () => {
+          // @ts-ignore
+          expect(diory[validProp]).toBe(`some-${validProp}`)
+        })
+
+        it('adds today ISO date to diory created', () => {
+          expect(diory.created).toBe(someToday)
+        })
+
+        it('adds today ISO date to diory modified', () => {
+          expect(diory.modified).toBe(someToday)
+        })
+
+        describe('when toObject()', () => {
+          it(`returns diory object with ${validProp}`, () => {
+            const dioryObject = diory.toObject()
+
+            // @ts-ignore
+            expect(dioryObject[validProp]).toBe(`some-${validProp}`)
+          })
+        })
+      })
+    })
+
+    describe('given data array', () => {
       beforeEach(() => {
-        dioryObject = {
-          id: 'some-id',
-        }
-        diory = new Diory(dioryObject)
+        dioryProps.data = ['some-data']
+
+        diory = new Diory(dioryProps)
       })
 
-      it('adds id to diory', () => {
-        expect(diory.id).toBe('some-id')
-      })
-
-      it('adds created ISO date to diory', () => {
-        expect(diory.created).toBe(someNewDate)
-      })
-
-      it('adds modified ISO date to diory', () => {
-        expect(diory.modified).toBe(someNewDate)
+      it('adds data array to diory data', () => {
+        expect(diory.data).toStrictEqual(['some-data'])
       })
 
       describe('when toObject()', () => {
-        let dioryObject: IDioryObject
+        it('returns diory object with data array', () => {
+          const dioryObject = diory.toObject()
 
-        it('returns diory object with id', () => {
-          dioryObject = diory.toObject()
-
-          expect(dioryObject.id).toBe('some-id')
+          expect(dioryObject.data).toStrictEqual(['some-data'])
         })
+      })
+    })
 
+    describe('given links', () => {
+      beforeEach(() => {
+        dioryProps.links = [{ id: 'some-link' }]
+
+        diory = new Diory(dioryProps)
+      })
+
+      it('adds links to diory links', () => {
+        expect(diory.links).toStrictEqual([{ id: 'some-link' }])
+      })
+
+      describe('when toObject()', () => {
+        it('returns diory object with links', () => {
+          const dioryObject = diory.toObject()
+
+          expect(dioryObject.links).toStrictEqual([{ id: 'some-link' }])
+        })
+      })
+    })
+
+    describe('given created', () => {
+      beforeEach(() => {
+        dioryProps.created = 'some-created'
+
+        diory = new Diory(dioryProps)
+      })
+
+      it('adds created to diory created', () => {
+        expect(diory.created).toStrictEqual('some-created')
+      })
+
+      it('adds today ISO date to diory modified', () => {
+        expect(diory.modified).toBe(someToday)
+      })
+
+      describe('when toObject()', () => {
         it('returns diory object with created', () => {
-          dioryObject = diory.toObject()
+          const dioryObject = diory.toObject()
 
-          expect(dioryObject.created).toBe(someNewDate)
-        })
-
-        it('returns diory object with modified', () => {
-          dioryObject = diory.toObject()
-
-          expect(dioryObject.modified).toBe(someNewDate)
+          expect(dioryObject.created).toStrictEqual('some-created')
         })
       })
+    })
 
-      describe('given text', () => {
-        beforeEach(() => {
-          dioryObject.text = 'some-text'
+    describe('given modified', () => {
+      beforeEach(() => {
+        dioryProps.modified = 'some-modified'
 
-          diory = new Diory(dioryObject)
+        diory = new Diory(dioryProps)
+      })
+
+      it('adds modified to diory modified', () => {
+        expect(diory.modified).toStrictEqual('some-modified')
+      })
+
+      it('adds today ISO date to diory created', () => {
+        expect(diory.created).toBe(someToday)
+      })
+
+      describe('when toObject()', () => {
+        it('returns diory object with created', () => {
+          const dioryObject = diory.toObject()
+
+          expect(dioryObject.modified).toStrictEqual('some-modified')
         })
+      })
+    })
 
-        it('adds text to diory', () => {
-          expect(diory.text).toBe('some-text')
+    describe('given any other prop', () => {
+      it('does not add other prop to diory', () => {
+        jest.spyOn(console, 'error').mockImplementation(() => {
         })
+        // @ts-ignore
+        dioryProps.other = 'prop'
 
-        describe('when toObject()', () => {
-          it('returns diory object with text', () => {
-            const dioryObject = diory.toObject()
+        diory = new Diory(dioryProps)
 
-            expect(dioryObject.text).toBe('some-text')
+        expect(console.error).toHaveBeenCalledWith(expect.anything(), 'other')
+        // @ts-ignore
+        expect(diory.other).toBe(undefined)
+      })
+    })
+
+    describe('given no id', () => {
+      beforeEach(() => {
+        diory = new Diory({})
+      })
+
+      it('adds uuid to id', () => {
+        expect(diory.id).toStrictEqual('some-uuid')
+      })
+
+      describe('when toObject()', () => {
+        it('returns diory object with uuid', () => {
+          const dioryObject = diory.toObject()
+
+          expect(dioryObject.id).toStrictEqual('some-uuid')
+        })
+      })
+    })
+  })
+
+  describe('given new Diory(dioryObject)', () => {
+    beforeEach(() => {
+      diory = new Diory({ id: 'some-id' })
+    })
+
+    describe('when update(dioryProps)', () => {
+      let dioryProps: IDioryProps
+
+      const laterToday = '2022-01-01T12:00:00.000Z'
+      beforeEach(() => {
+        dioryProps = {}
+        jest.setSystemTime(new Date(laterToday))
+      })
+
+      const validStringProps = ['text', 'image', 'latlng', 'date']
+      validStringProps.forEach((validProp) => {
+        describe(`given ${validProp}`, () => {
+          beforeEach(() => {
+            // @ts-ignore
+            dioryProps[validProp] = `some-${validProp}`
+
+            diory.update(dioryProps)
+          })
+
+          it(`adds ${validProp} to diory ${validProp}`, () => {
+            // @ts-ignore
+            expect(diory[validProp]).toBe(`some-${validProp}`)
+          })
+
+          it('does not update created ISO date to diory', () => {
+            expect(diory.created).toBe(someToday)
+          })
+
+          it('updates modified ISO date to diory modified', () => {
+            expect(diory.modified).toBe(laterToday)
           })
         })
       })
 
-      describe('given image', () => {
+      describe('given created', () => {
         beforeEach(() => {
-          dioryObject.image = 'some-image'
+          dioryProps.created = 'some-created'
 
-          diory = new Diory(dioryObject)
+          diory.update(dioryProps)
         })
 
-        it('adds image to diory', () => {
-          expect(diory.image).toBe('some-image')
+        it('adds created to diory created', () => {
+          expect(diory.created).toStrictEqual('some-created')
         })
 
-        describe('when toObject()', () => {
-          it('returns diory object with image', () => {
-            const dioryObject = diory.toObject()
-
-            expect(dioryObject.image).toBe('some-image')
-          })
+        it('updates modified ISO date to diory modified', () => {
+          expect(diory.modified).toBe(laterToday)
         })
       })
 
-      describe('given latlng', () => {
-        beforeEach(() => {
-          dioryObject.latlng = 'some-latlng'
+      describe('given data array', () => {
+        it('adds data array to diory data', () => {
+          dioryProps.data = ['some-data']
 
-          diory = new Diory(dioryObject)
-        })
+          diory.update(dioryProps)
 
-        it('adds latlng to diory', () => {
-          expect(diory.latlng).toBe('some-latlng')
-        })
-
-        describe('when toObject()', () => {
-          it('returns diory object with latlng', () => {
-            const dioryObject = diory.toObject()
-
-            expect(dioryObject.latlng).toBe('some-latlng')
-          })
-        })
-      })
-
-      describe('given date', () => {
-        beforeEach(() => {
-          dioryObject.date = 'some-date'
-
-          diory = new Diory(dioryObject)
-        })
-
-        it('adds date to diory', () => {
-          expect(diory.date).toBe('some-date')
-        })
-
-        describe('when toObject()', () => {
-          it('returns diory object with date', () => {
-            const dioryObject = diory.toObject()
-
-            expect(dioryObject.date).toBe('some-date')
-          })
-        })
-      })
-
-      describe('given data', () => {
-        beforeEach(() => {
-          dioryObject.data = ['some-data']
-
-          diory = new Diory(dioryObject)
-        })
-
-        it('adds data to diory', () => {
           expect(diory.data).toStrictEqual(['some-data'])
-        })
-
-        describe('when toObject()', () => {
-          it('returns diory object with data', () => {
-            const dioryObject = diory.toObject()
-
-            expect(dioryObject.data).toStrictEqual(['some-data'])
-          })
         })
       })
 
       describe('given links', () => {
         beforeEach(() => {
-          dioryObject.links = { some: 'link' }
+          dioryProps.links = [{
+            id: 'link-id',
+            path: 'some-path'
+          }]
 
-          diory = new Diory(dioryObject)
+          diory.update(dioryProps)
         })
 
         it('adds links to diory', () => {
-          expect(diory.links).toStrictEqual({ some: 'link' })
+          expect(diory.links).toStrictEqual([{
+            id: 'link-id',
+            path: 'some-path'
+          }])
         })
+      })
 
-        describe('when toObject()', () => {
-          it('returns diory object with links', () => {
-            const dioryObject = diory.toObject()
+      const nonUpdatedProps = ['id', 'modified']
+      nonUpdatedProps.forEach((nonUpdatedProp) => {
+        describe(`given ${nonUpdatedProp}`, () => {
+          it(`does not update ${nonUpdatedProp} to diory`, () => {
+            // @ts-ignore
+            dioryProps[nonUpdatedProp] = `other-${nonUpdatedProp}`
 
-            expect(dioryObject.links).toStrictEqual({ some: 'link' })
+            diory.update(dioryProps)
+
+            // @ts-ignore
+            expect(diory[nonUpdatedProp]).not.toBe(`other-${nonUpdatedProp}`)
           })
         })
       })
 
-      describe('given any other prop', () => {
+      describe('given other prop', () => {
         it('does not add other prop to diory', () => {
-          jest.spyOn(console, 'error').mockImplementation(() => {})
+          jest.spyOn(console, 'error').mockImplementation(() => {
+          })
           // @ts-ignore
-          dioryObject.other = 'prop'
+          dioryProps.other = 'prop'
 
-          diory = new Diory(dioryObject)
+          diory.update(dioryProps)
 
           expect(console.error).toHaveBeenCalledWith(expect.anything(), 'other')
           // @ts-ignore
-          expect(diory.other).toBe(undefined)
+          expect(diory.other).not.toBe('prop')
         })
       })
 
-      describe('when update(dioryProps)', () => {
-        let dioryProps: IDioryProps
-
-        beforeEach(() => {
-          dioryProps = {}
-        })
-
-        describe('given text', () => {
+      const nullableProps = ['text', 'image', 'latlng', 'date', 'created', 'modified']
+      nullableProps.forEach((nullableProp) => {
+        describe(`given undefined ${nullableProp}`, () => {
           beforeEach(() => {
-            dioryProps.text = 'some-text'
+            // @ts-ignore
+            dioryProps[nullableProp] = undefined
 
             diory.update(dioryProps)
           })
 
-          it('adds text to diory', () => {
-            expect(diory.text).toBe('some-text')
+          it(`sets ${nullableProp} to undefined`, () => {
+            // @ts-ignore
+            expect(diory[nullableProps]).toBe(undefined)
           })
 
-          it('does not update created ISO date to diory', () => {
-            expect(diory.created).toBe(someNewDate)
-          })
+          describe('when toObject()', () => {
+            it(`does not include ${nullableProp} key`, () => {
+              const dioryObject = diory.toObject()
 
-          it('updates modified ISO date to diory', () => {
-            expect(diory.modified).toBe(someNewDate)
-          })
-
-          describe('given undefined text', () => {
-            beforeEach(() => {
               // @ts-ignore
-              dioryProps.text = undefined
-
-              diory.update(dioryProps)
+              expect(Object.keys(dioryObject)).not.toContain(nullableProps)
             })
-
-            it('set text undefined', () => {
-              expect(diory.text).toBe(undefined)
-            })
-
-            describe('when toObject()', () => {
-              it('does not include text key', () => {
-                const dioryObject = diory.toObject()
-
-                expect(Object.keys(dioryObject)).not.toContain('text')
-              })
-            })
-          })
-        })
-
-        describe('given image', () => {
-          it('adds image to diory', () => {
-            dioryProps.image = 'some-image'
-
-            diory.update(dioryProps)
-
-            expect(diory.image).toBe('some-image')
-          })
-        })
-
-        describe('given latlng', () => {
-          it('adds latlng to diory', () => {
-            dioryProps.latlng = 'some-latlng'
-
-            diory.update(dioryProps)
-
-            expect(diory.latlng).toBe('some-latlng')
-          })
-        })
-
-        describe('given date', () => {
-          it('adds date to diory', () => {
-            dioryProps.date = 'some-date'
-
-            diory.update(dioryProps)
-
-            expect(diory.date).toBe('some-date')
-          })
-        })
-
-        describe('given data', () => {
-          it('adds data to diory', () => {
-            dioryProps.data = ['some-data']
-
-            diory.update(dioryProps)
-
-            expect(diory.data).toStrictEqual(['some-data'])
-          })
-        })
-
-        describe('given one link', () => {
-          beforeEach(() => {
-            dioryProps.links = {
-              some: {
-                id: 'link-id',
-              },
-            }
-
-            diory.update(dioryProps)
-          })
-
-          it('adds links to diory', () => {
-            expect(diory.links).toStrictEqual({
-              some: {
-                id: 'link-id',
-              },
-            })
-          })
-
-          describe('when deleteLink(linkedDiory)', () => {
-            it('deletes link from diory', () => {
-              diory.deleteLink({ id: 'link-id' })
-
-              expect(diory.links).toBe(undefined)
-            })
-          })
-        })
-
-        describe('given two links', () => {
-          beforeEach(() => {
-            dioryProps.links = {
-              some: {
-                id: 'some-link-id',
-              },
-              other: {
-                id: 'other-link-id',
-              },
-            }
-
-            diory.update(dioryProps)
-          })
-
-          it('adds links to diory', () => {
-            expect(diory.links).toStrictEqual({
-              some: {
-                id: 'some-link-id',
-              },
-              other: {
-                id: 'other-link-id',
-              },
-            })
-          })
-
-          describe('when deleteLink(otherLinkedDiory)', () => {
-            it('deletes link from diory', () => {
-              diory.deleteLink({ id: 'other-link-id' })
-
-              expect(diory.links).toStrictEqual({
-                some: {
-                  id: 'some-link-id',
-                },
-              })
-            })
-          })
-        })
-
-        describe('given id', () => {
-          it('does not add id to diory', () => {
-            // @ts-ignore
-            dioryProps.id = 'other-id'
-
-            diory.update(dioryProps)
-
-            expect(diory.id).not.toBe('other-id')
-          })
-        })
-
-        describe('given other prop', () => {
-          it('does not add other prop to diory', () => {
-            jest.spyOn(console, 'error').mockImplementation(() => {})
-            // @ts-ignore
-            dioryProps.other = 'prop'
-
-            diory.update(dioryProps)
-
-            expect(console.error).toHaveBeenCalledWith(expect.anything(), 'other')
-            // @ts-ignore
-            expect(diory.other).not.toBe('prop')
           })
         })
       })
 
-      describe('when createLink() with existing linked diory', () => {
-        beforeEach(() => {
-          diory.createLink({ id: 'linked-id' })
-        })
+      const nonnullableProps = ['id', 'created', 'modified']
+      nonnullableProps.forEach((nonnullableProp) => {
+        describe(`given undefined ${nonnullableProp}`, () => {
+          it(`does not update ${nonnullableProp} to diory`, () => {
+            // @ts-ignore
+            dioryProps[nonnullableProp] = undefined
 
-        it('creates link to diory', () => {
-          expect(diory.links).toStrictEqual({ 'linked-id': { id: 'linked-id' } })
-        })
+            diory.update(dioryProps)
 
-        describe('when deleteLink() with existing linked diory', () => {
-          it('deletes link from diory', () => {
-            diory.deleteLink({ id: 'linked-id' })
-
-            expect(diory.links).toBe(undefined)
+            // @ts-ignore
+            expect(diory[nonnullableProp]).not.toBe(undefined)
           })
         })
+      })
+    })
 
-        describe('when deleteLink() without existing linked diory', () => {
-          it('throws error', () => {
-            expect(() => {
-              diory.deleteLink({ id: 'not-existing-id' })
-            }).toThrow()
-          })
+    describe('when createLink() with existing linked diory', () => {
+      beforeEach(() => {
+        diory.createLink({ id: 'linked-id' })
+      })
+
+      it('creates link to diory', () => {
+        expect(diory.links).toStrictEqual([{ id: 'linked-id' }])
+      })
+
+      describe('when deleteLink() with existing linked diory', () => {
+        it('deletes link from diory', () => {
+          diory.deleteLink({ id: 'linked-id' })
+
+          expect(diory.links).toBe(undefined)
+        })
+      })
+
+      describe('when deleteLink() without existing linked diory', () => {
+        it('throws error', () => {
+          expect(() => {
+            diory.deleteLink({ id: 'not-existing-id' })
+          }).toThrow()
         })
       })
     })
