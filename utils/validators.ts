@@ -1,4 +1,4 @@
-import { IDioryObject } from './types'
+import { IDioryObject } from '../types'
 
 export function propIsValid(dioryObject: IDioryObject, prop: string): boolean {
   if (prop === 'id') {
@@ -7,7 +7,7 @@ export function propIsValid(dioryObject: IDioryObject, prop: string): boolean {
 
   if (Object.getOwnPropertyNames(dioryObject).includes(prop)) return true
 
-  console.error('Diory prop is not valid:', prop)
+  console.error('Prop is not valid:', prop)
   return false
 }
 

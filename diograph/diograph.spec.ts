@@ -1,22 +1,24 @@
-import { IDiograph, IDiographObject, IDiory } from './types'
+import { IDiograph, IDiographObject, IDiory } from '../types'
 import { v4 as uuid } from 'uuid'
 
 import { Diograph } from './diograph'
 
 // Mocks
 jest.mock('uuid')
+jest.spyOn(console, 'error').mockImplementation(() => {})
 
 describe('diograph', () => {
   let diograph: IDiograph
   let diory: IDiory
 
-  describe('given new Diograph() with some diory in diograph object', () => {
+  describe('when new Diograph() with some diory in diograph object', () => {
     let diographObject: IDiographObject
 
     beforeEach(() => {
       diographObject = {
         'some-id': {
           id: 'some-id',
+          text: 'some-text',
         },
       }
       diograph = new Diograph(diographObject)
@@ -34,119 +36,95 @@ describe('diograph', () => {
       })
     })
 
-    describe('when addDiograph() with other diory in diograph object', () => {
-      beforeEach(() => {
-        diograph.addDiograph({
-          'other-id': expect.objectContaining({ id: 'other-id' }),
-        })
-      })
-
-      it('adds diory to diograph', () => {
-        expect(diograph.diograph['other-id']).toStrictEqual(expect.objectContaining({ id: 'other-id' }))
-      })
-
-      describe('when toObject()', () => {
-        it('returns diograph object', () => {
-          expect(diograph.toObject()).toStrictEqual({
-            'other-id': expect.objectContaining({ id: 'other-id' }),
-            'some-id': expect.objectContaining({ id: 'some-id' }),
-          })
-        })
-      })
-
-      describe('when createLink()', () => {
-        let diory: IDiory
+    describe('when addDiograph()', () => {
+      describe('given new diory in added diograph object', () => {
         beforeEach(() => {
-          diory = diograph.createLink({ id: 'some-id' }, { id: 'other-id' })
-        })
-
-        it('creates link between diories', () => {
-          expect(diograph.diograph['some-id'].links).toStrictEqual({
+          diograph.addDiograph({
             'other-id': { id: 'other-id' },
           })
         })
 
-        describe('given diory does not exist', () => {
-          it('throws error', () => {
-            expect(() => {
-              diory = diograph.createLink({ id: 'not-existing-id' }, { id: 'other-id' })
-            }).toThrow()
+        it('adds diory to diograph', () => {
+          expect(diograph.diograph['other-id']).toStrictEqual(
+            expect.objectContaining({ id: 'other-id' }),
+          )
+        })
+
+        describe('when toObject()', () => {
+          it('returns diograph object', () => {
+            expect(diograph.toObject()).toStrictEqual({
+              'other-id': expect.objectContaining({ id: 'other-id' }),
+              'some-id': expect.objectContaining({ id: 'some-id' }),
+            })
           })
         })
 
-        describe('when deleteLink()', () => {
+        describe('when addLink()', () => {
+          let diory: IDiory
           beforeEach(() => {
-            diory = diograph.deleteLink({ id: 'some-id' }, { id: 'other-id' })
+            diory = diograph.addDioryLink({ id: 'some-id' }, { id: 'other-id' })
           })
 
-          it('deletes link between diories', () => {
-            expect(diograph.diograph['some-id'].links).toBe(undefined)
+          it('creates link between diories', () => {
+            expect(diograph.diograph['some-id'].links).toStrictEqual({
+              'other-id': { id: 'other-id' },
+            })
           })
 
           describe('given diory does not exist', () => {
             it('throws error', () => {
               expect(() => {
-                diory = diograph.deleteLink({ id: 'not-existing-id' }, { id: 'other-id' })
+                diory = diograph.addDioryLink({ id: 'not-existing-id' }, { id: 'other-id' })
               }).toThrow()
             })
           })
 
-          describe('given linked diory does not exist', () => {
-            it('throws error', () => {
-              expect(() => {
-                diory = diograph.deleteLink({ id: 'some-id' }, { id: 'not-existing-id' })
-              }).toThrow()
+          describe('when removeLink()', () => {
+            beforeEach(() => {
+              diory = diograph.removeDioryLink({ id: 'some-id' }, { id: 'other-id' })
+            })
+
+            it('deletes link between diories', () => {
+              expect(diograph.diograph['some-id'].links).toBe(undefined)
+            })
+
+            describe('given diory does not exist', () => {
+              it('throws error', () => {
+                expect(() => {
+                  diory = diograph.removeDioryLink({ id: 'not-existing-id' }, { id: 'other-id' })
+                }).toThrow()
+              })
+            })
+
+            describe('given linked diory does not exist', () => {
+              it('throws error', () => {
+                expect(() => {
+                  diory = diograph.removeDioryLink({ id: 'some-id' }, { id: 'not-existing-id' })
+                }).toThrow()
+              })
             })
           })
         })
       })
-    })
 
-    describe('when addDiograph() with existing diory in diograph object', () => {
-      it('throws error', () => {
-        jest.spyOn(console, 'error').mockImplementation(() => {})
-
-        diograph.addDiograph({
-          'some-id': {
-            id: 'some-id',
-          },
-        })
-
-        expect(console.error).toHaveBeenCalled()
-      })
-    })
-
-    describe('when addDiograph() with rootId', () => {
-      beforeEach(() => {
-        diograph.addDiograph({}, 'some-rootId')
-      })
-
-      it('adds rootId', () => {
-        expect(diograph.rootId).toStrictEqual('some-rootId')
-      })
-    })
-
-    describe('when getDiory() with id', () => {
-      it('returns diory', () => {
-        diory = diograph.getDiory({ id: 'some-id' })
-
-        expect(diory).toStrictEqual(expect.objectContaining({ id: 'some-id' }))
-      })
-
-      describe('given diory does not exist', () => {
+      describe('given existing diory in diograph object', () => {
         it('throws error', () => {
-          expect(() => {
-            diograph.getDiory({ id: 'other-id' })
-          }).toThrow()
+          diograph.addDiograph({
+            'some-id': {
+              id: 'some-id',
+            },
+          })
+
+          expect(console.error).toHaveBeenCalled()
         })
       })
     })
 
-    describe('when createDiory() with text', () => {
+    describe('when addDiory()', () => {
       beforeEach(() => {
         // @ts-ignore
         uuid.mockReturnValue('some-uuid')
-        diory = diograph.createDiory({ text: 'created-text' })
+        diory = diograph.addDiory({ text: 'created-text' })
       })
 
       it('creates id to diory', () => {
@@ -162,7 +140,35 @@ describe('diograph', () => {
       })
 
       it('adds diory to diograph', () => {
-        expect(diograph.diograph['some-uuid']).toStrictEqual(expect.objectContaining({ id: 'some-uuid' }))
+        expect(diograph.diograph['some-uuid']).toStrictEqual(
+          expect.objectContaining({ id: 'some-uuid' }),
+        )
+      })
+    })
+
+    describe('when addDiory() with key', () => {
+      beforeEach(() => {
+        diory = diograph.addDiory({ id: 'some-id' }, 'some-key')
+      })
+
+      it('adds id', () => {
+        expect(diory.id).toBe('some-id')
+      })
+
+      it('adds diory alias to diograph', () => {
+        expect(diograph.diograph['some-key']).toStrictEqual(
+          expect.objectContaining({ id: 'some-id' }),
+        )
+      })
+
+      describe('when getDiory() with alias key', () => {
+        beforeEach(() => {
+          diory = diograph.getDiory({ id: 'some-key' })
+        })
+
+        it('returns diory', () => {
+          expect(diory.text).toBe('some-text')
+        })
       })
     })
 
@@ -174,12 +180,12 @@ describe('diograph', () => {
       })
     })
 
-    describe('when updateDiory() with text', () => {
+    describe('when updateDiory()', () => {
       beforeEach(() => {
         diory = diograph.updateDiory({ id: 'some-id', text: 'updated-text' })
       })
 
-      it('updates diory text', () => {
+      it('updates diory', () => {
         expect(diograph.diograph['some-id'].text).toBe('updated-text')
       })
 
@@ -196,11 +202,11 @@ describe('diograph', () => {
       })
     })
 
-    describe('when deleteDiory() with id', () => {
+    describe('when removeDiory()', () => {
       let result: boolean | undefined
 
       beforeEach(() => {
-        result = diograph.deleteDiory({ id: 'some-id' })
+        result = diograph.removeDiory({ id: 'some-id' })
       })
 
       it('deletes diory', () => {
@@ -237,7 +243,9 @@ describe('diograph', () => {
         })
 
         it('returns diograph with query diory', () => {
-          expect(queryDiograph.diograph['query-id']).toStrictEqual(expect.objectContaining({ id: 'query-id' }))
+          expect(queryDiograph.diograph['query-id']).toStrictEqual(
+            expect.objectContaining({ id: 'query-id' }),
+          )
         })
 
         describe('when toObject()', () => {
