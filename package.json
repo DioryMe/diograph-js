@@ -1,6 +1,6 @@
 {
   "name": "@diograph/diograph",
-  "version": "0.0.2-rc2",
+  "version": "0.0.2-rc3",
   "main": "dist/index.js",
   "types": "index.d.ts",
   "author": "Olli-Pekka Pohjola <op@diory.me>, Jouni Alanen <jouni@diory.me>",
@@ -21,7 +21,8 @@
     "build-watch": "yarn build --watch",
     "prettier": "prettier --write .",
     "test": "jest . --verbose",
-    "test-watch": "yarn test --watch"
+    "test-watch": "yarn test --watch",
+    "publish": "npm publish"
   },
   "prettier": {
     "tabWidth": 2,
