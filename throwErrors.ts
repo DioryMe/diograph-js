@@ -1,4 +1,5 @@
 import { IDioryObject, IDiographObject, ILinkObject } from './types'
+import { IDiory } from '@diograph/diograph'
 
 export function throwErrorIfDioryNotFound(method: string, dioryObject: IDioryObject, diograph: IDiographObject): void {
   if (diograph[dioryObject.id]) {
@@ -7,7 +8,7 @@ export function throwErrorIfDioryNotFound(method: string, dioryObject: IDioryObj
   throw new Error(`${method}: Diory not found ${JSON.stringify(dioryObject, null, 2)}`)
 }
 
-export function throwErrorIfDioryAlreadyExists(method: string, dioryObject: IDioryObject, diograph: IDiographObject): void {
+export function throwErrorIfDioryAlreadyExists(method: string, dioryObject: IDioryObject | IDiory, diograph: IDiographObject): void {
   if (!diograph[dioryObject.id]) {
     return
   }

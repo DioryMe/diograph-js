@@ -9,7 +9,7 @@ import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from '.
 class Diograph implements IDiograph {
   diograph: { [index: string]: IDiory } = {}
 
-  constructor(diographObject: IDiographObject) {
+  constructor(diographObject?: IDiographObject) {
     this.addDiograph(diographObject)
   }
 
@@ -57,15 +57,13 @@ class Diograph implements IDiograph {
     return rootObject && this.getDiory(rootObject)
   }
 
-  addDiory = (dioryObject: IDioryObject): IDiory => {
-    throwErrorIfDioryAlreadyExists('addDiory', dioryObject, this.diograph)
+  addDiory = (diory: IDioryProps | IDioryObject | IDiory): IDiory => {
+    if ('id' in diory) {
+      throwErrorIfDioryAlreadyExists('addDiory', diory, this.diograph)
+    }
 
-    return this.diograph[dioryObject.id] = new Diory(dioryObject)
-  }
-
-  createDiory = (dioryProps: IDioryProps): IDiory => {
-    const newDiory: IDiory = new Diory(dioryProps)
-    return this.diograph[newDiory.id] = newDiory
+    const addedDiory: IDiory = diory instanceof Diory? diory : new Diory(diory)
+    return this.diograph[addedDiory.id] = addedDiory
   }
 
   getDiory = (dioryObject: IDioryObject): IDiory => {
