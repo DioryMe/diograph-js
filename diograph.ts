@@ -19,14 +19,14 @@ class Diograph implements IDiograph {
         if (!isDiographRoot(dioryObject)) {
           this.addDiory({ ...dioryObject, id })
         }
-      } catch(error) {
+      } catch (error) {
         console.error(error)
       }
     })
 
     try {
       this.setRoot(getDiographRoot(diographObject))
-    } catch(error) {
+    } catch (error) {
       console.error(error)
     }
 
@@ -62,8 +62,8 @@ class Diograph implements IDiograph {
       throwErrorIfDioryAlreadyExists('addDiory', diory, this.diograph)
     }
 
-    const addedDiory: IDiory = diory instanceof Diory? diory : new Diory(diory)
-    return this.diograph[addedDiory.id] = addedDiory
+    const addedDiory: IDiory = diory instanceof Diory ? diory : new Diory(diory)
+    return (this.diograph[addedDiory.id] = addedDiory)
   }
 
   getDiory = (dioryObject: IDioryObject): IDiory => {
@@ -78,24 +78,24 @@ class Diograph implements IDiograph {
     return this.getDiory(dioryObject).update(dioryObject)
   }
 
-  deleteDiory = (dioryObject: IDioryObject): boolean => {
-    throwErrorIfDioryNotFound('deleteDiory', dioryObject, this.diograph)
+  removeDiory = (dioryObject: IDioryObject): boolean => {
+    throwErrorIfDioryNotFound('removeDiory', dioryObject, this.diograph)
 
     return delete this.diograph[dioryObject.id]
   }
 
-  createDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
-    throwErrorIfDioryNotFound('createDioryLink:diory', dioryObject, this.diograph)
-    throwErrorIfDioryNotFound('createDioryLink:linkedDiory', linkedDioryObject, this.diograph)
+  addDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
+    throwErrorIfDioryNotFound('addDioryLink:diory', dioryObject, this.diograph)
+    throwErrorIfDioryNotFound('addDioryLink:linkedDiory', linkedDioryObject, this.diograph)
 
-    return this.getDiory(dioryObject).createLink(linkedDioryObject)
+    return this.getDiory(dioryObject).addLink(linkedDioryObject)
   }
 
-  deleteDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
-    throwErrorIfDioryNotFound('deleteDioryLink:diory', dioryObject, this.diograph)
-    throwErrorIfDioryNotFound('deleteDioryLink:link', linkedDioryObject, this.diograph)
+  removeDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
+    throwErrorIfDioryNotFound('removeDioryLink:diory', dioryObject, this.diograph)
+    throwErrorIfDioryNotFound('removeDioryLink:link', linkedDioryObject, this.diograph)
 
-    return this.getDiory(dioryObject).deleteLink(linkedDioryObject)
+    return this.getDiory(dioryObject).removeLink(linkedDioryObject)
   }
 
   toObject = (): IDiographObject => {

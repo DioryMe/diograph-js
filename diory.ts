@@ -16,7 +16,7 @@ class Diory implements IDiory {
   modified?: string = undefined
 
   constructor(dioryObject: IDioryObject | IDioryProps) {
-    this.id = 'id' in dioryObject? dioryObject.id : uuid()
+    this.id = 'id' in dioryObject ? dioryObject.id : uuid()
     this.update(dioryObject, false)
   }
 
@@ -42,8 +42,8 @@ class Diory implements IDiory {
     return this
   }
 
-  createLink(linkObject: ILinkObject): IDiory {
-    throwErrorIfLinkAlreadyExists('createLink', linkObject, this.links)
+  addLink(linkObject: ILinkObject): IDiory {
+    throwErrorIfLinkAlreadyExists('addLink', linkObject, this.links)
 
     const newLinkObject: ILinkObject = { id: linkObject.id }
     if (linkObject.path) {
@@ -54,8 +54,8 @@ class Diory implements IDiory {
     return this.update({ links })
   }
 
-  deleteLink(linkObject: ILinkObject): IDiory {
-    throwErrorIfLinkNotFound('deleteLink', linkObject, this.links)
+  removeLink(linkObject: ILinkObject): IDiory {
+    throwErrorIfLinkNotFound('removeLink', linkObject, this.links)
 
     const newLinks = this.links?.filter((link) => link.id !== linkObject.id)
     const links = newLinks?.length ? newLinks : undefined

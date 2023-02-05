@@ -2,7 +2,7 @@ import { IDiory, IDioryProps } from './types'
 import { Diory } from './diory'
 
 jest.mock('uuid', () => ({
-  v4: () => 'some-uuid'
+  v4: () => 'some-uuid',
 }))
 
 describe('Diory', () => {
@@ -150,8 +150,7 @@ describe('Diory', () => {
 
     describe('given any other prop', () => {
       it('does not add other prop to diory', () => {
-        jest.spyOn(console, 'error').mockImplementation(() => {
-        })
+        jest.spyOn(console, 'error').mockImplementation(() => {})
         // @ts-ignore
         dioryProps.other = 'prop'
 
@@ -249,19 +248,23 @@ describe('Diory', () => {
 
       describe('given links', () => {
         beforeEach(() => {
-          dioryProps.links = [{
-            id: 'link-id',
-            path: 'some-path'
-          }]
+          dioryProps.links = [
+            {
+              id: 'link-id',
+              path: 'some-path',
+            },
+          ]
 
           diory.update(dioryProps)
         })
 
         it('adds links to diory', () => {
-          expect(diory.links).toStrictEqual([{
-            id: 'link-id',
-            path: 'some-path'
-          }])
+          expect(diory.links).toStrictEqual([
+            {
+              id: 'link-id',
+              path: 'some-path',
+            },
+          ])
         })
       })
 
@@ -282,8 +285,7 @@ describe('Diory', () => {
 
       describe('given other prop', () => {
         it('does not add other prop to diory', () => {
-          jest.spyOn(console, 'error').mockImplementation(() => {
-          })
+          jest.spyOn(console, 'error').mockImplementation(() => {})
           // @ts-ignore
           dioryProps.other = 'prop'
 
@@ -337,27 +339,27 @@ describe('Diory', () => {
       })
     })
 
-    describe('when createLink() with existing linked diory', () => {
+    describe('when addLink() with existing linked diory', () => {
       beforeEach(() => {
-        diory.createLink({ id: 'linked-id' })
+        diory.addLink({ id: 'linked-id' })
       })
 
       it('creates link to diory', () => {
         expect(diory.links).toStrictEqual([{ id: 'linked-id' }])
       })
 
-      describe('when deleteLink() with existing linked diory', () => {
+      describe('when removeLink() with existing linked diory', () => {
         it('deletes link from diory', () => {
-          diory.deleteLink({ id: 'linked-id' })
+          diory.removeLink({ id: 'linked-id' })
 
           expect(diory.links).toBe(undefined)
         })
       })
 
-      describe('when deleteLink() without existing linked diory', () => {
+      describe('when removeLink() without existing linked diory', () => {
         it('throws error', () => {
           expect(() => {
-            diory.deleteLink({ id: 'not-existing-id' })
+            diory.removeLink({ id: 'not-existing-id' })
           }).toThrow()
         })
       })
