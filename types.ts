@@ -39,13 +39,10 @@ export interface IDiograph {
   setRoot: (dioryObject: IDioryObject) => void
   getRoot: () => IDiory
   getDiory: (dioryObject: IDioryObject) => IDiory
-  createDiory: (dioryProps: IDioryProps) => IDiory
+  addDiory: (dioryProps: IDioryProps) => IDiory
   updateDiory: (dioryObject: IDioryObject) => IDiory
-  deleteDiory: (dioryObject: IDioryObject) => boolean
-  createDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
-  deleteDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
+  removeDiory: (dioryObject: IDioryObject) => boolean
+  addDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
+  removeDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   toObject: () => IDiographObject
-
-
 }
-

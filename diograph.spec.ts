@@ -59,7 +59,7 @@ describe('diograph', () => {
         describe('when createLink()', () => {
           let diory: IDiory
           beforeEach(() => {
-            diory = diograph.createDioryLink({ id: 'some-id' }, { id: 'other-id' })
+            diory = diograph.addDioryLink({ id: 'some-id' }, { id: 'other-id' })
           })
 
           it('creates link between diories', () => {
@@ -69,14 +69,14 @@ describe('diograph', () => {
           describe('given diory does not exist', () => {
             it('throws error', () => {
               expect(() => {
-                diory = diograph.createDioryLink({ id: 'not-existing-id' }, { id: 'other-id' })
+                diory = diograph.addDioryLink({ id: 'not-existing-id' }, { id: 'other-id' })
               }).toThrow()
             })
           })
 
           describe('when deleteLink()', () => {
             beforeEach(() => {
-              diory = diograph.deleteDioryLink({ id: 'some-id' }, { id: 'other-id' })
+              diory = diograph.removeDioryLink({ id: 'some-id' }, { id: 'other-id' })
             })
 
             it('deletes link between diories', () => {
@@ -86,7 +86,7 @@ describe('diograph', () => {
             describe('given diory does not exist', () => {
               it('throws error', () => {
                 expect(() => {
-                  diory = diograph.deleteDioryLink({ id: 'not-existing-id' }, { id: 'other-id' })
+                  diory = diograph.removeDioryLink({ id: 'not-existing-id' }, { id: 'other-id' })
                 }).toThrow()
               })
             })
@@ -94,7 +94,7 @@ describe('diograph', () => {
             describe('given linked diory does not exist', () => {
               it('throws error', () => {
                 expect(() => {
-                  diory = diograph.deleteDioryLink({ id: 'some-id' }, { id: 'not-existing-id' })
+                  diory = diograph.removeDioryLink({ id: 'some-id' }, { id: 'not-existing-id' })
                 }).toThrow()
               })
             })
@@ -173,11 +173,11 @@ describe('diograph', () => {
       })
     })
 
-    describe('when createDiory() with text', () => {
+    describe('when addDiory()', () => {
       beforeEach(() => {
         // @ts-ignore
         uuid.mockReturnValue('some-uuid')
-        diory = diograph.createDiory({ text: 'created-text' })
+        diory = diograph.addDiory({ text: 'created-text' })
       })
 
       it('creates id to diory', () => {
@@ -205,12 +205,12 @@ describe('diograph', () => {
       })
     })
 
-    describe('when updateDiory() with text', () => {
+    describe('when updateDiory()', () => {
       beforeEach(() => {
         diory = diograph.updateDiory({ id: 'some-id', text: 'updated-text' })
       })
 
-      it('updates diory text', () => {
+      it('updates diory', () => {
         expect(diograph.diograph['some-id'].text).toBe('updated-text')
       })
 
@@ -227,11 +227,11 @@ describe('diograph', () => {
       })
     })
 
-    describe('when deleteDiory() with id', () => {
+    describe('when removeDiory()', () => {
       let result: boolean | undefined
 
       beforeEach(() => {
-        result = diograph.deleteDiory({ id: 'some-id' })
+        result = diograph.removeDiory({ id: 'some-id' })
       })
 
       it('deletes diory', () => {

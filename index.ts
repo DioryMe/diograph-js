@@ -1,3 +1,3 @@
 export { Diograph } from './diograph'
 export { Diory } from './diory'
-export { IDiory, IDioryObject, IDioryProps, IDioryLinks, IDiograph, IDiographObject } from './types'
+export { IDiograph, IDiographObject, IDiory, IDioryObject, IDioryProps, ILinkObject } from './types'
