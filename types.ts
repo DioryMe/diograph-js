@@ -10,7 +10,6 @@ export interface IDioryProps {
   date?: string
   data?: any[]
   links?: ILinkObject[]
-  style?: object
   created?: string
   modified?: string
 }
@@ -21,8 +20,8 @@ export interface IDioryObject extends IDioryProps {
 
 export interface IDiory extends IDioryObject {
   update: (dioryProps: IDioryProps, addOnly?: boolean) => IDiory
-  createLink: (linkedDioryObject: IDioryObject) => IDiory
-  deleteLink: (linkedDioryObject: IDioryObject) => IDiory
+  addLink: (linkedDioryObject: IDioryObject) => IDiory
+  removeLink: (linkedDioryObject: IDioryObject) => IDiory
   toObject: () => IDioryObject
 }
 

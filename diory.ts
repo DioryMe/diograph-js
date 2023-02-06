@@ -42,7 +42,7 @@ class Diory implements IDiory {
     return this
   }
 
-  createLink(linkObject: ILinkObject): IDiory {
+  addLink(linkObject: ILinkObject): IDiory {
     throwErrorIfLinkAlreadyExists('createLink', linkObject, this.links)
 
     const newLinkObject: ILinkObject = { id: linkObject.id }
@@ -54,7 +54,7 @@ class Diory implements IDiory {
     return this.update({ links })
   }
 
-  deleteLink(linkObject: ILinkObject): IDiory {
+  removeLink(linkObject: ILinkObject): IDiory {
     throwErrorIfLinkNotFound('deleteLink', linkObject, this.links)
 
     const newLinks = this.links?.filter((link) => link.id !== linkObject.id)

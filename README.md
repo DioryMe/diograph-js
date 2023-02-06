@@ -19,7 +19,7 @@ console.log('Hello Diograph!', diograph)
 
 ## API
 ```
-const diograph = new Diograph(diographObject, rootId)
+const diograph = new Diograph(diographObject)
 ```
 
 ### Diograph
@@ -29,17 +29,31 @@ diograph.queryDiograph({ text: 'some-text' })
 diograph.resetDiograph()
 diograph.toObject()
 diograph.toJson()
+
+diograph.getDiory(someDiory)
+diograph.addDiory(someDiory)
+diograph.updateDiory(someDiory)
+diograph.removeDiory(someDiory)
+diograph.addDioryLink(someDiory, linkedDiory)
+diograph.removeDioryLink(someDiory, linkedDiory)
+```
+
+### Root diory
+```
+diograph.setRoot(someDiory)
+diograph.getRoot()
 ```
 
 ### Diory
 ```
-diograph.addDiory(someDiory)
-diograph.createDiory(someDiory)
-diograph.getDiory(someDiory)
-diograph.updateDiory(someDiory)
-diograph.deleteDiory(someDiory)
-diograph.createLink(someDiory, linkedDiory)
-diograph.deleteLink(someDiory, linkedDiory)
+const diory = new Diory()
+diory.updateDiory(dioryObject)
+
+diory.addLink(linkedDiory)
+diory.removeLink(linkedDiory)
+
+diory.toObject()
+diory.toJson()
 ```
 
 ## Development
