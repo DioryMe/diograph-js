@@ -9,6 +9,7 @@ export interface IDioryProps {
   latlng?: string
   date?: string
   data?: any[]
+  path?: string
   links?: ILinkObject[]
   created?: string
   modified?: string
