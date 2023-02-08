@@ -115,68 +115,6 @@ describe('diograph', () => {
           expect(console.error).toHaveBeenCalled()
         })
       })
-
-      describe('given diograph contains root', () => {
-        beforeEach(() => {
-          diograph.addDiograph({
-            '/': { id: 'some-rootId' },
-            'some-rootId': {
-              id: 'some-rootId',
-              text: 'root',
-            },
-          })
-        })
-
-        it('sets root', () => {
-          expect(diograph.getRoot()).toStrictEqual(
-            expect.objectContaining({
-              id: 'some-rootId',
-              text: 'root',
-            }),
-          )
-        })
-      })
-    })
-
-    describe('when setRoot()', () => {
-      describe('given diograph contains root', () => {
-        beforeEach(() => {
-          diograph.addDiograph({
-            'some-rootId': {
-              id: 'some-rootId',
-              text: 'root',
-            },
-          })
-        })
-
-        it('sets root', () => {
-          diograph.setRoot({ id: 'some-rootId' })
-
-          expect(diograph.getRoot()).toStrictEqual(
-            expect.objectContaining({
-              id: 'some-rootId',
-              text: 'root',
-            }),
-          )
-        })
-      })
-
-      describe('given diograph does not contain root', () => {
-        beforeEach(() => {
-          diograph.addDiograph({
-            'some-id': {
-              id: 'some-id',
-              text: 'not-root',
-            },
-          })
-        })
-
-        it('throws error', () => {
-          expect(() => {
-            diograph.setRoot({ id: 'some-rootId' })
-          }).toThrow()
-        })
-      })
     })
 
     describe('when addDiory()', () => {

@@ -18,11 +18,13 @@ console.log('Hello Diograph!', diograph)
 ```
 
 ## API
+
 ```
 const diograph = new Diograph(diographObject)
 ```
 
 ### Diograph
+
 ```
 diograph.addDiograph(diographObject)
 diograph.queryDiograph({ text: 'some-text' })
@@ -39,12 +41,14 @@ diograph.removeDioryLink(someDiory, linkedDiory)
 ```
 
 ### Root diory
+
 ```
 diograph.setRoot(someDiory)
 diograph.getRoot()
 ```
 
 ### Diory
+
 ```
 const diory = new Diory()
 diory.updateDiory(dioryObject)

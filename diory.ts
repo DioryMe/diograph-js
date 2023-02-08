@@ -11,6 +11,7 @@ class Diory implements IDiory {
   latlng?: string = undefined
   date?: string = undefined
   data?: any[] = undefined
+  path?: string = undefined
   links?: ILinkObject[] = undefined
   created?: string = undefined
   modified?: string = undefined

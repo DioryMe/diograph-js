@@ -15,9 +15,12 @@ export function allMatchToQuery(queryDiory: IDioryProps) {
     )
 }
 
-export function reduceToDiographObject(diographObject: IDiographObject, diory: IDiory): IDiographObject {
-  return ({
+export function reduceToDiographObject(
+  diographObject: IDiographObject,
+  diory: IDiory,
+): IDiographObject {
+  return {
     ...diographObject,
     [diory.id]: diory.toObject(),
-  })
+  }
 }

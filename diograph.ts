@@ -1,7 +1,6 @@
 import { Diory } from './diory'
 
 import { allKeysExist, allMatchToQuery, reduceToDiographObject } from './utils'
-import { isDiographRoot, getDiographRoot, setDiographRoot } from './diographRootUtils'
 import { throwErrorIfDioryAlreadyExists, throwErrorIfDioryNotFound } from './throwErrors'
 
 import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from './types'
@@ -16,19 +15,11 @@ class Diograph implements IDiograph {
   addDiograph = (diographObject: IDiographObject = {}): IDiograph => {
     Object.entries(diographObject).forEach(([id, dioryObject]) => {
       try {
-        if (!isDiographRoot(dioryObject)) {
-          this.addDiory({ ...dioryObject, id })
-        }
+        this.addDiory({ ...dioryObject, id })
       } catch (error) {
         console.error(error)
       }
     })
-
-    try {
-      this.setRoot(getDiographRoot(diographObject))
-    } catch (error) {
-      console.error(error)
-    }
 
     return this
   }
@@ -44,17 +35,6 @@ class Diograph implements IDiograph {
   resetDiograph = (): IDiograph => {
     this.diograph = {}
     return this
-  }
-
-  setRoot = (rootObject: IDioryObject): void => {
-    throwErrorIfDioryNotFound('setRoot', rootObject, this.diograph)
-
-    setDiographRoot(this.diograph, rootObject)
-  }
-
-  getRoot = (): IDiory => {
-    const rootObject = getDiographRoot(this.diograph)
-    return rootObject && this.getDiory(rootObject)
   }
 
   addDiory = (diory: IDioryProps | IDioryObject | IDiory): IDiory => {
