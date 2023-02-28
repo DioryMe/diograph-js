@@ -1,4 +1,4 @@
-import { IDioryObject } from './types'
+import { IDioryObject } from '../types'
 import { allKeysExist } from './utils'
 
 describe('allKeysExist()', () => {

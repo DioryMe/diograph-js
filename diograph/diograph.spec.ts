@@ -1,4 +1,4 @@
-import { IDiograph, IDiographObject, IDiory } from './types'
+import { IDiograph, IDiographObject, IDiory } from '../types'
 import { v4 as uuid } from 'uuid'
 
 import { Diograph } from './diograph'

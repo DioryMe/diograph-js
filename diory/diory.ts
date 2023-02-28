@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid'
-import { propIsValid, valueIsValid, valueExists } from './validators'
-import { throwErrorIfLinkAlreadyExists, throwErrorIfLinkNotFound } from './throwErrors'
+import { propIsValid, valueIsValid, valueExists } from '../utils/validators'
+import { throwErrorIfLinkAlreadyExists, throwErrorIfLinkNotFound } from '../utils/throwErrors'
 
-import { IDiory, IDioryObject, IDioryProps, ILinkObject } from './types'
+import { IDiory, IDioryObject, IDioryProps, ILinkObject } from '../types'
 
 class Diory implements IDiory {
   id: string

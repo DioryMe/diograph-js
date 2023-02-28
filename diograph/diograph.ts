@@ -1,9 +1,9 @@
-import { Diory } from './diory'
+import { Diory } from '../diory/diory'
 
-import { allKeysExist, allMatchToQuery, reduceToDiographObject } from './utils'
-import { throwErrorIfDioryAlreadyExists, throwErrorIfDioryNotFound } from './throwErrors'
+import { allKeysExist, allMatchToQuery, reduceToDiographObject } from '../utils/utils'
+import { throwErrorIfDioryAlreadyExists, throwErrorIfDioryNotFound } from '../utils/throwErrors'
 
-import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from './types'
+import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from '../types'
 
 class Diograph implements IDiograph {
   diograph: { [index: string]: IDiory } = {}
