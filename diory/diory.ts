@@ -4,6 +4,11 @@ import { throwErrorIfLinkAlreadyExists, throwErrorIfLinkNotFound } from '../util
 
 import { IDiory, IDioryObject, IDioryProps, ILinkObject } from '../types'
 
+function removeLinkObjectFromLinks(linkObject: ILinkObject, links: { [key: string]: ILinkObject }) {
+  const removedEntry = Object.entries(links!).find(([_, link]) => link.id === linkObject.id)
+  delete links![removedEntry![0]]
+}
+
 class Diory implements IDiory {
   id: string
   text?: string = undefined
@@ -12,7 +17,7 @@ class Diory implements IDiory {
   date?: string = undefined
   data?: any[] = undefined
   path?: string = undefined
-  links?: ILinkObject[] = undefined
+  links?: { [index: string]: ILinkObject } = undefined
   created?: string = undefined
   modified?: string = undefined
 
@@ -46,22 +51,26 @@ class Diory implements IDiory {
   addLink(linkObject: ILinkObject): IDiory {
     throwErrorIfLinkAlreadyExists('addLink', linkObject, this.links)
 
-    const newLinkObject: ILinkObject = { id: linkObject.id }
-    if (linkObject.path) {
-      newLinkObject.path = linkObject.path
+    if (!this.links) {
+      this.links = {}
     }
-    const links: ILinkObject[] = (this.links || []).concat(newLinkObject)
 
-    return this.update({ links })
+    this.links[linkObject.id] = {
+      id: linkObject.id,
+      ...(linkObject.path && { path: linkObject.path }),
+    }
+    return this.update({})
   }
 
   removeLink(linkObject: ILinkObject): IDiory {
     throwErrorIfLinkNotFound('removeLink', linkObject, this.links)
 
-    const newLinks = this.links?.filter((link) => link.id !== linkObject.id)
-    const links = newLinks?.length ? newLinks : undefined
+    removeLinkObjectFromLinks(linkObject, this.links!)
+    if (Object.keys(this.links!).length === 0) {
+      this.links = undefined
+    }
 
-    return this.update({ links })
+    return this.update({})
   }
 
   toObject = (): IDioryObject => {

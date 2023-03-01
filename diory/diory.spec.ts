@@ -82,20 +82,20 @@ describe('Diory', () => {
 
     describe('given links', () => {
       beforeEach(() => {
-        dioryProps.links = [{ id: 'some-link' }]
+        dioryProps.links = { 4: { id: 'some-link' } }
 
         diory = new Diory(dioryProps)
       })
 
       it('adds links to diory links', () => {
-        expect(diory.links).toStrictEqual([{ id: 'some-link' }])
+        expect(diory.links).toStrictEqual({ 4: { id: 'some-link' } })
       })
 
       describe('when toObject()', () => {
         it('returns diory object with links', () => {
           const dioryObject = diory.toObject()
 
-          expect(dioryObject.links).toStrictEqual([{ id: 'some-link' }])
+          expect(dioryObject.links).toStrictEqual({ 4: { id: 'some-link' } })
         })
       })
     })
@@ -248,23 +248,23 @@ describe('Diory', () => {
 
       describe('given links', () => {
         beforeEach(() => {
-          dioryProps.links = [
-            {
+          dioryProps.links = {
+            5: {
               id: 'link-id',
               path: 'some-path',
             },
-          ]
+          }
 
           diory.update(dioryProps)
         })
 
         it('adds links to diory', () => {
-          expect(diory.links).toStrictEqual([
-            {
+          expect(diory.links).toStrictEqual({
+            5: {
               id: 'link-id',
               path: 'some-path',
             },
-          ])
+          })
         })
       })
 
@@ -345,7 +345,7 @@ describe('Diory', () => {
       })
 
       it('creates link to diory', () => {
-        expect(diory.links).toStrictEqual([{ id: 'linked-id' }])
+        expect(diory.links).toStrictEqual({ 'linked-id': { id: 'linked-id' } })
       })
 
       describe('when removeLink() with existing linked diory', () => {

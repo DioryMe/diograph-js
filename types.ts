@@ -10,7 +10,7 @@ export interface IDioryProps {
   date?: string
   data?: any[]
   path?: string
-  links?: ILinkObject[]
+  links?: { [index: string]: ILinkObject }
   created?: string
   modified?: string
 }

@@ -25,9 +25,9 @@ export function throwErrorIfDioryAlreadyExists(
 export function throwErrorIfLinkNotFound(
   method: string,
   linkObject: ILinkObject,
-  links: ILinkObject[] = [],
+  links: { [index: string]: ILinkObject } = {},
 ): void {
-  if (links.find(({ id }) => id === linkObject.id)) {
+  if (Object.values(links).find(({ id }) => id === linkObject.id)) {
     return
   }
   throw new Error(`${method}: Link not found ${JSON.stringify(linkObject, null, 2)}`)
@@ -36,9 +36,9 @@ export function throwErrorIfLinkNotFound(
 export function throwErrorIfLinkAlreadyExists(
   method: string,
   linkObject: ILinkObject,
-  links: ILinkObject[] = [],
+  links: { [index: string]: ILinkObject } = {},
 ): void {
-  if (!links.find(({ id }) => id === linkObject.id)) {
+  if (!Object.values(links).find(({ id }) => id === linkObject.id)) {
     return
   }
   throw new Error(`${method}: Link already exists ${JSON.stringify(linkObject, null, 2)}`)
