@@ -40,7 +40,7 @@ export interface ContentUrls {
 
 export interface ConnectionObject {
   address: string
-  contentClient: string
+  contentClientType: string
   contentUrls?: ContentUrls
   diograph?: DiographObject
 }
