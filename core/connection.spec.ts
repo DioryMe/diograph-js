@@ -6,7 +6,7 @@ const roomObject: RoomObject = {
   connections: [
     {
       address: 'some-address',
-      contentClient: 'local',
+      contentClientType: 'LocalClient',
       contentUrls: {
         bafkreifhhmoftoo26lc223k5riwflm6uvgrizwakg5z7n7yruj7gty27ji:
           '/Generic content/some-video.mov',
@@ -55,7 +55,7 @@ describe('Connection', () => {
       })
     })
     it('includes contentClient', async () => {
-      expect(connectionObject.contentClient).toEqual('local')
+      expect(connectionObject.contentClientType).toEqual('LocalClient')
     })
   })
 })

@@ -6,8 +6,9 @@ import { Connection } from './connection'
 class Room {
   diograph: Diograph
   connections: Connection[] = []
-  roomClient?: RoomClient
   address?: string
+  roomClient?: RoomClient
+  roomClientType?: string
 
   constructor(roomClient?: RoomClient) {
     if (roomClient) {
@@ -19,6 +20,7 @@ class Room {
   defineRoomClient = (roomClient: RoomClient) => {
     this.address = roomClient.address
     this.roomClient = roomClient
+    this.roomClientType = roomClient.client.constructor.name
   }
 
   loadRoom = async () => {

@@ -10,18 +10,18 @@ export interface ContentUrlObject {
 
 class Connection {
   address: string
-  contentClient: string
+  contentClientType: string
   contentUrls: ContentUrlObject
   diograph: Diograph
 
-  constructor({ address, contentClient, contentUrls = {}, diograph = {} }: ConnectionObject) {
-    if (!address || !contentClient) {
+  constructor({ address, contentClientType, contentUrls = {}, diograph = {} }: ConnectionObject) {
+    if (!address || !contentClientType) {
       throw new Error(
-        `Invalid connectionData: address: ${address}, contentClient: ${contentClient}`,
+        `Invalid connectionData: address: ${address}, contentClientType: ${contentClientType}`,
       )
     }
     this.address = address
-    this.contentClient = contentClient
+    this.contentClientType = contentClientType
     this.contentUrls = contentUrls || {}
     this.diograph = new Diograph()
     if (diograph && Object.keys(diograph).length) {
@@ -30,10 +30,10 @@ class Connection {
   }
 
   getClient = () => {
-    if (this.contentClient === 'local') {
+    if (this.contentClientType === 'LocalClient') {
       try {
         const { LocalClient } = require('@diograph/local-client')
-        return new LocalClient()
+        return new LocalClient(this.address)
       } catch (e) {
         console.log(e)
         console.log(
@@ -43,7 +43,9 @@ class Connection {
         return new ElectronClient()
       }
     }
-    throw new Error(`Connection#getClient: contentClient '${this.contentClient}' not available!`)
+    throw new Error(
+      `Connection#getClient: contentClient '${this.contentClientType}' not available!`,
+    )
   }
 
   addContentUrl = (CID: string, internalPath: string) => {
@@ -65,14 +67,11 @@ class Connection {
   }
 
   addContent = async (fileContent: Buffer | string, contentId: string) => {
-    const relativeInternalPath = contentId
-    const absoluteInternalPath = join(this.address, contentId)
+    await this.getClient().writeItem(contentId, fileContent)
 
-    await this.getClient().writeItem(absoluteInternalPath, fileContent)
+    this.addContentUrl(contentId, this.address)
 
-    this.addContentUrl(contentId, relativeInternalPath)
-
-    return relativeInternalPath
+    return contentId
   }
 
   deleteContent = async (contentUrl: string) => {
@@ -87,7 +86,7 @@ class Connection {
     // TODO: Make some kind of exception for relative paths (for demo-content-room which can't have absolute paths...)
     // address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
     address: this.address,
-    contentClient: this.contentClient,
+    contentClientType: this.contentClientType,
     contentUrls: this.contentUrls,
     diograph: this.diograph.toObject(),
   })
