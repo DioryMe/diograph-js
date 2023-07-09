@@ -29,6 +29,10 @@ const diographContents = JSON.stringify({
   },
 })
 
+class MockLocalClient {
+  constructor() {}
+}
+
 describe('Room', () => {
   let room: Room
 
@@ -36,6 +40,9 @@ describe('Room', () => {
     const mockRoomClient: any = {
       readRoomJson: () => roomJsonContents,
       readDiograph: () => diographContents,
+      client: () => {
+        return new MockLocalClient()
+      },
     }
     room = new Room(mockRoomClient)
     await room.loadRoom()
