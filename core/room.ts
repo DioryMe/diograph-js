@@ -85,7 +85,7 @@ class Room {
     return existingConnection
   }
 
-  getContent = (contentUrl: string) => {
+  getContent = (contentUrl: string): string | undefined => {
     for (let i = 0; i < this.connections.length; i++) {
       const found = this.connections[i].getContent(contentUrl)
       if (found) {
@@ -94,8 +94,20 @@ class Room {
     }
   }
 
-  addContent = async (fileContent: Buffer | string, contentId: string) => {
-    return this.connections[0].addContent(fileContent, contentId)
+  addContent = async (fileContent: Buffer | string, contentId: string, ContentClient?: any) => {
+    if (!ContentClient && !this.roomClient) {
+      throw new Error(
+        `No roomClient ${this.roomClient} defined nor ContentClient passed ${ContentClient}`,
+      )
+    }
+    const nativeConnection = this.connections[0]
+    return nativeConnection.addContent(
+      fileContent,
+      contentId,
+      ContentClient
+        ? new ContentClient(nativeConnection.address)
+        : this.roomClient && new this.roomClient.client.constructor(nativeConnection.address),
+    )
   }
 
   toObject = (): RoomObject => {
