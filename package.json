@@ -22,7 +22,7 @@
   "scripts": {
     "build": "tsc",
     "build-watch": "yarn build --watch",
-    "prepublish": "yarn build && yarn test",
+    "prepublishOnly": "yarn build && yarn test",
     "prettier": "prettier --write .",
     "test": "jest .",
     "test-watch": "yarn test --watch",
