@@ -5,6 +5,9 @@
   "types": "./dist/index.d.ts",
   "author": "Jouni Alanen <jouni@diory.me>",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "uuid": "^8.3.2"
   },
@@ -19,6 +22,7 @@
   "scripts": {
     "build": "tsc",
     "build-watch": "yarn build --watch",
+    "prepublish": "yarn build && yarn test",
     "prettier": "prettier --write .",
     "test": "jest .",
     "test-watch": "yarn test --watch",
