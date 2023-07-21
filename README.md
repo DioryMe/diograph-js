@@ -1,17 +1,17 @@
-# Diograph-js
+# Diograph
 
 ## Install
 
 ```
-npm install diograph-js
+npm install @diograph/diograph
 # or
-yarn add diograph-js
+yarn add @diograph/diograph
 ```
 
 ## Usage
 
 ```
-import { Diograph } from 'diograph-js'
+import { Diograph } from '@diograph/diograph'
 const diograph = new Diograph()
 diograph.createDiory({ text: 'Hello diory!' })
 console.log('Hello Diograph!', diograph)
