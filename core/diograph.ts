@@ -2,12 +2,20 @@ import { DiographObject } from '../types'
 import { Diory } from './diory'
 // import { createDiory, getDiory, getDioryWithLinks, search, update, deleteDiory } from '../api'
 
+function getDiory(this: Diograph, id: string): Diory {
+  const foundDiories = this.diories.filter((diory) => diory.id === id)
+  if (!foundDiories.length) {
+    throw new Error(`getDiory failed: no diory find with id ${id}`)
+  }
+  return foundDiories[0]
+}
+
 class Diograph {
   rootId: string = ''
   diories: Diory[] = []
 
   // createDiory = createDiory
-  // getDiory = getDiory
+  getDiory = getDiory
   // getDioryWithLinks = getDioryWithLinks
   // update = update
   // search = search
