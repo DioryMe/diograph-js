@@ -7,7 +7,9 @@ export { IDiograph, IDiographObject, IDiory, IDioryObject, IDioryProps, ILinkObj
 export { Room } from './core/room'
 export { RoomClient } from './clients/roomClient'
 export { ElectronClient } from './clients/electronClient'
-export { ElectronServer } from './clients/electronServer'
+// diory-browser-electron doesn't run without disabling this
+// - should be extracted out from here and required and used separately in diory-browser-electron backend
+// export { ElectronServer } from './clients/electronServer'
 export { ElectronClientMock } from './clients/electronClientMock'
 export { Connection } from './core/connection'
 export { DioryAttributes, DioryGeneratorData, DioryObject, DioryLinkObject } from './types'
