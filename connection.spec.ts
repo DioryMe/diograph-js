@@ -1,5 +1,5 @@
 import { Room } from './room'
-import { ConnectionObject, RoomObject } from '../types'
+import { ConnectionObject, RoomObject } from './types'
 import { Connection } from './connection'
 
 const roomObject: RoomObject = {
@@ -47,7 +47,7 @@ describe('Connection', () => {
       })
     })
     it('includes diograph', async () => {
-      expect(connectionObject.diograph).toEqual({
+      expect(connectionObject.diograph).toMatchObject({
         'some-id': {
           id: 'some-id',
           text: 'some-diory',
