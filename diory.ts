@@ -78,6 +78,23 @@ class Diory implements IDiory {
   }
 
   toJson = (): string => JSON.stringify(this.toObject(), null, 2)
+
+  // diograph-js
+
+  changeContentUrl = (contentUrl: string) => {
+    if (this.data) {
+      const data: any = this.data[0]
+      data.contentUrl = contentUrl
+      data.cid = contentUrl
+    }
+  }
+
+  getContentUrl = () => {
+    if (this.data) {
+      const data: any = this.data[0]
+      return data.contentUrl
+    }
+  }
 }
 
 export { Diory }
