@@ -15,5 +15,3 @@ export { ElectronClientMock } from './clients/electronClientMock'
 // export { Connection } from './core/connection'
 export { Connection } from './connection'
 export { DioryAttributes, DioryGeneratorData, DioryObject, DioryLinkObject } from './types'
-
-export { Diory as OldDiory } from './core/diory'
