@@ -1,5 +1,4 @@
-import { ConnectionObject } from '../types'
-// import { makeRelative } from '../utils/makeRelative'
+import { ConnectionObject, IDiograph, IDiographObject } from './types'
 import { Diograph } from './diograph'
 import { join } from 'path-browserify'
 
@@ -12,7 +11,7 @@ class Connection {
   address: string
   contentClientType: string
   contentUrls: ContentUrlObject
-  diograph: Diograph
+  diograph: IDiograph
 
   constructor({ address, contentClientType, contentUrls = {}, diograph = {} }: ConnectionObject) {
     if (!address || !contentClientType) {

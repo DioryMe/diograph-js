@@ -44,6 +44,10 @@ export interface IDiograph {
   addDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   removeDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   toObject: () => IDiographObject
+  // diograph-js
+  mergeDiograph: (diograph: IDiographObject, rootId?: string) => void
+  loadDiograph: (roomClient: any) => Promise<void>
+  saveDiograph: (roomClient: any) => Promise<void>
 }
 
 // diograph-js
@@ -93,11 +97,11 @@ export interface ConnectionObject {
   address: string
   contentClientType: string
   contentUrls?: ContentUrls
-  diograph?: DiographObject
+  diograph?: IDiographObject
 }
 
 export interface DioryGeneratorData {
-  typeSpecificDiory: DioryAttributes
+  typeSpecificDiory: IDioryProps
   thumbnailBuffer?: Buffer
   cid?: string
 }

@@ -1,6 +1,6 @@
-import { RoomClient } from '../clients/roomClient'
+import { RoomClient } from './clients/roomClient'
 import { Diograph } from './diograph'
-import { ConnectionObject, DiographObject, RoomObject } from '../types'
+import { ConnectionObject, DiographObject, IDiographObject, RoomObject } from './types'
 import { Connection } from './connection'
 
 class Room {
@@ -45,7 +45,7 @@ class Room {
     await this.diograph.loadDiograph(this.roomClient)
   }
 
-  initiateRoom = (roomObject?: RoomObject, diographObject?: DiographObject) => {
+  initiateRoom = (roomObject?: RoomObject, diographObject?: IDiographObject) => {
     // Default connection object
     if (!roomObject && this.address) {
       roomObject = {
