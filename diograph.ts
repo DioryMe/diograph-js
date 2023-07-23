@@ -89,6 +89,8 @@ class Diograph implements IDiograph {
   toJson = (): string => JSON.stringify(this.toObject(), null, 2)
 
   // diograph-js
+  diories = (): Array<IDiory> => Object.values(this.diograph).map((diory) => diory)
+
   fromDiographObjectToDiories = (diograph: IDiographObject) => {
     return Object.values(diograph).map((dioryObject) => new Diory(dioryObject))
   }

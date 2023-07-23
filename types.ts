@@ -45,6 +45,7 @@ export interface IDiograph {
   removeDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   toObject: () => IDiographObject
   // diograph-js
+  diories: () => Array<IDiory>
   mergeDiograph: (diograph: IDiographObject, rootId?: string) => void
   loadDiograph: (roomClient: any) => Promise<void>
   saveDiograph: (roomClient: any) => Promise<void>
