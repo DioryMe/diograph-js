@@ -140,8 +140,10 @@ class Room {
       throw new Error("Can't deleteRoom: no roomClient defined, use defineRoomClient to define it")
     }
 
+    // Delete room.json, diograph.json and room folder
     await this.roomClient.deleteRoomJson()
     await this.roomClient.deleteDiographJson()
+    await this.roomClient.client.deleteItem(this.address)
   }
 }
 
