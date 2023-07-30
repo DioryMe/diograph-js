@@ -62,6 +62,17 @@ class Connection {
     return contentClient.deleteItem(filePath)
   }
 
+  deleteConnection = async (contentClient: any) => {
+    // Delete all the content
+    await Promise.all(
+      Object.keys(this.contentUrls).map((contentUrl) => {
+        this.deleteContent(contentUrl, contentClient)
+      }),
+    )
+    // Delete content folder
+    await contentClient.deleteItem(this.address)
+  }
+
   toObject = (roomAddress?: string): ConnectionObject => ({
     // TODO: Make some kind of exception for relative paths (for demo-content-room which can't have absolute paths...)
     // address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
