@@ -28,13 +28,14 @@ class Connection {
     }
   }
 
-  addContentUrl = (CID: string, internalPath: string) => {
-    this.contentUrls[CID] = internalPath
+  addContentUrl = (contentId: string) => {
+    this.contentUrls[contentId] = contentId
   }
 
   getContent = (contentUrl: string) => {
     if (this.contentUrls[contentUrl]) {
-      return join(this.address, this.contentUrls[contentUrl])
+      return this.contentUrls[contentUrl]
+      // return join(this.address, this.contentUrls[contentUrl])
     }
   }
 
@@ -49,7 +50,7 @@ class Connection {
   addContent = async (fileContent: Buffer | string, contentId: string, contentClient: any) => {
     await contentClient.writeItem(contentId, fileContent)
 
-    this.addContentUrl(contentId, this.address)
+    this.addContentUrl(contentId)
 
     return contentId
   }
@@ -66,7 +67,7 @@ class Connection {
     // Delete all the content
     await Promise.all(
       Object.keys(this.contentUrls).map((contentUrl) => {
-        this.deleteContent(contentUrl, contentClient)
+        return this.deleteContent(contentUrl, contentClient)
       }),
     )
     // Delete content folder
