@@ -143,7 +143,8 @@ class Room {
     // Delete room.json, diograph.json and room folder
     await this.roomClient.deleteRoomJson()
     await this.roomClient.deleteDiographJson()
-    await this.roomClient.client.deleteItem(this.address)
+    // client.address and this.address are the same
+    await this.roomClient.client.deleteFolder('')
   }
 }
 
