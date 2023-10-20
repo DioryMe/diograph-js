@@ -21,17 +21,24 @@ const roomObject: RoomObject = {
   ],
 }
 
+class MockLocalClient {
+  type = 'LocalClient'
+  address = 'some-address'
+  constructor() {}
+}
+
 describe('Connection', () => {
   let connection: Connection
 
   beforeEach(async () => {
     const room = new Room()
-    room.initiateRoom(roomObject)
+    room.initiateRoom({ LocalClient: MockLocalClient }, roomObject)
     connection = room.connections[0]
   })
 
   it('builds from object', () => {
-    const duplicateConnection = new Connection(connection.toObject())
+    const duplicateConnection = new Connection(new MockLocalClient())
+    duplicateConnection.initiateConnection(connection.toObject())
     expect(duplicateConnection.toObject()).toEqual(connection.toObject())
   })
 

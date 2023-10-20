@@ -23,7 +23,7 @@ class Room {
     this.roomClientType = roomClient.client.constructor.name
   }
 
-  loadRoom = async () => {
+  loadRoom = async (clients: any) => {
     if (!this.roomClient) {
       throw new Error("Can't loadRoom: no roomClient defined, use defineRoomClient to define it")
     }
@@ -36,7 +36,10 @@ class Room {
     // Connections
     this.connections = []
     connections.forEach((connectionData: ConnectionObject) => {
-      const connection = new Connection(connectionData)
+      const connection = new Connection(
+        new clients[connectionData.contentClientType](connectionData.address),
+      )
+      connection.initiateConnection(connectionData)
       this.addConnection(connection)
     })
 
@@ -45,7 +48,7 @@ class Room {
     await this.diograph.loadDiograph(this.roomClient)
   }
 
-  initiateRoom = (roomObject?: RoomObject, diographObject?: IDiographObject) => {
+  initiateRoom = (clients: any, roomObject?: RoomObject, diographObject?: IDiographObject) => {
     // Default connection object
     if (!roomObject && this.address) {
       roomObject = {
@@ -56,7 +59,10 @@ class Room {
     if (roomObject && roomObject.connections) {
       this.connections = []
       roomObject.connections.forEach((connectionData: ConnectionObject) => {
-        const connection = new Connection(connectionData)
+        const connection = new Connection(
+          new clients[connectionData.contentClientType](connectionData.address),
+        )
+        connection.initiateConnection(connectionData)
         this.addConnection(connection)
       })
     }
@@ -91,6 +97,22 @@ class Room {
     return existingConnection
   }
 
+  removeConnection = (connection: Connection) => {
+    const existingConnection = this.connections.find(
+      (existingConnection) => existingConnection.address === connection.address,
+    )
+    if (!existingConnection) {
+      console.log("Couldn't find the connection")
+      return false
+    }
+
+    this.connections = this.connections.filter(
+      (existingConnection) => existingConnection.address !== connection.address,
+    )
+
+    return true
+  }
+
   getContent = (contentUrl: string): string | undefined => {
     for (let i = 0; i < this.connections.length; i++) {
       const found = this.connections[i].getContent(contentUrl)
@@ -107,13 +129,7 @@ class Room {
       )
     }
     const nativeConnection = this.connections[0]
-    return nativeConnection.addContent(
-      fileContent,
-      contentId,
-      ContentClient
-        ? new ContentClient(nativeConnection.address)
-        : this.roomClient && new this.roomClient.client.constructor(nativeConnection.address),
-    )
+    return nativeConnection.addContent(fileContent, contentId)
   }
 
   toObject = (): RoomObject => {

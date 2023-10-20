@@ -30,6 +30,8 @@ const diographContents = JSON.stringify({
 })
 
 class MockLocalClient {
+  type = 'LocalClient'
+  address = 'some-address'
   constructor() {}
 }
 
@@ -45,12 +47,16 @@ describe('Room', () => {
       },
     }
     room = new Room(mockRoomClient)
-    await room.loadRoom()
+    await room.loadRoom({ LocalClient: MockLocalClient })
   })
 
   it('builds from object', () => {
     const duplicateRoom = new Room()
-    duplicateRoom.initiateRoom(room.toObject(), room.diograph.toObject())
+    duplicateRoom.initiateRoom(
+      { LocalClient: MockLocalClient },
+      room.toObject(),
+      room.diograph.toObject(),
+    )
     expect(duplicateRoom.toObject()).toEqual(room.toObject())
     expect(duplicateRoom.diograph.toObject()).toEqual(room.diograph.toObject())
   })

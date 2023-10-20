@@ -10,19 +10,18 @@ export interface ContentUrlObject {
 class Connection {
   address: string
   contentClientType: string
-  contentUrls: ContentUrlObject
-  diograph: IDiograph
+  contentUrls: ContentUrlObject = {}
+  diograph: IDiograph = new Diograph()
+  client: any // TODO: Define baseClient
 
-  constructor({ address, contentClientType, contentUrls = {}, diograph = {} }: ConnectionObject) {
-    if (!address || !contentClientType) {
-      throw new Error(
-        `Invalid connectionData: address: ${address}, contentClientType: ${contentClientType}`,
-      )
-    }
-    this.address = address // full connection address
-    this.contentClientType = contentClientType
+  constructor(connectionClient: any) {
+    this.address = connectionClient.address // full connection address
+    this.contentClientType = connectionClient.type
+    this.client = connectionClient
+  }
+
+  initiateConnection({ contentUrls = {}, diograph = {} }: ConnectionObject) {
     this.contentUrls = contentUrls || {}
-    this.diograph = new Diograph()
     if (diograph && Object.keys(diograph).length) {
       this.diograph.mergeDiograph(diograph)
     }
@@ -34,44 +33,43 @@ class Connection {
 
   getContent = (contentUrl: string) => {
     if (this.contentUrls[contentUrl]) {
-      return this.contentUrls[contentUrl]
-      // return join(this.address, this.contentUrls[contentUrl])
+      return join(this.address, this.contentUrls[contentUrl])
     }
   }
 
-  readContent = async (contentUrl: string, contentClient: any) => {
+  readContent = async (contentUrl: string) => {
     const filePath: string | undefined = this.getContent(contentUrl)
     if (!filePath) {
       throw new Error('Nothing found with that contentUrl!')
     }
-    return contentClient.readItem(filePath)
+    return this.client.readItem(filePath)
   }
 
-  addContent = async (fileContent: Buffer | string, contentId: string, contentClient: any) => {
-    await contentClient.writeItem(contentId, fileContent)
+  addContent = async (fileContent: Buffer | string, contentId: string) => {
+    await this.client.writeItem(contentId, fileContent)
 
     this.addContentUrl(contentId)
 
     return contentId
   }
 
-  deleteContent = async (contentUrl: string, contentClient: any) => {
+  deleteContent = async (contentUrl: string) => {
     const filePath: string | undefined = this.getContent(contentUrl)
     if (!filePath) {
       throw new Error('Nothing found with that contentUrl!')
     }
-    return contentClient.deleteItem(filePath)
+    return this.client.deleteItem(filePath)
   }
 
-  deleteConnection = async (contentClient: any) => {
+  deleteConnection = async () => {
     // Delete all the content
     await Promise.all(
       Object.keys(this.contentUrls).map((contentUrl) => {
-        return this.deleteContent(contentUrl, contentClient)
+        return this.deleteContent(contentUrl)
       }),
     )
     // Delete content folder
-    await contentClient.deleteItem(this.address)
+    await this.client.deleteFolder('')
   }
 
   toObject = (roomAddress?: string): ConnectionObject => ({
