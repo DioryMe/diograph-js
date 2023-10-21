@@ -55,15 +55,7 @@ export interface IDiograph {
 
 export interface RoomObject {
   connections: ConnectionObject[]
-}
-
-export interface DiographObject {
-  [key: string]: DioryObject
-}
-
-export interface DioryObject extends DioryAttributes {
-  id: string
-  links?: DioryLinkObject
+  diograph?: IDiographObject
 }
 
 export interface DioryAttributes {

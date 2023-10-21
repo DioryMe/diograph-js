@@ -60,16 +60,33 @@ diory.toObject()
 diory.toJson()
 ```
 
+### Room
+
+```
+loadRoom(clients)
+- load room.json contents as object: diograph & connections
+- initiate connections if proper client is passed
+
+initiateRoom(clients, roomObject, diographObject)
+
+### Connection
+
 ## Development
 
 Compile typescript in real time to `/dist` folder:
 
 ```
+
 yarn build-watch
+
 ```
 
 Run unit tests in the background:
 
 ```
+
 yarn test-watch
+
+```
+
 ```

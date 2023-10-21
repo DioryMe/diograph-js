@@ -1,6 +1,6 @@
 import { RoomClient } from './clients/roomClient'
 import { Diograph } from './diograph'
-import { ConnectionObject, DiographObject, IDiographObject, RoomObject } from './types'
+import { ConnectionObject, IDiographObject, RoomObject } from './types'
 import { Connection } from './connection'
 
 class Room {
@@ -53,6 +53,7 @@ class Room {
     if (!roomObject && this.address) {
       roomObject = {
         connections: [{ address: this.address, contentClientType: this.roomClient?.client.type }],
+        diograph: {},
       }
     }
     // Connections
@@ -135,6 +136,7 @@ class Room {
   toObject = (): RoomObject => {
     return {
       connections: this.connections.map((connection) => connection.toObject(this.address)),
+      diograph: this.diograph.toObject(),
     }
   }
 
