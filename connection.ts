@@ -38,11 +38,10 @@ class Connection {
   }
 
   readContent = async (contentUrl: string) => {
-    const filePath: string | undefined = this.getContent(contentUrl)
-    if (!filePath) {
+    if (!this.contentUrls[contentUrl]) {
       throw new Error('Nothing found with that contentUrl!')
     }
-    return this.client.readItem(filePath)
+    return this.client.readItem(this.contentUrls[contentUrl])
   }
 
   addContent = async (fileContent: Buffer | string, contentId: string) => {
