@@ -48,18 +48,15 @@ class Room {
     await this.diograph.loadDiograph(this.roomClient)
   }
 
-  initiateRoom = (clients: any, roomObject?: RoomObject, diographObject?: IDiographObject) => {
-    // Default connection object
-    if (!roomObject && this.address) {
-      roomObject = {
-        connections: [{ address: this.address, contentClientType: this.roomClient?.client.type }],
-        diograph: {},
-      }
-    }
+  initiateRoom = (
+    clients: any,
+    connections?: ConnectionObject[],
+    diographObject?: IDiographObject,
+  ) => {
     // Connections
-    if (roomObject && roomObject.connections) {
+    if (connections) {
       this.connections = []
-      roomObject.connections.forEach((connectionData: ConnectionObject) => {
+      connections.forEach((connectionData: ConnectionObject) => {
         const connection = new Connection(
           new clients[connectionData.contentClientType](connectionData.address),
         )
@@ -114,6 +111,7 @@ class Room {
     return true
   }
 
+  // NOTE: This link to content may be accessible only with ConnectionClient
   getContent = (contentUrl: string): string | undefined => {
     for (let i = 0; i < this.connections.length; i++) {
       const found = this.connections[i].getContent(contentUrl)
@@ -123,12 +121,7 @@ class Room {
     }
   }
 
-  addContent = async (fileContent: Buffer | string, contentId: string, ContentClient?: any) => {
-    if (!ContentClient && !this.roomClient) {
-      throw new Error(
-        `No roomClient ${this.roomClient} defined nor ContentClient passed ${ContentClient}`,
-      )
-    }
+  addContent = async (fileContent: Buffer | string, contentId: string) => {
     const nativeConnection = this.connections[0]
     return nativeConnection.addContent(fileContent, contentId)
   }

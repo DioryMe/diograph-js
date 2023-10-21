@@ -32,7 +32,7 @@ describe('Connection', () => {
 
   beforeEach(async () => {
     const room = new Room()
-    room.initiateRoom({ LocalClient: MockLocalClient }, roomObject)
+    room.initiateRoom({ LocalClient: MockLocalClient }, roomObject.connections)
     connection = room.connections[0]
   })
 

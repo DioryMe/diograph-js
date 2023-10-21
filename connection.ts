@@ -27,10 +27,6 @@ class Connection {
     }
   }
 
-  addContentUrl = (contentId: string) => {
-    this.contentUrls[contentId] = contentId
-  }
-
   getContent = (contentUrl: string) => {
     if (this.contentUrls[contentUrl]) {
       return join(this.address, this.contentUrls[contentUrl])
@@ -52,6 +48,11 @@ class Connection {
     return contentId
   }
 
+  addContentUrl = (contentId: string) => {
+    this.contentUrls[contentId] = contentId
+  }
+
+  // BUG: Doesn't remove contentUrl from connection!!!
   deleteContent = async (contentUrl: string) => {
     const filePath: string | undefined = this.getContent(contentUrl)
     if (!filePath) {

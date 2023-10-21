@@ -54,7 +54,7 @@ describe('Room', () => {
     const duplicateRoom = new Room()
     duplicateRoom.initiateRoom(
       { LocalClient: MockLocalClient },
-      room.toObject(),
+      room.connections.map((c) => c.toObject()),
       room.diograph.toObject(),
     )
     expect(duplicateRoom.toObject()).toEqual(room.toObject())
