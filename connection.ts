@@ -48,8 +48,8 @@ class Connection {
     return contentId
   }
 
-  addContentUrl = (contentId: string) => {
-    this.contentUrls[contentId] = contentId
+  addContentUrl = (contentId: string, contentUrl?: string) => {
+    this.contentUrls[contentId] = contentUrl || contentId
   }
 
   // BUG: Doesn't remove contentUrl from connection!!!
