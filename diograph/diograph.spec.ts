@@ -39,7 +39,7 @@ describe('diograph', () => {
       describe('given new diory in added diograph object', () => {
         beforeEach(() => {
           diograph.addDiograph({
-            'other-id': expect.objectContaining({ id: 'other-id' }),
+            'other-id': { id: 'other-id' },
           })
         })
 
@@ -142,6 +142,32 @@ describe('diograph', () => {
         expect(diograph.diograph['some-uuid']).toStrictEqual(
           expect.objectContaining({ id: 'some-uuid' }),
         )
+      })
+    })
+
+    describe('when addAlias()', () => {
+      beforeEach(() => {
+        diory = diograph.addAlias('some-key', { id: 'some-id' })
+      })
+
+      it('adds id alias', () => {
+        expect(diory.id).toBe('some-id')
+      })
+
+      it('adds diory alias to diograph', () => {
+        expect(diograph.diograph['some-key']).toStrictEqual(
+          expect.objectContaining({ id: 'some-id' }),
+        )
+      })
+
+      describe('when getDiory() with alias key', () => {
+        beforeEach(() => {
+          diory = diograph.getDiory({ id: 'some-key' })
+        })
+
+        it('returns diory', () => {
+          expect(diory.id).toBe('some-id')
+        })
       })
     })
 

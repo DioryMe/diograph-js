@@ -13,9 +13,9 @@ class Diograph implements IDiograph {
   }
 
   addDiograph = (diographObject: IDiographObject = {}): IDiograph => {
-    Object.entries(diographObject).forEach(([id, dioryObject]) => {
+    Object.entries(diographObject).forEach(([key, dioryObject]) => {
       try {
-        this.addDiory({ ...dioryObject, id })
+        key !== dioryObject.id? this.addAlias(key, dioryObject) : this.addDiory(dioryObject)
       } catch (error) {
         console.error(error)
       }
@@ -37,19 +37,31 @@ class Diograph implements IDiograph {
     return this
   }
 
-  addDiory = (diory: IDioryProps | IDioryObject | IDiory): IDiory => {
+  addAlias = (key: string, dioryAlias: IDioryObject): IDiory => {
+    throwErrorIfDioryAlreadyExists('addAlias', {  id: key }, this.diograph)
+
+    return (this.diograph[key] = new Diory(dioryAlias))
+  }
+
+  addDiory = (diory: IDioryProps | IDioryObject): IDiory => {
     if ('id' in diory) {
       throwErrorIfDioryAlreadyExists('addDiory', diory, this.diograph)
     }
 
-    const addedDiory: IDiory = diory instanceof Diory ? diory : new Diory(diory)
+    const addedDiory: IDiory = new Diory(diory)
     return (this.diograph[addedDiory.id] = addedDiory)
   }
 
   getDiory = (dioryObject: IDioryObject): IDiory => {
     throwErrorIfDioryNotFound('getDiory', dioryObject, this.diograph)
 
-    return this.diograph[dioryObject.id]
+    const diory = this.diograph[dioryObject.id]
+    if (diory.id !== dioryObject.id) {
+      throwErrorIfDioryNotFound('getDiory - alias', diory, this.diograph)
+      return this.diograph[diory.id]
+    }
+
+    return diory
   }
 
   updateDiory = (dioryObject: IDioryObject): IDiory => {
