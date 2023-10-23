@@ -9,7 +9,6 @@ export interface IDioryProps {
   latlng?: string
   date?: string
   data?: any[]
-  path?: string
   links?: { [index: string]: ILinkObject }
   created?: string
   modified?: string
@@ -36,7 +35,8 @@ export interface IDiograph {
   queryDiograph: (dioryObject: IDioryProps) => IDiograph
   resetDiograph: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory
-  addDiory: (dioryProps: IDioryProps) => IDiory
+  addDiory: (dioryProps: IDioryProps | IDioryObject | IDiory) => IDiory
+  addAlias: (key: string, dioryAlias: IDioryObject | IDiory) => IDiory
   updateDiory: (dioryObject: IDioryObject) => IDiory
   removeDiory: (dioryObject: IDioryObject) => boolean
   addDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
