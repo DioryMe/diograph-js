@@ -18,6 +18,7 @@ describe('diograph', () => {
       diographObject = {
         'some-id': {
           id: 'some-id',
+          text: 'some-text'
         },
       }
       diograph = new Diograph(diographObject)
@@ -145,12 +146,12 @@ describe('diograph', () => {
       })
     })
 
-    describe('when addAlias()', () => {
+    describe('when addDiory() with key', () => {
       beforeEach(() => {
-        diory = diograph.addAlias('some-key', { id: 'some-id' })
+        diory = diograph.addDiory({ id: 'some-id' }, 'some-key')
       })
 
-      it('adds id alias', () => {
+      it('adds id', () => {
         expect(diory.id).toBe('some-id')
       })
 
@@ -166,7 +167,7 @@ describe('diograph', () => {
         })
 
         it('returns diory', () => {
-          expect(diory.id).toBe('some-id')
+          expect(diory.text).toBe('some-text')
         })
       })
     })
