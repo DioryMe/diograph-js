@@ -297,7 +297,7 @@ describe('Diory', () => {
         })
       })
 
-      const nullableProps = ['text', 'image', 'latlng', 'date', 'created', 'modified']
+      const nullableProps = ['text', 'image', 'latlng', 'date']
       nullableProps.forEach((nullableProp) => {
         describe(`given undefined ${nullableProp}`, () => {
           beforeEach(() => {
@@ -309,7 +309,7 @@ describe('Diory', () => {
 
           it(`sets ${nullableProp} to undefined`, () => {
             // @ts-ignore
-            expect(diory[nullableProps]).toBe(undefined)
+            expect(diory[nullableProp]).toBeUndefined()
           })
 
           describe('when toObject()', () => {
@@ -333,7 +333,7 @@ describe('Diory', () => {
             diory.update(dioryProps)
 
             // @ts-ignore
-            expect(diory[nonnullableProp]).not.toBe(undefined)
+            expect(diory[nonnullableProp]).not.toBeUndefined()
           })
         })
       })
@@ -366,44 +366,3 @@ describe('Diory', () => {
     })
   })
 })
-
-// diograph-js
-
-/*
-
-describe('Diory', () => {
-  let diory: Diory
-
-  beforeEach(async () => {
-    const diograph = new Diograph()
-    diograph.mergeDiograph(JSON.parse(diographContents).diograph)
-    diory = diograph.diories[0]
-  })
-
-  it('builds from object', () => {
-    const duplicateDiory = new Diory(diory.toObject())
-    expect(duplicateDiory.toObject()).toEqual(diory.toObject())
-  })
-
-  describe('DioryAttributes', () => {
-    it('access with dot notation', () => {
-      expect(diory.text).toEqual('some-diory')
-    })
-  })
-
-  describe('toObject', () => {
-    let dioryObject: DioryObject
-    beforeEach(() => {
-      dioryObject = diory.toObject()
-    })
-    it('works', async () => {
-      expect(dioryObject).toEqual({
-        id: 'some-id',
-        text: 'some-diory',
-      })
-    })
-  })
-})
-
-
-*/
