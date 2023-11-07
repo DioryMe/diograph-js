@@ -2,6 +2,11 @@ import { RoomClient } from './clients/roomClient'
 import { Diograph } from './diograph'
 import { ConnectionObject, IDiographObject, RoomObject } from './types'
 import { Connection } from './connection'
+import { ConnectionClientConstructor } from '.'
+
+interface ConnectionClientList {
+  [index: string]: ConnectionClientConstructor
+}
 
 class Room {
   diograph: Diograph
@@ -23,7 +28,7 @@ class Room {
     this.roomClientType = roomClient.client.constructor.name
   }
 
-  loadRoom = async (clients: any) => {
+  loadRoom = async (clients: ConnectionClientList) => {
     if (!this.roomClient) {
       throw new Error("Can't loadRoom: no roomClient defined, use defineRoomClient to define it")
     }
@@ -49,7 +54,7 @@ class Room {
   }
 
   initiateRoom = (
-    clients: any,
+    clients: ConnectionClientList,
     connections?: ConnectionObject[],
     diographObject?: IDiographObject,
   ) => {
@@ -115,6 +120,15 @@ class Room {
   getContent = (contentUrl: string): string | undefined => {
     for (let i = 0; i < this.connections.length; i++) {
       const found = this.connections[i].getContent(contentUrl)
+      if (found) {
+        return found
+      }
+    }
+  }
+
+  readContent = async (contentUrl: string) => {
+    for (let i = 0; i < this.connections.length; i++) {
+      const found = await this.connections[i].readContent(contentUrl)
       if (found) {
         return found
       }

@@ -1,5 +1,7 @@
 // @diograph/diograph
 
+import { RoomClient } from '.'
+
 export interface ILinkObject {
   id: string
   path?: string
@@ -47,8 +49,8 @@ export interface IDiograph {
   // diograph-js
   diories: () => Array<IDiory>
   mergeDiograph: (diograph: IDiographObject, rootId?: string) => void
-  loadDiograph: (roomClient: any) => Promise<void>
-  saveDiograph: (roomClient: any) => Promise<void>
+  loadDiograph: (roomClient: RoomClient) => Promise<void>
+  saveDiograph: (roomClient: RoomClient) => Promise<void>
 }
 
 // diograph-js

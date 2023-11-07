@@ -1,10 +1,12 @@
+import { ConnectionClient } from '..'
+
 class RoomClient {
   address: string
   roomJsonPath: string
   diographPath: string
-  client: any // TODO: Define baseClient
+  client: ConnectionClient
 
-  constructor(client: any) {
+  constructor(client: ConnectionClient) {
     this.client = client
     this.address = this.client.address
     this.roomJsonPath = 'room.json'

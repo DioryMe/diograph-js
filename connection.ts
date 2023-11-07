@@ -1,6 +1,7 @@
 import { ConnectionObject, IDiograph, IDiographObject } from './types'
 import { Diograph } from './diograph'
 import { join } from 'path-browserify'
+import { ConnectionClient } from '.'
 
 export interface ContentUrlObject {
   // "CID <-> internalPath" pairs
@@ -12,9 +13,9 @@ class Connection {
   contentClientType: string
   contentUrls: ContentUrlObject = {}
   diograph: IDiograph = new Diograph()
-  client: any // TODO: Define baseClient
+  client: ConnectionClient
 
-  constructor(connectionClient: any) {
+  constructor(connectionClient: ConnectionClient) {
     this.address = connectionClient.address // full connection address
     this.contentClientType = connectionClient.type
     this.client = connectionClient

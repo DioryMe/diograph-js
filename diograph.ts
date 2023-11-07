@@ -4,6 +4,7 @@ import { allKeysExist, allMatchToQuery, reduceToDiographObject } from './utils'
 import { throwErrorIfDioryAlreadyExists, throwErrorIfDioryNotFound } from './throwErrors'
 
 import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from './types'
+import { RoomClient } from '.'
 
 class Diograph implements IDiograph {
   diograph: { [index: string]: IDiory } = {}
@@ -103,7 +104,7 @@ class Diograph implements IDiograph {
     // this.rootId = rootId ? rootId : Object.values(diograph)[0].id
   }
 
-  loadDiograph = async (roomClient: any) => {
+  loadDiograph = async (roomClient: RoomClient) => {
     const diographContents = await roomClient.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographContents)
@@ -112,7 +113,7 @@ class Diograph implements IDiograph {
     }
   }
 
-  saveDiograph = async (roomClient: any) => {
+  saveDiograph = async (roomClient: RoomClient) => {
     await roomClient.saveDiograph(this.toJson())
   }
 }

@@ -25,6 +25,16 @@ class MockLocalClient {
   type = 'LocalClient'
   address = 'some-address'
   constructor() {}
+  readTextItem = jest.fn()
+  readItem = jest.fn()
+  readToStream = jest.fn()
+  verify = jest.fn()
+  exists = jest.fn()
+  writeTextItem = jest.fn()
+  writeItem = jest.fn()
+  deleteItem = jest.fn()
+  deleteFolder = jest.fn()
+  list = jest.fn()
 }
 
 describe('Connection', () => {
