@@ -1,19 +1,11 @@
 export { Diograph } from './diograph/diograph'
 export { Diory } from './diory/diory'
+
 export { IDiograph, IDiographObject, IDiory, IDioryObject, IDioryProps, ILinkObject } from './types'
 
-// diograph-js
-// export { Room } from './core/room'
-export { Room } from './room'
-export { RoomClient } from './clients/roomClient'
-export { ElectronClient } from './clients/electronClient'
-// diory-browser-electron doesn't run without disabling this
-// - should be extracted out from here and required and used separately in diory-browser-electron backend
-// export { ElectronServer } from './clients/electronServer'
-export { ElectronClientMock } from './clients/electronClientMock'
-// export { Connection } from './core/connection'
-export { Connection } from './connection'
-export { DioryAttributes, DioryGeneratorData, DioryLinkObject } from './types'
+export { Room } from './diosphere/room'
+export { Connection } from './diosphere/connection'
+export { RoomClient } from './diosphere/roomClient'
 
 export interface ConnectionClient {
   address: string

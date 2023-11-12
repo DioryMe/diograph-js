@@ -1,8 +1,8 @@
-import { RoomClient } from './clients/roomClient'
-import { Diograph } from './diograph'
-import { ConnectionObject, IDiographObject, RoomObject } from './types'
+import { RoomClient } from './roomClient'
+import { Diograph } from '../diograph/diograph'
+import { ConnectionObject, IDiographObject, RoomObject } from '../types'
 import { Connection } from './connection'
-import { ConnectionClientConstructor } from '.'
+import { ConnectionClientConstructor } from '..'
 
 interface ConnectionClientList {
   [index: string]: ConnectionClientConstructor
@@ -83,9 +83,9 @@ class Room {
 
     this.diograph = new Diograph()
     if (diographObject) {
-      this.diograph.mergeDiograph(diographObject)
+      this.diograph.addDiograph(diographObject)
     } else {
-      this.diograph.mergeDiograph(defaultDiographJson, '/')
+      this.diograph.addDiograph(defaultDiographJson)
     }
   }
 
