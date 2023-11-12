@@ -28,7 +28,7 @@ class Connection {
     }
   }
 
-  getContent = (contentUrl: string) => {
+  getInternalPath = (contentUrl: string) => {
     if (this.contentUrls[contentUrl]) {
       return join(this.address, this.contentUrls[contentUrl])
     }
@@ -55,7 +55,7 @@ class Connection {
 
   // BUG: Doesn't remove contentUrl from connection!!!
   deleteContent = async (contentUrl: string) => {
-    const filePath: string | undefined = this.getContent(contentUrl)
+    const filePath: string | undefined = this.getInternalPath(contentUrl)
     if (!filePath) {
       throw new Error('Nothing found with that contentUrl!')
     }
