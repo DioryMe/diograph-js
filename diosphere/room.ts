@@ -116,16 +116,6 @@ class Room {
     return true
   }
 
-  // NOTE: This link to content may be accessible only with ConnectionClient
-  getContent = (contentUrl: string): string | undefined => {
-    for (let i = 0; i < this.connections.length; i++) {
-      const found = this.connections[i].getContent(contentUrl)
-      if (found) {
-        return found
-      }
-    }
-  }
-
   readContent = async (contentUrl: string) => {
     for (let i = 0; i < this.connections.length; i++) {
       const found = await this.connections[i].readContent(contentUrl)

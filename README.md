@@ -69,8 +69,8 @@ addConnection(connection)
 removeConnection(connection)
 - de-attach connection from room
 
-getContent(contentUrl)
-- return link to given content
+readContent(contentUrl)
+- read buffer of the given content
 
 addContent(fileContent)
 - adds content to nativeConnection
@@ -102,10 +102,6 @@ addContentUrl(contentId)
 addContent(fileContent, contentId)
 - saves content to connection writable media
 - adds contentUrl to connection contentUrls
-
-getContent(contentId)
-- link to content
-- NOTE: may not be accessible without proper client!
 
 readContent(contentId)
 - content buffer
