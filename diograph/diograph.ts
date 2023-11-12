@@ -4,6 +4,7 @@ import { allKeysExist, allMatchToQuery, reduceToDiographObject } from '../utils/
 import { throwErrorIfDioryAlreadyExists, throwErrorIfDioryNotFound } from '../utils/throwErrors'
 
 import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from '../types'
+import { RoomClient } from '..'
 
 class Diograph implements IDiograph {
   diograph: { [index: string]: IDiory } = {}
@@ -97,6 +98,34 @@ class Diograph implements IDiograph {
   }
 
   toJson = (): string => JSON.stringify(this.toObject(), null, 2)
+
+  // diograph-js
+  diories = (): Array<IDiory> => Object.values(this.diograph).map((diory) => diory)
+
+  fromDiographObjectToDiories = (diograph: IDiographObject) => {
+    return Object.values(diograph).map((dioryObject) => new Diory(dioryObject))
+  }
+
+  mergeDiograph = (diograph: IDiographObject, rootId?: string) => {
+    if (diograph.rootId) {
+      throw new Error('Invalid DiographObject: includes rootId')
+    }
+    this.fromDiographObjectToDiories(diograph).forEach((diory) => diory && this.addDiory(diory))
+    // this.rootId = rootId ? rootId : Object.values(diograph)[0].id
+  }
+
+  loadDiograph = async (roomClient: RoomClient) => {
+    const diographContents = await roomClient.readDiograph()
+    // TODO: Validate JSON with own validator.js (using ajv.js.org)
+    const { diograph, rootId } = JSON.parse(diographContents)
+    if (diograph && Object.keys(diograph).length) {
+      this.mergeDiograph(diograph, rootId)
+    }
+  }
+
+  saveDiograph = async (roomClient: RoomClient) => {
+    await roomClient.saveDiograph(this.toJson())
+  }
 }
 
 export { Diograph }

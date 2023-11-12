@@ -297,7 +297,7 @@ describe('Diory', () => {
         })
       })
 
-      const nullableProps = ['text', 'image', 'latlng', 'date', 'created', 'modified']
+      const nullableProps = ['text', 'image', 'latlng', 'date']
       nullableProps.forEach((nullableProp) => {
         describe(`given undefined ${nullableProp}`, () => {
           beforeEach(() => {
@@ -309,7 +309,7 @@ describe('Diory', () => {
 
           it(`sets ${nullableProp} to undefined`, () => {
             // @ts-ignore
-            expect(diory[nullableProps]).toBe(undefined)
+            expect(diory[nullableProp]).toBeUndefined()
           })
 
           describe('when toObject()', () => {
@@ -333,7 +333,7 @@ describe('Diory', () => {
             diory.update(dioryProps)
 
             // @ts-ignore
-            expect(diory[nonnullableProp]).not.toBe(undefined)
+            expect(diory[nonnullableProp]).not.toBeUndefined()
           })
         })
       })
