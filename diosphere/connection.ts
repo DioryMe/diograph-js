@@ -1,7 +1,7 @@
-import { ConnectionObject, IDiograph, IDiographObject } from './types'
-import { Diograph } from './diograph'
+import { ConnectionObject, IDiograph, IDiographObject } from '../types'
+import { Diograph } from '../diograph/diograph'
 import { join } from 'path-browserify'
-import { ConnectionClient } from '.'
+import { ConnectionClient } from '..'
 
 export interface ContentUrlObject {
   // "CID <-> internalPath" pairs
@@ -24,7 +24,7 @@ class Connection {
   initiateConnection({ contentUrls = {}, diograph = {} }: ConnectionObject) {
     this.contentUrls = contentUrls || {}
     if (diograph && Object.keys(diograph).length) {
-      this.diograph.mergeDiograph(diograph)
+      this.diograph.addDiograph(diograph)
     }
   }
 

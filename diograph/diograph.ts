@@ -12,13 +12,14 @@ class Diograph implements IDiograph {
   constructor(diographObject?: IDiographObject) {
     this.addDiograph(diographObject)
   }
+  diories = (): Array<IDiory> => Object.values(this.diograph).map((diory) => diory)
 
   addDiograph = (diographObject: IDiographObject = {}): IDiograph => {
     Object.entries(diographObject).forEach(([key, dioryObject]) => {
       try {
         this.addDiory(dioryObject, key)
-      } catch (error) {
-        console.error(error)
+      } catch (error: any) {
+        console.error(error.toString())
       }
     })
 
@@ -99,27 +100,12 @@ class Diograph implements IDiograph {
 
   toJson = (): string => JSON.stringify(this.toObject(), null, 2)
 
-  // diograph-js
-  diories = (): Array<IDiory> => Object.values(this.diograph).map((diory) => diory)
-
-  fromDiographObjectToDiories = (diograph: IDiographObject) => {
-    return Object.values(diograph).map((dioryObject) => new Diory(dioryObject))
-  }
-
-  mergeDiograph = (diograph: IDiographObject, rootId?: string) => {
-    if (diograph.rootId) {
-      throw new Error('Invalid DiographObject: includes rootId')
-    }
-    this.fromDiographObjectToDiories(diograph).forEach((diory) => diory && this.addDiory(diory))
-    // this.rootId = rootId ? rootId : Object.values(diograph)[0].id
-  }
-
   loadDiograph = async (roomClient: RoomClient) => {
     const diographContents = await roomClient.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
     const { diograph, rootId } = JSON.parse(diographContents)
     if (diograph && Object.keys(diograph).length) {
-      this.mergeDiograph(diograph, rootId)
+      this.addDiograph(diograph)
     }
   }
 

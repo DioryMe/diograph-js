@@ -1,5 +1,5 @@
 import { Room } from './room'
-import { ConnectionObject, RoomObject } from './types'
+import { ConnectionObject, RoomObject } from '../types'
 import { Connection } from './connection'
 
 const roomObject: RoomObject = {
