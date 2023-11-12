@@ -24,8 +24,7 @@
     "prettier": "prettier --write .",
     "test": "jest . --verbose",
     "test-watch": "yarn test --watch",
-    "prepare": "yarn prettier && yarn test && yarn build",
-    "publish": "yarn version && npm publish"
+    "prepare": "yarn prettier && yarn test && yarn build"
   },
   "prettier": {
     "tabWidth": 2,
