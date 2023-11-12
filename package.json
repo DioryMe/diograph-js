@@ -1,14 +1,14 @@
 {
   "name": "@diograph/diograph",
-  "version": "0.2.0-rc3",
+  "version": "0.2.0-rc4",
   "main": "dist/index.js",
   "types": "dist/**/*.d.ts",
   "author": "Olli-Pekka Pohjola <op@diory.me>, Jouni Alanen <jouni@diory.me>",
   "license": "MIT",
   "dependencies": {
     "@types/path-browserify": "^1.0.0",
-    "path-browserify": "^1.0.1",
     "@types/uuid": "8.3.2",
+    "path-browserify": "^1.0.1",
     "uuid": "8.3.2"
   },
   "devDependencies": {
