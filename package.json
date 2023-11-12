@@ -2,7 +2,7 @@
   "name": "@diograph/diograph",
   "version": "0.2.0-rc2",
   "main": "dist/index.js",
-  "types": "index.d.ts",
+  "types": "dist/**/*.d.ts",
   "author": "Olli-Pekka Pohjola <op@diory.me>, Jouni Alanen <jouni@diory.me>",
   "license": "MIT",
   "dependencies": {
