@@ -74,23 +74,6 @@ class Diory implements IDiory {
     return this.update({})
   }
 
-  toObject = (): IDioryObject => {
-    const dioryObject: IDioryObject = { id: this.id }
-    Object.getOwnPropertyNames(this).forEach((prop) => {
-      // @ts-ignore
-      const value: any = this[prop]
-      if (valueIsValid(value) && valueExists(value)) {
-        // @ts-ignore
-        dioryObject[prop] = value
-      }
-    })
-    return dioryObject
-  }
-
-  toJson = (): string => JSON.stringify(this.toObject(), null, 2)
-
-  // diograph-js
-
   changeContentUrl = (contentUrl: string) => {
     if (this.data) {
       const data: any = this.data[0]
@@ -105,6 +88,21 @@ class Diory implements IDiory {
       return data.contentUrl
     }
   }
+
+  toObject = (): IDioryObject => {
+    const dioryObject: IDioryObject = { id: this.id }
+    Object.getOwnPropertyNames(this).forEach((prop) => {
+      // @ts-ignore
+      const value: any = this[prop]
+      if (valueIsValid(value) && valueExists(value)) {
+        // @ts-ignore
+        dioryObject[prop] = value
+      }
+    })
+    return dioryObject
+  }
+
+  toJson = (): string => JSON.stringify(this.toObject(), null, 2)
 }
 
 export { Diory }
