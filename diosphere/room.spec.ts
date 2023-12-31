@@ -10,9 +10,23 @@ const roomJsonContents = JSON.stringify({
           '/Generic content/some-video.mov',
       },
       diograph: {
-        'some-id': {
-          id: 'some-id',
-          text: 'some-diory',
+        '/Generic content/some-video.mov': {
+          id: '/Generic content/some-video.mov',
+          text: 'some-video.mov',
+          image: 'data:image/jpeg;base64,9k=',
+          date: '2019-05-23T16:56:02.000000Z',
+          created: '2022-06-01T07:30:07.991Z',
+          modified: '2022-06-01T07:30:08.003Z',
+          data: [
+            {
+              '@context': 'https://schema.org',
+              '@type': 'VideoObject',
+              contentUrl: 'bafkreifhhmoftoo26lc223k5riwflm6uvgrizwakg5z7n7yruj7gty27ji',
+              cid: 'bafkreifhhmoftoo26lc223k5riwflm6uvgrizwakg5z7n7yruj7gty27ji',
+              duration: '00:00:31.32',
+              encodingFormat: '',
+            },
+          ],
         },
       },
     },
@@ -34,7 +48,9 @@ class MockLocalClient {
   address = 'some-address'
   constructor() {}
   readTextItem = jest.fn()
-  readItem = jest.fn()
+  readItem = async (path: string) => {
+    return Buffer.from(path)
+  }
   readToStream = jest.fn()
   verify = jest.fn()
   exists = jest.fn()
@@ -78,6 +94,19 @@ describe('Room', () => {
           '/Generic content/some-video.mov',
       })
     })
+  })
+
+  describe('readContent', () => {
+    it('finds content from first connection', async () => {
+      const someMovCID = 'bafkreifhhmoftoo26lc223k5riwflm6uvgrizwakg5z7n7yruj7gty27ji'
+      const result = await room.readContent(someMovCID)
+      expect(result).toEqual(Buffer.from('/Generic content/some-video.mov'))
+    })
+
+    // it('finds content from second connection', async () => {
+    //   const myPicCID = 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
+    //   expect(room.readContent(myPicCID)).toEqual({})
+    // })
   })
 
   describe('toObject', () => {
