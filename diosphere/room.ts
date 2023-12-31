@@ -1,7 +1,7 @@
 import { RoomClient } from './roomClient'
 import { Diograph } from '../diograph/diograph'
 import { ConnectionObject, IDiographObject, RoomObject } from '../types'
-import { Connection } from './connection'
+import { Connection, ContentNotFoundError } from './connection'
 import { ConnectionClientConstructor } from '..'
 
 interface ConnectionClientList {
@@ -118,9 +118,14 @@ class Room {
 
   readContent = async (contentUrl: string) => {
     for (let i = 0; i < this.connections.length; i++) {
-      const found = await this.connections[i].readContent(contentUrl)
-      if (found) {
+      try {
+        const found = await this.connections[i].readContent(contentUrl)
         return found
+      } catch (e) {
+        if (e instanceof ContentNotFoundError) {
+          continue
+        }
+        throw e
       }
     }
   }

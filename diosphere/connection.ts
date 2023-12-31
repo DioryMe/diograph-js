@@ -8,6 +8,8 @@ export interface ContentUrlObject {
   [key: string]: string
 }
 
+class ContentNotFoundError extends Error {}
+
 class Connection {
   address: string
   contentClientType: string
@@ -36,7 +38,7 @@ class Connection {
 
   readContent = async (contentUrl: string) => {
     if (!this.contentUrls[contentUrl]) {
-      throw new Error('Nothing found with that contentUrl!')
+      throw new ContentNotFoundError('Nothing found with that contentUrl!')
     }
     return this.client.readItem(this.contentUrls[contentUrl])
   }
@@ -84,4 +86,4 @@ class Connection {
   })
 }
 
-export { Connection }
+export { Connection, ContentNotFoundError }

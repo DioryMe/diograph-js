@@ -1,5 +1,6 @@
 import { Room } from './room'
 
+// TODO: Replace with authentic demo-content-room content
 const roomJsonContents = JSON.stringify({
   connections: [
     {
@@ -27,6 +28,34 @@ const roomJsonContents = JSON.stringify({
               encodingFormat: '',
             },
           ],
+        },
+      },
+    },
+    {
+      address: 'some-other-address',
+      contentClientType: 'S3Client',
+      contentUrls: {
+        bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu: '/my-pic.jpg',
+      },
+      diograph: {
+        '/my-pic.jpg': {
+          id: '/my-pic.jpg',
+          image: 'data:image/jpeg;base64,/9j/2wBDZ/9k=',
+          latlng: '43.464455N, 11.881478333333334E',
+          date: '2022-11-06T11:38:08.713Z',
+          data: [
+            {
+              '@context': 'https://schema.org',
+              '@type': 'ImageObject',
+              contentUrl: 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu',
+              cid: 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu',
+              encodingFormat: 'image/png',
+              height: 480,
+              width: 640,
+            },
+          ],
+          created: '2008-10-22T17:00:07Z',
+          modified: '2022-11-06T11:38:08.714Z',
         },
       },
     },
@@ -61,6 +90,11 @@ class MockLocalClient {
   list = jest.fn()
 }
 
+class MockS3Client extends MockLocalClient {
+  type = 'S3Client'
+  address = 'some-other-address'
+}
+
 describe('Room', () => {
   let room: Room
 
@@ -73,13 +107,13 @@ describe('Room', () => {
       },
     }
     room = new Room(mockRoomClient)
-    await room.loadRoom({ LocalClient: MockLocalClient })
+    await room.loadRoom({ LocalClient: MockLocalClient, S3Client: MockS3Client })
   })
 
   it('builds from object', () => {
     const duplicateRoom = new Room()
     duplicateRoom.initiateRoom(
-      { LocalClient: MockLocalClient },
+      { LocalClient: MockLocalClient, S3Client: MockS3Client },
       room.connections.map((c) => c.toObject()),
       room.diograph.toObject(),
     )
@@ -103,10 +137,11 @@ describe('Room', () => {
       expect(result).toEqual(Buffer.from('/Generic content/some-video.mov'))
     })
 
-    // it('finds content from second connection', async () => {
-    //   const myPicCID = 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
-    //   expect(room.readContent(myPicCID)).toEqual({})
-    // })
+    it('finds content from second connection', async () => {
+      const myPicCID = 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
+      const result = await room.readContent(myPicCID)
+      expect(result).toEqual(Buffer.from('/my-pic.jpg'))
+    })
   })
 
   describe('toObject', () => {
