@@ -5,7 +5,10 @@ import { Connection, ContentNotFoundError } from './connection'
 import { ConnectionClientConstructor } from '..'
 
 interface ConnectionClientList {
-  [index: string]: ConnectionClientConstructor
+  [index: string]: {
+    clientConstructor: ConnectionClientConstructor
+    credentials?: object
+  }
 }
 
 class Room {
@@ -41,8 +44,9 @@ class Room {
     // Connections
     this.connections = []
     connections.forEach((connectionData: ConnectionObject) => {
+      const clientData = clients[connectionData.contentClientType]
       const connection = new Connection(
-        new clients[connectionData.contentClientType](connectionData.address),
+        new clientData.clientConstructor(connectionData.address, clientData.credentials),
       )
       connection.initiateConnection(connectionData)
       this.addConnection(connection)
@@ -62,8 +66,9 @@ class Room {
     if (connections) {
       this.connections = []
       connections.forEach((connectionData: ConnectionObject) => {
+        const clientData = clients[connectionData.contentClientType]
         const connection = new Connection(
-          new clients[connectionData.contentClientType](connectionData.address),
+          new clientData.clientConstructor(connectionData.address, clientData.credentials),
         )
         connection.initiateConnection(connectionData)
         this.addConnection(connection)
@@ -128,16 +133,17 @@ class Room {
         throw e
       }
     }
+    throw new ContentNotFoundError('Nothing found with that contentUrl!')
   }
 
-  addContent = async (fileContent: Buffer | string, contentId: string) => {
+  addContent = async (fileContent: ArrayBuffer | string, contentId: string) => {
     const nativeConnection = this.connections[0]
     return nativeConnection.addContent(fileContent, contentId)
   }
 
   toObject = (): RoomObject => {
     return {
-      connections: this.connections.map((connection) => connection.toObject(this.address)),
+      connections: this.connections.map((connection) => connection.toObject()),
       diograph: this.diograph.toObject(),
     }
   }

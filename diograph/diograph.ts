@@ -103,7 +103,7 @@ class Diograph implements IDiograph {
   loadDiograph = async (roomClient: RoomClient) => {
     const diographContents = await roomClient.readDiograph()
     // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    const { diograph, rootId } = JSON.parse(diographContents)
+    const { diograph } = JSON.parse(diographContents)
     if (diograph && Object.keys(diograph).length) {
       this.addDiograph(diograph)
     }

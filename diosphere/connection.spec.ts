@@ -42,7 +42,10 @@ describe('Connection', () => {
 
   beforeEach(async () => {
     const room = new Room()
-    room.initiateRoom({ LocalClient: MockLocalClient }, roomObject.connections)
+    room.initiateRoom(
+      { LocalClient: { clientConstructor: MockLocalClient } },
+      roomObject.connections,
+    )
     connection = room.connections[0]
   })
 

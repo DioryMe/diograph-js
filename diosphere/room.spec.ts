@@ -72,13 +72,15 @@ const diographContents = JSON.stringify({
   },
 })
 
+const mockArrayBuffer = new ArrayBuffer(123)
+
 class MockLocalClient {
   type = 'LocalClient'
   address = 'some-address'
   constructor() {}
   readTextItem = jest.fn()
   readItem = async (path: string) => {
-    return Buffer.from(path)
+    return mockArrayBuffer
   }
   readToStream = jest.fn()
   verify = jest.fn()
@@ -107,13 +109,19 @@ describe('Room', () => {
       },
     }
     room = new Room(mockRoomClient)
-    await room.loadRoom({ LocalClient: MockLocalClient, S3Client: MockS3Client })
+    await room.loadRoom({
+      LocalClient: { clientConstructor: MockLocalClient },
+      S3Client: { clientConstructor: MockS3Client },
+    })
   })
 
   it('builds from object', () => {
     const duplicateRoom = new Room()
     duplicateRoom.initiateRoom(
-      { LocalClient: MockLocalClient, S3Client: MockS3Client },
+      {
+        LocalClient: { clientConstructor: MockLocalClient },
+        S3Client: { clientConstructor: MockS3Client },
+      },
       room.connections.map((c) => c.toObject()),
       room.diograph.toObject(),
     )
@@ -134,13 +142,13 @@ describe('Room', () => {
     it('finds content from first connection', async () => {
       const someMovCID = 'bafkreifhhmoftoo26lc223k5riwflm6uvgrizwakg5z7n7yruj7gty27ji'
       const result = await room.readContent(someMovCID)
-      expect(result).toEqual(Buffer.from('/Generic content/some-video.mov'))
+      expect(result).toEqual(mockArrayBuffer)
     })
 
     it('finds content from second connection', async () => {
       const myPicCID = 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
       const result = await room.readContent(myPicCID)
-      expect(result).toEqual(Buffer.from('/my-pic.jpg'))
+      expect(result).toEqual(mockArrayBuffer)
     })
   })
 
