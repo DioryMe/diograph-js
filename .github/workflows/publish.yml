@@ -28,6 +28,7 @@ jobs:
 
     - name: Build
       run: yarn build
+      run: ls dist
 
     - name: Update version using Yarn
       run: |
@@ -35,10 +36,14 @@ jobs:
         git config user.name "GitHub Actions Bot"
         yarn version --new-version ${{ github.event.inputs.version }}
 
-    - name: Push version update commit
-      run: git push origin HEAD --follow-tags
+    - name: Debug
+      run: git log
+      run: git show
 
-    - name: Publish to NPM
-      run: yarn publish --access=public --tag=next
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    # - name: Push version update commit
+    #   run: git push origin HEAD --follow-tags
+
+    # - name: Publish to NPM
+    #   run: yarn publish --access=public --tag=next
+    #   env:
+    #     NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
