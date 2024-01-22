@@ -14,31 +14,31 @@ jobs:
       contents: write
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version-file: ".nvmrc"
-        registry-url: 'https://registry.npmjs.org'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          registry-url: 'https://registry.npmjs.org'
 
-    - name: Install dependencies
-      run: yarn install
+      - name: Install dependencies
+        run: yarn install
 
-    - name: Build
-      run: yarn build
-      run: ls dist
+      - name: Build
+        run: yarn build
+      - run: ls dist
 
-    - name: Update version using Yarn
-      run: |
-        git config user.email "<>"
-        git config user.name "GitHub Actions Bot"
-        yarn version --new-version ${{ github.event.inputs.version }}
+      - name: Update version using Yarn
+        run: |
+          git config user.email "<>"
+          git config user.name "GitHub Actions Bot"
+          yarn version --new-version ${{ github.event.inputs.version }}
 
-    - name: Debug
-      run: git log
-      run: git show
+      - name: Debug
+        run: git log
+      - run: git show
 
     # - name: Push version update commit
     #   run: git push origin HEAD --follow-tags
