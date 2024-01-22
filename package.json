@@ -1,6 +1,6 @@
 {
   "name": "@diograph/diograph",
-  "version": "v0.2.0",
+  "version": "0.2.1-rc3",
   "main": "dist/index.js",
   "types": "dist/**/*.d.ts",
   "author": "Olli-Pekka Pohjola <op@diory.me>, Jouni Alanen <jouni@diory.me>",
