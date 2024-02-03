@@ -1,5 +1,14 @@
 import { RoomClient } from '.'
 
+export interface IDataObject {
+  '@context': string
+  '@type': string
+  contentUrl: string
+  encodingFormat: string
+  height?: number
+  width?: number
+}
+
 export interface ILinkObject {
   id: string
   path?: string
@@ -10,7 +19,7 @@ export interface IDioryProps {
   image?: string
   latlng?: string
   date?: string
-  data?: any[]
+  data?: IDataObject[]
   links?: { [index: string]: ILinkObject }
   created?: string
   modified?: string

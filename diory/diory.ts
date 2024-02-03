@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid'
 import { propIsValid, valueIsValid, valueExists } from '../utils/validators'
 import { throwErrorIfLinkAlreadyExists, throwErrorIfLinkNotFound } from '../utils/throwErrors'
 
-import { IDiory, IDioryObject, IDioryProps, ILinkObject } from '../types'
+import { IDataObject, IDiory, IDioryObject, IDioryProps, ILinkObject } from '../types'
 
 function getLinkKey(linkObject: ILinkObject, links: { [key: string]: ILinkObject }) {
   const linkEntry = Object.entries(links).find(([_, link]) => link.id === linkObject.id)
@@ -15,7 +15,7 @@ class Diory implements IDiory {
   image?: string = undefined
   latlng?: string = undefined
   date?: string = undefined
-  data?: any[] = undefined
+  data?: IDataObject[] = undefined
   links?: { [index: string]: ILinkObject } = undefined
   created?: string = undefined
   modified?: string = undefined
@@ -76,15 +76,14 @@ class Diory implements IDiory {
 
   changeContentUrl = (contentUrl: string) => {
     if (this.data) {
-      const data: any = this.data[0]
+      const data = this.data[0]
       data.contentUrl = contentUrl
-      data.cid = contentUrl
     }
   }
 
   getContentUrl = () => {
     if (this.data) {
-      const data: any = this.data[0]
+      const data = this.data[0]
       return data.contentUrl
     }
   }

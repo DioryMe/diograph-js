@@ -5,6 +5,13 @@ jest.mock('uuid', () => ({
   v4: () => 'some-uuid',
 }))
 
+const mockDioryDataObject = {
+  '@context': 'http://schema.org',
+  '@type': 'ImageObject',
+  contentUrl: 'https://example.com/image.jpg',
+  encodingFormat: 'image/jpeg',
+}
+
 describe('Diory', () => {
   let diory: IDiory
 
@@ -62,20 +69,20 @@ describe('Diory', () => {
 
     describe('given data array', () => {
       beforeEach(() => {
-        dioryProps.data = ['some-data']
+        dioryProps.data = [mockDioryDataObject]
 
         diory = new Diory(dioryProps)
       })
 
       it('adds data array to diory data', () => {
-        expect(diory.data).toStrictEqual(['some-data'])
+        expect(diory.data).toStrictEqual([mockDioryDataObject])
       })
 
       describe('when toObject()', () => {
         it('returns diory object with data array', () => {
           const dioryObject = diory.toObject()
 
-          expect(dioryObject.data).toStrictEqual(['some-data'])
+          expect(dioryObject.data).toStrictEqual([mockDioryDataObject])
         })
       })
     })
@@ -238,11 +245,11 @@ describe('Diory', () => {
 
       describe('given data array', () => {
         it('adds data array to diory data', () => {
-          dioryProps.data = ['some-data']
+          dioryProps.data = [mockDioryDataObject]
 
           diory.update(dioryProps)
 
-          expect(diory.data).toStrictEqual(['some-data'])
+          expect(diory.data).toStrictEqual([mockDioryDataObject])
         })
       })
 
