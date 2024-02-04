@@ -61,12 +61,11 @@ const roomJsonContents = JSON.stringify({
 })
 
 const diographContents = JSON.stringify({
-  rootId: 'some-id',
-  diograph: {
-    'some-id': {
-      id: 'some-id',
-      text: 'some-diory',
-    },
+  'some-id': {
+    id: 'some-id',
+    text: 'some-diory',
+    created: '2022-06-01T07:30:07.991Z',
+    modified: '2022-06-01T07:30:08.003Z',
   },
 })
 
