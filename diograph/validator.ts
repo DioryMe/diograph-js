@@ -43,6 +43,7 @@ const schema = {
             encodingFormat: { type: 'string' },
             height: { type: 'number' },
             width: { type: 'number' },
+            duration: { type: 'string' },
           },
         },
       },
@@ -57,5 +58,8 @@ export const validateDiograph = (diographObject: object) => {
 
   const isValid = validate(diographObject)
 
-  return { isValid, errors: validate.errors }
+  if (!isValid) {
+    console.log('Diograph is not valid: ' + JSON.stringify(validate.errors))
+    throw new Error('Diograph is not valid: ' + JSON.stringify(validate.errors))
+  }
 }

@@ -113,7 +113,7 @@ class Diograph implements IDiograph {
   }
 
   saveDiograph = async (roomClient: RoomClient) => {
-    validateDiograph(this.diograph)
+    validateDiograph(JSON.parse(this.toJson()))
     await roomClient.saveDiograph(this.toJson())
   }
 }
