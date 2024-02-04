@@ -5,6 +5,7 @@ import { throwErrorIfDioryAlreadyExists, throwErrorIfDioryNotFound } from '../ut
 
 import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from '../types'
 import { RoomClient } from '..'
+import { validateDiograph } from './validator'
 
 class Diograph implements IDiograph {
   diograph: { [index: string]: IDiory } = {}
@@ -102,14 +103,17 @@ class Diograph implements IDiograph {
 
   loadDiograph = async (roomClient: RoomClient) => {
     const diographContents = await roomClient.readDiograph()
-    // TODO: Validate JSON with own validator.js (using ajv.js.org)
-    const { diograph } = JSON.parse(diographContents)
+
+    const diograph = JSON.parse(diographContents)
+    validateDiograph(diograph)
+
     if (diograph && Object.keys(diograph).length) {
       this.addDiograph(diograph)
     }
   }
 
   saveDiograph = async (roomClient: RoomClient) => {
+    validateDiograph(this.diograph)
     await roomClient.saveDiograph(this.toJson())
   }
 }

@@ -37,6 +37,8 @@ export interface IDiory extends IDioryObject {
 }
 
 export interface IDiographObject {
+  // TODO: Make '/' required
+  // '/': IDioryObject
   [key: string]: IDioryObject
 }
 
