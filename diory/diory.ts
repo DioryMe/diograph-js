@@ -101,6 +101,12 @@ class Diory implements IDiory {
     return dioryObject
   }
 
+  toObjectWithoutImage = (): IDioryObject => {
+    const dioryObject = this.toObject()
+    dioryObject.image = '[omitted]'
+    return dioryObject
+  }
+
   toJson = (): string => JSON.stringify(this.toObject(), null, 2)
 }
 

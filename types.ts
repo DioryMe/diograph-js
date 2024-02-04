@@ -34,6 +34,7 @@ export interface IDiory extends IDioryObject {
   addLink: (linkedDioryObject: IDioryObject) => IDiory
   removeLink: (linkedDioryObject: IDioryObject) => IDiory
   toObject: () => IDioryObject
+  toObjectWithoutImage: () => IDioryObject
 }
 
 export interface IDiographObject {
