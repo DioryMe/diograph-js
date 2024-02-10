@@ -1,6 +1,11 @@
 import { Diory } from '../diory/diory'
 
-import { allKeysExist, allMatchToQuery, reduceToDiographObject } from '../utils/utils'
+import {
+  allFilteredByDate,
+  allKeysExist,
+  allMatchToQuery,
+  reduceToDiographObject,
+} from '../utils/utils'
 import { throwErrorIfDioryAlreadyExists, throwErrorIfDioryNotFound } from '../utils/throwErrors'
 
 import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from '../types'
@@ -31,6 +36,7 @@ class Diograph implements IDiograph {
     const diographObject: IDiographObject = Object.values(this.diograph)
       .filter(allKeysExist(queryDiory))
       .filter(allMatchToQuery(queryDiory))
+      .filter(allFilteredByDate(queryDiory))
       .reduce(reduceToDiographObject, {})
     return new Diograph(diographObject)
   }

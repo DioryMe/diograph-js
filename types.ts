@@ -19,6 +19,8 @@ export interface IDioryProps {
   image?: string
   latlng?: string
   date?: string
+  dateStart?: string
+  dateEnd?: string
   data?: IDataObject[]
   links?: { [index: string]: ILinkObject }
   created?: string
