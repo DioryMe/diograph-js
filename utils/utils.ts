@@ -1,12 +1,16 @@
 import { IDioryProps, IDioryObject, IDiographObject, IDiory } from '../types'
 
-export function allKeysExist(queryDiory: IDioryProps) {
+type DioryFilterFunction = (diory: IDioryObject) => boolean
+
+// Checks that all keys in queryDiory exist in diory
+export function allKeysExist(queryDiory: IDioryProps): DioryFilterFunction {
   return (diory: IDioryObject): boolean =>
     // @ts-ignore
     !Object.keys(queryDiory).some((prop) => !diory[prop])
 }
 
-export function allMatchToQuery(queryDiory: IDioryProps) {
+// This can practically used only with: id, text (not with data?)
+export function allMatchToQuery(queryDiory: IDioryProps): DioryFilterFunction {
   return (diory: IDioryObject): boolean =>
     !Object.entries(queryDiory).some(
       ([prop, query]) =>
