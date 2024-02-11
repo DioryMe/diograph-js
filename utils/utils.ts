@@ -1,5 +1,7 @@
 import { IDioryProps, IDioryObject, IDiographObject, IDiory } from '../types'
 import { isAfter, isBefore, isEqual, startOfDay } from 'date-fns'
+import { point as turfPoint, polygon as turfPolygon } from '@turf/helpers'
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 
 export type DioryFilterFunction = (diory: IDioryObject) => boolean
 
@@ -55,6 +57,44 @@ export function allFilteredByDate(queryDiory: IDioryProps): DioryFilterFunction 
     }
   }
   return () => true
+}
+
+export function allFilteredByLatlng(queryDiory: IDioryProps): DioryFilterFunction {
+  if (!(queryDiory.latlngStart && queryDiory.latlngEnd)) {
+    return () => true
+  }
+
+  const [startLat, startLng] = queryDiory.latlngStart
+    .replace('N', '')
+    .replace('E', '')
+    .replace(' ', '')
+    .split(',')
+    .map((latlng) => parseFloat(latlng))
+  const [endLat, endLng] = queryDiory.latlngEnd
+    .replace('N', '')
+    .replace('E', '')
+    .replace(' ', '')
+    .split(',')
+    .map((latlng) => parseFloat(latlng))
+
+  const geoPolygon = [
+    [
+      [startLng, startLat],
+      [startLng, endLat],
+      [endLng, endLat],
+      [endLng, startLat],
+      [startLng, startLat],
+    ],
+  ]
+  return (diory: IDioryObject): boolean => {
+    if (diory.latlng) {
+      const [lat, lng] = diory.latlng.split(',').map((latlng) => parseFloat(latlng))
+      const pointObject = turfPoint([lng, lat])
+      const polygonObject = turfPolygon(geoPolygon)
+      return booleanPointInPolygon(pointObject, polygonObject)
+    }
+    return false
+  }
 }
 
 export function reduceToDiographObject(

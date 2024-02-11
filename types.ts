@@ -18,6 +18,8 @@ export interface IDioryProps {
   text?: string
   image?: string
   latlng?: string
+  latlngStart?: string
+  latlngEnd?: string
   date?: string
   dateStart?: string
   dateEnd?: string
