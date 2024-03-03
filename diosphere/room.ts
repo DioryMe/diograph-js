@@ -1,15 +1,7 @@
 import { RoomClient } from './roomClient'
 import { Diograph } from '../diograph/diograph'
-import { ConnectionObject, IDiographObject, RoomObject } from '../types'
+import { ConnectionClientList, ConnectionObject, IDiographObject, RoomObject } from '../types'
 import { Connection, ContentNotFoundError } from './connection'
-import { ConnectionClientConstructor } from '..'
-
-interface ConnectionClientList {
-  [index: string]: {
-    clientConstructor: ConnectionClientConstructor
-    credentials?: object
-  }
-}
 
 class Room {
   diograph: Diograph

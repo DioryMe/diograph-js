@@ -1,4 +1,4 @@
-import { ConnectionClient } from '..'
+import { ConnectionClient } from '../types'
 
 class RoomClient {
   address: string

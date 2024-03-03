@@ -1,7 +1,6 @@
-import { ConnectionObject, IDiograph } from '../types'
+import { ConnectionClient, ConnectionObject, IDiograph } from '../types'
 import { Diograph } from '../diograph/diograph'
 import { join } from 'path-browserify'
-import { ConnectionClient } from '..'
 
 export interface ContentUrlObject {
   // "CID <-> internalPath" pairs
