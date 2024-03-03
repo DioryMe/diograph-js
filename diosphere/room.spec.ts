@@ -96,6 +96,7 @@ class MockS3Client extends MockLocalClient {
 
 describe('Room', () => {
   let room: Room
+  let unloadedRoom: Room
 
   beforeEach(async () => {
     const mockRoomClient: any = {
@@ -105,6 +106,7 @@ describe('Room', () => {
         return new MockLocalClient()
       },
     }
+    unloadedRoom = new Room(mockRoomClient)
     room = new Room(mockRoomClient)
     await room.loadRoom({
       LocalClient: { clientConstructor: MockLocalClient },
@@ -132,6 +134,18 @@ describe('Room', () => {
         bafkreifhhmoftoo26lc223k5riwflm6uvgrizwakg5z7n7yruj7gty27ji:
           '/Generic content/some-video.mov',
       })
+    })
+  })
+
+  describe('addContent', () => {
+    it('works with loadedRoom', async () => {
+      await room.addContent(mockArrayBuffer, 'mock-cid')
+    })
+
+    it('unloadedRoom.addContent throws TypeError', async () => {
+      expect(unloadedRoom.addContent(mockArrayBuffer, 'mock-cid')).rejects.toThrow(
+        'Calling room.addContent without any connections in room',
+      )
     })
   })
 

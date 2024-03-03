@@ -130,6 +130,9 @@ class Room {
 
   addContent = async (fileContent: ArrayBuffer | string, contentId: string) => {
     const nativeConnection = this.connections[0]
+    if (!nativeConnection) {
+      throw new Error('Calling room.addContent without any connections in room')
+    }
     return nativeConnection.addContent(fileContent, contentId)
   }
 
