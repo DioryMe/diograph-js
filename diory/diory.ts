@@ -74,6 +74,14 @@ class Diory implements IDiory {
     return this.update({})
   }
 
+  then = (callback?: () => void): IDiory => {
+    if (callback) {
+      callback()
+    }
+
+    return this
+  }
+
   toObject = (): IDioryObject => {
     const dioryObject: IDioryObject = { id: this.id }
     Object.getOwnPropertyNames(this).forEach((prop) => {
