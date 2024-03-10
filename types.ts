@@ -22,23 +22,29 @@ export interface IDiory extends IDioryObject {
   update: (dioryProps: IDioryProps, addOnly?: boolean) => IDiory
   addLink: (linkedDioryObject: IDioryObject) => IDiory
   removeLink: (linkedDioryObject: IDioryObject) => IDiory
+  then: (callback?: () => void) => IDiory
   toObject: () => IDioryObject
 }
 
-export interface IDiographObject {
+export interface IDioriesObject {
   [key: string]: IDioryObject
 }
 
+export interface IDiographObject {
+  diories: IDioriesObject
+}
+
 export interface IDiograph {
-  diograph: { [index: string]: IDiory }
-  addDiograph: (diographObject: IDiographObject, rootId?: string) => IDiograph
-  queryDiograph: (dioryObject: IDioryProps) => IDiograph
-  resetDiograph: () => IDiograph
+  diories: { [index: string]: IDiory }
+  initialise: (diograph: IDiographObject) => IDiograph
+  queryDiories: (dioryObject: IDioryProps) => IDiograph
+  resetDiories: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory
   addDiory: (dioryProps: IDioryProps | IDioryObject | IDiory, key?: string) => IDiory
   updateDiory: (dioryObject: IDioryObject) => IDiory
-  removeDiory: (dioryObject: IDioryObject) => boolean
+  removeDiory: (dioryObject: IDioryObject) => void
   addDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   removeDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
+  saveDiograph: (callback?: () => void) => void
   toObject: () => IDiographObject
 }

@@ -1,9 +1,9 @@
-import { IDiory, IDioryObject, IDiographObject, ILinkObject } from '../types'
+import { IDiory, IDioryObject, IDioriesObject, ILinkObject } from '../types'
 
 export function throwErrorIfDioryNotFound(
   method: string,
   dioryObject: IDioryObject,
-  diograph: IDiographObject,
+  diograph: IDioriesObject,
 ): void {
   if (diograph[dioryObject.id]) {
     return
@@ -14,7 +14,7 @@ export function throwErrorIfDioryNotFound(
 export function throwErrorIfDioryAlreadyExists(
   method: string,
   dioryObject: IDioryObject | IDiory,
-  diograph: IDiographObject,
+  diograph: IDioriesObject,
 ): void {
   if (!diograph[dioryObject.id]) {
     return
