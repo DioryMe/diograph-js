@@ -23,7 +23,7 @@
     "test": "jest . --verbose",
     "test-watch": "yarn test --watch",
     "prepare": "yarn prettier && yarn test && yarn build",
-    "publish": "yarn version && npm publish"
+    "release": "yarn version && npm publish"
   },
   "prettier": {
     "tabWidth": 2,
