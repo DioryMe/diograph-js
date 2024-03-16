@@ -1,4 +1,4 @@
-import { IDioryProps, IDioryObject, IDioriesObject } from '../types'
+import { IDioryProps, IDioryObject, IDiographObject } from '../types'
 
 function allKeysExist(queryDiory: IDioryProps) {
   return (diory: IDioryObject): boolean =>
@@ -15,16 +15,19 @@ function allMatchToQuery(queryDiory: IDioryProps) {
     )
 }
 
-function reduceToDioriesObject(dioriesObject: IDioriesObject, diory: IDioryObject): IDioriesObject {
+function reduceToDiographObject(
+  diographObject: IDiographObject,
+  diory: IDioryObject,
+): IDiographObject {
   return {
-    ...dioriesObject,
+    ...diographObject,
     [diory.id]: diory,
   }
 }
 
-export function queryDiories(queryDiory: IDioryProps, diories: IDioriesObject): IDioriesObject {
-  return Object.values(diories)
+export function queryDiograph(queryDiory: IDioryProps, diograph: IDiographObject): IDiographObject {
+  return Object.values(diograph)
     .filter(allKeysExist(queryDiory))
     .filter(allMatchToQuery(queryDiory))
-    .reduce(reduceToDioriesObject, {})
+    .reduce(reduceToDiographObject, {})
 }

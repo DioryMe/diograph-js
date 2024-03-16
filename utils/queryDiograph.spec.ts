@@ -1,9 +1,9 @@
-import { queryDiories } from './queryDiories'
+import { queryDiograph } from './queryDiograph'
 
-describe('queryDiories()', () => {
+describe('queryDiograph()', () => {
   describe('given text query', () => {
-    it('returns diories with matching text', () => {
-      const result = queryDiories(
+    it('returns diograph with matching text', () => {
+      const result = queryDiograph(
         { text: 'some-text' },
         { 'some-id': { id: 'some-id', text: 'some-text' } },
       )
@@ -11,8 +11,8 @@ describe('queryDiories()', () => {
       expect(result).toStrictEqual({ 'some-id': { id: 'some-id', text: 'some-text' } })
     })
 
-    it('does not return diories with non-matching text', () => {
-      const result = queryDiories(
+    it('does not return diograph with non-matching text', () => {
+      const result = queryDiograph(
         { text: 'other-text' },
         { 'some-id': { id: 'some-id', text: 'some-text' } },
       )

@@ -1,20 +1,13 @@
-import {
-  IDiory,
-  IDioryObject,
-  IDiograph,
-  IDioriesObject,
-  IDioryProps,
-  IDiographObject,
-} from '../types'
+import { IDiory, IDioryObject, IDiograph, IDioryProps, IDiographObject } from '../types'
 
 import { Diory } from '../diory/diory'
 
-import { queryDiories } from '../utils/queryDiories'
+import { queryDiograph } from '../utils/queryDiograph'
 import { throwErrorIfNotFound } from '../utils/throwErrorIfNotFound'
 import { throwErrorIfAlreadyExists } from '../utils/throwErrorIfAlreadyExists'
 
 class Diograph implements IDiograph {
-  diories: { [index: string]: IDiory } = {}
+  diograph: { [index: string]: IDiory } = {}
 
   constructor(diograph?: IDiographObject) {
     if (diograph) {
@@ -23,10 +16,9 @@ class Diograph implements IDiograph {
   }
 
   initialise = (diograph: IDiographObject): IDiograph => {
-    const { diories } = diograph
-    Object.entries(diories).forEach(([key, dioryObject]) => {
+    Object.entries(diograph).forEach(([key, dioryObject]) => {
       try {
-        this.diories[key] = new Diory(dioryObject)
+        this.diograph[key] = new Diory(dioryObject)
       } catch (error) {
         console.error(error)
       }
@@ -35,23 +27,23 @@ class Diograph implements IDiograph {
     return this
   }
 
-  queryDiories = (queryDiory: IDioryProps): IDiograph => {
-    const diories: IDioriesObject = queryDiories(queryDiory, this.toObject().diories)
-    return new Diograph({ diories })
+  queryDiograph = (queryDiory: IDioryProps): IDiograph => {
+    const diograph: IDiographObject = queryDiograph(queryDiory, this.toObject())
+    return new Diograph(diograph)
   }
 
-  resetDiories = (): IDiograph => {
-    this.diories = {}
+  resetDiograph = (): IDiograph => {
+    this.diograph = {}
     return this
   }
 
   getDiory = (dioryObject: IDioryObject): IDiory => {
-    throwErrorIfNotFound('getDiory', dioryObject.id, Object.keys(this.diories))
+    throwErrorIfNotFound('getDiory', dioryObject.id, Object.keys(this.diograph))
 
-    const diory = this.diories[dioryObject.id]
+    const diory = this.diograph[dioryObject.id]
     if (diory.id !== dioryObject.id) {
-      throwErrorIfNotFound('getDiory - alias', diory.id, Object.keys(this.diories))
-      return this.diories[diory.id]
+      throwErrorIfNotFound('getDiory - alias', diory.id, Object.keys(this.diograph))
+      return this.diograph[diory.id]
     }
 
     return diory
@@ -60,65 +52,65 @@ class Diograph implements IDiograph {
   addDiory = (dioryObject: IDioryProps | IDioryObject, key?: string): IDiory => {
     if (key) {
       const diory: IDiory =
-        'id' in dioryObject && !!this.diories[dioryObject.id]
+        'id' in dioryObject && !!this.diograph[dioryObject.id]
           ? this.getDiory(dioryObject)
           : new Diory(dioryObject)
 
-      if (!this.diories[diory.id]) {
-        this.diories[diory.id] = diory
+      if (!this.diograph[diory.id]) {
+        this.diograph[diory.id] = diory
       }
 
-      return (this.diories[key] = diory).then(this.saveDiograph)
+      return (this.diograph[key] = diory).then(this.saveDiograph)
     }
 
     if ('id' in dioryObject) {
-      throwErrorIfAlreadyExists('updateDiory', dioryObject.id, Object.keys(this.diories))
+      throwErrorIfAlreadyExists('updateDiory', dioryObject.id, Object.keys(this.diograph))
     }
 
     const diory: IDiory = new Diory(dioryObject)
-    return (this.diories[diory.id] = diory).then(this.saveDiograph)
+    return (this.diograph[diory.id] = diory).then(this.saveDiograph)
   }
 
   updateDiory = (dioryObject: IDioryObject): IDiory => {
-    throwErrorIfNotFound('updateDiory', dioryObject.id, Object.keys(this.diories))
+    throwErrorIfNotFound('updateDiory', dioryObject.id, Object.keys(this.diograph))
 
     return this.getDiory(dioryObject).update(dioryObject).then(this.saveDiograph)
   }
 
   removeDiory = (dioryObject: IDioryObject): void => {
-    throwErrorIfNotFound('removeDiory', dioryObject.id, Object.keys(this.diories))
+    throwErrorIfNotFound('removeDiory', dioryObject.id, Object.keys(this.diograph))
 
-    delete this.diories[dioryObject.id]
+    delete this.diograph[dioryObject.id]
 
     this.saveDiograph()
   }
 
   addDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
-    throwErrorIfNotFound('addDioryLink:diory', dioryObject.id, Object.keys(this.diories))
+    throwErrorIfNotFound('addDioryLink:diory', dioryObject.id, Object.keys(this.diograph))
     throwErrorIfNotFound(
       'addDioryLink:linkedDiory',
       linkedDioryObject.id,
-      Object.keys(this.diories),
+      Object.keys(this.diograph),
     )
 
     return this.getDiory(dioryObject).addLink(linkedDioryObject).then(this.saveDiograph)
   }
 
   removeDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
-    throwErrorIfNotFound('removeDioryLink:diory', dioryObject.id, Object.keys(this.diories))
+    throwErrorIfNotFound('removeDioryLink:diory', dioryObject.id, Object.keys(this.diograph))
 
     return this.getDiory(dioryObject).removeLink(linkedDioryObject).then(this.saveDiograph)
   }
 
   saveDiograph = (): void => {}
 
-  toObject = (): { diories: IDioriesObject } => {
-    const diories: IDioriesObject = {}
-    Object.entries(this.diories).forEach(([id, diory]) => {
-      diories[id] = diory.toObject()
+  toObject = (): IDiographObject => {
+    const diograph: IDiographObject = {}
+    Object.entries(this.diograph).forEach(([id, diory]) => {
+      diograph[id] = diory.toObject()
     })
 
-    return { diories }
+    return diograph
   }
 
   toJson = (): string => JSON.stringify(this.toObject(), null, 2)

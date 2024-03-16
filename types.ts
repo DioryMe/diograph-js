@@ -34,19 +34,15 @@ export interface IDiory extends IDioryObject {
   toObject: () => IDioryObject
 }
 
-export interface IDioriesObject {
+export interface IDiographObject {
   [key: string]: IDioryObject
 }
 
-export interface IDiographObject {
-  diories: IDioriesObject
-}
-
 export interface IDiograph {
-  diories: { [index: string]: IDiory }
+  diograph: { [index: string]: IDiory }
   initialise: (diograph: IDiographObject) => IDiograph
-  queryDiories: (dioryObject: IDioryProps) => IDiograph
-  resetDiories: () => IDiograph
+  queryDiograph: (dioryObject: IDioryProps) => IDiograph
+  resetDiograph: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory
   addDiory: (dioryProps: IDioryProps | IDioryObject | IDiory, key?: string) => IDiory
   updateDiory: (dioryObject: IDioryObject) => IDiory
