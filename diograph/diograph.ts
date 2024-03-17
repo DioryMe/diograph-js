@@ -1,8 +1,3 @@
-import { Diory } from '../diory/diory'
-
-import { queryDiories } from '../utils/queryDiories'
-import { throwErrorIfDioryAlreadyExists, throwErrorIfDioryNotFound } from '../utils/throwErrors'
-
 import {
   IDiory,
   IDioryObject,
@@ -10,7 +5,14 @@ import {
   IDioriesObject,
   IDioryProps,
   IDiographObject,
+  IConnectionObject,
 } from '../types'
+
+import { Diory } from '../diory/diory'
+
+import { queryDiories } from '../utils/queryDiories'
+import { throwErrorIfNotFound } from '../utils/throwErrorIfNotFound'
+import { throwErrorIfAlreadyExists } from '../utils/throwErrorIfAlreadyExists'
 
 class Diograph implements IDiograph {
   diories: { [index: string]: IDiory } = {}
@@ -45,11 +47,11 @@ class Diograph implements IDiograph {
   }
 
   getDiory = (dioryObject: IDioryObject): IDiory => {
-    throwErrorIfDioryNotFound('getDiory', dioryObject, this.diories)
+    throwErrorIfNotFound('getDiory', dioryObject.id, Object.keys(this.diories))
 
     const diory = this.diories[dioryObject.id]
     if (diory.id !== dioryObject.id) {
-      throwErrorIfDioryNotFound('getDiory - alias', diory, this.diories)
+      throwErrorIfNotFound('getDiory - alias', diory.id, Object.keys(this.diories))
       return this.diories[diory.id]
     }
 
@@ -71,7 +73,7 @@ class Diograph implements IDiograph {
     }
 
     if ('id' in dioryObject) {
-      throwErrorIfDioryAlreadyExists('addDiory', dioryObject, this.diories)
+      throwErrorIfAlreadyExists('updateDiory', dioryObject.id, Object.keys(this.diories))
     }
 
     const diory: IDiory = new Diory(dioryObject)
@@ -79,13 +81,13 @@ class Diograph implements IDiograph {
   }
 
   updateDiory = (dioryObject: IDioryObject): IDiory => {
-    throwErrorIfDioryNotFound('updateDiory', dioryObject, this.diories)
+    throwErrorIfNotFound('updateDiory', dioryObject.id, Object.keys(this.diories))
 
     return this.getDiory(dioryObject).update(dioryObject).then(this.saveDiograph)
   }
 
   removeDiory = (dioryObject: IDioryObject): void => {
-    throwErrorIfDioryNotFound('removeDiory', dioryObject, this.diories)
+    throwErrorIfNotFound('removeDiory', dioryObject.id, Object.keys(this.diories))
 
     delete this.diories[dioryObject.id]
 
@@ -93,17 +95,35 @@ class Diograph implements IDiograph {
   }
 
   addDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
-    throwErrorIfDioryNotFound('addDioryLink:diory', dioryObject, this.diories)
-    throwErrorIfDioryNotFound('addDioryLink:linkedDiory', linkedDioryObject, this.diories)
+    throwErrorIfNotFound('addDioryLink:diory', dioryObject.id, Object.keys(this.diories))
+    throwErrorIfNotFound(
+      'addDioryLink:linkedDiory',
+      linkedDioryObject.id,
+      Object.keys(this.diories),
+    )
 
     return this.getDiory(dioryObject).addLink(linkedDioryObject).then(this.saveDiograph)
   }
 
   removeDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
-    throwErrorIfDioryNotFound('removeDioryLink:diory', dioryObject, this.diories)
-    throwErrorIfDioryNotFound('removeDioryLink:linkedDiory', linkedDioryObject, this.diories)
+    throwErrorIfNotFound('removeDioryLink:diory', dioryObject.id, Object.keys(this.diories))
 
     return this.getDiory(dioryObject).removeLink(linkedDioryObject).then(this.saveDiograph)
+  }
+
+  addDioryConnection = (dioryObject: IDioryObject, connectionObject: IConnectionObject): IDiory => {
+    throwErrorIfNotFound('addDioryConnection:diory', dioryObject.id, Object.keys(this.diories))
+
+    return this.getDiory(dioryObject).addConnection(connectionObject).then(this.saveDiograph)
+  }
+
+  removeDioryConnection = (
+    dioryObject: IDioryObject,
+    connectionObject: IConnectionObject,
+  ): IDiory => {
+    throwErrorIfNotFound('removeDioryConnection:diory', dioryObject.id, Object.keys(this.diories))
+
+    return this.getDiory(dioryObject).removeConnection(connectionObject).then(this.saveDiograph)
   }
 
   saveDiograph = (): void => {}

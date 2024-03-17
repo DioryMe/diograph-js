@@ -3,13 +3,20 @@ export interface ILinkObject {
   path?: string
 }
 
+export interface IConnectionObject {
+  id: string
+  client: string
+  address: string
+}
+
 export interface IDioryProps {
   text?: string
   image?: string
   latlng?: string
   date?: string
   data?: any[]
-  links?: { [index: string]: ILinkObject }
+  links?: ILinkObject[]
+  connections?: IConnectionObject[]
   created?: string
   modified?: string
 }
@@ -22,6 +29,8 @@ export interface IDiory extends IDioryObject {
   update: (dioryProps: IDioryProps, addOnly?: boolean) => IDiory
   addLink: (linkedDioryObject: IDioryObject) => IDiory
   removeLink: (linkedDioryObject: IDioryObject) => IDiory
+  addConnection: (connectionObject: IConnectionObject) => IDiory
+  removeConnection: (connectionObject: IConnectionObject) => IDiory
   then: (callback?: () => void) => IDiory
   toObject: () => IDioryObject
 }
@@ -45,6 +54,8 @@ export interface IDiograph {
   removeDiory: (dioryObject: IDioryObject) => void
   addDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   removeDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
+  addDioryConnection: (dioryObject: IDioryObject, connectionObject: IConnectionObject) => IDiory
+  removeDioryConnection: (dioryObject: IDioryObject, connectionObject: IConnectionObject) => IDiory
   saveDiograph: (callback?: () => void) => void
   toObject: () => IDiographObject
 }
