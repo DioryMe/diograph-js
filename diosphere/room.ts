@@ -86,10 +86,15 @@ class Room {
     }
   }
 
-  addConnection = (connection: Connection) => {
-    const existingConnection = this.connections.find(
-      (existingConnection) => existingConnection.address === connection.address,
+  findConnection = (connectionAddress: string): Connection | undefined => {
+    return this.connections.find(
+      (existingConnection) => existingConnection.address === connectionAddress,
     )
+  }
+
+  addConnection = (connection: Connection) => {
+    const existingConnection = this.findConnection(connection.address)
+
     if (!existingConnection) {
       this.connections.push(connection)
       return connection
@@ -98,9 +103,8 @@ class Room {
   }
 
   removeConnection = (connection: Connection) => {
-    const existingConnection = this.connections.find(
-      (existingConnection) => existingConnection.address === connection.address,
-    )
+    const existingConnection = this.findConnection(connection.address)
+
     if (!existingConnection) {
       console.log("Couldn't find the connection")
       return false
