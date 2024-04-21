@@ -5,7 +5,7 @@ import { throwErrorIfDioryAlreadyExists, throwErrorIfDioryNotFound } from '../ut
 
 import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from '../types'
 import { RoomClient } from '..'
-import { validateDiograph } from './validator'
+import { validateDiograph } from '../validator'
 
 class Diograph implements IDiograph {
   diograph: { [index: string]: IDiory } = {}
