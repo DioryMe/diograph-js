@@ -1,5 +1,5 @@
 import { Room } from './room'
-import { ConnectionObject, RoomObject } from '../types'
+import { ConnectionData, RoomObject } from '../types'
 import { Connection } from './connection'
 
 const roomObject: RoomObject = {
@@ -56,7 +56,7 @@ describe('Connection', () => {
   })
 
   describe('toObject', () => {
-    let connectionObject: ConnectionObject
+    let connectionObject: ConnectionData
     beforeEach(() => {
       connectionObject = connection.toObject()
     })

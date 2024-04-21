@@ -37,6 +37,7 @@ export interface IDiory extends IDioryObject {
   toObjectWithoutImage: () => IDioryObject
 }
 
+// validator: validateDiograph
 export interface IDiographObject {
   // TODO: Make '/' required
   // '/': IDioryObject
@@ -60,19 +61,22 @@ export interface IDiograph {
   saveDiograph: (roomClient: RoomClient) => Promise<void>
 }
 
+// custom type, no validator...
 export interface RoomObject {
-  connections: ConnectionObject[]
+  connections: ConnectionData[]
   diograph?: IDiographObject
 }
 
-export interface ContentUrls {
+// validator: validateCIDMapping
+export interface CIDMapping {
   [key: string]: string
 }
 
-export interface ConnectionObject {
+// validator: validateConnectionData
+export interface ConnectionData {
   address: string
   contentClientType: string
-  contentUrls?: ContentUrls
+  contentUrls?: CIDMapping
   diograph?: IDiographObject
 }
 

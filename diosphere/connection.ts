@@ -1,4 +1,4 @@
-import { ConnectionClient, ConnectionObject, IDiograph } from '../types'
+import { ConnectionClient, ConnectionData, IDiograph } from '../types'
 import { Diograph } from '../diograph/diograph'
 import { join } from 'path-browserify'
 
@@ -22,7 +22,7 @@ class Connection {
     this.client = connectionClient
   }
 
-  initiateConnection({ contentUrls = {}, diograph = {} }: ConnectionObject) {
+  initiateConnection({ contentUrls = {}, diograph = {} }: ConnectionData) {
     this.contentUrls = contentUrls || {}
     if (diograph && Object.keys(diograph).length) {
       this.diograph.addDiograph(diograph)
@@ -74,7 +74,7 @@ class Connection {
     await this.client.deleteFolder('')
   }
 
-  toObject = (): ConnectionObject => ({
+  toObject = (): ConnectionData => ({
     // TODO: Make some kind of exception for relative paths (for demo-content-room which can't have absolute paths...)
     // address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
     // - but connection shouldn't know anything about the room...
