@@ -14,6 +14,7 @@ export interface ILinkObject {
   path?: string
 }
 
+// validator: validateDiory
 export interface IDioryProps {
   text?: string
   image?: string
