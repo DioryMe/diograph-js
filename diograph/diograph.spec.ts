@@ -1,4 +1,4 @@
-import { IDiograph, IDioriesObject, IDiory } from '../types'
+import { IDiograph, IDiographObject, IDiory } from '../types'
 import { v4 as uuid } from 'uuid'
 
 import { Diograph } from './diograph'
@@ -12,21 +12,21 @@ describe('diograph', () => {
   let diory: IDiory
 
   describe('when new Diograph() with some diory in diograph object', () => {
-    let diories: IDioriesObject
+    let diographObject: IDiographObject
 
     beforeEach(() => {
-      diories = {
+      diographObject = {
         'some-id': {
           id: 'some-id',
           text: 'some-text',
         },
       }
-      diograph = new Diograph({ diories })
+      diograph = new Diograph(diographObject)
       diograph.saveDiograph = jest.fn()
     })
 
     it('adds diory to diograph', () => {
-      expect(diograph.diories['some-id']).toStrictEqual(expect.objectContaining({ id: 'some-id' }))
+      expect(diograph.diograph['some-id']).toStrictEqual(expect.objectContaining({ id: 'some-id' }))
     })
 
     it('does not save diograph', () => {
@@ -36,9 +36,7 @@ describe('diograph', () => {
     describe('when toObject()', () => {
       it('returns diograph object', () => {
         expect(diograph.toObject()).toStrictEqual({
-          diories: {
-            'some-id': expect.objectContaining({ id: 'some-id' }),
-          },
+          'some-id': expect.objectContaining({ id: 'some-id' }),
         })
       })
     })
@@ -47,14 +45,12 @@ describe('diograph', () => {
       describe('given new diory in added diograph object', () => {
         beforeEach(() => {
           diograph.initialise({
-            diories: {
-              'other-id': { id: 'other-id' },
-            },
+            'other-id': { id: 'other-id' },
           })
         })
 
         it('adds diory to diograph', () => {
-          expect(diograph.diories['other-id']).toStrictEqual(
+          expect(diograph.diograph['other-id']).toStrictEqual(
             expect.objectContaining({ id: 'other-id' }),
           )
         })
@@ -66,23 +62,21 @@ describe('diograph', () => {
         describe('when toObject()', () => {
           it('returns diograph object', () => {
             expect(diograph.toObject()).toStrictEqual({
-              diories: {
-                'other-id': expect.objectContaining({ id: 'other-id' }),
-                'some-id': expect.objectContaining({ id: 'some-id' }),
-              },
+              'other-id': expect.objectContaining({ id: 'other-id' }),
+              'some-id': expect.objectContaining({ id: 'some-id' }),
             })
           })
         })
       })
     })
 
-    describe('when resetDiories()', () => {
+    describe('when resetDiograph()', () => {
       beforeEach(() => {
-        diograph.resetDiories()
+        diograph.resetDiograph()
       })
 
       it('resets diograph to empty object', () => {
-        expect(diograph.diories).toStrictEqual({})
+        expect(diograph.diograph).toStrictEqual({})
       })
 
       it('does not save diograph', () => {
@@ -110,7 +104,7 @@ describe('diograph', () => {
       })
 
       it('adds diory to diograph', () => {
-        expect(diograph.diories['some-uuid']).toStrictEqual(
+        expect(diograph.diograph['some-uuid']).toStrictEqual(
           expect.objectContaining({ id: 'some-uuid' }),
         )
       })
@@ -130,7 +124,7 @@ describe('diograph', () => {
       })
 
       it('adds diory alias to diograph', () => {
-        expect(diograph.diories['some-key']).toStrictEqual(
+        expect(diograph.diograph['some-key']).toStrictEqual(
           expect.objectContaining({ id: 'some-id' }),
         )
       })
@@ -161,7 +155,7 @@ describe('diograph', () => {
       })
 
       it('adds new diory alias to diograph', () => {
-        expect(diograph.diories['existing-key']).toStrictEqual(
+        expect(diograph.diograph['existing-key']).toStrictEqual(
           expect.objectContaining({ id: 'new-id' }),
         )
       })
@@ -187,7 +181,7 @@ describe('diograph', () => {
       })
 
       it('updates diory', () => {
-        expect(diograph.diories['some-id'].text).toBe('updated-text')
+        expect(diograph.diograph['some-id'].text).toBe('updated-text')
       })
 
       it('returns updated diory', () => {
@@ -213,7 +207,7 @@ describe('diograph', () => {
       })
 
       it('removes diory', () => {
-        expect(diograph.diories['some-id']).toBe(undefined)
+        expect(diograph.diograph['some-id']).toBe(undefined)
       })
 
       it('saves diograph', () => {
@@ -233,17 +227,13 @@ describe('diograph', () => {
       let diory: IDiory
       beforeEach(() => {
         diograph.initialise({
-          diories: {
-            'other-id': { id: 'other-id' },
-          },
+          'other-id': { id: 'other-id' },
         })
         diory = diograph.addDioryLink({ id: 'some-id' }, { id: 'other-id' })
       })
 
-      it('creates link between diories', () => {
-        expect(diograph.diories['some-id'].links).toStrictEqual({
-          'other-id': { id: 'other-id' },
-        })
+      it('creates link between diograph', () => {
+        expect(diograph.diograph['some-id'].links).toStrictEqual([{ id: 'other-id' }])
       })
 
       it('saves diograph', () => {
@@ -263,8 +253,8 @@ describe('diograph', () => {
           diory = diograph.removeDioryLink({ id: 'some-id' }, { id: 'other-id' })
         })
 
-        it('deletes link between diories', () => {
-          expect(diograph.diories['some-id'].links).toBe(undefined)
+        it('deletes link between diograph', () => {
+          expect(diograph.diograph['some-id'].links).toBe(undefined)
         })
 
         it('saves diograph', () => {
@@ -292,23 +282,21 @@ describe('diograph', () => {
     describe('given diograph with query text diory', () => {
       beforeEach(() => {
         diograph.initialise({
-          diories: {
-            'query-id': {
-              id: 'query-id',
-              text: 'query-text',
-            },
+          'query-id': {
+            id: 'query-id',
+            text: 'query-text',
           },
         })
       })
 
-      describe('when queryDiories() with matching text query', () => {
-        let queryDiories: IDiograph
+      describe('when queryDiograph() with matching text query', () => {
+        let queryDiograph: IDiograph
         beforeEach(() => {
-          queryDiories = diograph.queryDiories({ text: 'query' })
+          queryDiograph = diograph.queryDiograph({ text: 'query' })
         })
 
         it('returns diograph with query diory', () => {
-          expect(queryDiories.diories['query-id']).toStrictEqual(
+          expect(queryDiograph.diograph['query-id']).toStrictEqual(
             expect.objectContaining({ id: 'query-id' }),
           )
         })
@@ -319,21 +307,21 @@ describe('diograph', () => {
 
         describe('when toObject()', () => {
           it('returns diograph object', () => {
-            expect(queryDiories.toObject()).toStrictEqual({
-              diories: { 'query-id': expect.objectContaining({ id: 'query-id' }) },
+            expect(queryDiograph.toObject()).toStrictEqual({
+              'query-id': expect.objectContaining({ id: 'query-id' }),
             })
           })
         })
       })
 
-      describe('when queryDiories() without matching text query', () => {
-        let queryDiories: IDiograph
+      describe('when queryDiograph() without matching text query', () => {
+        let queryDiograph: IDiograph
         beforeEach(() => {
-          queryDiories = diograph.queryDiories({ text: 'other-query' })
+          queryDiograph = diograph.queryDiograph({ text: 'other-query' })
         })
 
         it('returns empty diograph', () => {
-          expect(queryDiories.diories).toStrictEqual({})
+          expect(queryDiograph.diograph).toStrictEqual({})
         })
 
         it('does not save diograph', () => {
@@ -342,7 +330,7 @@ describe('diograph', () => {
 
         describe('when toObject()', () => {
           it('returns empty diograph object', () => {
-            expect(queryDiories.toObject()).toStrictEqual({ diories: {} })
+            expect(queryDiograph.toObject()).toStrictEqual({})
           })
         })
       })

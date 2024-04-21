@@ -1,8 +1,11 @@
 {
   "name": "@diograph/diograph",
-  "version": "0.1.1",
+  "version": "0.3.0-rc4",
   "main": "dist/index.js",
-  "types": "index.d.ts",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "author": "Olli-Pekka Pohjola <op@diory.me>, Jouni Alanen <jouni@diory.me>",
   "license": "MIT",
   "dependencies": {
@@ -22,8 +25,7 @@
     "prettier": "prettier --write .",
     "test": "jest . --verbose",
     "test-watch": "yarn test --watch",
-    "prepare": "yarn prettier && yarn test && yarn build",
-    "release": "yarn version && npm publish"
+    "prepare": "yarn prettier && yarn test && yarn build"
   },
   "prettier": {
     "tabWidth": 2,

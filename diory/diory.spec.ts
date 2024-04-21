@@ -5,13 +5,6 @@ jest.mock('uuid', () => ({
   v4: () => 'some-uuid',
 }))
 
-const mockDioryDataObject = {
-  '@context': 'http://schema.org',
-  '@type': 'ImageObject',
-  contentUrl: 'https://example.com/image.jpg',
-  encodingFormat: 'image/jpeg',
-}
-
 describe('Diory', () => {
   let diory: IDiory
 
@@ -69,40 +62,61 @@ describe('Diory', () => {
 
     describe('given data array', () => {
       beforeEach(() => {
-        dioryProps.data = [mockDioryDataObject]
+        dioryProps.data = [
+          {
+            '@context': 'http://schema.org',
+            '@type': 'ImageObject',
+            contentUrl: 'https://example.com/image.jpg',
+            encodingFormat: 'image/jpeg',
+          },
+        ]
 
         diory = new Diory(dioryProps)
       })
 
       it('adds data array to diory data', () => {
-        expect(diory.data).toStrictEqual([mockDioryDataObject])
+        expect(diory.data).toStrictEqual([
+          {
+            '@context': 'http://schema.org',
+            '@type': 'ImageObject',
+            contentUrl: 'https://example.com/image.jpg',
+            encodingFormat: 'image/jpeg',
+          },
+        ])
       })
 
       describe('when toObject()', () => {
         it('returns diory object with data array', () => {
           const dioryObject = diory.toObject()
 
-          expect(dioryObject.data).toStrictEqual([mockDioryDataObject])
+          expect(dioryObject.data).toStrictEqual([
+            {
+              '@context': 'http://schema.org',
+              '@type': 'ImageObject',
+              contentUrl: 'https://example.com/image.jpg',
+              encodingFormat: 'image/jpeg',
+            },
+          ])
         })
       })
     })
 
     describe('given links', () => {
       beforeEach(() => {
-        dioryProps.links = { 4: { id: 'some-link' } }
+        dioryProps.links = [{ id: 'some-link' }]
 
         diory = new Diory(dioryProps)
       })
 
       it('adds links to diory links', () => {
-        expect(diory.links).toStrictEqual({ 4: { id: 'some-link' } })
+        expect(diory.links).toStrictEqual([{ id: 'some-link' }])
       })
 
       describe('when toObject()', () => {
         it('returns diory object with links', () => {
           const dioryObject = diory.toObject()
 
-          expect(dioryObject.links).toStrictEqual({ 4: { id: 'some-link' } })
+          expect(dioryObject.links).toStrictEqual([{ id: 'some-link' }])
         })
       })
     })
@@ -245,33 +259,45 @@ describe('Diory', () => {
 
       describe('given data array', () => {
         it('adds data array to diory data', () => {
-          dioryProps.data = [mockDioryDataObject]
+          dioryProps.data = [
+            {
+              '@context': 'http://schema.org',
+              '@type': 'ImageObject',
+              contentUrl: 'https://example.com/image.jpg',
+              encodingFormat: 'image/jpeg',
+            },
+          ]
 
           diory.update(dioryProps)
 
-          expect(diory.data).toStrictEqual([mockDioryDataObject])
+          expect(diory.data).toStrictEqual([
+            {
+              '@context': 'http://schema.org',
+              '@type': 'ImageObject',
+              contentUrl: 'https://example.com/image.jpg',
+              encodingFormat: 'image/jpeg',
+            },
+          ])
         })
       })
 
       describe('given links', () => {
         beforeEach(() => {
-          dioryProps.links = {
-            5: {
+          dioryProps.links = [
+            {
               id: 'link-id',
-              path: 'some-path',
             },
-          }
+          ]
 
           diory.update(dioryProps)
         })
 
         it('adds links to diory', () => {
-          expect(diory.links).toStrictEqual({
-            5: {
+          expect(diory.links).toStrictEqual([
+            {
               id: 'link-id',
-              path: 'some-path',
             },
-          })
+          ])
         })
       })
 
@@ -304,7 +330,7 @@ describe('Diory', () => {
         })
       })
 
-      const nullableProps = ['text', 'image', 'latlng', 'date']
+      const nullableProps = ['text', 'image', 'latlng', 'date', 'created', 'modified']
       nullableProps.forEach((nullableProp) => {
         describe(`given undefined ${nullableProp}`, () => {
           beforeEach(() => {
@@ -316,7 +342,7 @@ describe('Diory', () => {
 
           it(`sets ${nullableProp} to undefined`, () => {
             // @ts-ignore
-            expect(diory[nullableProp]).toBeUndefined()
+            expect(diory[nullableProps]).toBe(undefined)
           })
 
           describe('when toObject()', () => {
@@ -340,7 +366,7 @@ describe('Diory', () => {
             diory.update(dioryProps)
 
             // @ts-ignore
-            expect(diory[nonnullableProp]).not.toBeUndefined()
+            expect(diory[nonnullableProp]).not.toBe(undefined)
           })
         })
       })
@@ -352,7 +378,7 @@ describe('Diory', () => {
       })
 
       it('creates link to diory', () => {
-        expect(diory.links).toStrictEqual({ 'linked-id': { id: 'linked-id' } })
+        expect(diory.links).toStrictEqual([{ id: 'linked-id' }])
       })
 
       describe('when removeLink() with existing linked diory', () => {
