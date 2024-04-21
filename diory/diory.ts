@@ -74,20 +74,6 @@ class Diory implements IDiory {
     return this.update({})
   }
 
-  changeContentUrl = (contentUrl: string) => {
-    if (this.data) {
-      const data = this.data[0]
-      data.contentUrl = contentUrl
-    }
-  }
-
-  getContentUrl = () => {
-    if (this.data) {
-      const data = this.data[0]
-      return data.contentUrl
-    }
-  }
-
   toObject = (): IDioryObject => {
     const dioryObject: IDioryObject = { id: this.id }
     Object.getOwnPropertyNames(this).forEach((prop) => {
@@ -98,12 +84,6 @@ class Diory implements IDiory {
         dioryObject[prop] = value
       }
     })
-    return dioryObject
-  }
-
-  toObjectWithoutImage = (): IDioryObject => {
-    const dioryObject = this.toObject()
-    dioryObject.image = '[omitted]'
     return dioryObject
   }
 

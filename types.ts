@@ -1,5 +1,3 @@
-import { RoomClient } from '.'
-
 export interface IDataObject {
   '@context': string
   '@type': string
@@ -34,7 +32,6 @@ export interface IDiory extends IDioryObject {
   addLink: (linkedDioryObject: IDioryObject) => IDiory
   removeLink: (linkedDioryObject: IDioryObject) => IDiory
   toObject: () => IDioryObject
-  toObjectWithoutImage: () => IDioryObject
 }
 
 export interface IDiographObject {
@@ -45,7 +42,6 @@ export interface IDiographObject {
 
 export interface IDiograph {
   diograph: { [index: string]: IDiory }
-  diories: () => Array<IDiory>
   addDiograph: (diographObject: IDiographObject, rootId?: string) => IDiograph
   queryDiograph: (dioryObject: IDioryProps) => IDiograph
   resetDiograph: () => IDiograph
@@ -56,22 +52,4 @@ export interface IDiograph {
   addDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   removeDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   toObject: () => IDiographObject
-  loadDiograph: (roomClient: RoomClient) => Promise<void>
-  saveDiograph: (roomClient: RoomClient) => Promise<void>
-}
-
-export interface RoomObject {
-  connections: ConnectionObject[]
-  diograph?: IDiographObject
-}
-
-export interface ContentUrls {
-  [key: string]: string
-}
-
-export interface ConnectionObject {
-  address: string
-  contentClientType: string
-  contentUrls?: ContentUrls
-  diograph?: IDiographObject
 }

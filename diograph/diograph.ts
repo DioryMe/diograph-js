@@ -4,8 +4,6 @@ import { allKeysExist, allMatchToQuery, reduceToDiographObject } from '../utils/
 import { throwErrorIfDioryAlreadyExists, throwErrorIfDioryNotFound } from '../utils/throwErrors'
 
 import { IDiory, IDioryObject, IDiograph, IDiographObject, IDioryProps } from '../types'
-import { RoomClient } from '..'
-import { validateDiograph } from './validator'
 
 class Diograph implements IDiograph {
   diograph: { [index: string]: IDiory } = {}
@@ -13,7 +11,6 @@ class Diograph implements IDiograph {
   constructor(diographObject?: IDiographObject) {
     this.addDiograph(diographObject)
   }
-  diories = (): Array<IDiory> => Object.values(this.diograph).map((diory) => diory)
 
   addDiograph = (diographObject: IDiographObject = {}): IDiograph => {
     Object.entries(diographObject).forEach(([key, dioryObject]) => {
@@ -100,22 +97,6 @@ class Diograph implements IDiograph {
   }
 
   toJson = (): string => JSON.stringify(this.toObject(), null, 2)
-
-  loadDiograph = async (roomClient: RoomClient) => {
-    const diographContents = await roomClient.readDiograph()
-
-    const diograph = JSON.parse(diographContents)
-    validateDiograph(diograph)
-
-    if (diograph && Object.keys(diograph).length) {
-      this.addDiograph(diograph)
-    }
-  }
-
-  saveDiograph = async (roomClient: RoomClient) => {
-    validateDiograph(JSON.parse(this.toJson()))
-    await roomClient.saveDiograph(this.toJson())
-  }
 }
 
 export { Diograph }
