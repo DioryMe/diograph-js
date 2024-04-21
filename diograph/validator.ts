@@ -1,4 +1,4 @@
-const Ajv = require('ajv')
+import Ajv from 'ajv'
 const ajv = new Ajv({ allErrors: true })
 // const addFormats = require('ajv-formats')
 // addFormats(ajv)
@@ -61,32 +61,42 @@ const cidMappingSchema = {
   },
 }
 
+const validateCIDMapping = (cidMappingObject: object) => {
+  validate(cidMappingSchema, cidMappingObject)
+}
+
 const roomConfigDataSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
   required: ['address', 'clientType'],
   properties: {
+    id: { type: 'string' },
     address: { type: 'string' },
     clientType: { type: 'string', enum: ['LocalClient', 'S3Client'] },
   },
-  additionalProperties: {
-    id: { type: 'string' },
-  },
 }
 
-const connectionConfigDataSchema = roomConfigDataSchema
+// const connectionConfigDataSchema = roomConfigDataSchema;
+
+const validateRoomConfigData = (configDataObject: object) => {
+  validate(roomConfigDataSchema, configDataObject)
+}
+
+const validateConnectionConfigData = validateRoomConfigData
 
 const connectionDataSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
   required: ['address'],
   properties: {
-    address: { type: 'string' },
-  },
-  additionalProperties: {
     id: { type: 'string' },
     diograph: diographSchema,
+    address: { type: 'string' },
   },
+}
+
+const validateConnectionData = (connectionDataObject: object) => {
+  validate(connectionDataSchema, connectionDataObject)
 }
 
 const validate = (schema: object, objectToValidate: object) => {
@@ -106,9 +116,8 @@ const validateDiograph = (diographObject: object) => {
 
 export {
   validateDiograph,
-  cidMappingSchema,
-  roomConfigDataSchema,
-  connectionConfigDataSchema,
-  connectionDataSchema,
-  validate,
+  validateCIDMapping,
+  validateConnectionConfigData,
+  validateRoomConfigData,
+  validateConnectionData,
 }
