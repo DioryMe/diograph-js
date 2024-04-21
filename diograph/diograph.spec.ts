@@ -241,9 +241,7 @@ describe('diograph', () => {
       })
 
       it('creates link between diories', () => {
-        expect(diograph.diories['some-id'].links).toStrictEqual({
-          'other-id': { id: 'other-id' },
-        })
+        expect(diograph.diories['some-id'].links).toStrictEqual([{ id: 'other-id' }])
       })
 
       it('saves diograph', () => {
