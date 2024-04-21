@@ -3,6 +3,8 @@ const ajv = new Ajv({ allErrors: true })
 // const addFormats = require('ajv-formats')
 // addFormats(ajv)
 
+const clientTypeEnum = ['LocalClient', 'S3Client']
+
 const diographSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
@@ -65,6 +67,7 @@ const validateCIDMapping = (cidMappingObject: object) => {
   validate(cidMappingSchema, cidMappingObject)
 }
 
+// type: RoomConfigData or ConnectionConfigData
 const roomConfigDataSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
@@ -72,26 +75,31 @@ const roomConfigDataSchema = {
   properties: {
     id: { type: 'string' },
     address: { type: 'string' },
-    clientType: { type: 'string', enum: ['LocalClient', 'S3Client'] },
+    clientType: { type: 'string', enum: clientTypeEnum },
   },
 }
 
 // const connectionConfigDataSchema = roomConfigDataSchema;
 
+// type: RoomConfigData
 const validateRoomConfigData = (configDataObject: object) => {
   validate(roomConfigDataSchema, configDataObject)
 }
 
+// type: ConnectionConfigData
 const validateConnectionConfigData = validateRoomConfigData
 
+// type: ConnectionData
 const connectionDataSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
-  required: ['address'],
+  required: ['address', 'diograph', 'contentUrls'],
   properties: {
     id: { type: 'string' },
-    diograph: diographSchema,
     address: { type: 'string' },
+    clientType: { type: 'string', enum: clientTypeEnum },
+    diograph: diographSchema,
+    contentUrls: cidMappingSchema,
   },
 }
 
