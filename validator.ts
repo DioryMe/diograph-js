@@ -1,4 +1,5 @@
 import Ajv from 'ajv'
+import { CIDMapping, IDiographObject } from './types'
 const ajv = new Ajv({ allErrors: true })
 // const addFormats = require('ajv-formats')
 // addFormats(ajv)
@@ -73,7 +74,7 @@ const diographSchema = {
   // required: ['/'],
 }
 
-const validateDiograph = (diographObject: object) => {
+const validateDiograph = (diographObject: IDiographObject) => {
   validate(diographSchema, diographObject)
 }
 
@@ -85,7 +86,7 @@ const cidMappingSchema = {
   },
 }
 
-const validateCIDMapping = (cidMappingObject: object) => {
+const validateCIDMapping = (cidMappingObject: CIDMapping) => {
   validate(cidMappingSchema, cidMappingObject)
 }
 
