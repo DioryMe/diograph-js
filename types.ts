@@ -74,7 +74,9 @@ export interface CIDMapping {
 }
 
 // validator: validateConnectionData
+// TODO: Extend from ConnectionConfigData when contentClientType is renamed to clientType
 export interface ConnectionData {
+  id?: string
   address: string
   contentClientType: string
   contentUrls?: CIDMapping
@@ -108,7 +110,7 @@ export interface ConnectionClientList {
 }
 
 export interface RoomConfigData {
-  id: string
+  id?: string
   address: string
   clientType: string
 }
