@@ -106,3 +106,11 @@ export interface ConnectionClientList {
     credentials?: object
   }
 }
+
+export interface RoomConfigData {
+  id: string
+  address: string
+  clientType: string
+}
+
+export interface ConnectionConfigData extends RoomConfigData {}
