@@ -1,6 +1,6 @@
 import { RoomClient } from './roomClient'
 import { Diograph } from '../diograph/diograph'
-import { ConnectionClientList, ConnectionObject, IDiographObject, RoomObject } from '../types'
+import { ConnectionClientList, ConnectionData, IDiographObject, RoomObject } from '../types'
 import { Connection, ContentNotFoundError } from './connection'
 
 class Room {
@@ -35,7 +35,7 @@ class Room {
 
     // Connections
     this.connections = []
-    connections.forEach((connectionData: ConnectionObject) => {
+    connections.forEach((connectionData: ConnectionData) => {
       const clientData = clients[connectionData.contentClientType]
       const connection = new Connection(
         new clientData.clientConstructor(connectionData.address, clientData.credentials),
@@ -51,13 +51,13 @@ class Room {
 
   initiateRoom = (
     clients: ConnectionClientList,
-    connections?: ConnectionObject[],
+    connections?: ConnectionData[],
     diographObject?: IDiographObject,
   ) => {
     // Connections
     if (connections) {
       this.connections = []
-      connections.forEach((connectionData: ConnectionObject) => {
+      connections.forEach((connectionData: ConnectionData) => {
         const clientData = clients[connectionData.contentClientType]
         const connection = new Connection(
           new clientData.clientConstructor(connectionData.address, clientData.credentials),

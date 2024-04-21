@@ -116,7 +116,7 @@ deleteConnection()
 - delete the folder in connection.address
 
 toObject()
-- connection as ConnectionObject
+- connection as ConnectionData
 ```
 
 ## Development
