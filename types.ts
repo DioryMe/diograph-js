@@ -1,6 +1,14 @@
 export interface ILinkObject {
   id: string
-  path?: string
+}
+
+export interface IDataObject {
+  '@context': string
+  '@type': string
+  contentUrl: string
+  encodingFormat: string
+  height?: number
+  width?: number
 }
 
 export interface IDioryProps {
@@ -8,8 +16,8 @@ export interface IDioryProps {
   image?: string
   latlng?: string
   date?: string
-  data?: any[]
-  links?: { [index: string]: ILinkObject }
+  data?: IDataObject[]
+  links?: ILinkObject[]
   created?: string
   modified?: string
 }
@@ -19,7 +27,7 @@ export interface IDioryObject extends IDioryProps {
 }
 
 export interface IDiory extends IDioryObject {
-  update: (dioryProps: IDioryProps, addOnly?: boolean) => IDiory
+  update: (dioryProps: IDioryProps, modify?: boolean) => IDiory
   addLink: (linkedDioryObject: IDioryObject) => IDiory
   removeLink: (linkedDioryObject: IDioryObject) => IDiory
   then: (callback?: () => void) => IDiory

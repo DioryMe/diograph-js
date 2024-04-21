@@ -1,13 +1,18 @@
 import { v4 as uuid } from 'uuid'
+
+import {
+  IDataObject,
+  IDiory,
+  IDioryObject,
+  IDioryProps,
+  ILinkObject,
+} from '../types'
+
 import { propIsValid, valueIsValid, valueExists } from '../utils/validators'
-import { throwErrorIfLinkAlreadyExists, throwErrorIfLinkNotFound } from '../utils/throwErrors'
-
-import { IDiory, IDioryObject, IDioryProps, ILinkObject } from '../types'
-
-function getLinkKey(linkObject: ILinkObject, links: { [key: string]: ILinkObject }) {
-  const linkEntry = Object.entries(links).find(([_, link]) => link.id === linkObject.id)
-  return linkEntry![0]
-}
+import { throwErrorIfAlreadyExists } from '../utils/throwErrorIfAlreadyExists'
+import { throwErrorIfNotFound } from '../utils/throwErrorIfNotFound'
+import { getIds } from '../utils/getIds'
+import { removeById } from '../utils/removeById'
 
 class Diory implements IDiory {
   id: string
@@ -15,8 +20,8 @@ class Diory implements IDiory {
   image?: string = undefined
   latlng?: string = undefined
   date?: string = undefined
-  data?: any[] = undefined
-  links?: { [index: string]: ILinkObject } = undefined
+  data?: IDataObject[] = undefined
+  links?: ILinkObject[] = undefined
   created?: string = undefined
   modified?: string = undefined
 
@@ -48,28 +53,21 @@ class Diory implements IDiory {
   }
 
   addLink(linkObject: ILinkObject): IDiory {
-    throwErrorIfLinkAlreadyExists('addLink', linkObject, this.links)
+    throwErrorIfAlreadyExists('addLink', linkObject.id, getIds(this.links))
 
     if (!this.links) {
-      this.links = {}
+      this.links = []
     }
 
-    this.links[linkObject.id] = {
-      id: linkObject.id,
-      ...(linkObject.path && { path: linkObject.path }),
-    }
+    this.links.push(linkObject)
+
     return this.update({})
   }
 
   removeLink(linkObject: ILinkObject): IDiory {
-    throwErrorIfLinkNotFound('removeLink', linkObject, this.links)
+    throwErrorIfNotFound('removeLink', linkObject.id, getIds(this.links))
 
-    const linkKey = getLinkKey(linkObject, this.links!)
-    delete this.links![linkKey]
-
-    if (Object.keys(this.links!).length === 0) {
-      this.links = undefined
-    }
+    this.links = removeById(linkObject.id, this.links)
 
     return this.update({})
   }
