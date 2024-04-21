@@ -3,6 +3,11 @@
   "version": "0.2.3-rc1",
   "main": "dist/index.js",
   "types": "dist/**/*.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./types": "./dist/types.d.ts",
+    "./validator": "./dist/validator.js"
+  },
   "author": "Olli-Pekka Pohjola <op@diory.me>, Jouni Alanen <jouni@diory.me>",
   "license": "MIT",
   "dependencies": {
