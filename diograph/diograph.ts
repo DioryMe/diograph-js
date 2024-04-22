@@ -52,7 +52,7 @@ class Diograph implements IDiograph {
   addDiory = (dioryObject: IDioryProps | IDioryObject, key?: string): IDiory => {
     if (key) {
       const diory: IDiory =
-        'id' in dioryObject && !!this.diograph[dioryObject.id]
+        'id' in dioryObject && this.diograph[dioryObject.id]
           ? this.getDiory(dioryObject)
           : new Diory(dioryObject)
 
@@ -60,7 +60,7 @@ class Diograph implements IDiograph {
         this.diograph[diory.id] = diory
       }
 
-      return (this.diograph[key] = diory).save(this.saveDiograph)
+      return (this.diograph[key] = new Diory({ id: diory.id })).save(this.saveDiograph)
     }
 
     if ('id' in dioryObject) {
