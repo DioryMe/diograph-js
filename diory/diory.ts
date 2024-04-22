@@ -66,9 +66,9 @@ class Diory implements IDiory {
     return this.update({})
   }
 
-  then = (callback?: () => void): IDiory => {
-    if (callback) {
-      callback()
+  save = (saveCallback?: () => void): IDiory => {
+    if (saveCallback) {
+      saveCallback()
     }
 
     return this

@@ -30,8 +30,9 @@ export interface IDiory extends IDioryObject {
   update: (dioryProps: IDioryProps, modify?: boolean) => IDiory
   addLink: (linkedDioryObject: IDioryObject) => IDiory
   removeLink: (linkedDioryObject: IDioryObject) => IDiory
-  then: (callback?: () => void) => IDiory
+  save: (saveCallback?: () => void) => IDiory
   toObject: () => IDioryObject
+  toJson: () => string
 }
 
 export interface IDiographObject {
@@ -53,4 +54,5 @@ export interface IDiograph {
   removeDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   saveDiograph: (callback?: () => void) => void
   toObject: () => IDiographObject
+  toJson: () => string
 }

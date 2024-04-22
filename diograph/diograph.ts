@@ -60,7 +60,7 @@ class Diograph implements IDiograph {
         this.diograph[diory.id] = diory
       }
 
-      return (this.diograph[key] = diory).then(this.saveDiograph)
+      return (this.diograph[key] = diory).save(this.saveDiograph)
     }
 
     if ('id' in dioryObject) {
@@ -68,13 +68,13 @@ class Diograph implements IDiograph {
     }
 
     const diory: IDiory = new Diory(dioryObject)
-    return (this.diograph[diory.id] = diory).then(this.saveDiograph)
+    return (this.diograph[diory.id] = diory).save(this.saveDiograph)
   }
 
   updateDiory = (dioryObject: IDioryObject): IDiory => {
     throwErrorIfNotFound('updateDiory', dioryObject.id, Object.keys(this.diograph))
 
-    return this.getDiory(dioryObject).update(dioryObject).then(this.saveDiograph)
+    return this.getDiory(dioryObject).update(dioryObject).save(this.saveDiograph)
   }
 
   removeDiory = (dioryObject: IDioryObject): void => {
@@ -93,13 +93,13 @@ class Diograph implements IDiograph {
       Object.keys(this.diograph),
     )
 
-    return this.getDiory(dioryObject).addLink(linkedDioryObject).then(this.saveDiograph)
+    return this.getDiory(dioryObject).addLink(linkedDioryObject).save(this.saveDiograph)
   }
 
   removeDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
     throwErrorIfNotFound('removeDioryLink:diory', dioryObject.id, Object.keys(this.diograph))
 
-    return this.getDiory(dioryObject).removeLink(linkedDioryObject).then(this.saveDiograph)
+    return this.getDiory(dioryObject).removeLink(linkedDioryObject).save(this.saveDiograph)
   }
 
   saveDiograph = (): void => {}
