@@ -1,6 +1,6 @@
 {
   "name": "@diograph/diograph",
-  "version": "0.3.0-rc12",
+  "version": "0.3.0-rc13",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
