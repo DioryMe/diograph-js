@@ -11,11 +11,11 @@ class Diograph implements IDiograph {
 
   constructor(diograph?: IDiographObject) {
     if (diograph) {
-      this.initialise(diograph)
+      this.addDiograph(diograph)
     }
   }
 
-  initialise = (diograph: IDiographObject): IDiograph => {
+  addDiograph = (diograph: IDiographObject): IDiograph => {
     Object.entries(diograph).forEach(([key, dioryObject]) => {
       try {
         this.diograph[key] = new Diory(dioryObject)

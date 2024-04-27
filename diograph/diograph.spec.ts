@@ -41,10 +41,10 @@ describe('diograph', () => {
       })
     })
 
-    describe('when initialise()', () => {
+    describe('when addDiograph()', () => {
       describe('given new diory in added diograph object', () => {
         beforeEach(() => {
-          diograph.initialise({
+          diograph.addDiograph({
             'other-id': { id: 'other-id' },
           })
         })
@@ -226,7 +226,7 @@ describe('diograph', () => {
     describe('when addLink()', () => {
       let diory: IDiory
       beforeEach(() => {
-        diograph.initialise({
+        diograph.addDiograph({
           'other-id': { id: 'other-id' },
         })
         diory = diograph.addDioryLink({ id: 'some-id' }, { id: 'other-id' })
@@ -281,7 +281,7 @@ describe('diograph', () => {
 
     describe('given diograph with query text diory', () => {
       beforeEach(() => {
-        diograph.initialise({
+        diograph.addDiograph({
           'query-id': {
             id: 'query-id',
             text: 'query-text',
