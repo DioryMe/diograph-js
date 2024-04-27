@@ -35,6 +35,12 @@ export interface IDiory extends IDioryObject {
   toJson: () => string
 }
 
+export interface IConnectionObject {
+  id: string
+  client: string
+  address: string
+}
+
 export interface IDiographObject {
   // TODO: Make '/' required
   // '/': IDioryObject
@@ -43,16 +49,16 @@ export interface IDiographObject {
 
 export interface IDiograph {
   diograph: { [index: string]: IDiory }
-  initialise: (diograph: IDiographObject) => IDiograph
+  addDiograph: (diograph: IDiographObject) => IDiograph
   queryDiograph: (dioryObject: IDioryProps) => IDiograph
   resetDiograph: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory
   addDiory: (dioryProps: IDioryProps | IDioryObject | IDiory, key?: string) => IDiory
   updateDiory: (dioryObject: IDioryObject) => IDiory
   removeDiory: (dioryObject: IDioryObject) => void
-  addDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
-  removeDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
-  saveDiograph: (callback?: () => void) => void
+  addDioryLink: (dioryObject: IDioryObject, linkObject: ILinkObject) => IDiory
+  removeDioryLink: (dioryObject: IDioryObject, linkObject: ILinkObject) => IDiory
+  saveDiograph: (connectionObjects: IConnectionObject[]) => Promise<IDiographObject>
   toObject: () => IDiographObject
   toJson: () => string
 }
