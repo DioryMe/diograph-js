@@ -43,7 +43,7 @@ export interface IDiographObject {
 
 export interface IDiograph {
   diograph: { [index: string]: IDiory }
-  initialise: (diograph: IDiographObject) => IDiograph
+  addDiograph: (diograph: IDiographObject) => IDiograph
   queryDiograph: (dioryObject: IDioryProps) => IDiograph
   resetDiograph: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory
@@ -52,7 +52,7 @@ export interface IDiograph {
   removeDiory: (dioryObject: IDioryObject) => void
   addDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   removeDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
-  saveDiograph: (callback?: () => void) => void
+  saveDiograph: (callback?: () => void) => Promise<IDiograph>
   toObject: () => IDiographObject
   toJson: () => string
 }

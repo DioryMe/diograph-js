@@ -6,16 +6,20 @@ import { queryDiograph } from '../utils/queryDiograph'
 import { throwErrorIfNotFound } from '../utils/throwErrorIfNotFound'
 import { throwErrorIfAlreadyExists } from '../utils/throwErrorIfAlreadyExists'
 
+function isDioryAlias(dioryObject: IDioryObject, diory: IDiory) {
+  return dioryObject.id !== diory.id
+}
+
 class Diograph implements IDiograph {
   diograph: { [index: string]: IDiory } = {}
 
   constructor(diograph?: IDiographObject) {
     if (diograph) {
-      this.initialise(diograph)
+      this.addDiograph(diograph)
     }
   }
 
-  initialise = (diograph: IDiographObject): IDiograph => {
+  addDiograph = (diograph: IDiographObject): IDiograph => {
     Object.entries(diograph).forEach(([key, dioryObject]) => {
       try {
         this.diograph[key] = new Diory(dioryObject)
@@ -41,7 +45,7 @@ class Diograph implements IDiograph {
     throwErrorIfNotFound('getDiory', dioryObject.id, Object.keys(this.diograph))
 
     const diory = this.diograph[dioryObject.id]
-    if (diory.id !== dioryObject.id) {
+    if (isDioryAlias(dioryObject, diory)) {
       throwErrorIfNotFound('getDiory - alias', diory.id, Object.keys(this.diograph))
       return this.diograph[diory.id]
     }
@@ -64,7 +68,7 @@ class Diograph implements IDiograph {
     }
 
     if ('id' in dioryObject) {
-      throwErrorIfAlreadyExists('updateDiory', dioryObject.id, Object.keys(this.diograph))
+      throwErrorIfAlreadyExists('addDiory', dioryObject.id, Object.keys(this.diograph))
     }
 
     const diory: IDiory = new Diory(dioryObject)
@@ -102,7 +106,7 @@ class Diograph implements IDiograph {
     return this.getDiory(dioryObject).removeLink(linkedDioryObject).save(this.saveDiograph)
   }
 
-  saveDiograph = (): void => {}
+  saveDiograph = async (): Promise<IDiograph> => Promise.resolve(this)
 
   toObject = (): IDiographObject => {
     const diograph: IDiographObject = {}
