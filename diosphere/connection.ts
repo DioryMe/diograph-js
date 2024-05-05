@@ -25,7 +25,7 @@ class Connection {
   initiateConnection({ contentUrls = {}, diograph = {} }: ConnectionData) {
     this.contentUrls = contentUrls || {}
     if (diograph && Object.keys(diograph).length) {
-      this.diograph.addDiograph(diograph)
+      this.diograph.initialise(diograph)
     }
   }
 
