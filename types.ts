@@ -21,7 +21,7 @@ export interface IDioryProps {
   latlng?: string
   date?: string
   data?: IDataObject[]
-  links?: { [index: string]: ILinkObject }
+  links?: ILinkObject[]
   created?: string
   modified?: string
 }
