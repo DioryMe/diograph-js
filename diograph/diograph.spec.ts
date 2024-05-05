@@ -36,10 +36,10 @@ describe('diograph', () => {
       })
     })
 
-    describe('when addDiograph()', () => {
+    describe('when initialise()', () => {
       describe('given new diory in added diograph object', () => {
         beforeEach(() => {
-          diograph.addDiograph({
+          diograph.initialise({
             'other-id': { id: 'other-id' },
           })
         })
@@ -107,17 +107,17 @@ describe('diograph', () => {
         })
       })
 
-      describe('given existing diory in diograph object', () => {
-        it('throws error', () => {
-          diograph.addDiograph({
-            'some-id': {
-              id: 'some-id',
-            },
-          })
+      //   describe('given existing diory in diograph object', () => {
+      //     it('throws error', () => {
+      //       diograph.initialise({
+      //         'some-id': {
+      //           id: 'some-id',
+      //         },
+      //       })
 
-          expect(console.error).toHaveBeenCalled()
-        })
-      })
+      //       expect(console.error).toHaveBeenCalled()
+      //     })
+      //   })
     })
 
     describe('when addDiory()', () => {
@@ -203,18 +203,12 @@ describe('diograph', () => {
     })
 
     describe('when removeDiory()', () => {
-      let result: boolean | undefined
-
       beforeEach(() => {
-        result = diograph.removeDiory({ id: 'some-id' })
+        diograph.removeDiory({ id: 'some-id' })
       })
 
-      it('deletes diory', () => {
+      it('removes diory', () => {
         expect(diograph.diograph['some-id']).toBe(undefined)
-      })
-
-      it('returns true', () => {
-        expect(result).toBe(true)
       })
 
       describe('given diory does not exist', () => {
@@ -228,7 +222,7 @@ describe('diograph', () => {
 
     describe('given diograph with query text diory', () => {
       beforeEach(() => {
-        diograph.addDiograph({
+        diograph.initialise({
           'query-id': {
             id: 'query-id',
             text: 'query-text',

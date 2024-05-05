@@ -80,9 +80,9 @@ class Room {
 
     this.diograph = new Diograph()
     if (diographObject) {
-      this.diograph.addDiograph(diographObject)
+      this.diograph.initialise(diographObject)
     } else {
-      this.diograph.addDiograph(defaultDiographJson)
+      this.diograph.initialise(defaultDiographJson)
     }
   }
 

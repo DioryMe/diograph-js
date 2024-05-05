@@ -47,14 +47,13 @@ export interface IDiographObject {
 
 export interface IDiograph {
   diograph: { [index: string]: IDiory }
-  diories: () => Array<IDiory>
-  addDiograph: (diographObject: IDiographObject, rootId?: string) => IDiograph
+  initialise: (diograph: IDiographObject) => IDiograph
   queryDiograph: (dioryObject: IDioryProps) => IDiograph
   resetDiograph: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory
   addDiory: (dioryProps: IDioryProps | IDioryObject | IDiory, key?: string) => IDiory
   updateDiory: (dioryObject: IDioryObject) => IDiory
-  removeDiory: (dioryObject: IDioryObject) => boolean
+  removeDiory: (dioryObject: IDioryObject) => void
   addDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   removeDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
   toObject: () => IDiographObject
