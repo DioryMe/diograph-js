@@ -38,7 +38,7 @@ const diorySchema = {
           id: { type: 'string' },
           path: { type: 'string' },
         },
-        required: ['id', 'path'],
+        required: ['id'],
         additionalProperties: false,
       },
     },
