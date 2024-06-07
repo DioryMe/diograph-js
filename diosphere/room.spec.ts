@@ -11,6 +11,12 @@ const roomJsonContents = JSON.stringify({
           '/Generic content/some-video.mov',
       },
       diograph: {
+        '/': {
+          id: '/',
+          text: 'root-diory',
+          created: '2022-06-01T07:30:07.991Z',
+          modified: '2022-06-01T07:30:08.003Z',
+        },
         '/Generic content/some-video.mov': {
           id: '/Generic content/some-video.mov',
           text: 'some-video.mov',
@@ -37,6 +43,12 @@ const roomJsonContents = JSON.stringify({
         bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu: '/my-pic.jpg',
       },
       diograph: {
+        '/': {
+          id: '/',
+          text: 'root-diory',
+          created: '2022-06-01T07:30:07.991Z',
+          modified: '2022-06-01T07:30:08.003Z',
+        },
         '/my-pic.jpg': {
           id: '/my-pic.jpg',
           image: 'data:image/jpeg;base64,/9j/2wBDZ/9k=',
@@ -61,6 +73,12 @@ const roomJsonContents = JSON.stringify({
 })
 
 const diographContents = JSON.stringify({
+  '/': {
+    id: '/',
+    text: 'root-diory',
+    created: '2022-06-01T07:30:07.991Z',
+    modified: '2022-06-01T07:30:08.003Z',
+  },
   'some-id': {
     id: 'some-id',
     text: 'some-diory',

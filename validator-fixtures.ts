@@ -25,6 +25,12 @@ export const connectionData: { connections: ConnectionData[] } = {
           '/Scouts BSA International/PIXNIO-53555-1782x1188.jpeg',
       },
       diograph: {
+        '/': {
+          id: '/',
+          text: 'root-diory',
+          created: '2022-06-01T07:30:07.991Z',
+          modified: '2022-06-01T07:30:08.003Z',
+        },
         diory13: {
           id: 'diory13',
           text: 'Diory 13',
@@ -70,6 +76,12 @@ export const connectionDataWithId: { connections: ConnectionData[] } = {
           '/Scouts BSA International/PIXNIO-53555-1782x1188.jpeg',
       },
       diograph: {
+        '/': {
+          id: '/',
+          text: 'root-diory',
+          created: '2022-06-01T07:30:07.991Z',
+          modified: '2022-06-01T07:30:08.003Z',
+        },
         diory13: {
           id: 'diory13',
           text: 'Diory 13',
