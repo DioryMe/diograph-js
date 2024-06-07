@@ -30,7 +30,9 @@ class Diograph implements IDiograph {
     return this
   }
 
+  // FIXME: Current implementation of queryDiograph() doesn't work with validated diographs
   queryDiograph = (queryDiory: IDioryProps): IDiograph => {
+    throw new Error("queryDiograph() is disabled because it doesn't work with validated diographs")
     const diograph: IDiographObject = queryDiograph(queryDiory, this.toObject())
     return new Diograph(diograph)
   }
