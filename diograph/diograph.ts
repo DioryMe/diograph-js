@@ -18,6 +18,7 @@ class Diograph implements IDiograph {
   }
 
   initialise = (diograph: IDiographObject): IDiograph => {
+    validateDiograph(diograph)
     Object.entries(diograph).forEach(([key, dioryObject]) => {
       try {
         this.diograph[key] = new Diory(dioryObject)
