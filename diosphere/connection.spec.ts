@@ -12,9 +12,17 @@ const roomObject: RoomObject = {
           '/Generic content/some-video.mov',
       },
       diograph: {
+        '/': {
+          id: '/',
+          text: 'root-diory',
+          created: '2022-06-01T07:30:07.991Z',
+          modified: '2022-06-01T07:30:08.003Z',
+        },
         'some-id': {
           id: 'some-id',
           text: 'some-diory',
+          created: '2022-06-01T07:30:07.991Z',
+          modified: '2022-06-01T07:30:08.003Z',
         },
       },
     },

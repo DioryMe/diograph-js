@@ -16,9 +16,17 @@ describe('diograph', () => {
 
     beforeEach(() => {
       diographObject = {
+        '/': {
+          id: '/',
+          text: 'root-diory',
+          created: '2022-06-01T07:30:07.991Z',
+          modified: '2022-06-01T07:30:08.003Z',
+        },
         'some-id': {
           id: 'some-id',
           text: 'some-text',
+          created: '2022-06-01T07:30:07.991Z',
+          modified: '2022-06-01T07:30:08.003Z',
         },
       }
       diograph = new Diograph(diographObject)
@@ -31,6 +39,7 @@ describe('diograph', () => {
     describe('when toObject()', () => {
       it('returns diograph object', () => {
         expect(diograph.toObject()).toStrictEqual({
+          '/': expect.objectContaining({ id: '/' }),
           'some-id': expect.objectContaining({ id: 'some-id' }),
         })
       })
@@ -39,9 +48,21 @@ describe('diograph', () => {
     describe('when initialise()', () => {
       describe('given new diory in added diograph object', () => {
         beforeEach(() => {
-          diograph.initialise({
-            'other-id': { id: 'other-id' },
-          })
+          const otherDiographObject = {
+            '/': {
+              id: '/',
+              text: 'root-diory',
+              created: '2022-06-01T07:30:07.991Z',
+              modified: '2022-06-01T07:30:08.003Z',
+            },
+            'other-id': {
+              id: 'other-id',
+              text: 'other-text',
+              created: '2022-06-01T07:30:07.991Z',
+              modified: '2022-06-01T07:30:08.003Z',
+            },
+          }
+          diograph.initialise(otherDiographObject)
         })
 
         it('adds diory to diograph', () => {
@@ -53,6 +74,7 @@ describe('diograph', () => {
         describe('when toObject()', () => {
           it('returns diograph object', () => {
             expect(diograph.toObject()).toStrictEqual({
+              '/': expect.objectContaining({ id: '/' }),
               'other-id': expect.objectContaining({ id: 'other-id' }),
               'some-id': expect.objectContaining({ id: 'some-id' }),
             })
@@ -221,9 +243,17 @@ describe('diograph', () => {
     describe('given diograph with query text diory', () => {
       beforeEach(() => {
         diograph.initialise({
+          '/': {
+            id: '/',
+            text: 'root-diory',
+            created: '2022-06-01T07:30:07.991Z',
+            modified: '2022-06-01T07:30:08.003Z',
+          },
           'query-id': {
             id: 'query-id',
             text: 'query-text',
+            created: '2022-06-01T07:30:07.991Z',
+            modified: '2022-06-01T07:30:08.003Z',
           },
         })
       })
