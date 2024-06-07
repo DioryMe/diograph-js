@@ -1,5 +1,5 @@
 import Ajv from 'ajv'
-import { CIDMapping, IDiographObject } from './types'
+import { CIDMapping, ConnectionData, IDiographObject, RoomConfigData } from './types'
 const ajv = new Ajv({ allErrors: true })
 // const addFormats = require('ajv-formats')
 // addFormats(ajv)
@@ -70,8 +70,7 @@ const diographSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
   additionalProperties: diorySchema,
-  // TODO: Make '/' required
-  // required: ['/'],
+  required: ['/'],
 }
 
 const validateDiograph = (diographObject: IDiographObject) => {
@@ -105,7 +104,7 @@ const roomConfigDataSchema = {
 // const connectionConfigDataSchema = roomConfigDataSchema;
 
 // type: RoomConfigData
-const validateRoomConfigData = (configDataObject: object) => {
+const validateRoomConfigData = (configDataObject: RoomConfigData) => {
   validate(roomConfigDataSchema, configDataObject)
 }
 
@@ -126,7 +125,7 @@ const connectionDataSchema = {
   },
 }
 
-const validateConnectionData = (connectionDataObject: object) => {
+const validateConnectionData = (connectionDataObject: ConnectionData) => {
   validate(connectionDataSchema, connectionDataObject)
 }
 
