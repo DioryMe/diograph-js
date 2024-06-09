@@ -124,13 +124,19 @@ const connectionDataSchema = {
     id: { type: 'string' },
     address: { type: 'string' },
     clientType: { type: 'string', enum: clientTypeEnum },
-    diograph: diographSchema,
-    contentUrls: cidMappingSchema,
+    // diograph: diographSchema,
+    // contentUrls: cidMappingSchema,
   },
 }
 
 const validateConnectionData = (connectionDataObject: ConnectionData) => {
   validate(connectionDataSchema, connectionDataObject)
+  if (connectionDataObject.diograph && Object.keys(connectionDataObject.diograph).length > 0) {
+    validate(diographSchema, connectionDataObject.diograph)
+  }
+  if (connectionDataObject.contentUrls) {
+    validate(cidMappingSchema, connectionDataObject.contentUrls)
+  }
 }
 
 export {
