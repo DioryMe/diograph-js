@@ -16,15 +16,14 @@ class Connection {
   diograph: IDiograph = new Diograph()
   client: ConnectionClient
 
-  constructor(connectionClient: ConnectionClient) {
+  constructor(connectionClient: ConnectionClient, connectionData?: ConnectionData) {
     this.address = connectionClient.address // full connection address
     this.contentClientType = connectionClient.type
     this.client = connectionClient
-  }
 
-  initiateConnection({ contentUrls = {}, diograph = {} }: ConnectionData) {
+    const { contentUrls, diograph } = connectionData || { contentUrls: {}, diograph: {} }
     this.contentUrls = contentUrls || {}
-    if (diograph && Object.keys(diograph).length) {
+    if (diograph) {
       this.diograph.initialise(diograph)
     }
   }

@@ -71,11 +71,10 @@ class Room {
       }
 
       // b. Create connection
-      // TODO: Combine initiateConnection with Connection constructor
       const connection = new Connection(
         new clientData.clientConstructor(connectionData.address, clientData.credentials),
+        connectionData,
       )
-      connection.initiateConnection(connectionData)
 
       // c. Add connection to room
       this.addConnection(connection)
@@ -134,8 +133,8 @@ class Room {
       const clientData = clients[connectionData.contentClientType]
       const connection = new Connection(
         new clientData.clientConstructor(connectionData.address, clientData.credentials),
+        connectionData,
       )
-      connection.initiateConnection(connectionData)
       this.addConnection(connection)
     })
 
@@ -158,8 +157,8 @@ class Room {
         const clientData = clients[connectionData.contentClientType]
         const connection = new Connection(
           new clientData.clientConstructor(connectionData.address, clientData.credentials),
+          connectionData,
         )
-        connection.initiateConnection(connectionData)
         this.addConnection(connection)
       })
     }

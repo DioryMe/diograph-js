@@ -92,9 +92,6 @@ toJson()
 ### Connection
 
 ```
-initiateConnection()
-- set connection object contens from arguments: contentUrls & diograph
-
 addContentUrl(contentId)
 - used when listing a content folder contents to connection
   - in this case content is not added to connection (as it already exists!)

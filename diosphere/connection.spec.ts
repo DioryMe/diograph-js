@@ -58,8 +58,7 @@ describe('Connection', () => {
   })
 
   it('builds from object', () => {
-    const duplicateConnection = new Connection(new MockLocalClient())
-    duplicateConnection.initiateConnection(connection.toObject())
+    const duplicateConnection = new Connection(new MockLocalClient(), connection.toObject())
     expect(duplicateConnection.toObject()).toEqual(connection.toObject())
   })
 
