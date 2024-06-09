@@ -37,6 +37,6 @@ export const constructAndLoadRoom = async (
   availableClients: ConnectionClientList,
 ): Promise<Room> => {
   const room = await constructRoom(address, roomClientType, availableClients)
-  await room.loadRoom(availableClients)
+  await room.loadOrInitiateRoom(availableClients)
   return room
 }
