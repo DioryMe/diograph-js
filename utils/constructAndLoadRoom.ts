@@ -1,6 +1,6 @@
 import { Room } from '../diosphere/room'
 import { RoomClient } from '../diosphere/roomClient'
-import { ConnectionClient, ConnectionClientList } from '../types'
+import { ConnectionClient, ConnectionClientList, ConnectionData, IDiographObject } from '../types'
 
 export const getClientAndVerify = async (
   address: string,
@@ -35,8 +35,10 @@ export const constructAndLoadRoom = async (
   address: string,
   roomClientType: string,
   availableClients: ConnectionClientList,
+  connectionData?: ConnectionData[],
+  diographObject?: IDiographObject,
 ): Promise<Room> => {
   const room = await constructRoom(address, roomClientType, availableClients)
-  await room.loadOrInitiateRoom(availableClients)
+  await room.loadOrInitiateRoom(availableClients, connectionData, diographObject)
   return room
 }
