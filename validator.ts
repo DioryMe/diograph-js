@@ -47,7 +47,7 @@ const diorySchema = {
       items: {
         type: 'object',
         additionalProperties: false,
-        required: ['@context', '@type', 'contentUrl', 'encodingFormat'],
+        required: ['@context', '@type', 'contentUrl'],
         properties: {
           '@context': { type: 'string' },
           '@type': { type: 'string' },
