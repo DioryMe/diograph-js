@@ -248,7 +248,7 @@ class Room {
   toObject = (): RoomObject => {
     return {
       connections: this.connections.map((connection) => connection.toObject()),
-      diograph: this.diograph.toObject(),
+      // diograph: this.diograph.toObject(),
     }
   }
 
