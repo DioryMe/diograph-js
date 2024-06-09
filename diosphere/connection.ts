@@ -28,9 +28,9 @@ class Connection {
     }
   }
 
-  getInternalPath = (contentUrl: string) => {
-    if (this.contentUrls[contentUrl]) {
-      return join(this.address, this.contentUrls[contentUrl])
+  getInternalPath = (contentId: string) => {
+    if (this.contentUrls[contentId]) {
+      return join(this.address, this.contentUrls[contentId])
     }
   }
 
@@ -49,17 +49,22 @@ class Connection {
     return contentId
   }
 
-  addContentUrl = (contentId: string, contentUrl?: string) => {
-    this.contentUrls[contentId] = contentUrl || contentId
+  addContentUrl = (contentId: string, contentInternalUrl?: string) => {
+    this.contentUrls[contentId] = contentInternalUrl || contentId
   }
 
-  // BUG: Doesn't remove contentUrl from connection!!!
-  deleteContent = async (contentUrl: string) => {
-    const filePath: string | undefined = this.getInternalPath(contentUrl)
+  removeContentUrl = (contentId: string) => {
+    delete this.contentUrls[contentId]
+  }
+
+  deleteContent = async (contentId: string) => {
+    const filePath: string | undefined = this.getInternalPath(contentId)
     if (!filePath) {
-      throw new Error('Nothing found with that contentUrl!')
+      throw new Error('Nothing found with that contentId!')
     }
-    return this.client.deleteItem(filePath)
+    return this.client.deleteItem(filePath).then(() => {
+      this.removeContentUrl(contentId)
+    })
   }
 
   deleteConnection = async () => {
@@ -74,9 +79,6 @@ class Connection {
   }
 
   toObject = (): ConnectionData => ({
-    // TODO: Make some kind of exception for relative paths (for demo-content-room which can't have absolute paths...)
-    // address: roomAddress ? makeRelative(roomAddress, this.address) : this.address,
-    // - but connection shouldn't know anything about the room...
     address: this.address,
     contentClientType: this.contentClientType,
     contentUrls: this.contentUrls,
