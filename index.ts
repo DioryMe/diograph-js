@@ -6,6 +6,7 @@ export { Connection } from './diosphere/connection'
 export { RoomClient } from './diosphere/roomClient'
 
 export {
+  constructAndLoadRoomWithNativeConnection,
   constructAndLoadRoom,
   constructRoom,
   getClientAndVerify,
