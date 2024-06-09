@@ -74,6 +74,10 @@ const diographSchema = {
 }
 
 const validateDiograph = (diographObject: IDiographObject) => {
+  if (Object.keys(diographObject).length === 0) {
+    console.log('WARN: Empty diograph passed as valid')
+    return
+  }
   validate(diographSchema, diographObject)
 }
 
