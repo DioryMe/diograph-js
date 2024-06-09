@@ -43,8 +43,15 @@ class Room {
 
       // 2. Load from room.json with roomClient
       if (this.roomClient) {
-        const roomJsonContents = await this.roomClient.readRoomJson()
+        let roomJsonContents
+        try {
+          roomJsonContents = await this.roomClient.readRoomJson()
+        } catch {
+          await this.saveRoom()
+          roomJsonContents = await this.roomClient.readRoomJson()
+        }
         const roomJsonObject = JSON.parse(roomJsonContents)
+
         roomJsonObject.connections.forEach((connectionData: ConnectionData) => {
           validateConnectionData(connectionData)
         })
@@ -59,7 +66,7 @@ class Room {
     }
 
     // I. Load connections
-    const connectionDatas = await getConnectionData()
+    const connectionDatas = (await getConnectionData()) || []
     // this.connections = []
     connectionDatas.forEach((connectionData: ConnectionData) => {
       // a. Load client from availableClients
