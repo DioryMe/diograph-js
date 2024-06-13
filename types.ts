@@ -52,6 +52,8 @@ export interface IDiograph {
   resetDiograph: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory
   addDiory: (dioryProps: IDioryProps | IDioryObject | IDiory, key?: string) => IDiory
+  addRootDiory: (dioryObject?: IDioryProps | IDioryObject) => IDiory
+  addDioryAndLink: (dioryObject: IDioryObject, fromDioryLinkObject?: ILinkObject) => IDiory
   updateDiory: (dioryObject: IDioryObject) => IDiory
   removeDiory: (dioryObject: IDioryObject) => void
   addDioryLink: (dioryObject: IDioryObject, linkedDioryObject: IDioryObject) => IDiory
@@ -59,6 +61,7 @@ export interface IDiograph {
   toObject: () => IDiographObject
   loadDiograph: (roomClient: RoomClient) => Promise<void>
   saveDiograph: (roomClient: RoomClient) => Promise<void>
+  isEmptyDiograph: () => boolean
 }
 
 // custom type, no validator...
