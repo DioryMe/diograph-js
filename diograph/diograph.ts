@@ -1,4 +1,11 @@
-import { IDiory, IDioryObject, IDiograph, IDioryProps, IDiographObject } from '../types'
+import {
+  IDiory,
+  IDioryObject,
+  IDiograph,
+  IDioryProps,
+  IDiographObject,
+  ILinkObject,
+} from '../types'
 
 import { Diory } from '../diory/diory'
 
@@ -88,21 +95,17 @@ class Diograph implements IDiograph {
     delete this.diograph[dioryObject.id]
   }
 
-  addDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
+  addDioryLink = (dioryObject: IDioryObject, linkObject: ILinkObject): IDiory => {
     throwErrorIfNotFound('addDioryLink:diory', dioryObject.id, Object.keys(this.diograph))
-    throwErrorIfNotFound(
-      'addDioryLink:linkedDiory',
-      linkedDioryObject.id,
-      Object.keys(this.diograph),
-    )
+    throwErrorIfNotFound('addDioryLink:linkedDiory', linkObject.id, Object.keys(this.diograph))
 
-    return this.getDiory(dioryObject).addLink(linkedDioryObject)
+    return this.getDiory(dioryObject).addLink(linkObject)
   }
 
-  removeDioryLink = (dioryObject: IDioryObject, linkedDioryObject: IDioryObject): IDiory => {
+  removeDioryLink = (dioryObject: IDioryObject, linkObject: ILinkObject): IDiory => {
     throwErrorIfNotFound('removeDioryLink:diory', dioryObject.id, Object.keys(this.diograph))
 
-    return this.getDiory(dioryObject).removeLink(linkedDioryObject)
+    return this.getDiory(dioryObject).removeLink(linkObject)
   }
 
   toObject = (): IDiographObject => {
