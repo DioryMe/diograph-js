@@ -203,11 +203,12 @@ describe('diograph', () => {
 
         it('empty diograph is not empty after adding root diory', () => {
           emptyDiograph.addRootDiory()
+          expect(Object.keys(emptyDiograph.diograph).length).toStrictEqual(1)
+          expect(emptyDiograph.diograph['/'].id).toStrictEqual('/')
           expect(emptyDiograph.isEmptyDiograph()).toBe(false)
         })
 
-        it('creates root diory when addDiory', () => {
-          emptyDiograph.addRootDiory()
+        it('creates root diory when addDiory to empty diograph', () => {
           emptyDiograph.addDiory({ id: 'some-id' })
           expect(emptyDiograph.diograph['/'].id).toStrictEqual('/')
           expect(emptyDiograph.diograph['some-id'].id).toStrictEqual('some-id')

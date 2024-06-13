@@ -56,12 +56,11 @@ diory.toJson()
 ### Room
 
 ```
-loadRoom(clients)
-- set room object contents from room.json: connections & diograph
+loadOrInitiateRoom(clients)
+- set room object contents (connections & diograph)
+  - from arguments if given
+  - from room.json if roomClien available
 - initiate connections if proper client is passed
-
-initiateRoom(clients, connections, diographObject)
-- set room object contents from arguments: connections & diograph
 
 addConnection(connection)
 - attach a connection to room
