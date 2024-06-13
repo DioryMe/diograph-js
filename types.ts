@@ -32,8 +32,8 @@ export interface IDioryObject extends IDioryProps {
 
 export interface IDiory extends IDioryObject {
   update: (dioryProps: IDioryProps, addOnly?: boolean) => IDiory
-  addLink: (linkedDioryObject: IDioryObject) => IDiory
-  removeLink: (linkedDioryObject: IDioryObject) => IDiory
+  addLink: (linkObject: ILinkObject) => IDiory
+  removeLink: (linkObject: ILinkObject) => IDiory
   toObject: () => IDioryObject
   toObjectWithoutImage: () => IDioryObject
 }
