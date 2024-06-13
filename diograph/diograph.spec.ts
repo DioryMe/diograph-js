@@ -190,15 +190,43 @@ describe('diograph', () => {
           expect(diory.text).toBe('some-text')
         })
       })
+
+      describe('when empty diograph', () => {
+        let emptyDiograph: IDiograph
+        beforeEach(() => {
+          emptyDiograph = new Diograph()
+        })
+
+        it('empty diograph is empty diograph', () => {
+          expect(emptyDiograph.isEmptyDiograph()).toBe(true)
+        })
+
+        it('empty diograph is not empty after adding root diory', () => {
+          emptyDiograph.addRootDiory()
+          expect(emptyDiograph.isEmptyDiograph()).toBe(false)
+        })
+
+        it('creates root diory when addDiory', () => {
+          emptyDiograph.addRootDiory()
+          emptyDiograph.addDiory({ id: 'some-id' })
+          expect(emptyDiograph.diograph['/'].id).toStrictEqual('/')
+          expect(emptyDiograph.diograph['some-id'].id).toStrictEqual('some-id')
+          expect(emptyDiograph.diograph['/'].links).toBe(undefined)
+        })
+      })
     })
 
     describe('addDioryAndLink()', () => {
       beforeEach(() => {
-        diory = diograph.addDioryAndLink({ id: 'some-id' })
+        diory = diograph.addDioryAndLink({ id: 'other-id' })
       })
 
       it('adds id', () => {
-        expect(diory.id).toBe('some-id')
+        expect(diory.id).toBe('other-id')
+      })
+
+      it('links diory to root diory', () => {
+        expect(diograph.diograph['/'].links).toStrictEqual([{ id: 'other-id' }])
       })
     })
 

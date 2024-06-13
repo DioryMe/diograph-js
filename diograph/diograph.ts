@@ -77,14 +77,14 @@ class Diograph implements IDiograph {
   addDioryAndLink = (dioryObject: IDioryObject, fromDioryLinkObject?: ILinkObject): IDiory => {
     const diory = this.addDiory(dioryObject)
 
-    this.addDioryLink(fromDioryLinkObject || { id: '/' }, diory)
+    this.addDioryLink(fromDioryLinkObject || { id: '/' }, { id: diory.id })
 
     return diory
   }
 
   addDiory = (dioryObject: IDioryProps | IDioryObject, key?: string): IDiory => {
-    if (this.isEmptyDiograph()) {
-      this.addRootDiory()
+    if (key !== '/' && this.isEmptyDiograph()) {
+      throw new Error('addDiory: Diograph is empty. Use addRootDiory() to add root diory')
     }
 
     if (key) {
