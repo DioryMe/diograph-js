@@ -192,6 +192,16 @@ describe('diograph', () => {
       })
     })
 
+    describe('addDioryAndLink()', () => {
+      beforeEach(() => {
+        diory = diograph.addDioryAndLink({ id: 'some-id' })
+      })
+
+      it('adds id', () => {
+        expect(diory.id).toBe('some-id')
+      })
+    })
+
     describe('when resetDiograph()', () => {
       it('resets diograph to empty object', () => {
         diograph.resetDiograph()
