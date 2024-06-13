@@ -84,7 +84,8 @@ class Diograph implements IDiograph {
 
   addDiory = (dioryObject: IDioryProps | IDioryObject, key?: string): IDiory => {
     if (key !== '/' && this.isEmptyDiograph()) {
-      throw new Error('addDiory: Diograph is empty. Use addRootDiory() to add root diory')
+      console.log('addDiory: Empty diograph detected. Adding root diory.')
+      this.addRootDiory()
     }
 
     if (key) {
