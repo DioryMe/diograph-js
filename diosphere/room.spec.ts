@@ -118,15 +118,17 @@ describe('Room', () => {
 
   beforeEach(async () => {
     const mockRoomClient: any = {
-      readRoomJson: () => roomJsonContents,
-      readDiograph: () => diographContents,
+      readRoomJson: async () => roomJsonContents,
+      readDiograph: async () => diographContents,
+      saveDiograph: async () => true,
+      saveRoomJson: async () => true,
       client: () => {
         return new MockLocalClient()
       },
     }
     unloadedRoom = new Room(mockRoomClient)
     room = new Room(mockRoomClient)
-    await room.loadRoom({
+    await room.loadOrInitiateRoom({
       LocalClient: { clientConstructor: MockLocalClient },
       S3Client: { clientConstructor: MockS3Client },
     })
