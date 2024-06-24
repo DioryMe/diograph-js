@@ -115,6 +115,7 @@ class Diograph implements IDiograph {
     return this.getDiory(dioryObject).update(dioryObject)
   }
 
+  // TODO: This should remove also links from other diories
   removeDiory = (dioryObject: IDioryObject): void => {
     throwErrorIfNotFound('removeDiory', dioryObject.id, Object.keys(this.diograph))
 
