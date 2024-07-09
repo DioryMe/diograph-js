@@ -27,6 +27,9 @@ export const constructRoom = async (
   roomClientType: string,
   availableClients: ConnectionClientList,
 ): Promise<Room> => {
+  // NOTE: If address doesn't exist error is thrown instead of creating new folder (=LocalClient) or key (=S3Client) etc.
+  // - this is non-client specific code and such logic should be implemented to the client (both LocalClient and S3Client)
+  // - user needs to provide only addresses that exist (although that can't be verified...)
   const client = await getClientAndVerify(address, roomClientType, availableClients)
   const roomClient = new RoomClient(client)
   return new Room(roomClient)
