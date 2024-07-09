@@ -1,4 +1,4 @@
-import { IDiory, IDioryProps } from '../types'
+import { IDiory, IDioryProps } from '@diory/types'
 import { Diory } from './diory'
 
 jest.mock('uuid', () => ({

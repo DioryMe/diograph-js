@@ -1,4 +1,4 @@
-import { IDioryProps, IDioryObject, IDiographObject } from '../types'
+import { IDioryProps, IDioryObject, IDiographObject } from '@diory/types'
 
 function allKeysExist(queryDiory: IDioryProps) {
   return (diory: IDioryObject): boolean =>

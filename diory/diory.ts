@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 
-import { IDataObject, IDiory, IDioryObject, IDioryProps, ILinkObject } from '../types'
+import { IDataObject, IDiory, IDioryObject, IDioryProps, ILinkObject } from '@diory/types'
 
 import { propIsValid, valueIsValid, valueExists } from '../utils/validators'
 import { throwErrorIfAlreadyExists } from '../utils/throwErrorIfAlreadyExists'
