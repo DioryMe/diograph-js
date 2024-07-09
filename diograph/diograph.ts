@@ -1,4 +1,3 @@
-import { IConnectionClient } from '@diory/connection-client-js'
 import {
   IDiory,
   IDioryObject,
@@ -6,6 +5,7 @@ import {
   IDioryProps,
   IDiographObject,
   IConnectionObject,
+  IConnectionClient,
 } from '@diory/types'
 
 import { Diory } from '../diory/diory'
