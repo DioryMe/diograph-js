@@ -1,6 +1,6 @@
 {
   "name": "@diograph/diograph",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -13,6 +13,9 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@diograph/local-client": "^0.4.1",
+    "@diory/connection-client-js": "^0.4.0",
+    "@diory/types": "^0.4.0",
     "@types/jest": "^27.4.0",
     "@types/uuid": "^8.3.4",
     "jest": "^27.5.0",
