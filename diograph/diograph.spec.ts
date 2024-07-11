@@ -23,9 +23,7 @@ describe('diograph', () => {
           text: 'some-text',
         },
       }
-      const dataClient: IDataClient = new LocalClient()
-      const connectionClient: IConnectionClient = new ConnectionClient([dataClient])
-      diograph = new Diograph(connectionClient).addDiograph(diographObject)
+      diograph = new Diograph().addDiograph(diographObject)
       diograph.saveDiograph = jest.fn()
     })
 
@@ -75,14 +73,15 @@ describe('diograph', () => {
     })
 
     describe('when initialise()', () => {
+      let connectionClient: IConnectionClient
       beforeEach(() => {
-        diograph.initialise([
-          { id: 'other-id', client: 'some-connection', address: 'some-address' },
-        ])
+        const dataClient: IDataClient = new LocalClient()
+        connectionClient = new ConnectionClient([dataClient])
+        diograph.connect(connectionClient)
       })
 
-      it('resets diograph to empty object', () => {
-        expect(diograph.diograph).toStrictEqual({})
+      it('adds connection client', () => {
+        expect(diograph.connectionClient).toStrictEqual(connectionClient)
       })
 
       it('does not save diograph', () => {

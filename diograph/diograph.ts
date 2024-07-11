@@ -20,29 +20,34 @@ function isDioryAlias(dioryObject: IDioryObject, diory: IDiory) {
 }
 
 class Diograph implements IDiograph {
-  connectionClient: IConnectionClient
+  connectionClient?: IConnectionClient
   diograph: { [index: string]: IDiory } = {}
 
-  constructor(connectionClient: IConnectionClient) {
-    this.connectionClient = connectionClient
+  constructor(diographObject?: IDiographObject) {
+    if (diographObject) {
+      this.addDiograph(diographObject)
+    }
   }
 
-  initialise = (connections: IConnectionObject[] = []): IDiograph => {
-    this.diograph = {}
-    this.connectionClient.initialiseConnections(connections)
+  connect = (connectionClient: IConnectionClient): IDiograph => {
+    this.connectionClient = connectionClient
     return this
   }
 
   getDiograph = async (): Promise<IDiograph> => {
-    const diographObject = await this.connectionClient.getDiograph()
-    if (diographObject) {
-      this.addDiograph(diographObject)
+    if (this.connectionClient) {
+      const diographObject = await this.connectionClient.getDiograph()
+      if (diographObject) {
+        this.addDiograph(diographObject)
+      }
     }
     return this
   }
 
   saveDiograph = debounce(async (): Promise<IDiograph> => {
-    await this.connectionClient.saveDiograph(this.toObject())
+    if (this.connectionClient) {
+      await this.connectionClient.saveDiograph(this.toObject())
+    }
     return this
   }, 1000)
 
@@ -60,6 +65,11 @@ class Diograph implements IDiograph {
 
   queryDiograph = (queryDiory: IDioryProps): IDiographObject => {
     return queryDiograph(queryDiory, this.toObject())
+  }
+
+  resetDiograph = (): IDiograph => {
+    this.diograph = {}
+    return this
   }
 
   getDiory = (dioryObject: IDioryObject): IDiory => {
