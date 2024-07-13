@@ -48,7 +48,7 @@ export interface IDiographObject {
 export interface IDiograph {
   diograph: { [index: string]: IDiory }
   initialise: (diograph: IDiographObject) => IDiograph
-  queryDiograph: (dioryObject: IDioryProps) => IDiograph
+  queryDiograph: (dioryObject: IDioryProps) => IDiographObject
   resetDiograph: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory
   addDiory: (dioryProps: IDioryProps | IDioryObject | IDiory, key?: string) => IDiory
