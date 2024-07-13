@@ -36,7 +36,7 @@ export function allMatchToQuery(queryDiory: IDioryProps): DioryFilterFunction {
  * queryDiory.dateStart: diory.date timestamp matches or is after queryDiory.dateStart
  * queryDiory.dateEnd: diory.date timestamp matches or is before queryDiory.dateEnd
  *
- * @param queryDiory - query as diory object
+ * @param queryDiory - query as diory-kind of object
  * @returns - function that returns true if diory matches the query
  */
 
@@ -64,6 +64,15 @@ export function allFilteredByDate(queryDiory: IDioryDateGeoSearchProps): DioryFi
   }
   return () => true
 }
+
+/**
+ * @description
+ * queryDiory.latlngStart: upper-left corner of the geo-area rectangle
+ * queryDiory.latlngEnd: lower-right corner of the geo-area rectangle
+ *
+ * @param queryDiory - query as diory-kind of object
+ * @returns - function that returns true if diory matches the query
+ */
 
 export function allFilteredByLatlng(queryDiory: IDioryDateGeoSearchProps): DioryFilterFunction {
   if (!(queryDiory.latlngStart && queryDiory.latlngEnd)) {
