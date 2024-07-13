@@ -299,20 +299,20 @@ describe('diograph', () => {
       })
 
       describe('when queryDiograph() with matching text query', () => {
-        let queryDiograph: IDiograph
+        let queryDiograph: IDiographObject
         beforeEach(() => {
           queryDiograph = diograph.queryDiograph({ text: 'query' })
         })
 
         it('returns diograph with query diory', () => {
-          expect(queryDiograph.diograph['query-id']).toStrictEqual(
+          expect(queryDiograph['query-id']).toStrictEqual(
             expect.objectContaining({ id: 'query-id' }),
           )
         })
 
         describe('when toObject()', () => {
           it('returns diograph object', () => {
-            expect(queryDiograph.toObject()).toStrictEqual({
+            expect(queryDiograph).toStrictEqual({
               'query-id': expect.objectContaining({ id: 'query-id' }),
             })
           })
@@ -320,18 +320,18 @@ describe('diograph', () => {
       })
 
       describe('when queryDiograph() without matching text query', () => {
-        let queryDiograph: IDiograph
+        let queryDiograph: IDiographObject
         beforeEach(() => {
           queryDiograph = diograph.queryDiograph({ text: 'other-query' })
         })
 
         it('returns empty diograph', () => {
-          expect(queryDiograph.diograph).toStrictEqual({})
+          expect(queryDiograph).toStrictEqual({})
         })
 
         describe('when toObject()', () => {
           it('returns empty diograph object', () => {
-            expect(queryDiograph.toObject()).toStrictEqual({})
+            expect(queryDiograph).toStrictEqual({})
           })
         })
       })
