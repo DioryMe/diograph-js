@@ -1,5 +1,11 @@
 import { IDioryDateGeoSearchProps, IDioryObject, IDioryProps } from '../types'
-import { DioryFilterFunction, allFilteredByDate, allKeysExist, allMatchToQuery } from './utils'
+import {
+  DioryFilterFunction,
+  allKeysExist,
+  allMatchToQuery,
+  allFilteredByDate,
+  allFilteredByLatlng,
+} from './utils'
 
 describe('allKeysExist()', () => {
   describe('given text query', () => {
@@ -179,5 +185,34 @@ describe('allFilteredByDate()', () => {
 
       expect(result).toBe(false)
     })
+  })
+})
+
+describe('allFilteredByLatlng', () => {
+  it('should return true for all diories if no latlngStart and latlngEnd are provided', () => {
+    const queryDiory: IDioryDateGeoSearchProps = {}
+    const filterFunction: DioryFilterFunction = allFilteredByLatlng(queryDiory)
+    const diory: IDioryObject = { id: 'some-id', latlng: '60.1699,24.9384' }
+    expect(filterFunction(diory)).toBe(true)
+  })
+
+  it('should return true for a diory within the specified latlng bounds', () => {
+    const queryDiory: IDioryDateGeoSearchProps = {
+      latlngStart: '60N,24E',
+      latlngEnd: '61N,25E',
+    }
+    const filterFunction = allFilteredByLatlng(queryDiory)
+    const dioryInsideOfArea: IDioryObject = { id: 'some-id', latlng: '60.5,24.5' }
+    expect(filterFunction(dioryInsideOfArea)).toBe(true)
+  })
+
+  it('should return false for a diory outside the specified latlng bounds', () => {
+    const queryDiory: IDioryDateGeoSearchProps = {
+      latlngStart: '60N,24E',
+      latlngEnd: '61N,25E',
+    }
+    const filterFunction = allFilteredByLatlng(queryDiory)
+    const dioryOutsideOfArea: IDioryObject = { id: 'some-id', latlng: '59.9,23.9' }
+    expect(filterFunction(dioryOutsideOfArea)).toBe(false)
   })
 })
