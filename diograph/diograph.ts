@@ -9,7 +9,7 @@ import {
 
 import { Diory } from '../diory/diory'
 
-import { queryDiograph } from '../utils/queryDiograph'
+import { queryDiograph, queryDiographByDateAndGeo } from '../utils/queryDiograph'
 import { throwErrorIfNotFound } from '../utils/throwErrorIfNotFound'
 import { throwErrorIfAlreadyExists } from '../utils/throwErrorIfAlreadyExists'
 import { RoomClient } from '../diosphere/roomClient'
@@ -37,10 +37,12 @@ class Diograph implements IDiograph {
     return this
   }
 
-  // FIXME: Current implementation of queryDiograph() doesn't work with validated diographs
   queryDiograph = (queryDiory: IDioryProps): IDiographObject => {
-    const diograph: IDiographObject = queryDiograph(queryDiory, this.toObject())
-    return diograph
+    return queryDiograph(queryDiory, this.toObject())
+  }
+
+  queryDiographByDateAndGeo = (queryDiory: IDioryProps): IDiographObject => {
+    return queryDiographByDateAndGeo(queryDiory, this.toObject())
   }
 
   resetDiograph = (): IDiograph => {
