@@ -5,6 +5,7 @@ import {
   IDioryProps,
   IDiographObject,
   ILinkObject,
+  IDioryDateGeoSearchProps,
 } from '../types'
 
 import { Diory } from '../diory/diory'
@@ -41,7 +42,7 @@ class Diograph implements IDiograph {
     return queryDiograph(queryDiory, this.toObject())
   }
 
-  queryDiographByDateAndGeo = (queryDiory: IDioryProps): IDiographObject => {
+  queryDiographByDateAndGeo = (queryDiory: IDioryDateGeoSearchProps): IDiographObject => {
     return queryDiographByDateAndGeo(queryDiory, this.toObject())
   }
 

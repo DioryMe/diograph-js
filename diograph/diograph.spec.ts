@@ -279,8 +279,7 @@ describe('diograph', () => {
       })
     })
 
-    // FIXME: Current implementation of queryDiograph() doesn't work with validated diographs
-    describe.skip('given diograph with query text diory', () => {
+    describe('given diograph with query text diory', () => {
       beforeEach(() => {
         diograph.initialise({
           '/': {
