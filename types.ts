@@ -57,6 +57,7 @@ export interface IDiograph {
   diograph: { [index: string]: IDiory }
   initialise: (diograph: IDiographObject) => IDiograph
   queryDiograph: (dioryObject: IDioryProps) => IDiographObject
+  queryDiographByDateAndGeo: (dioryObject: IDioryDateGeoSearchProps) => IDiographObject
   resetDiograph: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory
   addDiory: (dioryProps: IDioryProps | IDioryObject | IDiory, key?: string) => IDiory
