@@ -1,4 +1,5 @@
-import { IDioryProps, IDioryObject, IDiographObject } from '../types'
+import { IDioryProps, IDioryObject, IDiographObject, IDioryDateGeoSearchProps } from '../types'
+import { allFilteredByDate, allFilteredByLatlng } from './utils'
 
 function allKeysExist(queryDiory: IDioryProps) {
   return (diory: IDioryObject): boolean =>
@@ -29,5 +30,15 @@ export function queryDiograph(queryDiory: IDioryProps, diograph: IDiographObject
   return Object.values(diograph)
     .filter(allKeysExist(queryDiory))
     .filter(allMatchToQuery(queryDiory))
+    .reduce(reduceToDiographObject, {})
+}
+
+export function queryDiographByDateAndGeo(
+  queryDiory: IDioryDateGeoSearchProps,
+  diograph: IDiographObject,
+): IDiographObject {
+  return Object.values(diograph)
+    .filter(allFilteredByDate(queryDiory))
+    .filter(allFilteredByLatlng(queryDiory))
     .reduce(reduceToDiographObject, {})
 }

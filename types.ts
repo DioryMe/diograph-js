@@ -26,6 +26,14 @@ export interface IDioryProps {
   modified?: string
 }
 
+export interface IDioryDateGeoSearchProps {
+  date?: string
+  dateStart?: string
+  dateEnd?: string
+  latlngStart?: string
+  latlngEnd?: string
+}
+
 export interface IDioryObject extends IDioryProps {
   id: string
 }
