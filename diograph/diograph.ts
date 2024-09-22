@@ -1,55 +1,89 @@
+import { join } from 'path-browserify'
+
 import {
   IDiory,
   IDioryObject,
-  IDiograph,
   IDioryProps,
   IDiographObject,
+  ILinkObject,
+  IDataClient,
   IConnectionObject,
-  IConnectionClient,
 } from '@diory/types'
 
 import { Diory } from '../diory/diory'
 
-import { queryDiograph } from '../utils/queryDiograph'
 import { throwErrorIfNotFound } from '../utils/throwErrorIfNotFound'
 import { throwErrorIfAlreadyExists } from '../utils/throwErrorIfAlreadyExists'
-import { debounce } from '../utils/debounce'
 
 function isDioryAlias(dioryObject: IDioryObject, diory: IDiory) {
   return dioryObject.id !== diory.id
 }
 
+const DIOGRAPH_JSON = 'diograph.json'
+
+export interface IDiograph {
+  diograph: { [index: string]: IDiory }
+  dataClients?: IDataClient[]
+  connections?: IConnectionObject[]
+  getDiograph: (connections: IConnectionObject[]) => Promise<IDiograph>
+  saveDiograph: () => void
+  addDiograph: (diograph: IDiographObject) => IDiograph
+  resetDiograph: () => IDiograph
+  getDiory: (dioryObject: IDioryObject) => IDiory
+  addDiory: (dioryProps: IDioryProps | IDioryObject | IDiory, key?: string) => IDiory
+  updateDiory: (dioryObject: IDioryObject) => IDiory
+  removeDiory: (dioryObject: IDioryObject) => void
+  addDioryLink: (dioryObject: IDioryObject, linkObject: ILinkObject) => IDiory
+  removeDioryLink: (dioryObject: IDioryObject, linkObject: ILinkObject) => IDiory
+  toObject: () => IDiographObject
+  toJson: () => string
+}
+
 class Diograph implements IDiograph {
-  connectionClient?: IConnectionClient
   diograph: { [index: string]: IDiory } = {}
+  dataClients: IDataClient[] = []
+  connections: IConnectionObject[] = []
 
-  constructor(diographObject?: IDiographObject) {
-    if (diographObject) {
-      this.addDiograph(diographObject)
+  constructor(dataClients?: IDataClient[]) {
+    if (dataClients) {
+      this.dataClients = dataClients
     }
   }
 
-  connect = (connectionClient: IConnectionClient): IDiograph => {
-    this.connectionClient = connectionClient
+  findDataClient = (
+    dataClients: IDataClient[],
+    { client }: IConnectionObject,
+  ): IDataClient | undefined => {
+    return dataClients?.find(({ type }) => type === client)
+  }
+
+  getDiograph = async (connections: IConnectionObject[]): Promise<IDiograph> => {
+    this.connections = connections // TODO: Store only connections that exist and are able to save
+    await Promise.all(
+      connections.map(async (connection: IConnectionObject) => {
+        const client = this.findDataClient(this.dataClients, connection)
+        if (client) {
+          const path = join(connection.address, DIOGRAPH_JSON)
+          const diographString = await client.readTextItem(path)
+          this.addDiograph(JSON.parse(diographString))
+        }
+      }),
+    )
+
     return this
   }
 
-  getDiograph = async (): Promise<IDiograph> => {
-    if (this.connectionClient) {
-      const diographObject = await this.connectionClient.getDiograph()
-      if (diographObject) {
-        this.addDiograph(diographObject)
-      }
-    }
-    return this
+  saveDiograph = async () => {
+    await Promise.all(
+      this.connections.map(async (connection: IConnectionObject) => {
+        const client = this.findDataClient(this.dataClients, connection)
+        if (client) {
+          const path = join(connection.address, DIOGRAPH_JSON)
+          return client.writeItem(path, this.toJson())
+        }
+      }),
+    )
   }
-
-  saveDiograph = debounce(async (): Promise<IDiograph> => {
-    if (this.connectionClient) {
-      await this.connectionClient.saveDiograph(this.toObject())
-    }
-    return this
-  }, 1000)
 
   addDiograph = (diograph: IDiographObject): IDiograph => {
     Object.entries(diograph).forEach(([key, dioryObject]) => {
@@ -61,10 +95,6 @@ class Diograph implements IDiograph {
     })
 
     return this
-  }
-
-  queryDiograph = (queryDiory: IDioryProps): IDiographObject => {
-    return queryDiograph(queryDiory, this.toObject())
   }
 
   resetDiograph = (): IDiograph => {

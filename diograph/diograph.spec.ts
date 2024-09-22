@@ -1,9 +1,9 @@
 import { v4 as uuid } from 'uuid'
 import { LocalClient } from '@diograph/local-client'
 import { ConnectionClient } from '@diory/connection-client-js'
-import { IDiograph, IDiographObject, IDiory, IDataClient, IConnectionClient } from '@diory/types'
+import { IDiographObject, IDiory, IDataClient, IConnectionClient } from '@diory/types'
 
-import { Diograph } from './diograph'
+import { Diograph, IDiograph } from './diograph'
 
 // Mocks
 jest.mock('uuid')
@@ -72,22 +72,22 @@ describe('diograph', () => {
       })
     })
 
-    describe('when initialise()', () => {
-      let connectionClient: IConnectionClient
-      beforeEach(() => {
-        const dataClient: IDataClient = new LocalClient()
-        connectionClient = new ConnectionClient([dataClient])
-        diograph.connect(connectionClient)
-      })
-
-      it('adds connection client', () => {
-        expect(diograph.connectionClient).toStrictEqual(connectionClient)
-      })
-
-      it('does not save diograph', () => {
-        expect(diograph.saveDiograph).not.toHaveBeenCalled()
-      })
-    })
+    // describe('when initialise()', () => {
+    //   let connectionClient: IConnectionClient
+    //   beforeEach(() => {
+    //     const dataClient: IDataClient = new LocalClient()
+    //     connectionClient = new ConnectionClient([dataClient])
+    //     diograph.connect(connectionClient)
+    //   })
+    //
+    //   it('adds connection client', () => {
+    //     expect(diograph.connectionClient).toStrictEqual(connectionClient)
+    //   })
+    //
+    //   it('does not save diograph', () => {
+    //     expect(diograph.saveDiograph).not.toHaveBeenCalled()
+    //   })
+    // })
 
     describe('when addDiory()', () => {
       beforeEach(() => {
@@ -284,55 +284,55 @@ describe('diograph', () => {
       })
     })
 
-    describe('given diograph with query text diory', () => {
-      beforeEach(() => {
-        diograph.addDiograph({
-          'query-id': {
-            id: 'query-id',
-            text: 'query-text',
-          },
-        })
-      })
-
-      describe('when queryDiograph() with matching text query', () => {
-        let queryDiograph: IDiographObject
-        beforeEach(() => {
-          queryDiograph = diograph.queryDiograph({ text: 'query' })
-        })
-
-        it('returns diograph with query diory', () => {
-          expect(queryDiograph['query-id']).toStrictEqual(
-            expect.objectContaining({ id: 'query-id' }),
-          )
-        })
-
-        it('does not save diograph', () => {
-          expect(diograph.saveDiograph).not.toHaveBeenCalled()
-        })
-
-        describe('when toObject()', () => {
-          it('returns diograph object', () => {
-            expect(queryDiograph).toStrictEqual({
-              'query-id': expect.objectContaining({ id: 'query-id' }),
-            })
-          })
-        })
-      })
-
-      describe('when queryDiograph() without matching text query', () => {
-        let queryDiograph: IDiographObject
-        beforeEach(() => {
-          queryDiograph = diograph.queryDiograph({ text: 'other-query' })
-        })
-
-        it('returns empty diograph', () => {
-          expect(queryDiograph).toStrictEqual({})
-        })
-
-        it('does not save diograph', () => {
-          expect(diograph.saveDiograph).not.toHaveBeenCalled()
-        })
-      })
-    })
+    // describe('given diograph with query text diory', () => {
+    //   beforeEach(() => {
+    //     diograph.addDiograph({
+    //       'query-id': {
+    //         id: 'query-id',
+    //         text: 'query-text',
+    //       },
+    //     })
+    //   })
+    //
+    //   describe('when queryDiograph() with matching text query', () => {
+    //     let queryDiograph: IDiographObject
+    //     beforeEach(() => {
+    //       queryDiograph = diograph.queryDiograph({ text: 'query' })
+    //     })
+    //
+    //     it('returns diograph with query diory', () => {
+    //       expect(queryDiograph['query-id']).toStrictEqual(
+    //         expect.objectContaining({ id: 'query-id' }),
+    //       )
+    //     })
+    //
+    //     it('does not save diograph', () => {
+    //       expect(diograph.saveDiograph).not.toHaveBeenCalled()
+    //     })
+    //
+    //     describe('when toObject()', () => {
+    //       it('returns diograph object', () => {
+    //         expect(queryDiograph).toStrictEqual({
+    //           'query-id': expect.objectContaining({ id: 'query-id' }),
+    //         })
+    //       })
+    //     })
+    //   })
+    //
+    //   describe('when queryDiograph() without matching text query', () => {
+    //     let queryDiograph: IDiographObject
+    //     beforeEach(() => {
+    //       queryDiograph = diograph.queryDiograph({ text: 'other-query' })
+    //     })
+    //
+    //     it('returns empty diograph', () => {
+    //       expect(queryDiograph).toStrictEqual({})
+    //     })
+    //
+    //     it('does not save diograph', () => {
+    //       expect(diograph.saveDiograph).not.toHaveBeenCalled()
+    //     })
+    //   })
+    // })
   })
 })
