@@ -4,7 +4,7 @@ const ajv = new Ajv({ allErrors: true })
 // const addFormats = require('ajv-formats')
 // addFormats(ajv)
 
-const clientTypeEnum = ['LocalClient', 'S3Client']
+const clientTypeEnum = ['LocalClient', 'S3Client', 'HttpClient']
 
 const validate = (schema: object, objectToValidate: object) => {
   const validate = ajv.compile(schema)
