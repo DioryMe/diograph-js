@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 
-import { IDataObject, IDiory, IDioryObject, IDioryProps, ILinkObject } from '../types'
+import { IDiory, IDataObject, IDioryObject, IDioryProps, ILinkObject } from '../types'
 
 import { propIsValid, valueIsValid, valueExists } from '../utils/validators'
 import { throwErrorIfAlreadyExists } from '../utils/throwErrorIfAlreadyExists'
@@ -19,12 +19,19 @@ class Diory implements IDiory {
   created?: string = undefined
   modified?: string = undefined
 
-  constructor(dioryObject: IDioryObject | IDioryProps) {
+  callback: () => void = () => {}
+
+  constructor(dioryObject: IDioryObject | IDioryProps, callback?: () => void) {
     this.id = 'id' in dioryObject ? dioryObject.id : uuid()
+
+    if (callback) {
+      this.callback = callback
+    }
+
     this.update(dioryObject, false)
   }
 
-  update = (dioryProps: IDioryProps, modify = true): IDiory => {
+  update = (dioryProps: IDioryProps | IDioryObject, modify = true): IDiory => {
     Object.entries(dioryProps).forEach(([prop, value]) => {
       // @ts-ignore
       if (!propIsValid(this, prop) || !valueIsValid(value)) {
@@ -41,6 +48,10 @@ class Diory implements IDiory {
 
     if (modify || !this.modified) {
       this.modified = new Date().toISOString()
+    }
+
+    if (modify) {
+      this.callback()
     }
 
     return this
@@ -64,14 +75,6 @@ class Diory implements IDiory {
     this.links = removeById(linkObject.id, this.links)
 
     return this.update({})
-  }
-
-  save = (saveCallback?: () => void): IDiory => {
-    if (saveCallback) {
-      saveCallback()
-    }
-
-    return this
   }
 
   toObject = (): IDioryObject => {

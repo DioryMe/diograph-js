@@ -27,38 +27,26 @@ export interface IDioryObject extends IDioryProps {
 }
 
 export interface IDiory extends IDioryObject {
-  update: (dioryProps: IDioryProps, modify?: boolean) => IDiory
+  update: (dioryProps: IDioryProps | IDioryObject, modify?: boolean) => IDiory
   addLink: (linkedDioryObject: IDioryObject) => IDiory
   removeLink: (linkedDioryObject: IDioryObject) => IDiory
-  save: (saveCallback?: () => void) => IDiory
   toObject: () => IDioryObject
   toJson: () => string
-}
-
-export interface IConnectionObject {
-  id: string
-  client: string
-  address: string
+  callback: () => void
 }
 
 export interface IDiographObject {
-  // TODO: Make '/' required
-  // '/': IDioryObject
   [key: string]: IDioryObject
 }
 
 export interface IDiograph {
   diograph: { [index: string]: IDiory }
   addDiograph: (diograph: IDiographObject) => IDiograph
-  queryDiograph: (dioryObject: IDioryProps) => IDiograph
   resetDiograph: () => IDiograph
   getDiory: (dioryObject: IDioryObject) => IDiory
   addDiory: (dioryProps: IDioryProps | IDioryObject | IDiory, key?: string) => IDiory
-  updateDiory: (dioryObject: IDioryObject) => IDiory
   removeDiory: (dioryObject: IDioryObject) => void
-  addDioryLink: (dioryObject: IDioryObject, linkObject: ILinkObject) => IDiory
-  removeDioryLink: (dioryObject: IDioryObject, linkObject: ILinkObject) => IDiory
-  saveDiograph: (connectionObjects: IConnectionObject[]) => Promise<IDiographObject>
   toObject: () => IDiographObject
   toJson: () => string
+  callback: () => void
 }
