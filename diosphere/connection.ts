@@ -36,7 +36,14 @@ class Connection {
 
   readContent = async (contentUrl: string) => {
     if (!this.contentUrls[contentUrl]) {
-      throw new ContentNotFoundError('Nothing found with that contentUrl!')
+      try {
+        console.log('Trying to use contentUrl as path!!!')
+        const item = await this.client.readItem(contentUrl)
+        return item
+      } catch {}
+      throw new ContentNotFoundError(
+        'Nothing found with that contentUrl! (tried also contentUrl as path',
+      )
     }
     return this.client.readItem(this.contentUrls[contentUrl])
   }
